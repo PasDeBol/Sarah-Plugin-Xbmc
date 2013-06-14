@@ -25,7 +25,7 @@ Dans lazyxbmc.xml,renommer la rule futurlazyruleXBMC en lazyruleXBMC dans les 2 
 
 Dans lazyxbmc.xml toujours, supprimer cette mise en commentaire:
 ```xml
-<! --	Désactivation temporaire du LAZY durant essais plugin
+<!--	Désactivation temporaire du LAZY durant essais plugin
 	<item>
 		Merci ça sera tout, SARAH
 		<tag>out.action._attributes.context = "default"</tag>
