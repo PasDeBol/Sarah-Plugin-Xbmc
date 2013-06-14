@@ -1,0 +1,134 @@
+﻿<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="futurlazyruleXBMC" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
+  
+<rule id="futurlazyruleXBMC" scope="public">
+		<tag>out.action=new Object();</tag>
+		<tag>out.action.xbmc="video" </tag>
+		<one-of>
+<!--	Désactivation temporaire du LAZY durant essais plugin
+		<item>
+				Merci ça sera tout, SARAH
+				<tag>out.action._attributes.context = "default"</tag>
+				<tag>out.action._attributes.tts = "mais de rien!"</tag>
+		</item>
+-->
+
+
+<!-- ************************************************ Déplacement Droite  Gauche... ***************************************** -->
+<!-- **** Doite ***** -->
+	<item>droite<tag>out.action.action="ExecuteAction";out.action.value="right";</tag></item>
+	<item>à droite<tag>out.action.action="ExecuteAction";out.action.value="right";</tag></item>
+	<item>2ème à droite<tag>out.action.action="ExecuteAction";out.action.value="right";out.action.repeter=2;</tag></item>
+	<item>3ème à droite<tag>out.action.action="ExecuteAction";out.action.value="right";out.action.repeter=3;</tag></item>
+	<item>4ème à droite<tag>out.action.action="ExecuteAction";out.action.value="right";out.action.repeter=4;</tag></item>
+	<item>5ème à droite<tag>out.action.action="ExecuteAction";out.action.value="right";out.action.repeter=5;</tag></item>
+<!-- **** Gauche ***** -->
+	<item>gauche<tag>out.action.action="ExecuteAction";out.action.value="left";</tag></item>
+	<item>à gauche<tag>out.action.action="ExecuteAction";out.action.value="left";</tag></item>
+	<item>2ème à gauche<tag>out.action.action="ExecuteAction";out.action.value="left";out.action.repeter=2;</tag></item>
+	<item>3ème à gauche<tag>out.action.action="ExecuteAction";out.action.value="left";out.action.repeter=3;</tag></item>
+	<item>4ème à gauche<tag>out.action.action="ExecuteAction";out.action.value="left";out.action.repeter=4;</tag></item>
+	<item>5ème à gauche<tag>out.action.action="ExecuteAction";out.action.value="left";out.action.repeter=5;</tag></item>
+<!-- **** Haut ***** -->
+	<item>remonte<tag>out.action.action="ExecuteAction";out.action.value="up";</tag></item>
+	<item>monte<tag>out.action.action="ExecuteAction";out.action.value="up";</tag></item>
+	<item>page suivante<tag>out.action.action="ExecuteAction";out.action.value="pagedown";</tag></item>
+	<item>plus haut<tag>out.action.action="ExecuteAction";out.action.value="scrollup";out.action.repeter=10;</tag></item>
+	<item>au dessus<tag>out.action.action="ExecuteAction";out.action.value="up";</tag></item>
+	<item>2ème au dessus<tag>out.action.action="ExecuteAction";out.action.value="up";out.action.repeter=2;</tag></item>
+	<item>3ème au dessus<tag>out.action.action="ExecuteAction";out.action.value="up";out.action.repeter=3;</tag></item>
+	<item>4ème au dessus<tag>out.action.action="ExecuteAction";out.action.value="up";out.action.repeter=4;</tag></item>
+	<item>5ème au dessus<tag>out.action.action="ExecuteAction";out.action.value="up";out.action.repeter=5;</tag></item>
+<!-- **** Bas ***** -->
+	<item>descend<tag>out.action.action="ExecuteAction";out.action.value="down";</tag></item>
+	<item>redescend<tag>out.action.action="ExecuteAction";out.action.value="down";</tag></item>
+	<item>page précédente<tag>out.action.action="ExecuteAction";out.action.value="pageup";</tag></item>
+	<item>plus bas<tag>out.action.action="ExecuteAction";out.action.value="scrolldown";out.action.repeter=10;</tag></item>
+	<item>au dessous<tag>out.action.action="ExecuteAction";out.action.value="down";</tag></item>
+	<item>2ème au dessous<tag>out.action.action="ExecuteAction";out.action.value="down";out.action.repeter=2;</tag></item>
+	<item>3ème au dessous<tag>out.action.action="ExecuteAction";out.action.value="down";out.action.repeter=3;</tag></item>
+	<item>4ème au dessous<tag>out.action.action="ExecuteAction";out.action.value="down";out.action.repeter=4;</tag></item>
+	<item>5ème au dessous<tag>out.action.action="ExecuteAction";out.action.value="down";out.action.repeter=5;</tag></item>
+
+<!-- ************************************************ Navigation dans les Menus ********************************************* -->
+	<item>menu principal<tag>out.action.action="ActivateWindow";out.action.window="home";</tag></item>
+	<item>télé<tag>out.action.action="ActivateWindow";out.action.window="tv";</tag></item>
+	<item>affiche les séries<tag>out.action.action="ActivateWindow";out.action.window="video";out.action.parameters="TvShowTitles";</tag></item>
+	<item>affiche  les films<tag>out.action.action="ActivateWindow";out.action.window="video";out.action.parameters="MovieTitles";</tag></item>
+	<item>affiche  les musiques<tag>out.action.action="ActivateWindow";out.action.window="musiclibrary"</tag></item>
+	<item>affiche  les musiques par albums<tag>out.action.action="ActivateWindow";out.action.window="musiclibrary";out.action.parameters="Albums";</tag></item>
+	<item>affiche  les musiques par artistes<tag>out.action.action="ActivateWindow";out.action.window="musiclibrary";out.action.parameters="Artists";</tag></item>
+	<item>Sous menu<tag>out.action.action="ExecuteAction";out.action.value="contextmenu";</tag></item>
+	<item>Retour<tag>out.action.action="ExecuteAction";out.action.value="back";</tag></item>
+	<item>Info<tag>out.action.action="ExecuteAction";out.action.value="info";</tag></item>
+				
+<!-- ************************************************ Valider/OK  ********************************************* -->
+	<item>choisi<tag>out.action.action="Select";</tag></item>
+	<item>valider<tag>out.action.action="Select";</tag></item>
+	<item>valide<tag>out.action.action="Select";</tag></item>
+	<item>ok<tag>out.action.action="Select";</tag></item>
+	<item>select<tag>out.action.action="Select";</tag></item>
+
+<!-- ************************************************ Play list  ********************************************* -->
+	<item>play liste<tag>out.action.action="ExecuteAction";out.action.value="playlist";</tag></item>
+	<item>ajoute ça<tag>out.action.action="ExecuteAction";out.action.value="queue";</tag></item>
+	<item>enlève ça<tag>out.action.action="ExecuteAction";out.action.value="delete";</tag></item>
+	<item>enlève ça et les 2 suivantes<tag>out.action.action="ExecuteAction";out.action.value="delete";out.action.repeter=2;</tag></item>
+	<item>enlève ça et les 3 suivantes<tag>out.action.action="ExecuteAction";out.action.value="delete";out.action.repeter=2;</tag></item>
+	<item>enlève ça et les 4 suivantes<tag>out.action.action="ExecuteAction";out.action.value="delete";out.action.repeter=2;</tag></item>
+
+<!-- ************************************************ Fonction dans le Player  ********************************************* -->
+	<item>lecture<tag>out.action.action="ExecuteAction";out.action.value="play";</tag></item>
+	<item>pause<tag>out.action.action="ExecuteAction";out.action.value="pause";</tag></item>
+	<item>stop<tag>out.action.action="ExecuteAction";out.action.value="stop";</tag></item>
+	<item>en arrière<tag>out.action.action="ExecuteAction";out.action.value="rewind";</tag></item>
+	<item>en arrière rapidement<tag>out.action.action="ExecuteAction";out.action.value="rewind";out.action.repeter=3;</tag></item>
+	<item>en arrière très rapidement<tag>out.action.action="ExecuteAction";out.action.value="rewind";out.action.repeter=5;</tag></item>
+	<item>en avant rapidement <tag>out.action.action="ExecuteAction";out.action.value="fastforward";out.action.repeter=3;</tag></item>
+	<item>en avant très rapidement <tag>out.action.action="ExecuteAction";out.action.value="fastforward";out.action.repeter=5;</tag></item>
+	<item>avance un peu<tag>out.action.action="ExecuteAction";out.action.value="stepforward";</tag></item>
+	<item>recule un peu<tag>out.action.action="ExecuteAction";out.action.value="stepback";</tag></item>
+	<item>saut en avant 10m<tag>out.action.action="ExecuteAction";out.action.value="bigstepforward";</tag></item>
+	<item>saut en arrière 10m<tag>out.action.action="ExecuteAction";out.action.value="bigstepback";</tag></item>
+	<!-- j'ai des soucis de reco avec zoom, donc : zoum -->
+	<item>zoume avant<tag>out.action.action="ExecuteAction";out.action.value="zoomin";out.action.repeter=10;</tag></item>
+	<item>gros zoume avant<tag>out.action.action="ExecuteAction";out.action.value="zoomin";out.action.repeter=20;</tag></item>
+	<item>zoume arrière<tag>out.action.action="ExecuteAction";out.action.value="zoomout";out.action.repeter=10;</tag></item>
+	<item>gros zoume arrière<tag>out.action.action="ExecuteAction";out.action.value="zoomout";out.action.repeter=20;</tag></item>
+	<item>aucun zoume<tag>out.action.action="ExecuteAction";out.action.value="zoomnormal";</tag></item>
+	<item>zoume normal<tag>out.action.action="ExecuteAction";out.action.value="zoomnormal";</tag></item>
+
+<!-- ************************************************ Son  ********************************************* -->
+	<item>monte franchement le son<tag>out.action.action="ExecuteAction";out.action.value="volumeup";out.action.repeter=15;</tag></item>
+	<item>monte un peu le son<tag>out.action.action="ExecuteAction";out.action.value="volumeup";out.action.repeter=2;</tag></item>
+	<item>baisse franchement le son<tag>out.action.action="ExecuteAction";out.action.value="volumedown";out.action.repeter=15;</tag></item>
+	<item>baisse un peu le son<tag>out.action.action="ExecuteAction";out.action.value="volumedown";out.action.repeter=2;</tag></item>
+	<item>coupe le son<tag>out.action.action="ExecuteAction";out.action.value="mute";</tag></item>
+	<item>remet le son<tag>out.action.action="ExecuteAction";out.action.value="mute";</tag></item>
+
+<!-- ******************************** Navigation dans les Listes (pour exemple - Incomplet! A developper) ************************* -->
+<!--			les []  sont indispensable pour un titre/artist mais pas pour le bouton d'un sous-menu	                            -->
+	<item>Cherche téléphone<tag>out.action.action="chercheligne";out.action.parameters="[Telephone]";</tag></item>
+	<item>Cherche You tout<tag>out.action.action="chercheligne";out.action.parameters="[U2]";</tag></item>
+	<item>Bouton Actualiser la médiathèque<tag>out.action.action="chercheligne";out.action.parameters="Actualiser la médiathèque";</tag></item>
+	<item>Bouton Arrêter le balayage<tag>out.action.action="chercheligne";out.action.parameters="Arrêter le balayage";</tag></item>
+			
+<!-- ************************************************ le foutoir ... certain marche, d'autre non ********************************************* -->
+ 	<item>dossier précédent<tag>out.action.action="ExecuteAction";out.action.value="ParentDir"</tag></item> 
+	<item>affiche le lecteur <tag>out.action.action="ShowOSD";</tag></item>
+	<item>OSD<tag>out.action.action="ExecuteAction";out.action.value="osd";</tag></item>
+	<item>cache le lecteur <tag>out.action.action="ShowOSD";</tag></item>
+	<item>fermer<tag>out.action.action="ExecuteAction";out.action.value="close";</tag></item>
+	<item>sélectionner<tag>out.action.action="ExecuteAction";out.action.value="highlight"</tag></item>   <!-- pas compris!-->
+	
+	<item>Marquer comme vu<tag>out.action.action="ExecuteAction";out.action.value="togglewatched";</tag></item>
+	<item>épisode suivant<tag>out.action.action="ExecuteAction";out.action.value="nextscene";</tag></item>
+	<item>introspect<tag>out.action.action="introspect";</tag></item>
+
+
+		</one-of>
+		<tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag>
+</rule>  
+  
+
+</grammar>
+ 

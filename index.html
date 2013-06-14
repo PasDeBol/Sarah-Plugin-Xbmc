@@ -1,0 +1,107 @@
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery("#plugin-menu .plugin-nav a").click(function () {
+            jQuery("#plugin-menu .content > ul").hide();
+            jQuery("#plugin-menu .plugin-nav ul li").removeClass("active");
+            jQuery(this).parent().addClass("active");
+            jQuery("#" + jQuery(this).data("toggle")).show();
+            return false;
+        });
+    });
+</script>
+<p class="page-header">
+    <span class="lead">Ce module permet de piloter XBMC avec SARAH</span><br/>
+    <b>Nouveautés V1.4:</b></br>
+	Possibilité d'importer automatiquement les artistes, les genres et les séries dans le <em>xbmc.xml</em> tout en gardant le moyen de le personnaliser.</br>
+	Possibilité de demander le prochain épisode non-vu d'une série.</br>
+	Le plugin peut maintenant gérer la musique sur un XBMC et la vidéo sur un autre. (<em>out.xbmc='video'</em> ou <em>out.xbmc='music'</em>)</br>
+	(Ou bien vidéo et musique sur 2 destinations differentes)</br></br>
+	Participations au plugin: Jean-Philippe Encausse, Maxime Hermouet, Guillaume Brebion, Jérôme Veyret. 
+</p>
+
+<div id="plugin-menu" class="row-fluid">
+    <!--Navigation-->
+    <div class="span3 well plugin-nav">
+        <ul class="nav nav-list">
+            <li class="nav-header">Configuration</li>
+            <li class="active"><a href="" data-toggle="plugin-config-xbmc">XBMC</a></li>
+            <li><a href="" data-toggle="plugin-config-sarah">SARAH</a></li>
+            <li class="nav-header">Commandes vocales</li>
+            <li><a href="#" data-toggle="plugin-vox-examples">Exemples</a></li>
+            <li><a href="#" data-toggle="plugin-vox-errors">Erreurs</a></li>
+            <li class="divider"></li>
+            <li><a href="#" data-toggle="plugin-generator">Génération automatique du XML</a></li>
+        </ul>
+    </div>
+    <!--Content-->
+    <div class="span9 content">
+        <!--Config XBMC-->
+        <ul class="unstyled" id="plugin-config-xbmc">
+            <li><i class="icon-play-circle"></i> Permettre le contrôle de XBMC en HTML et vérifier le port.</li>
+            <li><i class="icon-play-circle"></i> Ajouter de la musique dans la Médiathèque (pas seulement des sources)
+            </li>
+            <li><i class="icon-play-circle"></i> Vérifier l'accès à XBMC depuis votre navigateur:
+                <em>http://ip:port</em></li>
+            <li><i class="icon-play-circle"></i> Mettez de la musique sur XBMC pour la suite des essais...</li>
+        </ul>
+        <!--Config SARAH-->
+        <ul class="unstyled" id="plugin-config-sarah" style="display: none;">
+           <li><i class="icon-play-circle"></i> <strong>Si une version précédente du plugin était déjà installé, il est indispensable de nettoyer manuellement </br>
+			le fichier custom.prop en supprimant tout ce qui concerne xbmc avant de passer à la configuration du plugin.</strong>
+            </li></br>
+            <li><i class="icon-play-circle"></i> Paramétrer le plugin avec l'<strong>IP</strong> et
+                <strong>port</strong> de XBMC (musique et vidéo).</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si le xbmc gérant la musique et la vidéo est le même, remplissez les 2 champs avec les mêmes infos.
+            </li>
+            <li><i class="icon-play-circle"></i> Faite un essais pause/lecture en cliquant ici: <a
+                    href='../sarah/xbmc?action=play&xbmc=music' target=_blank>
+                ../sarah/xbmc?action=play</a>. Si ce simple essai fonctionne, tout va bien! (sinon...)
+            </li>
+        </ul>
+        <!--Exemples-->
+        <ul class="unstyled" id="plugin-vox-examples" style="display: none;">
+            <li><i class="icon-play-circle"></i> Sarah, musique en pause.</li>
+            <li><i class="icon-play-circle"></i> Sarah, reprends la musique</li>
+            <li><i class="icon-play-circle"></i> Sarah, joue de la musique Rock/pop/... (<span class="text-error">si importation des genres</span>)
+            </li>
+            <li><i class="icon-play-circle"></i> Sarah, je veux écouter ACDC/Coeur de pirate/... (<span
+                    class="text-error">si importation des artistes</span>)
+            </li>
+            <li><i class="icon-play-circle"></i> Sarah, recherche ****** dans les musiques (tentera de trouver **** dans
+                les titres, artistes ou genres)
+            </li>
+            <li><i class="icon-play-circle"></i> met le prochain épisode de House/Braquo/...(<span
+                    class="text-error">si importation des séries</span>)
+            </li>
+            <li><i class="icon-play-circle"></i> met en pause la série.
+			</li>
+        </ul>
+        <!--Erreurs-->
+        <ul class="unstyled" id="plugin-vox-errors" style="display: none;">
+            <li><i class="icon-play-circle"></i> <em>"Je n'ai pas pu contacter le serveur"</em> : Aucune réponse de XBMC
+                (ip, port, autorisation html...?)
+            </li>
+            <li><i class="icon-play-circle"></i> <em>"Je n'ai pas pu executer l'action"</em> : Réponse de XBMC mais
+                incorrecte. (XML...?)
+            </li>
+        </ul>
+        <!--Génération XML-->
+        <ul class="unstyled" id="plugin-generator" style="display: none;">
+            <li><i class="icon-play-circle"></i> Info sur la génération automatique et la personalisation:</br>
+ 				En cas de problème de reconnaisance d'artistes, de genre ou de série par Sarah, vous pouvez personaliser le xml en coupant/collant les lignes générées souhaitées
+				entre: </br><em>&#60!-- Personalisation XXXXX --></em></br>et</br><em>&#60!-- Automatic Generation XXXXX § --></em></br> puis en les modifiant à votre convenance! (par exemple: U2: You toux)</br>
+				A la prochaine génération automatique, votre personalisation des artistes, genres ou série sera conservée!
+           </li></br>
+            <li><i class="icon-play-circle"></i> Mise à jour des artistes dans le XML:
+                <a href='../sarah/xbmc?action=xml_artist&xbmc=music' target=_blank>../sarah/xbmc?action=xml_artist&xbmc=music</a></br>
+			</li></br>
+            <li><i class="icon-play-circle"></i> Mise à jour des genres dans le XML:
+                <a href='../sarah/xbmc?action=xml_genre&xbmc=music' target=_blank>../sarah/xbmc?action=xml_genre&xbmc=music</a>
+            </li></br>
+            <li><i class="icon-play-circle"></i> Mise à jour des séries dans le XML:
+                <a href='../sarah/xbmc?action=xml_serie&xbmc=video' target=_blank>../sarah/xbmc?action=xml_serie&xbmc=video</a>
+            </li>
+			
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,89 @@
+﻿<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="ruleXBMC" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
+
+	<rule id="ruleXBMC" scope="public">
+		<tag>out.action=new Object(); </tag>
+		<item >Sarah</item>
+		
+		<one-of>
+			<item><ruleref uri="#ruleXBMC_playlist"/><tag>out.action = rules.ruleXBMC_playlist;</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
+			<item><ruleref uri="#ruleXBMC_search"/><tag>out.action = rules.ruleXBMC_search;</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
+			<item><ruleref uri="#ruleXBMC_Artist"/><tag>out.action = rules.ruleXBMC_Artist;</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
+			<item><ruleref uri="#ruleXBMC_Telecommande"/><tag>out.action = rules.ruleXBMC_Telecommande</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
+			<item><ruleref uri="#ruleXBMC_Serie"/><tag>out.action = rules.ruleXBMC_Serie;</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
+<!--	Désactivation temporaire du LAZY durant essais plugin
+			<item>active le mode xbmc
+				<tag>out.action._attributes.context = "lazyxbmc.xml"</tag>
+				<tag>out.action._attributes.tts = "Mode XBMC activé. Que veux tu ?"</tag>
+			</item>
+-->
+		</one-of>
+		
+	</rule>  
+  
+	<rule id="ruleXBMC_Telecommande" scope="public">
+		<example>SARAH musique suivante</example>
+		<tag>out.action=new Object(); </tag>
+		<one-of>
+			<item>musique suivante<tag>out.action.action="next"</tag><tag>out.action.xbmc="music" </tag></item>
+			<item>musique précédente<tag>out.action.action="prev"</tag><tag>out.action.xbmc="music" </tag></item>
+			<item>met en pause la musique<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
+			<item>musique en pause<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
+			<item>reprends la musique<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
+			<item>met en pause la série<tag>out.action.action="playvideo"</tag><tag>out.action.xbmc="video" </tag></item>
+			<item>remet la série<tag>out.action.action="playvideo"</tag><tag>out.action.xbmc="video" </tag></item>
+		</one-of>
+	</rule>  
+
+	<rule id="ruleXBMC_playlist" scope="public">
+		<example>SARAH joue de la musique Rock</example>
+		<tag>out.action=new Object(); </tag>
+		<tag>out.action.xbmc="music" </tag>
+		<one-of>
+			<item>met de la musique <tag>out.action.action="playlist"; </tag></item>
+			<item>joue de la musique <tag>out.action.action="playlist"; </tag></item>
+		</one-of>
+		<one-of>
+			<!-- Personalisation Genre  -->
+			<!-- Automatic Generation Genre ¤ -->
+            <item>Rock/Pop<tag>out.action.genre = "Rock/Pop"</tag></item>
+            <!-- ¤ Automatic Generation Genre -->
+		</one-of>
+	</rule>
+
+	<rule id="ruleXBMC_Artist" scope="public">
+		<example>SARAH je veux écouter ACDC</example>
+		<tag>out.action=new Object();</tag>
+		<tag>out.action.xbmc="music" </tag>
+		<item>je veux écouter<tag>out.action.action="artist";</tag></item>
+		<one-of>
+			<!-- Personalisation Artiste  -->
+			<!-- Automatic Generation Artist § -->
+            <item>AC/DC<tag>out.action.artist = "AC/DC"</tag></item>
+            <!-- § Automatic Generation Artist -->
+		</one-of>
+	</rule>
+  
+	<rule id="ruleXBMC_search" scope="public">
+		<example>SARAH recherche * dans les musiques</example>
+		<tag>out.action=new Object();</tag>
+		<tag>out.action.xbmc="music" </tag>
+		<tag>out.action.action="playlist";</tag>
+		<item>recherche</item><ruleref special="GARBAGE" /><item>dans les  musiques</item>
+		<tag>out._attributes.dictation="true";</tag> 
+	</rule>
+
+	<rule id="ruleXBMC_Serie" scope="public">
+		<example>SARAH met le prochain épisode des simpsons</example>
+		<tag>out.action=new Object();</tag>
+		<tag>out.action.xbmc="video" </tag>
+		<item>met le prochain épisode de<tag>out.action.action="tvshowtitle";</tag></item>
+		<one-of>
+			<!-- Personalisation Série  -->
+			<!-- Automatic Generation Serie £ -->
+            <item>NCIS<tag>out.action.showid = "9"</tag></item>
+            <!-- £ Automatic Generation Serie -->
+		</one-of>
+	</rule>
+	
+</grammar>
+ 
