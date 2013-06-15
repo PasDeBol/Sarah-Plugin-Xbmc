@@ -155,7 +155,10 @@ exports.action = function (data, callback, config, SARAH) {
         case 'voldown':
             doAction(voldown, xbmc_api_url, callback);
             break;
-			
+		case 'Select':
+            doAction(Select, xbmc_api_url, callback);
+            break;
+	
 		case 'ExecuteAction':
 			params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": data.value}, "id": 1 };
 			if (typeof(data.repeter)=='undefined') {repeter=1; } else {repeter=data.repeter; } // repeter à 1 par défaut.
@@ -248,6 +251,17 @@ var player = {"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1}
 var playvideo = {"jsonrpc": "2.0", "method": "Player.PlayPause", "params": { "playerid": 1 }, "id": 1};
 var goscreen =  {"jsonrpc": "2.0", "method":"GUI.ShowNotification", "params": {"title":"Message de moi!","message":"Message de Sarah, Il faut sortir les poubelle!","image":"warning"}, "id": 1};
 
+// TELECOMMANDE
+var Left={"jsonrpc": "2.0", "method": "Input.Left", "params": {}, "id": 1}
+var Right={"jsonrpc": "2.0", "method": "Input.Right", "params": {}, "id": 1}
+var Down={"jsonrpc": "2.0", "method": "Input.Down", "params": {}, "id": 1}
+var Up=	{"jsonrpc": "2.0", "method": "Input.Up", "params": {}, "id": 1}
+var Home={"jsonrpc": "2.0", "method": "Input.Home", "params": {}, "id": 1}
+var Select={"jsonrpc": "2.0", "method": "Input.Select", "params": {}, "id": 1}
+var Back={"jsonrpc": "2.0", "method": "Input.Back", "params": {}, "id": 1}
+var Info={"jsonrpc": "2.0", "method": "Input.Info", "params": {}, "id": 1}
+var ContextMenu={"jsonrpc": "2.0", "method": "Input.ContextMenu", "params": {}, "id": 1}
+var ShowOSD={"jsonrpc": "2.0", "method": "Input.ShowOSD", "params": {}, "id": 1}
 
 // Previous / Next item in current player
 var next = {"jsonrpc": "2.0", "method": "Player.GoTo", "params": { "playerid": 0, "to": "next" }, "id": 1}
