@@ -85,6 +85,33 @@ exports.action = function (data, callback, config, SARAH) {
 	});
 */
 
+	// génère le fichier XML temporaire à partir de la liste d'items en cours
+	navigation_generation_xml_items = function () {
+			navigation_container_info( 'complet', callback, function(config_container){
+					datas_xml='<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="ruleXBMC_temp" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">\n';
+					datas_xml+='<rule id="ruleXBMC_temp" scope="public">\n';
+					datas_xml+='<tag>out.action=new Object(); </tag>\n';
+					datas_xml+='<tag>out.action.xbmc="video" </tag>\n';
+					datas_xml+='<one-of>\n';	
+					for (var i=0;i<config_container.item.length;i++) {
+						datas_xml+='<item>'+config_container.item[i].replace(/&/gi, "&amp;")+'<tag>out.action.action="chercheligne";out.action.parameters="['+config_container.item[i]+']";</tag></item>\n';
+					}
+					datas_xml+='</one-of>\n';	
+					datas_xml+='<tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag>\n';
+					datas_xml+='</rule>\n';
+					datas_xml+='</grammar>\n';
+					var fs = require('fs');
+					fs.writeFile("plugins/xbmc/xbmc_temp.xml", datas_xml, function(err) {
+						if(err) {console.log(err);}
+						else {console.log("xbmc_temp.xml généré!");}
+						//callback();
+					}); 
+			});
+			return;
+	}
+/* Utilisation:	 valider/retour/afficher mes musique/...??
+//	navigation_generation_xml_items();
+
 	
 	switch (data.action) {
         case 'introspect':
