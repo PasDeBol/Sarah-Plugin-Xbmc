@@ -14,6 +14,7 @@ exports.action = function (data, callback, config, SARAH) {
 	// et si demande_info='complet' la liste complètes des items (sauf: ..) (=> XML? )
 	// CurrentWindow='' pour home ou sous-menu
 	var navigation_container_info=function (demande_info, callback, container_info){
+		nocallback='';
 		reponse={};
 		par={"jsonrpc":"2.0","method":"XBMC.GetInfoLabels","params": {"labels":["Container.Viewmode","Container.NumItems","Container.SortMethod","System.CurrentWindow","System.CurrentControl"]}, "id":1};
 		doAction(par, xbmc_api_url, callback, function(res){
@@ -64,7 +65,7 @@ exports.action = function (data, callback, config, SARAH) {
 						listitem.push("Container.ListItem("+i+").Label");
 					}
 					par={"jsonrpc":"2.0","method":"XBMC.GetInfoLabels","params": {"labels": listitem}, "id":1}; //demande les labels (titre/nom/...) de chaque ligne 
-					doAction(par, xbmc_api_url, callback, function(res){
+					doAction(par, xbmc_api_url, nocallback, function(res){
 						reponse.item=[];
 						for(var attributename in res.result){
 							if (res.result[attributename]!='..') {reponse.item.push(res.result[attributename]);}
