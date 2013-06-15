@@ -9,6 +9,81 @@ exports.action = function (data, callback, config, SARAH) {
 	if (data.xbmc=='music') 		{ xbmc_api_url=config.api_url_xbmc_music;}
 	else if (data.xbmc=='video') 	{ xbmc_api_url=config.api_url_xbmc_video;}
 	else  {return callback({ 'tts': 'Choix du XBMC inconnu!'});}
+
+	// Fonction pour optenir: mode d'affichage (viewmode), la fenetre en cours (CurrentWindow), le tri, ...
+	// et si demande_info='complet' la liste complètes des items (sauf: ..) (=> XML? )
+	// CurrentWindow='' pour home ou sous-menu
+	var navigation_container_info=function (demande_info, callback, container_info){
+		reponse={};
+		par={"jsonrpc":"2.0","method":"XBMC.GetInfoLabels","params": {"labels":["Container.Viewmode","Container.NumItems","Container.SortMethod","System.CurrentWindow","System.CurrentControl"]}, "id":1};
+		doAction(par, xbmc_api_url, callback, function(res){
+			if (res.result["Container.NumItems"]!='') {
+				reponse.numitems= parseInt(res.result["Container.NumItems"]);
+			}
+			else {reponse.numitems=0;}
+			reponse.CurrentWindow=res.result['System.CurrentWindow'];	
+			reponse.sortmethod=res.result['Container.SortMethod'];	// trie
+			reponse.viewmode=res.result['Container.Viewmode'];		// type d'affichage
+			switch (reponse.viewmode) {								// Définis les vériables propre à l'affichage
+				case 'Galerie d\'affiches':
+				case 'Fanart':
+					reponse.action_suivant='right';					// Prochaine action pour naviguer en auto (droite ou bas suivant liste horiz/vert)
+					reponse.first_col=1;							// 1ère Colonne
+					reponse.last_col=1;								// dernière Colonne	
+					break;
+				case 'Informations du média 2':
+				case 'Informations du média':
+				case 'Informations du média 3':
+				case 'Liste':
+				case 'Info':
+				case 'Grande liste':
+					reponse.action_suivant='down';
+					reponse.first_col=1;
+					reponse.last_col=1;
+					break;
+				case 'Info 2': 
+				case 'Large':  //   2colonnes
+					reponse.action_suivant='right';
+					reponse.first_col=1;
+					reponse.last_col=2;
+					break;
+				case 'Vignette': // 5 colonnes
+					reponse.action_suivant='right';
+					reponse.first_col=1;
+					reponse.last_col=5;
+					break;
+				default: 
+					reponse.action_suivant=false;
+					console.log('Container.Viewmode inconnu');
+					break;
+				}
+			
+			if ((demande_info=='complet')&&(reponse.numitems!=0)&&(reponse.numitems<500))  {   //limite réelle ?? 500??? 500 ça marche, 800 non!
+					listitem=[];
+					for (var i=0;i<=reponse.numitems;i++) {		
+						listitem.push("Container.ListItem("+i+").Label");
+					}
+					par={"jsonrpc":"2.0","method":"XBMC.GetInfoLabels","params": {"labels": listitem}, "id":1}; //demande les labels (titre/nom/...) de chaque ligne 
+					doAction(par, xbmc_api_url, callback, function(res){
+						reponse.item=[];
+						for(var attributename in res.result){
+							if (res.result[attributename]!='..') {reponse.item.push(res.result[attributename]);}
+						}
+						return container_info(reponse);
+					});
+			}
+			else {reponse.item=false; return container_info(reponse);}	
+		});
+	}
+		
+/* Utilisation	 
+	navigation_container_info( 'complet',callback,function(container_info){
+		console.log('-+-+-+-+');
+		console.dir(container_info);
+		console.log('-+-+-+-+');
+	});
+*/
+
 	
 	switch (data.action) {
         case 'introspect':
