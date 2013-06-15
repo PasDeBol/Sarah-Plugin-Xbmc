@@ -48,6 +48,11 @@
 	<item>3ème au dessous<tag>out.action.action="ExecuteAction";out.action.value="down";out.action.repeter=3;</tag></item>
 	<item>4ème au dessous<tag>out.action.action="ExecuteAction";out.action.value="down";out.action.repeter=4;</tag></item>
 	<item>5ème au dessous<tag>out.action.action="ExecuteAction";out.action.value="down";out.action.repeter=5;</tag></item>
+<!-- **** dsaut vers debut, fin, lettre... -->
+	<item>à la fin <tag>out.action.action="ExecuteAction";out.action.value="lastpage";</tag></item>
+	<item>au début<tag>out.action.action="ExecuteAction";out.action.value="firstpage";</tag></item>
+	<item>Lettre suivante<tag>out.action.action="ExecuteAction";out.action.value="nextletter";</tag></item>
+	<item>Lettre précdente<tag>out.action.action="ExecuteAction";out.action.value="prevletter";</tag></item>
 
 <!-- ************************************************ Navigation dans les Menus ********************************************* -->
 	<item>menu principal<tag>out.action.action="ActivateWindow";out.action.window="home";</tag></item>
@@ -75,7 +80,9 @@
 	<item>enlève ça et les 2 suivantes<tag>out.action.action="ExecuteAction";out.action.value="delete";out.action.repeter=2;</tag></item>
 	<item>enlève ça et les 3 suivantes<tag>out.action.action="ExecuteAction";out.action.value="delete";out.action.repeter=2;</tag></item>
 	<item>enlève ça et les 4 suivantes<tag>out.action.action="ExecuteAction";out.action.value="delete";out.action.repeter=2;</tag></item>
-
+	<item>suivante<tag>out.action.action="ExecuteAction";out.action.value="skipnext";</tag></item>
+	<item>précédent<tag>out.action.action="ExecuteAction";out.action.value="skipprevious";</tag></item>
+	
 <!-- ************************************************ Fonction dans le Player  ********************************************* -->
 	<item>lecture<tag>out.action.action="ExecuteAction";out.action.value="play";</tag></item>
 	<item>pause<tag>out.action.action="ExecuteAction";out.action.value="pause";</tag></item>
@@ -111,7 +118,7 @@
 	<item>Cherche You tout<tag>out.action.action="chercheligne";out.action.parameters="[U2]";</tag></item>
 	<item>Bouton Actualiser la médiathèque<tag>out.action.action="chercheligne";out.action.parameters="Actualiser la médiathèque";</tag></item>
 	<item>Bouton Arrêter le balayage<tag>out.action.action="chercheligne";out.action.parameters="Arrêter le balayage";</tag></item>
-			
+		
 <!-- ************************************************ le foutoir ... certain marche, d'autre non ********************************************* -->
  	<item>dossier précédent<tag>out.action.action="ExecuteAction";out.action.value="ParentDir"</tag></item> 
 	<item>affiche le lecteur <tag>out.action.action="ShowOSD";</tag></item>
