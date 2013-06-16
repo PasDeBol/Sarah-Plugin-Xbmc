@@ -4,7 +4,10 @@
       "description": "Commande Vocale pour XBMC",
       "version"    : "1.4xxx",
       "api_url_xbmc_music"    : "http://[FIXME]:[FIXME]/jsonrpc",
-      "api_url_xbmc_video"    : "http://[FIXME]:[FIXME]/jsonrpc"
+      "api_url_xbmc_video"    : "http://[FIXME]:[FIXME]/jsonrpc",
+	   "api_url_xbmc_tv"    	  : "FIXME",
+	  "number_of_channels_tv" :	"FIXME",
+      "fin_liste_channel" :              "dont touch"
     }
   }
 }
