@@ -1,0 +1,22 @@
+(Container = liste de de titre/série/artiste/addon/....)
+
+
+- SARAH.context.xbmc contient:
+
+
+CurrentWindow
+	name						CurrentWindow	nom								String	voir http://wiki.xbmc.org/?title=Window_IDs
+	id							CurrentWindow	id								integer	voir http://wiki.xbmc.org/?title=Window_IDs
+Actuelposition
+	col							non fait!										integer
+	row							non fait!										integer
+container	
+	name						non fait!
+	sortmethod					'Container.SortMethod'							Tri du container actuel
+	viewmode					'Container.Viewmode'							'Galerie d\'affiches','Fanart','Informations du média','Informations du média 2','Informations du média 3','Liste','Grande liste','Info','Info 2','Large','Vignette',	
+	first_col=1;				Num 1ère colonne (1)							integer (utile pour naviguer en auto en 2, ou 3 colonnes)
+	last_col=5;					Num dernière colonne							integer
+	navigation					sens de navigation
+items
+	nb							nombre d'item dans la liste du container		integer
+	item						label de chaque élement 						[Array]

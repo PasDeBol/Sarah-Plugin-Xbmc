@@ -1,6 +1,7 @@
 exports.action = function (data, callback, config, SARAH) {
-	console.log('SARAH context:');
-	if (typeof(SARAH.context.xbmc)!='undefined') {console.dir(SARAH.context.xbmc);} else {console.log('context vide\n');}
+	//console.dir(SARAH);
+	//console.log('SARAH context:');
+//	if (typeof(SARAH.context.xbmc)!='undefined') {console.dir(SARAH.context.xbmc);} else {console.log('context vide\n');}
 	// Retrieve config
     var  api_url;
     config = config.modules.xbmc;
@@ -12,16 +13,16 @@ exports.action = function (data, callback, config, SARAH) {
 	else  {return callback({ 'tts': 'Choix du XBMC inconnu!'});}
 	
 
-	// Fonction pour optenir: mode d'affichage (viewmode), la fenetre en cours (CurrentWindow), le tri, ...
-	// et si demande_info='complet' la liste complètes des items (sauf: ..) (=> XML? )
-	// CurrentWindow='' pour home ou sous-menu
-
+// Fonction pour mise à jour des données du Context puis génération du xml 
 function miseajour_context_et_xml() {
 	navigation_context_info(function(context){
 			navigation_generation_xml_items();
+			console.dir(SARAH.context.xbmc);
 	});
 }
-	
+
+// Fonction pour optenir: mode d'affichage (viewmode), la fenetre en cours (CurrentWindow), le tri, ...
+// la liste complètes des items (sauf: ..) , le nombre d'élément
 navigation_context_info=function (container_info){
 		nocallback='';
 		reponse={};
@@ -33,7 +34,7 @@ navigation_context_info=function (container_info){
 		par={"jsonrpc":"2.0","method":"XBMC.GetInfoLabels","params": {"labels":["Container.Viewmode","Container.NumItems","Container.SortMethod","System.CurrentWindow","System.CurrentControl"]}, "id":1};
 		doAction(par, xbmc_api_url, nocallback, function(res){
 			container={};
-			if (res.result["Container.NumItems"]!='') {
+			if ((res.result["Container.NumItems"]!='')&&(reponse.currentwindow.name!='')) {
 				container.nb_items= parseInt(res.result["Container.NumItems"]);
 			}
 			else {container.nb_items=0;}
@@ -44,7 +45,7 @@ navigation_context_info=function (container_info){
 				case 'Fanart':
 					container.navigation='right';					// Prochaine action pour naviguer en auto (droite ou bas suivant liste horiz/vert)
 					container.first_col=1;							// 1ère Colonne
-					container.last_col=1;								// dernière Colonne	
+					container.last_col=1;							// dernière Colonne	
 					break;
 				case 'Informations du média 2':
 				case 'Informations du média':
@@ -67,13 +68,15 @@ navigation_context_info=function (container_info){
 					container.first_col=1;
 					container.last_col=5;
 					break;
+				case '':	   		
+					break;
 				default: 
 					container.navigation=false;
 					console.log('Container.Viewmode inconnu');
 					break;
 				}
 			//if ((demande_info=='complet')&&(container.nb_items!=0)&&(container.nb_items<500))  {   //limite réelle ?? 500??? 500 ça marche, 800 non!
-			if ((container.nb_items!=0)&&(container.nb_items<500))  {   //limite réelle ?? 500??? 500 ça marche, 800 non!
+			if ((container.nb_items!=0)&&(container.nb_items<500)&&(reponse.currentwindow.name!=''))  {   //limite réelle ?? 500??? 500 ça marche, 800 non!
 					listitem=[];
 					for (var i=0;i<=container.nb_items;i++) {		
 						listitem.push("Container.ListItem("+i+").Label");
@@ -93,7 +96,8 @@ navigation_context_info=function (container_info){
 			}			else {reponse.container=container;SARAH.context.xbmc=container_info;return container_info(reponse);}	
 		});
 	}
-		
+
+	
 	// génère le fichier XML temporaire à partir de la liste d'items en cours
 	navigation_generation_xml_items = function () {
 
@@ -103,7 +107,7 @@ navigation_context_info=function (container_info){
 					datas_xml+='<tag>out.action.xbmc="video" </tag>\n';
 					datas_xml+='<one-of>\n';	
 					for (var i=0;i<SARAH.context.xbmc.container.items.length;i++) {
-						datas_xml+='<item>'+SARAH.context.xbmc.container.items[i].replace(/&/gi, "&amp;")+'<tag>out.action.action="chercheligne";out.action.parameters="['+SARAH.context.xbmc.container.items[i]+']";</tag></item>\n';
+						datas_xml+='<item>'+SARAH.context.xbmc.container.items[i].replace(/&/gi, " and ")+'<tag>out.action.action="chercheligne";out.action.parameters="['+SARAH.context.xbmc.container.items[i].replace(/&/gi, "&amp;")+']";</tag></item>\n';
 					}
 					datas_xml+='</one-of>\n';	
 					datas_xml+='<tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag>\n';
@@ -119,7 +123,8 @@ navigation_context_info=function (container_info){
 	
 			return;
 	}
-		
+					
+ 		
 	switch (data.action) {
         case 'introspect':
             doAction(introspect, xbmc_api_url, callback);
@@ -189,7 +194,7 @@ navigation_context_info=function (container_info){
         case 'voldown':
             doAction(voldown, xbmc_api_url, callback);
             break;
-      case 'Select':
+		case 'Select':
             doAction(Select, xbmc_api_url, callback);
 			miseajour_context_et_xml();
             break;
@@ -204,7 +209,6 @@ navigation_context_info=function (container_info){
 			}
 			switch (data.value) {								
 				case 'back': miseajour_context_et_xml();
-				case 'info': miseajour_context_et_xml();
 				break
 			}
 
@@ -228,7 +232,7 @@ navigation_context_info=function (container_info){
 							reponselabel=res.result.currentcontrol.label
 							console.log(index+ ' - ' +reponselabel);
 //							if ((reponselabel==(data.parameters))||(reponselabel=='[..]')||(index>500))  {return lirelabel(true);} else {return lirelabel(false);} // 500= sécurité
-							if ((reponselabel==(data.parameters))||(index>500))  {return lirelabel(action_navigate,true);} else {return lirelabel(action_navigate,false);} // 500= sécurité
+							if ((reponselabel==(data.parameters))||(('['+reponselabel+']')==(data.parameters))||(index>500))  {return lirelabel(action_navigate,true);} else {return lirelabel(action_navigate,false);} // 500= sécurité
 																			// les []  viennent dans le résultat pour des titres/artiste mais pour les boutons d'un sous-menu
 						});
 						}, 2); // le temps de "pause" est nécessaire sinon xbmc renvois parfois le label précédent, malgré un down effectué!
@@ -283,6 +287,7 @@ navigation_context_info=function (container_info){
 				params={ "jsonrpc": "2.0", "method": "GUI.ActivateWindow", "params": {"window": data.window}, "id": 1 };
 				}
 			doAction(params, xbmc_api_url, callback);
+			miseajour_context_et_xml();
             break;
 
 

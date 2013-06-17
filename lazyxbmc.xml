@@ -48,7 +48,7 @@
 	<item>3ème au dessous<tag>out.action.action="ExecuteAction";out.action.value="down";out.action.repeter=3;</tag></item>
 	<item>4ème au dessous<tag>out.action.action="ExecuteAction";out.action.value="down";out.action.repeter=4;</tag></item>
 	<item>5ème au dessous<tag>out.action.action="ExecuteAction";out.action.value="down";out.action.repeter=5;</tag></item>
-<!-- **** dsaut vers debut, fin, lettre... -->
+<!-- **** saut vers debut, fin, lettre... -->
 	<item>à la fin <tag>out.action.action="ExecuteAction";out.action.value="lastpage";</tag></item>
 	<item>au début<tag>out.action.action="ExecuteAction";out.action.value="firstpage";</tag></item>
 	<item>Lettre suivante<tag>out.action.action="ExecuteAction";out.action.value="nextletter";</tag></item>
@@ -65,7 +65,7 @@
 	<item>Sous menu<tag>out.action.action="ExecuteAction";out.action.value="contextmenu";</tag></item>
 	<item>Retour<tag>out.action.action="ExecuteAction";out.action.value="back";</tag></item>
 	<item>Info<tag>out.action.action="ExecuteAction";out.action.value="info";</tag></item>
-				
+
 <!-- ************************************************ Valider/OK  ********************************************* -->
 	<item>choisi<tag>out.action.action="Select";</tag></item>
 	<item>valider<tag>out.action.action="Select";</tag></item>
@@ -112,12 +112,11 @@
 	<item>coupe le son<tag>out.action.action="ExecuteAction";out.action.value="mute";</tag></item>
 	<item>remet le son<tag>out.action.action="ExecuteAction";out.action.value="mute";</tag></item>
 
-<!-- ******************************** Navigation dans les Listes (pour exemple - Incomplet! A developper) ************************* -->
-<!--			les []  sont indispensable pour un titre/artist mais pas pour le bouton d'un sous-menu	                            -->
-	<item>Cherche téléphone<tag>out.action.action="chercheligne";out.action.parameters="[Telephone]";</tag></item>
+<!-- ******************** OBSOLETE Navigation dans les Listes (pour exemple - Incomplet! A developper) OBSOLETE **************** -->
+<!--<item>Cherche téléphone<tag>out.action.action="chercheligne";out.action.parameters="[Telephone]";</tag></item>
 	<item>Cherche You tout<tag>out.action.action="chercheligne";out.action.parameters="[U2]";</tag></item>
 	<item>Bouton Actualiser la médiathèque<tag>out.action.action="chercheligne";out.action.parameters="Actualiser la médiathèque";</tag></item>
-	<item>Bouton Arrêter le balayage<tag>out.action.action="chercheligne";out.action.parameters="Arrêter le balayage";</tag></item>
+	<item>Bouton Arrêter le balayage<tag>out.action.action="chercheligne";out.action.parameters="Arrêter le balayage";</tag></item>-->
 		
 <!-- ************************************************ le foutoir ... certain marche, d'autre non ********************************************* -->
  	<item>dossier précédent<tag>out.action.action="ExecuteAction";out.action.value="ParentDir"</tag></item> 
