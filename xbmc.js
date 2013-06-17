@@ -3,12 +3,50 @@ exports.action = function (data, callback, config, SARAH) {
 	// Retrieve config
     var  api_url;
     config = config.modules.xbmc;
-	if ((!config.api_url_xbmc_music)||(!config.api_url_xbmc_video)) {
+	if ((!config.api_url_xbmc_music)||(!config.api_url_xbmc_video) ||(!config.api_url_xbmc_tv)) {
         return callback({ 'tts': 'Configuration XBMC invalide' });
     }
 	if (data.xbmc=='music') 		{ xbmc_api_url=config.api_url_xbmc_music;}
 	else if (data.xbmc=='video') 	{ xbmc_api_url=config.api_url_xbmc_video;}
+	else if (data.xbmc=='tv') 	{ xbmc_api_url=config.api_url_xbmc_tv;}
 	else  {return callback({ 'tts': 'Choix du XBMC inconnu!'});}
+	
+	//var type_objet = data.type_objet;
+	var fs = require('fs');
+	//si var api_url_xbmc_tv est configurer cela veut dire qu'on désire utiliser la partie tv
+	if (config.api_url_xbmc_tv != "FIXME"){
+		// test si le nombre de chaine est config
+		if(config.number_of_channels_tv == "FIXME"){
+			console.log("config tv incomplete il manque le nombre de chaines");
+			return callback({ 'tts': 'Configuration tv incomplete il manque le nombre de chaines' });
+		}
+		else if(config.number_of_channels_tv != "FIXME"){
+			console.log("config api_url_tv ok et config nombre_de_chaine ok")
+			var regexp = new RegExp('out.action.xbmc="tv"', 'gm');
+			var fileXML = 'plugins/xbmc/xbmc.xml';
+			var xml = fs.readFileSync(fileXML, 'utf8');
+			
+			// test si il y a au moins une chaine de configurer
+			if(!config.channel_1){
+				console.log("config api_url_tv ok et config nombre_de_chaine ok mais pas de chaine configurer")
+				modifPropXbmc(data, callback, config, SARAH, fs);				
+			}
+			else if(config.channel_1){ // test chaine presente 
+				if(config.channel_1 != ""){
+					// test si le xml contient les ordre pour les chaines tv
+					if(regexp.test(xml) != true){
+						modifXmlTV(data, callback, config, SARAH, fileXML, xml, fs);		
+					}
+				}
+					
+			}
+		}//fin du test du nombre de chaine
+	}
+	else{
+		console.log("config api_url_tv non config");
+		return callback({ 'tts': 'Configuration tv url manquante' });
+	}//fin du test api_url_tv
+	
 
 	// Fonction pour optenir: mode d'affichage (viewmode), la fenetre en cours (CurrentWindow), le tri, ...
 	// et si demande_info='complet' la liste complètes des items (sauf: ..) (=> XML? )
@@ -117,6 +155,13 @@ exports.action = function (data, callback, config, SARAH) {
         case 'introspect':
             doAction(introspect, xbmc_api_url, callback);
             break;
+			
+		case 'channel_tv':
+			var data_send = {"jsonrpc":"2.0", "method": "Player.Open", "params":{"item":{"channelid":data.number}},"id":1}
+			console.log(data_send)
+			//doAction(data_send, xbmc_api_url, callback);
+			break;
+			
         case 'xml_artist':
             doXML(xml_artist, xbmc_api_url, callback);
             break;
@@ -596,4 +641,77 @@ var handleJSONResponse = function (res, callback) {
 
     return true;
 } 
+
+//fonction modification du xbmc.prop
+var modifPropXbmc = function (data, callback, config, SARAH) {
+	var fs = require('fs');
+	var filePROP = 'plugins/xbmc/xbmc.prop';
+	var prop = fs.readFileSync(filePROP, 'utf8');
+	var replace = "";
+	var i_max = config.number_of_channels_tv;
+					
+	for (var i = 1; i <= i_max; i++) {
+		replace = replace + '      "channel_'+i+'"             : "",\n'
+	}
+									
+	replace = replace + '"fin_liste_channel" :              "dont touch"'
+	console.log(replace)
+	/*ajout des chaine dans prop*/
+	var regexp = new RegExp('"fin_liste_channel"     : "dont touch"', 'gm');
+	prop = prop.replace(regexp, replace);
+	//console.log(prop);
+	fs.writeFileSync(filePROP, prop, 'utf8');
+	
+	/*
+	redemarer le node
+	*/
+	//restartNode();  mais la fonction ne fonctionne pas il faut le faire manuellement
+	
+	console.log('fichier prop modifier, ne pas oublier pas de remplir le nom des chaines');
+	return callback({ 'tts': 'fichier prop modifier, ne pas oublier pas de remplir le nom des chaines' });
+}
+
+var modifXmlTV = function (data, callback, config, SARAH, fileXML, xml) {
+	var fs = require('fs');
+	var regexp_chaine = new RegExp('<!-- suite liste des commande pour les chaine tv -->', 'gm');
+	var replace = '';
+	var i_max = config.number_of_channels_tv;
+				
+	for (var i = 1; i <= i_max; i++) {
+		var channel = 'config.channel_'+i;
+		
+		replace = replace + '<item>met la chaine '+eval(channel)+'<tag>out.action.channel="'+eval(channel)+'";out.action.xbmc="tv";out.action.action="channel_tv";out.action.number="'+i+'";</tag></item>\n'
+	}
+	replace = replace + '<!-- suite liste des commande pour les chaine tv -->'
+	xml = xml.replace(regexp_chaine, replace);
+	//console.log(xml);
+	fs.writeFileSync(fileXML, xml, 'utf8');
+
+	
+	/*
+	redemarer le node
+	*/
+	//restartNode();  mais la fonction ne fonctionne pas il faut le faire manuellement
+	
+	
+	
+	console.log('Configuration xml terminée');
+	return callback({ 'tts': 'Configuration xml terminée' });
+}
+
+// test de fonction reboot en appel du fichier commande reboot_node.cmd
+var restartNode = function () {
+	var exec = require('child_process').exec,
+    child;
+	
+	child = exec('reboot_node.cmd',
+	  function (error, stdout, stderr) {
+		console.log('stdout: ' + stdout);
+		console.log('stderr: ' + stderr);
+		if (error !== null) {
+		  console.log('exec error: ' + error);
+		}
+	});
+}
+
 

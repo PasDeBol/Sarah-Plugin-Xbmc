@@ -16,6 +16,8 @@
 				<tag>out.action._attributes.tts = "Mode XBMC activé. Que veux tu ?"</tag>
 			</item>
 -->
+		
+<!-- suite liste des commande pour les chaine tv -->		
 		</one-of>
 		
 	</rule>  
