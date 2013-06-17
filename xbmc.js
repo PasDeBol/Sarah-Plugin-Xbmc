@@ -1,5 +1,6 @@
 exports.action = function (data, callback, config, SARAH) {
-
+	console.log('SARAH context:');
+	if (typeof(SARAH.context.xbmc)!='undefined') {console.dir(SARAH.context.xbmc);} else {console.log('context vide\n');}
 	// Retrieve config
     var  api_url;
     config = config.modules.xbmc;
@@ -9,28 +10,41 @@ exports.action = function (data, callback, config, SARAH) {
 	if (data.xbmc=='music') 		{ xbmc_api_url=config.api_url_xbmc_music;}
 	else if (data.xbmc=='video') 	{ xbmc_api_url=config.api_url_xbmc_video;}
 	else  {return callback({ 'tts': 'Choix du XBMC inconnu!'});}
+	
 
 	// Fonction pour optenir: mode d'affichage (viewmode), la fenetre en cours (CurrentWindow), le tri, ...
 	// et si demande_info='complet' la liste complètes des items (sauf: ..) (=> XML? )
 	// CurrentWindow='' pour home ou sous-menu
-	var navigation_container_info=function (demande_info, callback, container_info){
+
+function miseajour_context_et_xml() {
+	navigation_context_info(function(context){
+			navigation_generation_xml_items();
+	});
+}
+	
+navigation_context_info=function (container_info){
 		nocallback='';
 		reponse={};
+
+		par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentwindow"]}, "id": 1};
+		doAction(par, xbmc_api_url, nocallback, function(res0){
+				reponse.currentwindow={'id':res0.result.currentwindow.id , 'name':res0.result.currentwindow.label};
+			});
 		par={"jsonrpc":"2.0","method":"XBMC.GetInfoLabels","params": {"labels":["Container.Viewmode","Container.NumItems","Container.SortMethod","System.CurrentWindow","System.CurrentControl"]}, "id":1};
-		doAction(par, xbmc_api_url, callback, function(res){
+		doAction(par, xbmc_api_url, nocallback, function(res){
+			container={};
 			if (res.result["Container.NumItems"]!='') {
-				reponse.numitems= parseInt(res.result["Container.NumItems"]);
+				container.nb_items= parseInt(res.result["Container.NumItems"]);
 			}
-			else {reponse.numitems=0;}
-			reponse.CurrentWindow=res.result['System.CurrentWindow'];	
-			reponse.sortmethod=res.result['Container.SortMethod'];	// trie
-			reponse.viewmode=res.result['Container.Viewmode'];		// type d'affichage
-			switch (reponse.viewmode) {								// Définis les vériables propre à l'affichage
+			else {container.nb_items=0;}
+			container.sortmethod=res.result['Container.SortMethod'];	// trie
+			container.viewmode=res.result['Container.Viewmode'];		// type d'affichage
+			switch (container.viewmode) {								// Définis les vériables propre à l'affichage
 				case 'Galerie d\'affiches':
 				case 'Fanart':
-					reponse.action_suivant='right';					// Prochaine action pour naviguer en auto (droite ou bas suivant liste horiz/vert)
-					reponse.first_col=1;							// 1ère Colonne
-					reponse.last_col=1;								// dernière Colonne	
+					container.navigation='right';					// Prochaine action pour naviguer en auto (droite ou bas suivant liste horiz/vert)
+					container.first_col=1;							// 1ère Colonne
+					container.last_col=1;								// dernière Colonne	
 					break;
 				case 'Informations du média 2':
 				case 'Informations du média':
@@ -38,63 +52,58 @@ exports.action = function (data, callback, config, SARAH) {
 				case 'Liste':
 				case 'Info':
 				case 'Grande liste':
-					reponse.action_suivant='down';
-					reponse.first_col=1;
-					reponse.last_col=1;
+					container.navigation='down';
+					container.first_col=1;
+					container.last_col=1;
 					break;
 				case 'Info 2': 
 				case 'Large':  //   2colonnes
-					reponse.action_suivant='right';
-					reponse.first_col=1;
-					reponse.last_col=2;
+					container.navigation='right';
+					container.first_col=1;
+					container.last_col=2;
 					break;
 				case 'Vignette': // 5 colonnes
-					reponse.action_suivant='right';
-					reponse.first_col=1;
-					reponse.last_col=5;
+					container.navigation='right';
+					container.first_col=1;
+					container.last_col=5;
 					break;
 				default: 
-					reponse.action_suivant=false;
+					container.navigation=false;
 					console.log('Container.Viewmode inconnu');
 					break;
 				}
-			
-			if ((demande_info=='complet')&&(reponse.numitems!=0)&&(reponse.numitems<500))  {   //limite réelle ?? 500??? 500 ça marche, 800 non!
+			//if ((demande_info=='complet')&&(container.nb_items!=0)&&(container.nb_items<500))  {   //limite réelle ?? 500??? 500 ça marche, 800 non!
+			if ((container.nb_items!=0)&&(container.nb_items<500))  {   //limite réelle ?? 500??? 500 ça marche, 800 non!
 					listitem=[];
-					for (var i=0;i<=reponse.numitems;i++) {		
+					for (var i=0;i<=container.nb_items;i++) {		
 						listitem.push("Container.ListItem("+i+").Label");
 					}
 					par={"jsonrpc":"2.0","method":"XBMC.GetInfoLabels","params": {"labels": listitem}, "id":1}; //demande les labels (titre/nom/...) de chaque ligne 
 					doAction(par, xbmc_api_url, nocallback, function(res){
-						reponse.item=[];
+						item=[];
 						for(var attributename in res.result){
-							if (res.result[attributename]!='..') {reponse.item.push(res.result[attributename]);}
+							if (res.result[attributename]!='..') {item.push(res.result[attributename]);}
 						}
+						container.items=item;
+						reponse.container=container;
+						//reponse.items={'nombre':container.nb_items,'item':item};
+						SARAH.context.xbmc=reponse;
 						return container_info(reponse);
 					});
-			}
-			else {reponse.item=false; return container_info(reponse);}	
+			}			else {reponse.container=container;SARAH.context.xbmc=container_info;return container_info(reponse);}	
 		});
 	}
 		
-/* Utilisation	 
-	navigation_container_info( 'complet',callback,function(container_info){
-		console.log('-+-+-+-+');
-		console.dir(container_info);
-		console.log('-+-+-+-+');
-	});
-*/
-
 	// génère le fichier XML temporaire à partir de la liste d'items en cours
 	navigation_generation_xml_items = function () {
-			navigation_container_info( 'complet', callback, function(config_container){
+
 					datas_xml='<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="ruleXBMC_temp" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">\n';
 					datas_xml+='<rule id="ruleXBMC_temp" scope="public">\n';
 					datas_xml+='<tag>out.action=new Object(); </tag>\n';
 					datas_xml+='<tag>out.action.xbmc="video" </tag>\n';
 					datas_xml+='<one-of>\n';	
-					for (var i=0;i<config_container.item.length;i++) {
-						datas_xml+='<item>'+config_container.item[i].replace(/&/gi, "&amp;")+'<tag>out.action.action="chercheligne";out.action.parameters="['+config_container.item[i]+']";</tag></item>\n';
+					for (var i=0;i<SARAH.context.xbmc.container.items.length;i++) {
+						datas_xml+='<item>'+SARAH.context.xbmc.container.items[i].replace(/&/gi, "&amp;")+'<tag>out.action.action="chercheligne";out.action.parameters="['+SARAH.context.xbmc.container.items[i]+']";</tag></item>\n';
 					}
 					datas_xml+='</one-of>\n';	
 					datas_xml+='<tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag>\n';
@@ -106,13 +115,11 @@ exports.action = function (data, callback, config, SARAH) {
 						else {console.log("xbmc_temp.xml généré!");}
 						//callback();
 					}); 
-			});
+			console.log('FIN de mise a jour context et xml!!!!');
+	
 			return;
 	}
-/* Utilisation:	 valider/retour/afficher mes musique/...??
-//	navigation_generation_xml_items();
-
-	
+		
 	switch (data.action) {
         case 'introspect':
             doAction(introspect, xbmc_api_url, callback);
@@ -182,10 +189,11 @@ exports.action = function (data, callback, config, SARAH) {
         case 'voldown':
             doAction(voldown, xbmc_api_url, callback);
             break;
-		case 'Select':
+      case 'Select':
             doAction(Select, xbmc_api_url, callback);
+			miseajour_context_et_xml();
             break;
-	
+			
 		case 'ExecuteAction':
 			params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": data.value}, "id": 1 };
 			if (typeof(data.repeter)=='undefined') {repeter=1; } else {repeter=data.repeter; } // repeter à 1 par défaut.
@@ -194,24 +202,33 @@ exports.action = function (data, callback, config, SARAH) {
 				{
 				if (i==0){doAction(params, xbmc_api_url, callback);}else{doAction(params, xbmc_api_url);}
 			}
-			break;
+			switch (data.value) {								
+				case 'back': miseajour_context_et_xml();
+				case 'info': miseajour_context_et_xml();
+				break
+			}
 
+			break;
+			
 		case 'chercheligne':
 			 test=false;
 			 index=0;
 			
-			var lirelabel=function (test){
+			var lirelabel=function (action_navigate,test){
+				console.log('-------------'+action_navigate);
 				if (test==false) {
 					index=index+1;
-					params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": "down"}, "id": 1 };
+					
+					params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": action_navigate}, "id": 1 };
 					doAction(params, xbmc_api_url, callback, function(rs2) {
-						//console.dir(rs2);
 						par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
 						setTimeout(function(){  
 						doAction(par, xbmc_api_url, callback, function(res){
+							console.dir(res);
 							reponselabel=res.result.currentcontrol.label
 							console.log(index+ ' - ' +reponselabel);
-							if ((reponselabel==(data.parameters))||(reponselabel=='[..]')||(index>500))  {return lirelabel(true);} else {return lirelabel(false);} // 500= sécurité
+//							if ((reponselabel==(data.parameters))||(reponselabel=='[..]')||(index>500))  {return lirelabel(true);} else {return lirelabel(false);} // 500= sécurité
+							if ((reponselabel==(data.parameters))||(index>500))  {return lirelabel(action_navigate,true);} else {return lirelabel(action_navigate,false);} // 500= sécurité
 																			// les []  viennent dans le résultat pour des titres/artiste mais pour les boutons d'un sous-menu
 						});
 						}, 2); // le temps de "pause" est nécessaire sinon xbmc renvois parfois le label précédent, malgré un down effectué!
@@ -220,16 +237,34 @@ exports.action = function (data, callback, config, SARAH) {
 				else {return true;}
 			}
 			if (data.parameters) {
-				lirelabel( false,function (res5) {
-							//console.log(res5);
-							callback();
-				});	
-				}
-				else
-				{
+				// Regarde le ViewMode pour savoir comment naviguer
+				par={"jsonrpc":"2.0","method":"XBMC.GetInfoLabels","params": {"labels":["Container.Viewmode","ListItem.Title","ListItem.Label2","Listitem.Label"]}, "id":1};
+				doAction(par, xbmc_api_url, callback, function(res){
+					//Galerie d'affiches,Fanart,, droite
+					// Informations du média 2,Informations du média,Informations du média 3,Liste,Grande liste,   bas
+					// Large   2colonnes
+					// Vignette 5 colonnes
+					if ((res.result['Container.Viewmode']=='Informations du média')||(res.result['Container.Viewmode']=='Informations du média 2')||(res.result['Container.Viewmode']=='Informations du média 3')||(res.result['Container.Viewmode']=='Liste')||(res.result['Container.Viewmode']=='Grande liste')) 
+						{action_navigate='down';}
+					if ((res.result['Container.Viewmode']=='Galerie d\'affiches')||(res.result['Container.Viewmode']=='Fanart')) {action_navigate='right';}
+					//if (res.result['Container.Viewmode']=='') {action_navigate='down';}
+					
+					// Pointe sur le début de la liste
+					par={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": "firstpage"}, "id": 1 };
+					doAction(par, xbmc_api_url, callback, function(res1){
+						lirelabel( action_navigate,false,function (res5) {
+									//console.log(res5);
+									callback();
+						});
+					});
+				});
+
+			}
+			else
+			{
 				consol.log('il manque data.parameters');
 				callback();
-				}
+			}
 					
 					
 			
