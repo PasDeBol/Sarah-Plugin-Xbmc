@@ -1,4 +1,4 @@
-(Container = liste de de titre/sÈrie/artiste/addon/....)
+Ôªø(Container = liste de de titre/s√©rie/artiste/addon/....)
 
 
 - SARAH.context.xbmc contient:
@@ -13,10 +13,13 @@ Actuelposition
 container	
 	name						non fait!
 	sortmethod					'Container.SortMethod'							Tri du container actuel
-	viewmode					'Container.Viewmode'							'Galerie d\'affiches','Fanart','Informations du mÈdia','Informations du mÈdia 2','Informations du mÈdia 3','Liste','Grande liste','Info','Info 2','Large','Vignette',	
-	first_col=1;				Num 1Ëre colonne (1)							integer (utile pour naviguer en auto en 2, ou 3 colonnes)
-	last_col=5;					Num derniËre colonne							integer
-	navigation					sens de navigation
+	viewmode					'Container.Viewmode'							'Galerie d\'affiches','Fanart','Informations du m√©dia','Informations du m√©dia 2','Informations du m√©dia 3','Liste','Grande liste','Info','Info 2','Large','Vignette',	
+	first_col=1;				Num 1√®re colonne								integer (utile pour naviguer en auto en 2, ou 3 colonnes)
+	last_col=5;					Num derni√®re colonne							integer
+	way_normal					sens de navigation normal						string
+	way_reverse					sens de navigation inverse						string
 items
 	nb							nombre d'item dans la liste du container		integer
-	item						label de chaque Èlement 						[Array]
+	item						label de chaque √©lement 						[Array]
+	items_id					id de chaque √©lement 							[Array] (id en fonction de l'√©l√©ment s√©lectionn√© qui prends 0)
+	

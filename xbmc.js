@@ -12,8 +12,15 @@ exports.action = function (data, callback, config, SARAH) {
 	else if (data.xbmc=='video') 	{ xbmc_api_url=config.api_url_xbmc_video;}
 	else  {return callback({ 'tts': 'Choix du XBMC inconnu!'});}
 	
+// Pour donner la position d'une valeur dans un array
+Array.prototype.contains = function(obj) {
+	var i = this.length;
+	while (i--) {if (this[i] == obj) {return (i);}}
+	return false;
+}
 
-// Fonction pour mise à jour des données du Context puis génération du xml 
+
+				// Fonction pour mise à jour des données du Context puis génération du xml 
 function miseajour_context_et_xml() {
 	navigation_context_info(function(context){
 			navigation_generation_xml_items();
@@ -43,7 +50,8 @@ navigation_context_info=function (container_info){
 			switch (container.viewmode) {								// Définis les vériables propre à l'affichage
 				case 'Galerie d\'affiches':
 				case 'Fanart':
-					container.navigation='right';					// Prochaine action pour naviguer en auto (droite ou bas suivant liste horiz/vert)
+					container.way_normal='right';					// Prochaine action pour naviguer en auto (droite ou bas suivant liste horiz/vert)
+					container.way_reverse='left';					
 					container.first_col=1;							// 1ère Colonne
 					container.last_col=1;							// dernière Colonne	
 					break;
@@ -53,25 +61,28 @@ navigation_context_info=function (container_info){
 				case 'Liste':
 				case 'Info':
 				case 'Grande liste':
-					container.navigation='down';
+					container.way_normal='down';
+					container.way_reverse='up';					
 					container.first_col=1;
 					container.last_col=1;
 					break;
 				case 'Info 2': 
 				case 'Large':  //   2colonnes
-					container.navigation='right';
+					container.way_normal='right';
+					container.way_reverse='left';					
 					container.first_col=1;
 					container.last_col=2;
 					break;
 				case 'Vignette': // 5 colonnes
-					container.navigation='right';
+					container.way_normal='right';
+					container.way_reverse='left';					
 					container.first_col=1;
 					container.last_col=5;
 					break;
 				case '':	   		
 					break;
 				default: 
-					container.navigation=false;
+					container.way_normal=false;
 					console.log('Container.Viewmode inconnu');
 					break;
 				}
@@ -84,12 +95,15 @@ navigation_context_info=function (container_info){
 					par={"jsonrpc":"2.0","method":"XBMC.GetInfoLabels","params": {"labels": listitem}, "id":1}; //demande les labels (titre/nom/...) de chaque ligne 
 					doAction(par, xbmc_api_url, nocallback, function(res){
 						item=[];
+						item_id=[];
 						for(var attributename in res.result){
-							if (res.result[attributename]!='..') {item.push(res.result[attributename]);}
+//							if (res.result[attributename]!='..') {item.push(res.result[attributename]);}
+							item.push(res.result[attributename]);
+							item_id.push(parseInt(attributename.match(/\d+/g).toString()));
 						}
 						container.items=item;
+						container.items_id=item_id;
 						reponse.container=container;
-						//reponse.items={'nombre':container.nb_items,'item':item};
 						SARAH.context.xbmc=reponse;
 						return container_info(reponse);
 					});
@@ -107,7 +121,9 @@ navigation_context_info=function (container_info){
 					datas_xml+='<tag>out.action.xbmc="video" </tag>\n';
 					datas_xml+='<one-of>\n';	
 					for (var i=0;i<SARAH.context.xbmc.container.items.length;i++) {
-						datas_xml+='<item>'+SARAH.context.xbmc.container.items[i].replace(/&/gi, " and ")+'<tag>out.action.action="chercheligne";out.action.parameters="['+SARAH.context.xbmc.container.items[i].replace(/&/gi, "&amp;")+']";</tag></item>\n';
+						if (SARAH.context.xbmc.container.items[i]!='..') {
+							datas_xml+='<item>'+SARAH.context.xbmc.container.items[i].replace(/&/gi, " and ")+'<tag>out.action.action="chercheligne";out.action.parameters="'+SARAH.context.xbmc.container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
+						}
 					}
 					datas_xml+='</one-of>\n';	
 					datas_xml+='<tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag>\n';
@@ -199,6 +215,13 @@ navigation_context_info=function (container_info){
 			miseajour_context_et_xml();
             break;
 			
+		case 'hello':
+			params={'jsonrpc': '2.0' , 'id': 0,'method': 'Addons.ExecuteAddon','params': {'addonid': 'script.popup','params': {	'line1': 'Hello World' } }};
+		doAction(params, xbmc_api_url, callback);
+			
+			break;
+			
+			
 		case 'ExecuteAction':
 			params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": data.value}, "id": 1 };
 			if (typeof(data.repeter)=='undefined') {repeter=1; } else {repeter=data.repeter; } // repeter à 1 par défaut.
@@ -215,65 +238,47 @@ navigation_context_info=function (container_info){
 			break;
 			
 		case 'chercheligne':
-			 test=false;
-			 index=0;
-			
-			var lirelabel=function (action_navigate,test){
-				console.log('-------------'+action_navigate);
-				if (test==false) {
-					index=index+1;
-					
-					params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": action_navigate}, "id": 1 };
-					doAction(params, xbmc_api_url, callback, function(rs2) {
-						par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
-						setTimeout(function(){  
-						doAction(par, xbmc_api_url, callback, function(res){
-							console.dir(res);
-							reponselabel=res.result.currentcontrol.label
-							console.log(index+ ' - ' +reponselabel);
-//							if ((reponselabel==(data.parameters))||(reponselabel=='[..]')||(index>500))  {return lirelabel(true);} else {return lirelabel(false);} // 500= sécurité
-							if ((reponselabel==(data.parameters))||(('['+reponselabel+']')==(data.parameters))||(index>500))  {return lirelabel(action_navigate,true);} else {return lirelabel(action_navigate,false);} // 500= sécurité
-																			// les []  viennent dans le résultat pour des titres/artiste mais pour les boutons d'un sous-menu
-						});
-						}, 2); // le temps de "pause" est nécessaire sinon xbmc renvois parfois le label précédent, malgré un down effectué!
-					});
-				}
-				else {return true;}
-			}
+			 
 			if (data.parameters) {
-				// Regarde le ViewMode pour savoir comment naviguer
-				par={"jsonrpc":"2.0","method":"XBMC.GetInfoLabels","params": {"labels":["Container.Viewmode","ListItem.Title","ListItem.Label2","Listitem.Label"]}, "id":1};
+				par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
 				doAction(par, xbmc_api_url, callback, function(res){
-					//Galerie d'affiches,Fanart,, droite
-					// Informations du média 2,Informations du média,Informations du média 3,Liste,Grande liste,   bas
-					// Large   2colonnes
-					// Vignette 5 colonnes
-					if ((res.result['Container.Viewmode']=='Informations du média')||(res.result['Container.Viewmode']=='Informations du média 2')||(res.result['Container.Viewmode']=='Informations du média 3')||(res.result['Container.Viewmode']=='Liste')||(res.result['Container.Viewmode']=='Grande liste')) 
-						{action_navigate='down';}
-					if ((res.result['Container.Viewmode']=='Galerie d\'affiches')||(res.result['Container.Viewmode']=='Fanart')) {action_navigate='right';}
-					//if (res.result['Container.Viewmode']=='') {action_navigate='down';}
-					
-					// Pointe sur le début de la liste
-					par={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": "firstpage"}, "id": 1 };
-					doAction(par, xbmc_api_url, callback, function(res1){
-						lirelabel( action_navigate,false,function (res5) {
-									//console.log(res5);
-									callback();
-						});
-					});
+					// détermination nom et id du currentcontrol
+					currentcontrol=res.result.currentcontrol.label;
+					lenstr=res.result.currentcontrol.label.length-1;
+					if  ((currentcontrol.indexOf("[")==0)&&(currentcontrol.lastIndexOf("]")==lenstr)) {     
+						// supression des [ ] (string!) 
+						currentcontrol=res.result.currentcontrol.label.slice(1,lenstr);
+					}
+					positioncurrentcontrol=SARAH.context.xbmc.container.items_id[SARAH.context.xbmc.container.items.contains(currentcontrol)];
+					console.log('Current control:'+currentcontrol+' - position :'+positioncurrentcontrol);
+					// Détermination nom et id du searchcontrol
+					searchcontrol=data.parameters;
+					positionsearchcontrol=SARAH.context.xbmc.container.items_id[SARAH.context.xbmc.container.items.contains(searchcontrol)];
+					console.log('Search control:'+searchcontrol+' - position :'+positionsearchcontrol);
+					diffposition=positionsearchcontrol-positioncurrentcontrol;
+					if (diffposition<0) {diffposition+=SARAH.context.xbmc.container.nb_items+1}  //search before current // +1 = '..'  
+					if (diffposition>=((SARAH.context.xbmc.container.nb_items)/2)) {			// Pour définir si il vaut mieux aller dans un sens ou l'autre
+						// sens inverse
+						repeter=SARAH.context.xbmc.container.nb_items-diffposition+1;
+						searchdirection=SARAH.context.xbmc.container.way_reverse;
+					}
+					else {
+						//sens normal
+						repeter=diffposition;
+						searchdirection=SARAH.context.xbmc.container.way_normal;
+					}
+					console.log('sens "'+searchdirection+'" de :'+diffposition);
+					// Lance la requète X fois pour naviguer vers la position
+					params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": searchdirection}, "id": 1 };
+						if (diffposition>0)  {
+							for (var i=0;i<repeter;i++) {
+								doAction(params, xbmc_api_url);
+							}
+						}
 				});
-
 			}
-			else
-			{
-				consol.log('il manque data.parameters');
-				callback();
-			}
-					
-					
-			
-	
-			//callback();
+			else {console.log('il manque data.parameters');}
+			callback({});
 			break;
 
 
