@@ -140,7 +140,6 @@ navigation_context_info=function (container_info){
 			return;
 	}
 					
- 		
 	switch (data.action) {
         case 'introspect':
             doAction(introspect, xbmc_api_url, callback);
@@ -294,8 +293,10 @@ navigation_context_info=function (container_info){
 			doAction(params, xbmc_api_url, callback);
 			miseajour_context_et_xml();
             break;
-
-
+            
+    case 'radio':
+      doRadio(data.radioid, xbmc_api_url, callback);
+      break;
 		default:
             callback({});
             break;
@@ -360,6 +361,17 @@ var runlist = {"jsonrpc": "2.0", "id": 2, "method": "Player.Open", "params": {"i
 // Séries
 var playserie = {"jsonrpc": "2.0", "method": "Player.Open", "params": { "item": {"file":""} , "options":{ "resume":true } }, "id": 3}
 
+// radio
+var xml_radio = '{"jsonrpc":"2.0","method":"Player.Open","params":{"item":{"file":"plugin://plugin.audio.radio_de/station/radioid"}},"id":1}';
+
+var doRadio = function(radioid, xbmc_api_url, callback) {
+  var xml=JSON.parse(xml_radio);
+  xml.params.item.file=xml.params.item.file.replace(/radioid/,radioid);
+  sendJSONRequest(xbmc_api_url, xml, function(res){
+    if (res === false) callback({"tts":"Je n'ai pas réussi à mettre la radio."})
+    else callback({})
+  });
+}
 
 doPlaylistSerie = function (id, xbmc_api_url, callback){
 
