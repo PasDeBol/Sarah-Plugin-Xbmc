@@ -2,7 +2,7 @@
   "modules" : { 
     "xbmc":     {
       "description": "Commande Vocale pour XBMC",
-      "version"    : "1.4xxx",
+      "version"    : "1.5",
       "api_url_xbmc_music"    : "http://[FIXME]:[FIXME]/jsonrpc",
       "api_url_xbmc_video"    : "http://[FIXME]:[FIXME]/jsonrpc"
     }
