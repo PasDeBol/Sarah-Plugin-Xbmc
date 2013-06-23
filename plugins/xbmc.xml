@@ -11,14 +11,14 @@
 			<item><ruleref uri="#ruleXBMC_Telecommande"/><tag>out.action = rules.ruleXBMC_Telecommande</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
 			<item><ruleref uri="#ruleXBMC_Serie"/><tag>out.action = rules.ruleXBMC_Serie;</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
       <item><ruleref uri="#ruleXBMC_Radio"/><tag>out.action = rules.ruleXBMC_Radio;</tag><tag>out.action._attributes.tts = "Je mets la radio"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
-<!--	Désactivation temporaire du LAZY durant essais plugin
+      <item><ruleref uri="#ruleXBMC_WhatIsPlaying"/><tag>out.action = rules.ruleXBMC_WhatIsPlaying;</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
+      <!--	Désactivation temporaire du LAZY durant essais plugin
 			<item>active le mode xbmc
 				<tag>out.action._attributes.context = "lazyxbmc.xml"</tag>
 				<tag>out.action._attributes.tts = "Mode XBMC activé. Que veux tu ?"</tag>
 			</item>
--->
+            -->
 		</one-of>
-		
 	</rule>  
   
 	<rule id="ruleXBMC_Telecommande" scope="public">
@@ -26,55 +26,71 @@
 		<tag>out.action=new Object(); </tag>
 		<one-of>
 			<item>musique suivante<tag>out.action.action="next"</tag><tag>out.action.xbmc="music" </tag></item>
+      <item>met la musique suivante<tag>out.action.action="next"</tag><tag>out.action.xbmc="music" </tag></item>
 			<item>musique précédente<tag>out.action.action="prev"</tag><tag>out.action.xbmc="music" </tag></item>
+      <item>met la musique précédente<tag>out.action.action="prev"</tag><tag>out.action.xbmc="music" </tag></item>
 			<item>met en pause la musique<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
 			<item>musique en pause<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
 			<item>met la musique sur pause<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
+			<item>met la musique en pause<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
+			<item>remet la musique<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
 			<item>reprends la musique<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
 			<item>met en pause la série<tag>out.action.action="playvideo"</tag><tag>out.action.xbmc="video" </tag></item>
+      <item>met en pause la vidéo<tag>out.action.action="playvideo"</tag><tag>out.action.xbmc="video" </tag></item>
+      <item>met la vidéo en pause<tag>out.action.action="playvideo"</tag><tag>out.action.xbmc="video" </tag></item>
 			<item>remet la série<tag>out.action.action="playvideo"</tag><tag>out.action.xbmc="video" </tag></item>
+      <item>remet la vidéo<tag>out.action.action="playvideo"</tag><tag>out.action.xbmc="video" </tag></item>
+		</one-of>
+	</rule>
+
+	<rule id="ruleXBMC_WhatIsPlaying" scope="public">
+		<example>SARAH c'est quoi cette musique</example>
+		<tag>out.action=new Object(); </tag>
+		<one-of>
+			<item>c'est quoi cette musique<tag>out.action.action="whatIsPlaying"</tag><tag>out.action.xbmc="music" </tag></item>
+			<item>c'est quoi cette vidéo<tag>out.action.action="whatIsPlaying"</tag><tag>out.action.xbmc="video" </tag></item>
+    </one-of>
+	</rule> 
+  
+	<rule id="ruleXBMC_Radio" scope="public">
+		<example>SARAH je veux écouter la radio Fréquence 3</example>
+		<tag>out.action=new Object();</tag>
+		<tag>out.action.xbmc="music";</tag>
+		<one-of>
+			<item>je veux écouter la radio <tag>out.action.action="radio";</tag></item>
+		</one-of>
+		<one-of>
+			<!-- l'ID de la radio peut être trouvé en tapant "http://radio.fr/info/index/searchembeddedbroadcast?start=0&rows=10&q=Nom Radio" dans un navigateur -->
+			<item>RTL2<tag>out.action.radioid="5170"</tag></item>
+			<item>Virgin Radio<tag>out.action.radioid="8275"</tag></item>
+			<item>Fun Radio<tag>out.action.radioid="4368"</tag></item>
+			<item>RFM<tag>out.action.radioid="2993"</tag></item>
+			<item>Europe 1<tag>out.action.radioid="2865"</tag></item>
+			<item>ère Thé eLle<tag>out.action.radioid="5168"</tag></item>
+			<item>éNeRgie<tag>out.action.radioid="8280"</tag></item>
+			<item>RMC Info<tag>out.action.radioid="1935"</tag></item>
+			<item>France Inter<tag>out.action.radioid="2843"</tag></item>
+			<item>France Info<tag>out.action.radioid="4232"</tag></item>
+			<item>FIP<tag>out.action.radioid="4234"</tag></item>
+			<item>Chérie FM<tag>out.action.radioid="8315"</tag></item>
+			<item>BFM<tag>out.action.radioid="1441"</tag></item>
+			<item>Skyrock<tag>out.action.radioid="8302"</tag></item>
+			<item>F G<tag>out.action.radioid="1577"</tag></item>
+			<item>Radio Classique<tag>out.action.radioid="1838"</tag></item>
+			<item>MFM<tag>out.action.radioid="1738"</tag></item>
+			<item>Beur FM<tag>out.action.radioid="4403"</tag></item>
+			<item>OUI FM<tag>out.action.radioid="4477"</tag></item>
+			<item>ADO FM<tag>out.action.radioid="4394"</tag></item>
+			<item>France Culture<tag>out.action.radioid="4233"</tag></item>
+			<item>Alouette<tag>out.action.radioid="1416"</tag></item>
+			<item>HOT MIX RADIO<tag>out.action.radioid="1632"</tag></item>
+			<item>Couleur 3<tag>out.action.radioid="1489"</tag></item>
+			<item>NRJ Hits<tag>out.action.radioid="12372"</tag></item>
+			<item>éRe Thé eSse<tag>out.action.radioid="3123"</tag></item>
+			<item>Fréquence 3<tag>out.action.radioid="1588"</tag></item>
+			<item>Pulsse Radio<tag>out.action.radioid="1813"</tag></item>
 		</one-of>
 	</rule>  
-  
-  <rule id="ruleXBMC_Radio" scope="public">
-    <example>SARAH je veux écouter la radio Fréquence 3</example>
-    <tag>out.action=new Object();</tag>
-    <tag>out.action.xbmc="music";</tag>
-    <one-of>
-      <item>je veux écouter la radio <tag>out.action.action="radio";</tag></item>
-    </one-of>
-    <one-of>
-      <!-- l'ID de la radio peut être trouvé en tapant "http://radio.fr/info/index/searchembeddedbroadcast?start=0&rows=10&q=Nom Radio" dans un navigateur -->
-      <item>RTL2<tag>out.action.radioid="5170"</tag></item>
-      <item>Virgin Radio<tag>out.action.radioid="8275"</tag></item>
-      <item>Fun Radio<tag>out.action.radioid="4368"</tag></item>
-      <item>RFM<tag>out.action.radioid="2993"</tag></item>
-      <item>Europe 1<tag>out.action.radioid="2865"</tag></item>
-      <item>ère Thé eLle<tag>out.action.radioid="5168"</tag></item>
-      <item>éNeRgie<tag>out.action.radioid="8280"</tag></item>
-      <item>RMC Info<tag>out.action.radioid="1935"</tag></item>
-      <item>France Inter<tag>out.action.radioid="2843"</tag></item>
-      <item>France Info<tag>out.action.radioid="4232"</tag></item>
-      <item>FIP<tag>out.action.radioid="4234"</tag></item>
-      <item>Chérie FM<tag>out.action.radioid="8315"</tag></item>
-      <item>BFM<tag>out.action.radioid="1441"</tag></item>
-      <item>Skyrock<tag>out.action.radioid="8302"</tag></item>
-      <item>F G<tag>out.action.radioid="1577"</tag></item>
-      <item>Radio Classique<tag>out.action.radioid="1838"</tag></item>
-      <item>MFM<tag>out.action.radioid="1738"</tag></item>
-      <item>Beur FM<tag>out.action.radioid="4403"</tag></item>
-      <item>OUI FM<tag>out.action.radioid="4477"</tag></item>
-      <item>ADO FM<tag>out.action.radioid="4394"</tag></item>
-      <item>France Culture<tag>out.action.radioid="4233"</tag></item>
-      <item>Alouette<tag>out.action.radioid="1416"</tag></item>
-      <item>HOT MIX RADIO<tag>out.action.radioid="1632"</tag></item>
-      <item>Couleur 3<tag>out.action.radioid="1489"</tag></item>
-      <item>NRJ Hits<tag>out.action.radioid="12372"</tag></item>
-      <item>éRe Thé eSse<tag>out.action.radioid="3123"</tag></item>
-      <item>Fréquence 3<tag>out.action.radioid="1588"</tag></item>
-      <item>Pulsse Radio<tag>out.action.radioid="1813"</tag></item>
-    </one-of>
-  </rule>  
   
 	<rule id="ruleXBMC_playlist" scope="public">
 		<example>SARAH joue de la musique Rock</example>
