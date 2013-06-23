@@ -18,6 +18,9 @@ container
 	last_col=5;					Num dernière colonne							integer
 	way_normal					sens de navigation normal						string
 	way_reverse					sens de navigation inverse						string
+	way_options					sens pour atteindre menu lateral				string
+	way_optionsback				sens pour quitter menu lateral					string
+	
 items
 	nb							nombre d'item dans la liste du container		integer
 	item						label de chaque élement 						[Array]

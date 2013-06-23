@@ -1,7 +1,6 @@
 exports.action = function (data, callback, config, SARAH) {
-	//console.dir(SARAH);
-	//console.log('SARAH context:');
-//	if (typeof(SARAH.context.xbmc)!='undefined') {console.dir(SARAH.context.xbmc);} else {console.log('context vide\n');}
+//if (typeof(SARAH.context.xbmc)!='undefined') {console.dir(SARAH.context.xbmc);} else {console.log('context vide\n');}
+
 	// Retrieve config
     var  api_url;
     config = config.modules.xbmc;
@@ -20,7 +19,7 @@ Array.prototype.contains = function(obj) {
 }
 
 
-				// Fonction pour mise à jour des données du Context puis génération du xml 
+// Fonction pour mise à jour des données du Context puis génération du xml 
 function miseajour_context_et_xml() {
 	navigation_context_info(function(context){
 			navigation_generation_xml_items();
@@ -28,9 +27,73 @@ function miseajour_context_et_xml() {
 	});
 }
 
-// Fonction pour optenir: mode d'affichage (viewmode), la fenetre en cours (CurrentWindow), le tri, ...
-// la liste complètes des items (sauf: ..) , le nombre d'élément
-navigation_context_info=function (container_info){
+	// fonction pour mise à jour des données en fonction du viewmode
+	navigation_context_viewmode_info= function (temp_data) {
+			//RAZ des données
+			if (temp_data.way_normal) {
+			delete temp_data.way_normal;
+			delete temp_data.way_reverse;
+			delete temp_data.way_options;
+			delete temp_data.way_optionsback;
+			delete temp_data.first_col;
+			delete temp_data.last_col;
+			}
+			// nouvelles données
+			switch (temp_data.viewmode.toLowerCase()) {								// Définis les vériables propre à l'affichage
+				case 'galerie d\'affiches':
+				case 'fanart':
+					console.log('FANART:');
+					temp_data.way_normal='right';					// Prochaine action pour naviguer en auto (droite ou bas suivant liste horiz/vert)
+					temp_data.way_reverse='left';					
+					temp_data.way_options='up';					
+					temp_data.way_optionsback ='right';
+					temp_data.first_col=1;							// 1ère Colonne
+					temp_data.last_col=1;							// dernière Colonne	
+					break;
+				case 'informations du média 2':
+				case 'informations du média':
+				case 'informations du média 3':
+				case 'liste':
+				case 'info':
+				case 'grande liste':
+					console.log('LIST:');
+					temp_data.way_normal='down';
+					temp_data.way_reverse='up';					
+					temp_data.way_options='left';					
+					temp_data.way_optionsback ='right';
+					temp_data.first_col=1;
+					temp_data.last_col=1;
+					break;
+				case 'info 2': 
+				case 'large':  //   2colonnes
+					temp_data.way_normal='right';
+					temp_data.way_reverse='left';					
+					temp_data.way_options='homeleft';					
+					temp_data.way_optionsback ='right';
+					temp_data.first_col=1;
+					temp_data.last_col=2;
+					break;
+				case 'vignette': // 5 colonnes
+					temp_data.way_normal='right';
+					temp_data.way_reverse='left';					
+					temp_data.way_options='homeleft';					
+					temp_data.way_optionsback ='right';
+					temp_data.first_col=1;
+					temp_data.last_col=5;
+					break;
+				case '':	   		
+					break;
+				default: 
+					temp_data.way_normal=false;
+					console.log('temp_data.Viewmode inconnu');
+					break;
+				console.log('fin navigation_context_viewmode_info ');
+				}
+	}
+
+	// Fonction pour optenir: mode d'affichage (viewmode), la fenetre en cours (CurrentWindow), le tri, ...
+	// la liste complètes des items (sauf: ..) , le nombre d'élément
+	navigation_context_info=function (container_info){
 		nocallback='';
 		reponse={};
 
@@ -47,46 +110,7 @@ navigation_context_info=function (container_info){
 			else {container.nb_items=0;}
 			container.sortmethod=res.result['Container.SortMethod'];	// trie
 			container.viewmode=res.result['Container.Viewmode'];		// type d'affichage
-			switch (container.viewmode) {								// Définis les vériables propre à l'affichage
-				case 'Galerie d\'affiches':
-				case 'Fanart':
-					container.way_normal='right';					// Prochaine action pour naviguer en auto (droite ou bas suivant liste horiz/vert)
-					container.way_reverse='left';					
-					container.first_col=1;							// 1ère Colonne
-					container.last_col=1;							// dernière Colonne	
-					break;
-				case 'Informations du média 2':
-				case 'Informations du média':
-				case 'Informations du média 3':
-				case 'Liste':
-				case 'Info':
-				case 'Grande liste':
-					container.way_normal='down';
-					container.way_reverse='up';					
-					container.first_col=1;
-					container.last_col=1;
-					break;
-				case 'Info 2': 
-				case 'Large':  //   2colonnes
-					container.way_normal='right';
-					container.way_reverse='left';					
-					container.first_col=1;
-					container.last_col=2;
-					break;
-				case 'Vignette': // 5 colonnes
-					container.way_normal='right';
-					container.way_reverse='left';					
-					container.first_col=1;
-					container.last_col=5;
-					break;
-				case '':	   		
-					break;
-				default: 
-					container.way_normal=false;
-					console.log('Container.Viewmode inconnu');
-					break;
-				}
-			//if ((demande_info=='complet')&&(container.nb_items!=0)&&(container.nb_items<500))  {   //limite réelle ?? 500??? 500 ça marche, 800 non!
+			navigation_context_viewmode_info(container);				// affecte les données
 			if ((container.nb_items!=0)&&(container.nb_items<500)&&(reponse.currentwindow.name!=''))  {   //limite réelle ?? 500??? 500 ça marche, 800 non!
 					listitem=[];
 					for (var i=0;i<=container.nb_items;i++) {		
@@ -139,7 +163,7 @@ navigation_context_info=function (container_info){
 	
 			return;
 	}
-					
+ 		
 	switch (data.action) {
         case 'introspect':
             doAction(introspect, xbmc_api_url, callback);
@@ -214,26 +238,77 @@ navigation_context_info=function (container_info){
 			miseajour_context_et_xml();
             break;
 			
-		case 'hello':
-			params={'jsonrpc': '2.0' , 'id': 0,'method': 'Addons.ExecuteAddon','params': {'addonid': 'script.popup','params': {	'line1': 'Hello World' } }};
-		doAction(params, xbmc_api_url, callback);
-			
-			break;
-			
-			
 		case 'ExecuteAction':
 			params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": data.value}, "id": 1 };
 			if (typeof(data.repeter)=='undefined') {repeter=1; } else {repeter=data.repeter; } // repeter à 1 par défaut.
 			//console.log(repeter);
 			for (var i=0;i<repeter;i++)
 				{
-				if (i==0){doAction(params, xbmc_api_url, callback);}else{doAction(params, xbmc_api_url);}
+				if (i==0){doAction(params, xbmc_api_url);}else{doAction(params, xbmc_api_url);}
 			}
 			switch (data.value) {								
 				case 'back': miseajour_context_et_xml();
 				break
 			}
 
+			break;
+		
+		case 'viewmode':
+			
+			// Changer de viewmode dans un librayrie: changeviewmode(viewmode souhaité, false)
+			var index=0;
+			var maxindex=15;
+			var changeviewmode=function (search_viewmode,viewmode_found, reponse){
+				if (index==0) {
+					// bouge à gauche ou haut pour faire apparaitre le menu laterale 
+					if ((SARAH.context.xbmc.container.way_options=='left')||(SARAH.context.xbmc.container.way_options=='up')) {
+						params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": SARAH.context.xbmc.container.way_options}, "id": 1 };
+						doAction(params, xbmc_api_url, callback);
+					}
+					// Reviens au début de la liste puis gauche pour faire apparaitre le menu laterale 
+					if (SARAH.context.xbmc.container.way_options=='homeleft') {
+						params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": "firstpage"}, "id": 1 };
+						doAction(params, xbmc_api_url, callback);
+						params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": "left"}, "id": 1 };
+						doAction(params, xbmc_api_url);
+					}
+				}
+				if (viewmode_found==false) {
+					index++;
+					doAction(Select, xbmc_api_url, callback, function(res){
+						setTimeout(function(){  // délai pour laisser le temps au current control de se mettre à jour
+								par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
+								doAction(par, xbmc_api_url, callback, function(res){
+									// controle le viewmode sélectionné
+									if ((res.result.currentcontrol.label.toLowerCase()==('vue : '+search_viewmode.toLowerCase()))||(index>=maxindex))  {return changeviewmode(search_viewmode,true,reponse);} else {return changeviewmode(search_viewmode,false,reponse);} 
+								});
+							}, 50); 			// le temps de "pause" est nécessaire sinon xbmc renvois parfois le label précédent, malgré un select effectué!
+						});
+				}
+				else {
+					if (index>=maxindex) {console.log('Plugin xbmc - Viewmode non trouvé!');SARAH.speak('Je n\'ai pas réussi!'); return reponse(false);}
+					// mise à jour SARAH.context.xbmc
+						delete SARAH.context.xbmc.container.viemode;
+						SARAH.context.xbmc.container.viewmode=search_viewmode;
+						navigation_context_viewmode_info(SARAH.context.xbmc.container);
+						//console.log('------ NEW context -------');
+						//console.dir(SARAH.context.xbmc);
+					if (SARAH.context.xbmc.container.way_optionsback) {
+						params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": SARAH.context.xbmc.container.way_optionsback}, "id": 1 };
+						doAction(params, xbmc_api_url);
+					}
+					return reponse(true);}
+			}
+
+			if (data.value) {
+				changeviewmode( data.value,false, function (reponse) {
+//					console.log('---------------------');
+//					console.log('res5:'+reponse);
+//					callback();
+				});
+			}
+			else {console.log('viewmode - il manque data.parameters');}
+		
 			break;
 			
 		case 'chercheligne':
@@ -293,10 +368,11 @@ navigation_context_info=function (container_info){
 			doAction(params, xbmc_api_url, callback);
 			miseajour_context_et_xml();
             break;
-            
-    case 'radio':
-      doRadio(data.radioid, xbmc_api_url, callback);
-      break;
+
+		case 'radio':
+			doRadio(data.radioid, xbmc_api_url, callback);
+			break;
+
 		default:
             callback({});
             break;
