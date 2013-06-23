@@ -78,7 +78,14 @@
 	<item>ok<tag>out.action.action="Select";</tag></item>
 	<item>select<tag>out.action.action="Select";</tag></item>
 
-<!-- ************************************************ Play list  ********************************************* -->
+<!-- ************************************************ ViewMode  ********************************************* -->
+	<item>affichage en liste<tag>out.action.action="viewmode";out.action.value="liste";</tag></item>
+	<item>affichage en vignette<tag>out.action.action="viewmode";out.action.value="vignette";</tag></item>
+	<item>affichage en affiches<tag>out.action.action="viewmode";out.action.value="galerie d'affiches";</tag></item>
+	<item>affichage large<tag>out.action.action="viewmode";out.action.value="large";</tag></item>
+	<item>affichage Fanart<tag>out.action.action="viewmode";out.action.value="fanart";</tag></item>
+
+	<!-- ************************************************ Play list  ********************************************* -->
 	<item>play liste<tag>out.action.action="ExecuteAction";out.action.value="playlist";</tag></item>
 	<item>ajoute ça<tag>out.action.action="ExecuteAction";out.action.value="queue";</tag></item>
 	<item>enlève ça<tag>out.action.action="ExecuteAction";out.action.value="delete";</tag></item>
@@ -125,13 +132,10 @@
 	<item>coupe le son<tag>out.action.action="ExecuteAction";out.action.value="mute";</tag></item>
 	<item>remet le son<tag>out.action.action="ExecuteAction";out.action.value="mute";</tag></item>
 
-<!-- ******************** OBSOLETE Navigation dans les Listes (pour exemple - Incomplet! A developper) OBSOLETE **************** -->
-<!--<item>Cherche téléphone<tag>out.action.action="chercheligne";out.action.parameters="[Telephone]";</tag></item>
-	<item>Cherche You tout<tag>out.action.action="chercheligne";out.action.parameters="[U2]";</tag></item>
-	<item>Bouton Actualiser la médiathèque<tag>out.action.action="chercheligne";out.action.parameters="Actualiser la médiathèque";</tag></item>
-	<item>Bouton Arrêter le balayage<tag>out.action.action="chercheligne";out.action.parameters="Arrêter le balayage";</tag></item>-->
-		
 <!-- ************************************************ le foutoir ... certain marche, d'autre non ********************************************* -->
+	<item>autre vue<tag>out.action.action="viewmode";out.action.value="Liste";</tag></item>
+
+
  	<item>dossier précédent<tag>out.action.action="ExecuteAction";out.action.value="ParentDir"</tag></item> 
 	<item>affiche le lecteur <tag>out.action.action="ShowOSD";</tag></item>
 	<item>OSD<tag>out.action.action="ExecuteAction";out.action.value="osd";</tag></item>
