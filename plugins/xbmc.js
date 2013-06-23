@@ -244,7 +244,7 @@ function miseajour_context_et_xml() {
 			//console.log(repeter);
 			for (var i=0;i<repeter;i++)
 				{
-				if (i==0){doAction(params, xbmc_api_url);}else{doAction(params, xbmc_api_url);}
+				if (i==0){doAction(params, xbmc_api_url,callback);}else{doAction(params, xbmc_api_url);}
 			}
 			switch (data.value) {								
 				case 'back': miseajour_context_et_xml();
