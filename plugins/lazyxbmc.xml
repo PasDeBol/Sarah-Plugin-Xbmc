@@ -57,6 +57,8 @@
 <!-- ************************************************ Navigation dans les Menus ********************************************* -->
 	<item>menu principal<tag>out.action.action="ActivateWindow";out.action.window="home";</tag></item>
 	<item>télé<tag>out.action.action="ActivateWindow";out.action.window="tv";</tag></item>
+	<item>met la télé<tag>out.action.action="ActivateWindow";out.action.window="tv";</tag></item>
+	<item>affiche la télé<tag>out.action.action="ActivateWindow";out.action.window="tv";</tag></item>
 	<item>affiche les séries<tag>out.action.action="ActivateWindow";out.action.window="video";out.action.parameters="TvShowTitles";</tag></item>
 	<item>affiche  les films<tag>out.action.action="ActivateWindow";out.action.window="video";out.action.parameters="MovieTitles";</tag></item>
 	<item>affiche  les musiques<tag>out.action.action="ActivateWindow";out.action.window="musiclibrary"</tag></item>
@@ -65,6 +67,9 @@
 	<item>Sous menu<tag>out.action.action="ExecuteAction";out.action.value="contextmenu";</tag></item>
 	<item>Retour<tag>out.action.action="ExecuteAction";out.action.value="back";</tag></item>
 	<item>Info<tag>out.action.action="ExecuteAction";out.action.value="info";</tag></item>
+	<item>affiche les infos<tag>out.action.action="ExecuteAction";out.action.value="info";</tag></item>
+	<item>cache les infos<tag>out.action.action="ExecuteAction";out.action.value="info";</tag></item>
+	<item>enlève les infos<tag>out.action.action="ExecuteAction";out.action.value="info";</tag></item>
 
 <!-- ************************************************ Valider/OK  ********************************************* -->
 	<item>choisi<tag>out.action.action="Select";</tag></item>
@@ -80,9 +85,11 @@
 	<item>enlève ça et les 2 suivantes<tag>out.action.action="ExecuteAction";out.action.value="delete";out.action.repeter=2;</tag></item>
 	<item>enlève ça et les 3 suivantes<tag>out.action.action="ExecuteAction";out.action.value="delete";out.action.repeter=2;</tag></item>
 	<item>enlève ça et les 4 suivantes<tag>out.action.action="ExecuteAction";out.action.value="delete";out.action.repeter=2;</tag></item>
-	<item>suivante<tag>out.action.action="ExecuteAction";out.action.value="skipnext";</tag></item>
+	<item>suivant<tag>out.action.action="ExecuteAction";out.action.value="skipnext";</tag></item>
 	<item>précédent<tag>out.action.action="ExecuteAction";out.action.value="skipprevious";</tag></item>
-	
+	<item>active le mode aléatoire<tag>out.action.action="shuffle"</tag></item>
+	<item>enlève le mode aléatoire<tag>out.action.action="shuffle"</tag></item>
+
 <!-- ************************************************ Fonction dans le Player  ********************************************* -->
 	<item>lecture<tag>out.action.action="ExecuteAction";out.action.value="play";</tag></item>
 	<item>pause<tag>out.action.action="ExecuteAction";out.action.value="pause";</tag></item>
@@ -95,7 +102,9 @@
 	<item>avance un peu<tag>out.action.action="ExecuteAction";out.action.value="stepforward";</tag></item>
 	<item>recule un peu<tag>out.action.action="ExecuteAction";out.action.value="stepback";</tag></item>
 	<item>saut en avant 10m<tag>out.action.action="ExecuteAction";out.action.value="bigstepforward";</tag></item>
+	<item>saut en avant<tag>out.action.action="ExecuteAction";out.action.value="bigstepforward";</tag></item>
 	<item>saut en arrière 10m<tag>out.action.action="ExecuteAction";out.action.value="bigstepback";</tag></item>
+	<item>saut en arrière<tag>out.action.action="ExecuteAction";out.action.value="bigstepback";</tag></item>
 	<!-- j'ai des soucis de reco avec zoom, donc : zoum -->
 	<item>zoume avant<tag>out.action.action="ExecuteAction";out.action.value="zoomin";out.action.repeter=10;</tag></item>
 	<item>gros zoume avant<tag>out.action.action="ExecuteAction";out.action.value="zoomin";out.action.repeter=20;</tag></item>
@@ -107,8 +116,12 @@
 <!-- ************************************************ Son  ********************************************* -->
 	<item>monte franchement le son<tag>out.action.action="ExecuteAction";out.action.value="volumeup";out.action.repeter=15;</tag></item>
 	<item>monte un peu le son<tag>out.action.action="ExecuteAction";out.action.value="volumeup";out.action.repeter=2;</tag></item>
+	<item>met plus fort<tag>out.action.action="ExecuteAction";out.action.value="volumeup";out.action.repeter=5;</tag></item>
+	<item>monte le son<tag>out.action.action="ExecuteAction";out.action.value="volumeup";out.action.repeter=5;</tag></item>
 	<item>baisse franchement le son<tag>out.action.action="ExecuteAction";out.action.value="volumedown";out.action.repeter=15;</tag></item>
 	<item>baisse un peu le son<tag>out.action.action="ExecuteAction";out.action.value="volumedown";out.action.repeter=2;</tag></item>
+	<item>baisse le son<tag>out.action.action="ExecuteAction";out.action.value="volumedown";out.action.repeter=5;</tag></item>
+	<item>met moins fort<tag>out.action.action="ExecuteAction";out.action.value="volumedown";out.action.repeter=5;</tag></item>
 	<item>coupe le son<tag>out.action.action="ExecuteAction";out.action.value="mute";</tag></item>
 	<item>remet le son<tag>out.action.action="ExecuteAction";out.action.value="mute";</tag></item>
 
@@ -130,11 +143,18 @@
 	<item>épisode suivant<tag>out.action.action="ExecuteAction";out.action.value="nextscene";</tag></item>
 	<item>introspect<tag>out.action.action="introspect";</tag></item>
 
-
+	<item><ruleref uri="#lazyruleXBMC_sendText"/><tag>out.action = rules.lazyruleXBMC_sendText;out.action.xbmc="video"</tag></item>
 		</one-of>
 		<tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag>
 </rule>  
   
+<rule id="lazyruleXBMC_sendText" scope="public">
+	<example>écrit ACDC dans la fenêtre</example>
+	<tag>out.action=new Object();</tag>
+	<tag>out.action.action="sendText";</tag>
+	<item>écris</item><ruleref special="GARBAGE" /><item>dans la fenêtre</item>
+	<tag>out._attributes.dictation="true";</tag> 
+</rule>
 
 </grammar>
  
