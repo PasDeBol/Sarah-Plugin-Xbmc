@@ -119,6 +119,9 @@
 	<item>coupe le son<tag>out.action.action="ExecuteAction";out.action.value="mute";</tag></item>
 	<item>remet le son<tag>out.action.action="ExecuteAction";out.action.value="mute";</tag></item>
 
+<!-- ********************************************  Saisir du texte  ************************************** -->
+	<item><ruleref uri="#lazyruleXBMC_sendText"/><tag>out.action = rules.lazyruleXBMC_sendText;out.action.xbmc="video"</tag></item>
+
 <!-- ************************************************ le foutoir ... certain marche, d'autre non ********************************************* -->
 	<item>autre vue<tag>out.action.action="viewmode";out.action.value="Liste";</tag></item>
 
@@ -134,11 +137,15 @@
 	<item>épisode suivant<tag>out.action.action="ExecuteAction";out.action.value="nextscene";</tag></item>
 	<item>introspect<tag>out.action.action="introspect";</tag></item>
 
-
-		</one-of>
+	
+	</one-of>
 		<tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag>
 </rule>  
   
+<rule id="lazyruleXBMC_sendText" scope="public">
+	<example>écrit ACDC dans la fenêtre</example>
+	<tag>out.action=new Object();</tag>
+	<item>écris</item><ruleref special="GARBAGE" /><item>dans la fenêtre<tag>out.action.action="sendText";</tag><tag>out._attributes.dictation="true";</tag></item>
+</rule>
 
 </grammar>
- 

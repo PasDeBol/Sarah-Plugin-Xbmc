@@ -99,7 +99,7 @@ function miseajour_context_et_xml() {
 				}
 	}
 
-	// Fonction pour optenir: mode d'affichage (viewmode), la fenetre en cours (CurrentWindow), le tri, ...
+	// Fonction pour obtenir: mode d'affichage (viewmode), la fenetre en cours (CurrentWindow), le tri, ...
 	// la liste complètes des items (sauf: ..) , le nombre d'élément
 	navigation_context_info=function (container_info){
 		nocallback='';
@@ -432,7 +432,33 @@ function miseajour_context_et_xml() {
 			doRadio(data.radioid, xbmc_api_url, callback);
 			break;
 
-		default:
+		case 'sendText':
+			if (data.dictation){
+				console.log(data.dictation);
+				// Clean question
+				var regexp = /écris\s(\w+)/gi 
+				var match  = regexp.exec(data.dictation);
+				var value = "";
+				if (match && match.length >= 1){
+					value = match[1];
+					console.log('value = ' + value);
+					sendText.params.text = value;
+					sendText.params.done = false;
+					doAction(sendText, xbmc_api_url, callback);
+				}
+				else
+				{
+					callback({ 'tts' : "Je n'ai pas compris" });
+				}
+        
+			}
+			else
+			{
+				callback({ 'tts' : "Je n'ai pas pu executer l'action" });
+			}
+			break;
+
+	  default:
             callback({});
             break;
     }
@@ -470,6 +496,9 @@ var Back={"jsonrpc": "2.0", "method": "Input.Back", "params": {}, "id": 1}
 var Info={"jsonrpc": "2.0", "method": "Input.Info", "params": {}, "id": 1}
 var ContextMenu={"jsonrpc": "2.0", "method": "Input.ContextMenu", "params": {}, "id": 1}
 var ShowOSD={"jsonrpc": "2.0", "method": "Input.ShowOSD", "params": {}, "id": 1}
+
+// Send text
+var sendText = {"jsonrpc":"2.0","method":"Input.SendText", "params": { "text": "", "done": false }, "id":1}
 
 // Previous / Next item in current player
 var next = {"jsonrpc": "2.0", "method": "Player.GoTo", "params": { "playerid": 0, "to": "next" }, "id": 1}
