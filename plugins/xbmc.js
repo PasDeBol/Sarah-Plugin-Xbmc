@@ -473,7 +473,7 @@ function miseajour_context_et_xml() {
 							speech += ', du groupe: ' + json.result.item.artist;
 						if (json.result.item.showtitle && json.result.item.showtitle != '')
 							speech += ', de la série: ' + json.result.item.showtitle;
-						if (json.result.item.season && json.result.item.season != '' && json.result.item.episode && json.result.item.episode != '')
+						if (json.result.item.season && json.result.item.season != '' && json.result.item.season != -1 && json.result.item.episode && json.result.item.episode != '')
 							speech += ', saison ' + json.result.item.season + ', épisode ' + json.result.item.episode;
 						if (speech == '')
 							speech = "Je n'ai pas trouvé d'information";
