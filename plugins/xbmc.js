@@ -446,19 +446,43 @@ function miseajour_context_et_xml() {
 					sendText.params.done = false;
 					doAction(sendText, xbmc_api_url, callback);
 				}
-				else
-				{
+				else{
 					callback({ 'tts' : "Je n'ai pas compris" });
 				}
         
 			}
-			else
-			{
+			else{
 				callback({ 'tts' : "Je n'ai pas pu executer l'action" });
 			}
 			break;
 
-	  default:
+		case 'whatIsPlaying':
+			doAction(player, xbmc_api_url, callback, function(json){
+				if (json.result){
+					var currentPlayer = "";
+					if (json.result[0].playerid == 0){currentPlayer = audioPlayer;}	else {currentPlayer = videoPlayer;}
+					doAction(currentPlayer, xbmc_api_url, callback, function(json){
+						var speech = '';
+						if (json.result.item.title && json.result.item.title != '')
+							speech = json.result.item.title;
+						if (json.result.item.artist && json.result.item.artist != '') 
+							speech += ', du groupe: ' + json.result.item.artist;
+						if (json.result.item.showtitle && json.result.item.showtitle != '')
+							speech += ', de la série: ' + json.result.item.showtitle;
+						if (json.result.item.season && json.result.item.season != '' && json.result.item.episode && json.result.item.episode != '')
+							speech += ', saison ' + json.result.item.season + ', épisode ' + json.result.item.episode;
+						if (speech == '')
+							speech = "Je n'ai pas trouvé d'information";
+						return callback({ 'tts' : speech });
+					});
+				}
+				else {
+					return callback({ 'tts' : "Je n'ai pas trouvé d'information" });
+				}
+			});
+			break;
+
+		default:
             callback({});
             break;
     }
@@ -480,6 +504,8 @@ var xml_serie={"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": 
 // Toggle play / pause in current player
 var play = {"jsonrpc": "2.0", "method": "Player.PlayPause", "params": { "playerid": 0 }, "id": 1};
 var player = {"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1}
+var audioPlayer = {"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["title", "album", "artist", "duration", "thumbnail", "file", "fanart", "streamdetails"], "playerid": 0 }, "id": "AudioGetItem"}
+var videoPlayer = {"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["title", "album", "artist", "season", "episode", "duration", "showtitle", "tvshowid", "thumbnail", "file", "fanart", "streamdetails"], "playerid": 1 }, "id": "VideoGetItem"}
 
 // Toggle play / pause in current player video
 var playvideo = {"jsonrpc": "2.0", "method": "Player.PlayPause", "params": { "playerid": 1 }, "id": 1};

@@ -120,7 +120,12 @@
 	<item>remet le son<tag>out.action.action="ExecuteAction";out.action.value="mute";</tag></item>
 
 <!-- ********************************************  Saisir du texte  ************************************** -->
-	<item><ruleref uri="#lazyruleXBMC_sendText"/><tag>out.action = rules.lazyruleXBMC_sendText;out.action.xbmc="video"</tag></item>
+	<item><ruleref uri="#lazyruleXBMC_sendText"/><tag>out.action = rules.lazyruleXBMC_sendText</tag></item>
+
+<!-- ************************************  Demande d'info: whatIsPlaying  ************************************** -->
+	<item>c'est quoi cette musique<tag>out.action.action="whatIsPlaying"</tag></item>
+	<item>qu'est ce que j'écoute<tag>out.action.action="whatIsPlaying"</tag></item>
+	<item>qu'est ce que je regarde<tag>out.action.action="whatIsPlaying"</tag></item>
 
 <!-- ************************************************ le foutoir ... certain marche, d'autre non ********************************************* -->
 	<item>autre vue<tag>out.action.action="viewmode";out.action.value="Liste";</tag></item>

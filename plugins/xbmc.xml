@@ -33,6 +33,9 @@
 			<item>reprends la musique<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
 			<item>met en pause la série<tag>out.action.action="playvideo"</tag><tag>out.action.xbmc="video" </tag></item>
 			<item>remet la série<tag>out.action.action="playvideo"</tag><tag>out.action.xbmc="video" </tag></item>
+			<item>c'est quoi cette musique<tag>out.action.action="whatIsPlaying"</tag><tag>out.action.xbmc="music" </tag></item>
+			<item>c'est quoi cette vidéo<tag>out.action.action="whatIsPlaying"</tag><tag>out.action.xbmc="video" </tag></item>
+
 		</one-of>
 	</rule>  
   
