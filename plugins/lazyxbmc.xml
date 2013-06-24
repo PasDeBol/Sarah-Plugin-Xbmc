@@ -110,6 +110,8 @@
 	<item>gros zoume arrière<tag>out.action.action="ExecuteAction";out.action.value="zoomout";out.action.repeter=20;</tag></item>
 	<item>aucun zoume<tag>out.action.action="ExecuteAction";out.action.value="zoomnormal";</tag></item>
 	<item>zoume normal<tag>out.action.action="ExecuteAction";out.action.value="zoomnormal";</tag></item>
+	<item>active le mode aléatoire<tag>out.action.action="shuffle";out.action.value=1</tag></item>
+	<item>enlève le mode aléatoire<tag>out.action.action="shuffle";out.action.value=0</tag></item>
 
 <!-- ************************************************ Son  ********************************************* -->
 	<item>monte franchement le son<tag>out.action.action="ExecuteAction";out.action.value="volumeup";out.action.repeter=15;</tag></item>

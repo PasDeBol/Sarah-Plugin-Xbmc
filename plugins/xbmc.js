@@ -245,8 +245,12 @@ function miseajour_context_et_xml() {
             doAction(Select, xbmc_api_url, callback);
 			miseajour_context_et_xml();
             break;
-			
-		case 'ExecuteAction':
+		case 'shuffle':
+			if (data.value==1) doAction(shuffle_on, xbmc_api_url, callback);
+			if (data.value==0) doAction(shuffle_off, xbmc_api_url, callback);
+			break;
+
+			case 'ExecuteAction':
 			params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": data.value}, "id": 1 };
 			if (typeof(data.repeter)=='undefined') {repeter=1; } else {repeter=data.repeter; } // repeter à 1 par défaut.
 			//console.log(repeter);
@@ -547,6 +551,8 @@ var playlist = {"jsonrpc": "2.0", "method": "Playlist.GetItems", "params": { "pr
 var clearlist = {"jsonrpc": "2.0", "id": 0, "method": "Playlist.Clear", "params": {"playlistid": 0}}
 var addtolist = {"jsonrpc": "2.0", "id": 1, "method": "Playlist.Add", "params": {"playlistid": 0, "item": {"songid": 10}}}
 var runlist = {"jsonrpc": "2.0", "id": 2, "method": "Player.Open", "params": {"item": {"playlistid": 0}}}
+var shuffle_on = {"jsonrpc": "2.0", "method": "Player.SetShuffle",  "params": { "playerid": 0 ,"shuffle":true}, "id": 1}
+var shuffle_off = {"jsonrpc": "2.0", "method": "Player.SetShuffle",  "params": { "playerid": 0 ,"shuffle":false}, "id": 1}
 
 // Séries
 var playserie = {"jsonrpc": "2.0", "method": "Player.Open", "params": { "item": {"file":""} , "options":{ "resume":true } }, "id": 3}
