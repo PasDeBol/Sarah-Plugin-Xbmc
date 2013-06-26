@@ -202,17 +202,6 @@ function miseajour_context_et_xml() {
         case 'introspect':
             doAction(introspect, xbmc_api_url, callback);
             break;
-        case 'jerome':
-			console.dir(SARAH.context.xbmc);
-			console.log('--');
-			console.dir(typeof(SARAH.context.xbmc));
-			console.log('--');
-			console.dir(SARAH.context.xbmc.scrolling);
-			console.log('--');
-			console.dir(typeof(SARAH.context.xbmc.scrolling));
-			callback();
-			break;
-		
 		case 'xml_artist':
             doXML(xml_artist, xbmc_api_url, callback);
             break;
