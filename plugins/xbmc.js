@@ -13,8 +13,8 @@ exports.action = function (data, callback, config, SARAH) {
 
 // arrete le scrolling automatique sur une action quelconque	
 	if (typeof(SARAH.context.xbmc)!="undefined"){
-		if ((data.xbmc=='video') && (data.action!='scrolling_off') && (typeof(SARAH.context.xbmc.scrolling)!="undefined"))
-			{delete SARAH.context.xbmc.scrolling;}
+		if ((data.xbmc=='video') && (data.action!='scrolling_off') && (data.action!='scrolling_on') && (typeof(SARAH.context.xbmc.scrolling)!="undefined"))
+			{console.log('plugin xbmc - arrêt scrolling!');delete SARAH.context.xbmc.scrolling;}
 	}
 	
 // Pour donner la position d'une valeur dans un array
@@ -26,10 +26,13 @@ Array.prototype.contains = function(obj) {
 
 // Fonction pour mise à jour des données du Context puis génération du xml 
 function miseajour_context_et_xml() {
-	navigation_context_info(function(context){
+	setTimeout(function(){  // délai pour laisser le temps à xbmc de fournir les bonnes valeurs
+		navigation_context_info(function(context){
+			console.log('Plugin xbmc - Mise à jour SARAH.context.xbmc:');
+			console.dir(SARAH.context.xbmc);				
 			navigation_generation_xml_items();
-			console.dir(SARAH.context.xbmc);
-	});
+					});
+	}, 100); 
 }
 
 	// fonction pour mise à jour des données en fonction du viewmode
@@ -49,7 +52,6 @@ function miseajour_context_et_xml() {
 			switch (temp_data.viewmode.toLowerCase()) {								// Définis les vériables propre à l'affichage
 				case 'galerie d\'affiches':
 				case 'fanart':
-					console.log('FANART:');
 					temp_data.way_normal='right';					// Sens pour navigation en auto (liste horiz/vert)
 					temp_data.way_reverse='left';					
 					temp_data.way2_normal='';					// Sens pour navigation en auto (tableau)
@@ -65,7 +67,6 @@ function miseajour_context_et_xml() {
 				case 'liste':
 				case 'info':
 				case 'grande liste':
-					console.log('LIST:');
 					temp_data.way_normal='down';
 					temp_data.way_reverse='up';					
 					temp_data.way2_normal='';					
@@ -114,8 +115,8 @@ function miseajour_context_et_xml() {
 
 		par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentwindow"]}, "id": 1};
 		doAction(par, xbmc_api_url, nocallback, function(res0){
-				reponse.currentwindow={'id':res0.result.currentwindow.id , 'name':res0.result.currentwindow.label};
-			});
+			reponse.currentwindow={'id':res0.result.currentwindow.id , 'name':res0.result.currentwindow.label};
+		});
 		par={"jsonrpc":"2.0","method":"XBMC.GetInfoLabels","params": {"labels":["Container.Viewmode","Container.NumItems","Container.SortMethod","System.CurrentWindow","System.CurrentControl"]}, "id":1};
 		doAction(par, xbmc_api_url, nocallback, function(res){
 			container={};
@@ -133,20 +134,38 @@ function miseajour_context_et_xml() {
 					}
 					par={"jsonrpc":"2.0","method":"XBMC.GetInfoLabels","params": {"labels": listitem}, "id":1}; //demande les labels (titre/nom/...) de chaque ligne 
 					doAction(par, xbmc_api_url, nocallback, function(res){
-						item=[];
-						item_id=[];
+						temp_item=[];
+						temp_item_id=[];
 						for(var attributename in res.result){
-//							if (res.result[attributename]!='..') {item.push(res.result[attributename]);}
-							item.push(res.result[attributename]);
-							item_id.push(parseInt(attributename.match(/\d+/g).toString()));
+							temp_item.push(res.result[attributename]);
+							temp_item_id.push(parseInt(attributename.match(/\d+/g).toString()));
 						}
+						// renumerote les items avec [..]=0 au lieur CurrentControl=0 
+						var item=[];
+						var item_id=[];
+						var index=0;
+						var pos2point=temp_item_id[temp_item.contains("..")]; //id actuel de [..]
+						for (i=0; i<temp_item_id.length;i++) {
+							if ((pos2point+index)<temp_item_id.length) {
+								item.push(temp_item[temp_item_id.contains(pos2point+index)]);
+							}else{
+								item.push(temp_item[temp_item_id.contains(pos2point+index-temp_item_id.length)]);
+							}
+							item_id.push(index);
+							index++;
+						}
+						// push vers le context 
 						container.items=item;
 						container.items_id=item_id;
 						reponse.container=container;
 						SARAH.context.xbmc=reponse;
-						return container_info(reponse);
+						return container_info('OK');
 					});
-			}			else {reponse.container=container;SARAH.context.xbmc=container_info;return container_info(reponse);}	
+			}else {
+				reponse.container=container;
+				SARAH.context.xbmc=reponse;
+				return container_info('OK');
+			}	
 		});
 	}
 
@@ -174,7 +193,7 @@ function miseajour_context_et_xml() {
 						else {console.log("xbmc_temp.xml généré!");}
 						//callback();
 					}); 
-			console.log('FIN de mise a jour context et xml!!!!');
+			//console.log('FIN de mise a jour context et xml!!!!');
 	
 			return;
 	}
@@ -183,7 +202,18 @@ function miseajour_context_et_xml() {
         case 'introspect':
             doAction(introspect, xbmc_api_url, callback);
             break;
-        case 'xml_artist':
+        case 'jerome':
+			console.dir(SARAH.context.xbmc);
+			console.log('--');
+			console.dir(typeof(SARAH.context.xbmc));
+			console.log('--');
+			console.dir(SARAH.context.xbmc.scrolling);
+			console.log('--');
+			console.dir(typeof(SARAH.context.xbmc.scrolling));
+			callback();
+			break;
+		
+		case 'xml_artist':
             doXML(xml_artist, xbmc_api_url, callback);
             break;
         case 'xml_genre':
@@ -266,8 +296,11 @@ function miseajour_context_et_xml() {
 				if (i==0){doAction(params, xbmc_api_url,callback);}else{doAction(params, xbmc_api_url);}
 			}
 			switch (data.value) {								
-				case 'back': miseajour_context_et_xml();
-				break
+				case 'back':
+				case 'contextmenu': 
+					miseajour_context_et_xml();
+					break;
+				
 			}
 
 			break;
@@ -331,7 +364,12 @@ function miseajour_context_et_xml() {
 			break;
 		
 		case 'scrolling_on':
-			if (typeof(SARAH.context.xbmc.scrolling)!="undefined") { console.log('plugin xbmc - fin de scrolling!'); delete SARAH.context.xbmc.scrolling; callback(); break;}
+			if (typeof(SARAH.context.xbmc.scrolling)!="undefined") {
+				console.log('plugin xbmc - fin de scrolling!');
+				delete SARAH.context.xbmc.scrolling;
+				callback();
+				break;
+			}
 			if ((typeof(data.parameters)=="undefined")||(typeof(data.value)=="undefined")) {console.log('plugin xbmc - paramètres manquants (scrolling)'); callback(); break;}	
 			SARAH.context.xbmc.scrolling="ON";
 			function doScroll(max,way,delay) {
@@ -343,10 +381,10 @@ function miseajour_context_et_xml() {
 					doAction(params, xbmc_api_url);
 					setTimeout(function(){doScroll((max-1),way,delay)}, delay);
 					}
-				}
+			}
+			// détermination du currentcontrol
 			par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
 			doAction(par, xbmc_api_url, callback, function(res){
-				// détermination du currentcontrol
 				currentcontrol=res.result.currentcontrol.label;
 				lenstr=res.result.currentcontrol.label.length-1;
 				if  ((currentcontrol.indexOf("[")==0)&&(currentcontrol.lastIndexOf("]")==lenstr)) {     
@@ -354,29 +392,11 @@ function miseajour_context_et_xml() {
 				}
 				// controle si il fait parti de la liste (évite ascenceur/menu laterale)
 				if (SARAH.context.xbmc.container.items.contains(currentcontrol)!=-1) {
-					// renumerote les items avec [..]=0 pour déterminer colone 1 ou 2 ou...
-					var temp_items=[];
-					var temp_items_id=[];
-					var index=0;
-					var nb_col=SARAH.context.xbmc.container.last_col;
-					var pos2point=SARAH.context.xbmc.container.items_id[SARAH.context.xbmc.container.items.contains("..")]; //id actuel de [..]
-					for (i=0; i<SARAH.context.xbmc.container.items_id.length;i++) {
-						if ((pos2point+index)<SARAH.context.xbmc.container.items_id.length) {
-							temp_items.push(SARAH.context.xbmc.container.items[SARAH.context.xbmc.container.items_id.contains(pos2point+index)]);
-						}else{
-							temp_items.push(SARAH.context.xbmc.container.items[SARAH.context.xbmc.container.items_id.contains(pos2point+index-SARAH.context.xbmc.container.items_id.length)]);
-						}
-						temp_items_id.push(index);
-						index++;
-					}
-					positioncurrentcontrol=temp_items_id[temp_items.contains(currentcontrol)];
+					positioncurrentcontrol=SARAH.context.xbmc.container.items_id[SARAH.context.xbmc.container.items.contains(currentcontrol)];
 					max=Math.ceil((SARAH.context.xbmc.container.nb_items+1)/SARAH.context.xbmc.container.last_col);
 					console.log('plugin xbmc - début de scrolling!')
 					doScroll(max, data.parameters,data.value);
-					//doScroll(max,'reverse',800);
-					//doScroll(10,'normal',800);
 					callback();
-			
 				}
 			});
 			
@@ -436,32 +456,17 @@ function miseajour_context_et_xml() {
 					
 						// cas Tableau rangées/colonne
 						if (SARAH.context.xbmc.container.last_col>1) {
-							// renumerote les items avec [..]=0 pour déterminer colone 1 ou 2 ou...
-							var temp_items=[];
-							var temp_items_id=[];
-							var index=0;
-							var nb_col=SARAH.context.xbmc.container.last_col;
-							var pos2point=SARAH.context.xbmc.container.items_id[SARAH.context.xbmc.container.items.contains("..")]; //id actuel de [..]
-							for (i=0; i<SARAH.context.xbmc.container.items_id.length;i++) {
-								if ((pos2point+index)<SARAH.context.xbmc.container.items_id.length) {
-									temp_items.push(SARAH.context.xbmc.container.items[SARAH.context.xbmc.container.items_id.contains(pos2point+index)]);
-								}else{
-									temp_items.push(SARAH.context.xbmc.container.items[SARAH.context.xbmc.container.items_id.contains(pos2point+index-SARAH.context.xbmc.container.items_id.length)]);
-								}
-								temp_items_id.push(index);
-								index++;
-							}
-							positioncurrentcontrol=temp_items_id[temp_items.contains(currentcontrol)];
+							nb_col=SARAH.context.xbmc.container.last_col;
+							positioncurrentcontrol=SARAH.context.xbmc.container.items_id[SARAH.context.xbmc.container.items.contains(currentcontrol)];
 							// Détermination nom et id du searchcontrol
 							searchcontrol=data.parameters;
-							positionsearchcontrol=temp_items_id[temp_items.contains(searchcontrol)];
-							console.log('recherche:'+currentcontrol+' ('+positioncurrentcontrol+') vers '+searchcontrol+' ('+positionsearchcontrol+')');
+							positionsearchcontrol=SARAH.context.xbmc.container.items_id[SARAH.context.xbmc.container.items.contains(searchcontrol)];
+							console.log('xbmc plugin - recherche:'+currentcontrol+' ('+positioncurrentcontrol+') vers '+searchcontrol+' ('+positionsearchcontrol+')');
 							// calcul le déplacement entre colonnes 0=aucun, -2=left-left , 1=right,...
 							move_to_col=(positionsearchcontrol % nb_col)-(positioncurrentcontrol % nb_col);
 							// calcul le deplacement entre rangées 0=aucun, -2=up-up, 1=down
 							move_to_row=(Math.ceil((positionsearchcontrol+1)/nb_col))-(Math.ceil((positioncurrentcontrol+1)/nb_col));
-							console.log('décalage de colonne : '+move_to_col);
-							console.log('décalage de rangée : '+move_to_row);
+							console.log('xbmc plugin - décalage de '+move_to_col+' colonnes et de '+move_to_row+' rangées.');
 							// en priorité Gauche/Haut/ Bas / droite (pour le cas du dernier élément de la liste qui est à chauche)
 							if (move_to_col<0) { 
 								params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": SARAH.context.xbmc.container.way2_reverse}, "id": 1 };
