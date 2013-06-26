@@ -26,3 +26,4 @@ items
 	item						label de chaque élement 						[Array]
 	items_id					id de chaque élement 							[Array] (id en fonction de l'élément sélectionné qui prends 0)
 	
+scrolling_on					Scrolling automatique							(scrolling = valeur existante sinon non existante)
