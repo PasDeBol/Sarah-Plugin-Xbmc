@@ -10,14 +10,19 @@ exports.action = function (data, callback, config, SARAH) {
 	if (data.xbmc=='music') 		{ xbmc_api_url=config.api_url_xbmc_music;}
 	else if (data.xbmc=='video') 	{ xbmc_api_url=config.api_url_xbmc_video;}
 	else  {return callback({ 'tts': 'Choix du XBMC inconnu!'});}
+
+// arrete le scrolling automatique sur une action quelconque	
+	if (typeof(SARAH.context.xbmc)!="undefined"){
+		if ((data.xbmc=='video') && (data.action!='scrolling_off') && (typeof(SARAH.context.xbmc.scrolling_on)!="undefined"))
+			{delete SARAH.context.xbmc.scrolling_on;}
+	}
 	
 // Pour donner la position d'une valeur dans un array
 Array.prototype.contains = function(obj) {
 	var i = this.length;
 	while (i--) {if (this[i] == obj) {return (i);}}
-	return false;
+	return -1;
 }
-
 
 // Fonction pour mise à jour des données du Context puis génération du xml 
 function miseajour_context_et_xml() {
@@ -70,20 +75,20 @@ function miseajour_context_et_xml() {
 					break;
 				case 'info 2': 
 				case 'large':  //   2colonnes
-					temp_data.way_normal='right';
-					temp_data.way_reverse='left';					
-					temp_data.way2_normal='down';					
-					temp_data.way2_reverse='up';					
+					temp_data.way_normal='down';					
+					temp_data.way_reverse='up';					
+					temp_data.way2_normal='right';
+					temp_data.way2_reverse='left';					
 					temp_data.way_options='homeleft';					
 					temp_data.way_optionsback ='right';
 					temp_data.first_col=1;
 					temp_data.last_col=2;
 					break;
 				case 'vignette': // 5 colonnes
-					temp_data.way_normal='right';
-					temp_data.way_reverse='left';					
-					temp_data.way2_normal='down';					
-					temp_data.way2_reverse='up';					
+					temp_data.way_normal='down';					
+					temp_data.way_reverse='up';					
+					temp_data.way2_normal='right';
+					temp_data.way2_reverse='left';					
 					temp_data.way_options='homeleft';					
 					temp_data.way_optionsback ='right';
 					temp_data.first_col=1;
@@ -322,7 +327,68 @@ function miseajour_context_et_xml() {
 			else {console.log('viewmode - il manque data.parameters');}
 		
 			break;
+		
+		case 'scrolling_on':
+			callback({'tts':'scrolling on'});
+			if (typeof(SARAH.context.xbmc.scrolling_on)!="undefined") {delete SARAH.context.xbmc.scrolling_on;}
+			SARAH.context.xbmc.scrolling_on=true;
+			console.log('avant function');
+			function doScroll(max) {
+				if (max<0) {
+					delete SARAH.context.xbmc.scrolling_on;
+					SARAH.context.xbmc.scrolling_on=false;
+				}
+				if (SARAH.context.xbmc.scrolling_on==true) {
+				//params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": "scrolldown"}, "id": 1 };
+				params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": SARAH.context.xbmc.container.way_normal}, "id": 1 };
+				doAction(params, xbmc_api_url);
+				//doAction(params, xbmc_api_url); // 2 scroll successive sinon ne fonctionne pas à chaque coup
+				console.log('max: '+max);
+				setTimeout(function(){doScroll(max-1)}, 800);
+				}
+			}
+			par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
+			doAction(par, xbmc_api_url, callback, function(res){
+				// détermination du currentcontrol
+				currentcontrol=res.result.currentcontrol.label;
+				lenstr=res.result.currentcontrol.label.length-1;
+				if  ((currentcontrol.indexOf("[")==0)&&(currentcontrol.lastIndexOf("]")==lenstr)) {     
+					currentcontrol=res.result.currentcontrol.label.slice(1,lenstr);// supression des [ ] (string!) 
+				}
+				// controle si il fait parti de la liste (évite ascenceur/menu laterale)
+				if (SARAH.context.xbmc.container.items.contains(currentcontrol)!=-1) {
+					// renumerote les items avec [..]=0 pour déterminer colone 1 ou 2 ou...
+					var temp_items=[];
+					var temp_items_id=[];
+					var index=0;
+					var nb_col=SARAH.context.xbmc.container.last_col;
+					var pos2point=SARAH.context.xbmc.container.items_id[SARAH.context.xbmc.container.items.contains("..")]; //id actuel de [..]
+					for (i=0; i<SARAH.context.xbmc.container.items_id.length;i++) {
+						if ((pos2point+index)<SARAH.context.xbmc.container.items_id.length) {
+							temp_items.push(SARAH.context.xbmc.container.items[SARAH.context.xbmc.container.items_id.contains(pos2point+index)]);
+						}else{
+							temp_items.push(SARAH.context.xbmc.container.items[SARAH.context.xbmc.container.items_id.contains(pos2point+index-SARAH.context.xbmc.container.items_id.length)]);
+						}
+						temp_items_id.push(index);
+						index++;
+					}
+					positioncurrentcontrol=temp_items_id[temp_items.contains(currentcontrol)];
+					//max=Math.floor((SARAH.context.xbmc.container.nb_items-positioncurrentcontrol)/SARAH.context.xbmc.container.last_col);
+					max=Math.ceil(SARAH.context.xbmc.container.nb_items/SARAH.context.xbmc.container.last_col);
+					console.log('max: '+max);
+					doScroll(max);
 			
+				}
+			});
+			break;
+		
+		case 'scrolling_off':
+			if (typeof(SARAH.context.xbmc.scrolling_on)!="undefined") {delete SARAH.context.xbmc.scrolling_on;}
+			SARAH.context.xbmc.scrolling_on=false;
+			callback();
+			
+			break;
+
 		case 'chercheligne':
 			 
 			if (data.parameters) {
@@ -397,16 +463,16 @@ function miseajour_context_et_xml() {
 							console.log('décalage de rangée : '+move_to_row);
 							// en priorité Gauche/Haut/ Bas / droite (pour le cas du dernier élément de la liste qui est à chauche)
 							if (move_to_col<0) { 
-								params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": SARAH.context.xbmc.container.way_reverse}, "id": 1 };
+								params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": SARAH.context.xbmc.container.way2_reverse}, "id": 1 };
 								for (var i=0;i<Math.abs(move_to_col);i++) {doAction(params, xbmc_api_url);}// Lance la requète X fois pour naviguer vers la colonne
 							}
-							if (move_to_row>0)  {params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": SARAH.context.xbmc.container.way2_normal}, "id": 1 };}
-							if (move_to_row<0)  {params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": SARAH.context.xbmc.container.way2_reverse}, "id": 1 };}
+							if (move_to_row>0)  {params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": SARAH.context.xbmc.container.way_normal}, "id": 1 };}
+							if (move_to_row<0)  {params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": SARAH.context.xbmc.container.way_reverse}, "id": 1 };}
 							if (move_to_row!=0)  {
 								for (var i=0;i<Math.abs(move_to_row);i++) {doAction(params, xbmc_api_url);} // Lance la requète X fois pour naviguer vers la rangée
 							}
 							if (move_to_col>0) {
-								params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": SARAH.context.xbmc.container.way_normal}, "id": 1 };
+								params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": SARAH.context.xbmc.container.way2_normal}, "id": 1 };
 								for (var i=0;i<Math.abs(move_to_col);i++) {doAction(params, xbmc_api_url);}// Lance la requète X fois pour naviguer vers la colonne
 							}
 							console.log('position atteinte');
