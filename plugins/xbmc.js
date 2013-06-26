@@ -13,8 +13,8 @@ exports.action = function (data, callback, config, SARAH) {
 
 // arrete le scrolling automatique sur une action quelconque	
 	if (typeof(SARAH.context.xbmc)!="undefined"){
-		if ((data.xbmc=='video') && (data.action!='scrolling_off') && (typeof(SARAH.context.xbmc.scrolling_on)!="undefined"))
-			{delete SARAH.context.xbmc.scrolling_on;}
+		if ((data.xbmc=='video') && (data.action!='scrolling_off') && (typeof(SARAH.context.xbmc.scrolling)!="undefined"))
+			{delete SARAH.context.xbmc.scrolling;}
 	}
 	
 // Pour donner la position d'une valeur dans un array
@@ -38,6 +38,8 @@ function miseajour_context_et_xml() {
 			if (temp_data.way_normal) {
 			delete temp_data.way_normal;
 			delete temp_data.way_reverse;
+			delete temp_data.way2_normal;
+			delete temp_data.way2_reverse;
 			delete temp_data.way_options;
 			delete temp_data.way_optionsback;
 			delete temp_data.first_col;
@@ -329,31 +331,26 @@ function miseajour_context_et_xml() {
 			break;
 		
 		case 'scrolling_on':
-			callback({'tts':'scrolling on'});
-			if (typeof(SARAH.context.xbmc.scrolling_on)!="undefined") {delete SARAH.context.xbmc.scrolling_on;}
-			SARAH.context.xbmc.scrolling_on=true;
-			console.log('avant function');
-			function doScroll(max) {
-				if (max<0) {
-					delete SARAH.context.xbmc.scrolling_on;
-					SARAH.context.xbmc.scrolling_on=false;
+			if (typeof(SARAH.context.xbmc.scrolling)!="undefined") { console.log('plugin xbmc - fin de scrolling!'); delete SARAH.context.xbmc.scrolling; callback(); break;}
+			if ((typeof(data.parameters)=="undefined")||(typeof(data.value)=="undefined")) {console.log('plugin xbmc - paramètres manquants (scrolling)'); callback(); break;}	
+			SARAH.context.xbmc.scrolling="ON";
+			function doScroll(max,way,delay) {
+				if (max<=0) delete SARAH.context.xbmc.scrolling;
+				if (SARAH.context.xbmc.scrolling=='ON') {
+					//console.log('scroll :'+SARAH.context.xbmc.scrolling+', max: '+max);
+					params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": SARAH.context.xbmc.container.way_normal}, "id": 1 };
+					if (way=='reverse') {params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": SARAH.context.xbmc.container.way_reverse}, "id": 1 };}
+					doAction(params, xbmc_api_url);
+					setTimeout(function(){doScroll((max-1),way,delay)}, delay);
+					}
 				}
-				if (SARAH.context.xbmc.scrolling_on==true) {
-				//params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": "scrolldown"}, "id": 1 };
-				params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": SARAH.context.xbmc.container.way_normal}, "id": 1 };
-				doAction(params, xbmc_api_url);
-				//doAction(params, xbmc_api_url); // 2 scroll successive sinon ne fonctionne pas à chaque coup
-				console.log('max: '+max);
-				setTimeout(function(){doScroll(max-1)}, 800);
-				}
-			}
 			par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
 			doAction(par, xbmc_api_url, callback, function(res){
 				// détermination du currentcontrol
 				currentcontrol=res.result.currentcontrol.label;
 				lenstr=res.result.currentcontrol.label.length-1;
 				if  ((currentcontrol.indexOf("[")==0)&&(currentcontrol.lastIndexOf("]")==lenstr)) {     
-					currentcontrol=res.result.currentcontrol.label.slice(1,lenstr);// supression des [ ] (string!) 
+					currentcontrol=res.result.currentcontrol.label.slice(1,lenstr);// suppression des [ ] (string!) 
 				}
 				// controle si il fait parti de la liste (évite ascenceur/menu laterale)
 				if (SARAH.context.xbmc.container.items.contains(currentcontrol)!=-1) {
@@ -373,20 +370,24 @@ function miseajour_context_et_xml() {
 						index++;
 					}
 					positioncurrentcontrol=temp_items_id[temp_items.contains(currentcontrol)];
-					//max=Math.floor((SARAH.context.xbmc.container.nb_items-positioncurrentcontrol)/SARAH.context.xbmc.container.last_col);
-					max=Math.ceil(SARAH.context.xbmc.container.nb_items/SARAH.context.xbmc.container.last_col);
-					console.log('max: '+max);
-					doScroll(max);
+					max=Math.ceil((SARAH.context.xbmc.container.nb_items+1)/SARAH.context.xbmc.container.last_col);
+					console.log('plugin xbmc - début de scrolling!')
+					doScroll(max, data.parameters,data.value);
+					//doScroll(max,'reverse',800);
+					//doScroll(10,'normal',800);
+					callback();
 			
 				}
 			});
+			
 			break;
 		
 		case 'scrolling_off':
-			if (typeof(SARAH.context.xbmc.scrolling_on)!="undefined") {delete SARAH.context.xbmc.scrolling_on;}
-			SARAH.context.xbmc.scrolling_on=false;
+			if (typeof(SARAH.context.xbmc.scrolling)!="undefined") {
+				console.log('plugin xbmc - fin de scrolling!');
+				delete SARAH.context.xbmc.scrolling;
+			}
 			callback();
-			
 			break;
 
 		case 'chercheligne':

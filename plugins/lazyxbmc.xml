@@ -54,6 +54,14 @@
 	<item>Lettre suivante<tag>out.action.action="ExecuteAction";out.action.value="nextletter";</tag></item>
 	<item>Lettre précdente<tag>out.action.action="ExecuteAction";out.action.value="prevletter";</tag></item>
 
+<!-- *************************************** Scrolling automatique (value= millisecondes) *********************************** -->
+	<item>scrolling normal<tag>out.action.action="scrolling_on";out.action.parameters="normal";out.action.value=800;</tag></item>
+	<item>scrolling avant<tag>out.action.action="scrolling_on";out.action.parameters="normal";out.action.value=800;</tag></item>
+	<item>scrolling avant rapide<tag>out.action.action="scrolling_on";out.action.parameters="normal";out.action.value=300;</tag></item>
+	<item>scrolling inverse<tag>out.action.action="scrolling_on";out.action.parameters="reverse";out.action.value=800;</tag></item>
+	<item>scrolling arrière<tag>out.action.action="scrolling_on";out.action.parameters="reverse";out.action.value=800;</tag></item>
+	<item>arrête le scrolling<tag>out.action.action="scrolling_off"</tag></item>
+	
 <!-- ************************************************ Navigation dans les Menus ********************************************* -->
 	<item>menu principal<tag>out.action.action="ActivateWindow";out.action.window="home";</tag></item>
 	<item>télé<tag>out.action.action="ActivateWindow";out.action.window="tv";</tag></item>

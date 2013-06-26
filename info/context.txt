@@ -20,10 +20,7 @@ container
 	way_reverse					sens de navigation inverse						string
 	way_options					sens pour atteindre menu lateral				string
 	way_optionsback				sens pour quitter menu lateral					string
-	
-items
 	nb							nombre d'item dans la liste du container		integer
 	item						label de chaque élement 						[Array]
 	items_id					id de chaque élement 							[Array] (id en fonction de l'élément sélectionné qui prends 0)
-	
-scrolling_on					Scrolling automatique							(scrolling = valeur existante sinon non existante)
+	scrolling_on				Scrolling automatique							(scrolling = valeur existante sinon non existante)
