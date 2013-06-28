@@ -146,7 +146,7 @@
 	<item>OSD<tag>out.action.action="ExecuteAction";out.action.value="osd";</tag></item>
 	<item>cache le lecteur <tag>out.action.action="ShowOSD";</tag></item>
 	<item>fermer<tag>out.action.action="ExecuteAction";out.action.value="close";</tag></item>
-	<item>sélectionner<tag>out.action.action="ExecuteAction";out.action.value="highlight"</tag></item>   <!-- pas compris!-->
+	<item>sélectionner<tag>out.action.action="ExecuteAction";out.action.value="highlight"</tag></item>   <!-- permet de sélectionner l'item lorsque le focus est nul part!-->
 	
 	<item>Marquer comme vu<tag>out.action.action="ExecuteAction";out.action.value="togglewatched";</tag></item>
 	<item>épisode suivant<tag>out.action.action="ExecuteAction";out.action.value="nextscene";</tag></item>

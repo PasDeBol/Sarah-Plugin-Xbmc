@@ -1,5 +1,6 @@
 exports.action = function (data, callback, config, SARAH) {
-//if (typeof(SARAH.context.xbmc)!='undefined') {console.dir(SARAH.context.xbmc);} else {console.log('context vide\n');}
+	// Config
+var max_items=500;
 
 	// Retrieve config
     var  api_url;
@@ -32,7 +33,7 @@ function miseajour_context_et_xml() {
 			console.dir(SARAH.context.xbmc);				
 			navigation_generation_xml_items();
 					});
-	}, 100); 
+	}, 250); 
 }
 
 	// fonction pour mise à jour des données en fonction du viewmode
@@ -116,56 +117,65 @@ function miseajour_context_et_xml() {
 		par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentwindow"]}, "id": 1};
 		doAction(par, xbmc_api_url, nocallback, function(res0){
 			reponse.currentwindow={'id':res0.result.currentwindow.id , 'name':res0.result.currentwindow.label};
-		});
-		par={"jsonrpc":"2.0","method":"XBMC.GetInfoLabels","params": {"labels":["Container.Viewmode","Container.NumItems","Container.SortMethod","System.CurrentWindow","System.CurrentControl"]}, "id":1};
-		doAction(par, xbmc_api_url, nocallback, function(res){
-			container={};
-			if ((res.result["Container.NumItems"]!='')&&(reponse.currentwindow.name!='')) {
-				container.nb_items= parseInt(res.result["Container.NumItems"]);
-			}
-			else {container.nb_items=0;}
-			container.sortmethod=res.result['Container.SortMethod'];	// trie
-			container.viewmode=res.result['Container.Viewmode'];		// type d'affichage
-			navigation_context_viewmode_info(container);				// affecte les données
-			if ((container.nb_items!=0)&&(container.nb_items<500)&&(reponse.currentwindow.name!=''))  {   //limite réelle ?? 500??? 500 ça marche, 800 non!
-					listitem=[];
-					for (var i=0;i<=container.nb_items;i++) {		
-						listitem.push("Container.ListItem("+i+").Label");
-					}
-					par={"jsonrpc":"2.0","method":"XBMC.GetInfoLabels","params": {"labels": listitem}, "id":1}; //demande les labels (titre/nom/...) de chaque ligne 
-					doAction(par, xbmc_api_url, nocallback, function(res){
-						temp_item=[];
-						temp_item_id=[];
-						for(var attributename in res.result){
-							temp_item.push(res.result[attributename]);
-							temp_item_id.push(parseInt(attributename.match(/\d+/g).toString()));
+			par={"jsonrpc":"2.0","method":"XBMC.GetInfoLabels","params": {"labels":["Container.Viewmode","Container.NumItems","Container.SortMethod","System.CurrentWindow","System.CurrentControl"]}, "id":1};
+			doAction(par, xbmc_api_url, nocallback, function(res){
+				container={};
+				if ((res.result["Container.NumItems"]!='')&&(reponse.currentwindow.name!='')) {
+					container.nb_items= parseInt(res.result["Container.NumItems"]);
+				}
+				else {container.nb_items=0;}
+				container.sortmethod=res.result['Container.SortMethod'];	// trie
+				container.viewmode=res.result['Container.Viewmode'];		// type d'affichage
+				navigation_context_viewmode_info(container);
+				// affecte les données
+				if ((container.nb_items!=0)&&(container.nb_items<max_items)&&(reponse.currentwindow.name!=''))  {   //limite réelle ?? 500??? 500 ça marche, 800 non!
+						console.log('traitement des items');
+						listitem=[];
+						for (var i=0;i<=container.nb_items;i++) {	
+							listitem.push("Container.ListItem("+i+").Label");
 						}
-						// renumerote les items avec [..]=0 au lieur CurrentControl=0 
-						var item=[];
-						var item_id=[];
-						var index=0;
-						var pos2point=temp_item_id[temp_item.contains("..")]; //id actuel de [..]
-						for (i=0; i<temp_item_id.length;i++) {
-							if ((pos2point+index)<temp_item_id.length) {
-								item.push(temp_item[temp_item_id.contains(pos2point+index)]);
-							}else{
-								item.push(temp_item[temp_item_id.contains(pos2point+index-temp_item_id.length)]);
+						par={"jsonrpc":"2.0","method":"XBMC.GetInfoLabels","params": {"labels": listitem}, "id":1}; //demande les labels (titre/nom/...) de chaque ligne 
+						doAction(par, xbmc_api_url, nocallback, function(res){
+							temp_item=[];
+							temp_item_id=[];
+							for(var attributename in res.result){
+								console.log('--'+res.result[attributename]);
+								temp_item.push(res.result[attributename]);
+								temp_item_id.push(parseInt(attributename.match(/\d+/g).toString()));
 							}
-							item_id.push(index);
-							index++;
-						}
-						// push vers le context 
-						container.items=item;
-						container.items_id=item_id;
-						reponse.container=container;
-						SARAH.context.xbmc=reponse;
-						return container_info('OK');
-					});
-			}else {
-				reponse.container=container;
-				SARAH.context.xbmc=reponse;
-				return container_info('OK');
-			}	
+							// renumerote les items avec [..]=0 au lieur CurrentControl=0 
+							var item=[];
+							var item_id=[];
+							var index=0;
+							var pos2point=0; 
+							if (temp_item.contains("..")>=0) {
+								pos2point=temp_item_id[temp_item.contains("..")]; //id actuel de [..] si liste de film,titre...
+								}
+							for (i=0; i<temp_item_id.length;i++) {
+								if ((pos2point+index)<temp_item_id.length) {
+									item.push(temp_item[temp_item_id.contains(pos2point+index)]);
+								}else{
+									item.push(temp_item[temp_item_id.contains(pos2point+index-temp_item_id.length)]);
+								}
+								item_id.push(index);
+								index++;
+							}
+							// push vers le context 
+							container.items=item;
+							container.items_id=item_id;
+							reponse.container=container;
+							SARAH.context.xbmc=reponse;
+							return container_info('OK');
+						});
+				}else {
+					console.log('items ignoré/aucun! nb_item='+container.nb_items+' , cuurentwindow.name='+reponse.currentwindow);
+					//(container.nb_items!=0)&&(container.nb_items<max_items)&&(reponse.currentwindow.name!='')
+					
+					reponse.container=container;
+					SARAH.context.xbmc=reponse;
+					return container_info('OK');
+				}	
+			});
 		});
 	}
 
@@ -180,7 +190,29 @@ function miseajour_context_et_xml() {
 					datas_xml+='<one-of>\n';	
 					for (var i=0;i<SARAH.context.xbmc.container.items.length;i++) {
 						if (SARAH.context.xbmc.container.items[i]!='..') {
-							datas_xml+='<item>'+SARAH.context.xbmc.container.items[i].replace(/&/gi, " and ")+'<tag>out.action.action="chercheligne";out.action.parameters="'+SARAH.context.xbmc.container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
+							datas_xml+='<item>'+SARAH.context.xbmc.container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "")+'<tag>out.action.action="chercheitem";out.action.parameters="'+SARAH.context.xbmc.container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
+							if (SARAH.context.xbmc.container.sortmethod=='Piste') {
+								datas_xml+='<item>Piste '+SARAH.context.xbmc.container.items_id[i]+'<tag>out.action.action="chercheitem";out.action.parameters="'+SARAH.context.xbmc.container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
+							}
+							
+							if (SARAH.context.xbmc.container.sortmethod=='Épisode') {
+								// /^[Ss]{0,1}\d{1,2}[xXEe]\d\d/gi
+								if (SARAH.context.xbmc.container.items[i].replace(/&/gi, " and ").match(/\d{1,2}[xXEe]\d\d/gi)) {
+									saison_episode=SARAH.context.xbmc.container.items[i].replace(/&/gi, " and ").match(/\d{1,2}[xXEe]\d\d/gi).toString();
+									console.log(saison_episode);
+									console.log('saison: '+saison_episode.match(/^\d{1,2}/gi));
+									console.log('épisode: '+saison_episode.match(/\d{1,2}$/gi));
+									//datas_xml+='<item>épisode '+SARAH.context.xbmc.container.items_id[i]+'<tag>out.action.action="chercheitem";out.action.parameters="'+SARAH.context.xbmc.container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
+									datas_xml+='<item>saison '+saison_episode.match(/^\d{1,2}/gi)+' épisode '+saison_episode.match(/\d{1,2}$/gi)+'<tag>out.action.action="chercheitem";out.action.parameters="'+SARAH.context.xbmc.container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
+									}
+									else {
+										if (SARAH.context.xbmc.container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi)) {
+											datas_xml+='<item>'+SARAH.context.xbmc.container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "").replace(/^\d{1,2}[.]/gi, "")+'<tag>out.action.action="chercheitem";out.action.parameters="'+SARAH.context.xbmc.container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
+											datas_xml+='<item>épisode '+SARAH.context.xbmc.container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi)+'<tag>out.action.action="chercheitem";out.action.parameters="'+SARAH.context.xbmc.container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
+										}
+									}
+								
+							}
 						}
 					}
 					datas_xml+='</one-of>\n';	
@@ -383,9 +415,14 @@ function miseajour_context_et_xml() {
 				if (SARAH.context.xbmc.container.items.contains(currentcontrol)!=-1) {
 					positioncurrentcontrol=SARAH.context.xbmc.container.items_id[SARAH.context.xbmc.container.items.contains(currentcontrol)];
 					max=Math.ceil((SARAH.context.xbmc.container.nb_items+1)/SARAH.context.xbmc.container.last_col);
-					console.log('plugin xbmc - début de scrolling!')
+					console.log('plugin xbmc - début de scrolling!');
 					doScroll(max, data.parameters,data.value);
 					callback();
+				}
+				else
+				{
+				console.log('plugin xbmc - scrolling impossible!');
+				callback({'tts':'Je ne peux pas.'});
 				}
 			});
 			
@@ -399,7 +436,7 @@ function miseajour_context_et_xml() {
 			callback();
 			break;
 
-		case 'chercheligne':
+		case 'chercheitem':
 			 
 			if (data.parameters) {
 				par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
@@ -472,12 +509,13 @@ function miseajour_context_et_xml() {
 							}
 							console.log('position atteinte');
 						}
+						callback();
 					}
-					else {console.log('impossible de rechercher l\'élément pour l\'instant.');}
+					else {console.log('plugin xbmc - impossible de rechercher l\'élément pour l\'instant.'); callback({'tts':'Je ne peux pas!'});}
 				});
 			}
-			else {console.log('il manque data.parameters');callback({})}
-			callback({});
+			else {console.log('il manque data.parameters');callback();}
+			//callback({});
 			break;
 
 
