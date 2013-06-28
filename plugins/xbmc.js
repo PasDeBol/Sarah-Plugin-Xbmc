@@ -308,7 +308,7 @@ function miseajour_context_et_xml() {
 			if (data.value==0) doAction(shuffle_off, xbmc_api_url, callback);
 			break;
 
-			case 'ExecuteAction':
+		case 'ExecuteAction':
 			params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": data.value}, "id": 1 };
 			if (typeof(data.repeter)=='undefined') {repeter=1; } else {repeter=data.repeter; } // repeter à 1 par défaut.
 			//console.log(repeter);
@@ -328,7 +328,7 @@ function miseajour_context_et_xml() {
 		
 		case 'viewmode':
 			
-			// Changer de viewmode dans un librayrie: changeviewmode(viewmode souhaité, false)
+			// Changer de viewmode dans un librairie: changeviewmode(viewmode souhaité, false)
 			var index=0;
 			var maxindex=15;
 			var changeviewmode=function (search_viewmode,viewmode_found, reponse){
@@ -352,6 +352,8 @@ function miseajour_context_et_xml() {
 						setTimeout(function(){  // délai pour laisser le temps au current control de se mettre à jour
 								par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
 								doAction(par, xbmc_api_url, callback, function(res){
+									// mode affichage suivant => affecte le nouvel affichage à Search_viemode
+									if (search_viewmode.toLowerCase()=='next') {search_viewmode=res.result.currentcontrol.label.slice(6,res.result.currentcontrol.label.length);}
 									// controle le viewmode sélectionné
 									if ((res.result.currentcontrol.label.toLowerCase()==('vue : '+search_viewmode.toLowerCase()))||(index>=maxindex))  {return changeviewmode(search_viewmode,true,reponse);} else {return changeviewmode(search_viewmode,false,reponse);} 
 								});
@@ -364,8 +366,6 @@ function miseajour_context_et_xml() {
 						delete SARAH.context.xbmc.container.viemode;
 						SARAH.context.xbmc.container.viewmode=search_viewmode;
 						navigation_context_viewmode_info(SARAH.context.xbmc.container);
-						//console.log('------ NEW context -------');
-						//console.dir(SARAH.context.xbmc);
 					if (SARAH.context.xbmc.container.way_optionsback) {
 						params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": SARAH.context.xbmc.container.way_optionsback}, "id": 1 };
 						doAction(params, xbmc_api_url);

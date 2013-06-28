@@ -87,6 +87,7 @@
 	<item>affichage en affiches<tag>out.action.action="viewmode";out.action.value="galerie d'affiches";</tag></item>
 	<item>affichage large<tag>out.action.action="viewmode";out.action.value="large";</tag></item>
 	<item>affichage Fanart<tag>out.action.action="viewmode";out.action.value="fanart";</tag></item>
+	<item>affichage suivant<tag>out.action.action="viewmode";out.action.value="next";</tag></item>
 
 	<!-- ************************************************ Play list  ********************************************* -->
 	<item>play liste<tag>out.action.action="ExecuteAction";out.action.value="playlist";</tag></item>
