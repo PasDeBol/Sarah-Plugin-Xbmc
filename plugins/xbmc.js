@@ -1,7 +1,7 @@
 exports.action = function (data, callback, config, SARAH) {
 	// Config
 var max_items=500;
-
+var infodebug=false;
 	// Retrieve config
     var  api_url;
     config = config.modules.xbmc;
@@ -25,12 +25,73 @@ Array.prototype.contains = function(obj) {
 	return -1;
 }
 
+//création de personnalisation.json
+personnalisation_to_json = function (reponse) {
+				var fs = require('fs');
+                var fileXML = 'plugins/xbmc/xbmc.xml';
+				var xml = fs.readFileSync(fileXML, 'utf8');
+				var dataperso={};
+					
+			//recherche la personalisation
+			// artists
+				var regexp = new RegExp('¤PERSOartiste¤[^*]+¤PERSOartiste¤', 'gm');
+				zone_perso=xml.match(regexp).toString();
+				regexp = RegExp('\<item>.*<tag>', 'gi');
+				if (regexp.test(zone_perso)==true) {
+					labelperso=zone_perso.match(regexp);
+					regexp = RegExp('\".*"', 'gi');
+					labelxbmc=zone_perso.match(regexp);
+					for (var i=0;i<labelperso.length;i++) {	
+						dataperso[labelxbmc[i].slice(1,labelxbmc[i].length-1)]=labelperso[i].slice(6,labelperso[i].length-5)
+					}
+				}
+				
+			//recherche la personalisation
+			//genres
+				var regexp = new RegExp('¤PERSOgenre¤[^*]+¤PERSOgenre¤', 'gm');
+				zone_perso=xml.match(regexp).toString();
+				regexp = RegExp('\<item>.*<tag>', 'gi');
+				if (regexp.test(zone_perso)==true) {
+					labelperso=zone_perso.match(regexp);
+					regexp = RegExp('\".*"', 'gi');
+					labelxbmc=zone_perso.match(regexp);
+					for (var i=0;i<labelperso.length;i++) {	
+						dataperso[labelxbmc[i].slice(1,labelxbmc[i].length-1)]=labelperso[i].slice(6,labelperso[i].length-5)
+					}
+				}
+				
+			//recherche la personalisation
+			// série
+				var regexp = new RegExp('¤PERSOseries¤[^*]+¤PERSOseries¤', 'gm');
+				zone_perso=xml.match(regexp).toString();
+				regexp = RegExp('\<item>.*<tag>', 'gi');
+				if (regexp.test(zone_perso)==true) {
+					labelperso=zone_perso.match(regexp);
+					regexp = RegExp('\".*"', 'gi');
+					id_serie=zone_perso.match(regexp);
+					params={"jsonrpc":"2.0","method":"VideoLibrary.GetTVShows","params":{"properties":["title"]},"id":1};
+					labelxbmc={};
+					doAction(params, xbmc_api_url, callback, function(res){
+						for (var i=0;i<res.result.tvshows.length;i++) {
+							labelxbmc[res.result.tvshows[i].tvshowid]=res.result.tvshows[i].label;
+						}
+						for (var i=0;i<id_serie.length;i++) {
+							//console.log('i:'+i+' dataperso: '+labelperso[i].slice(6,labelperso[i].length-5)+' - label: '+labelxbmc[id_serie[i].slice(1,id_serie[i].length-1)]);
+							dataperso[labelxbmc[id_serie[i].slice(1,id_serie[i].length-1)]]=labelperso[i].slice(6,labelperso[i].length-5);
+						}
+						return reponse(dataperso);
+					});
+				}
+				else 
+					{return reponse(dataperso);}
+}			
+
 // Fonction pour mise à jour des données du Context puis génération du xml 
 function miseajour_context_et_xml() {
 	setTimeout(function(){  // délai pour laisser le temps à xbmc de fournir les bonnes valeurs
 		navigation_context_info(function(context){
-			console.log('Plugin xbmc - Mise à jour SARAH.context.xbmc:');
-			console.dir(SARAH.context.xbmc);				
+			console.log('plugin xbmc - Mise à jour SARAH.context.xbmc.');
+			if (infodebug==true) {console.dir(SARAH.context.xbmc);}				
 			navigation_generation_xml_items();
 					});
 	}, 250); 
@@ -114,6 +175,21 @@ function miseajour_context_et_xml() {
 		nocallback='';
 		reponse={};
 
+		// charge les personnalisation la première fois
+		if (typeof(SARAH.context.xbmc)=="undefined") {		
+			var file   = 'plugins/xbmc/personnalisation.json';
+			var fs = require('fs');		
+			if (fs.existsSync(file))
+				{reponse.personnalisation = JSON.parse(fs.readFileSync(file,'utf8')); console.log('plugin xbmc - personnalisation.json chargé');}
+			else 
+				{SARAH.context.xbmc.personnalisation = {};}
+		}
+		// sinon conserve les personnalisations
+		else{
+			reponse.personnalisation=SARAH.context.xbmc.personnalisation;
+		}
+		
+		// charge les données de base viewmode, currentwindows
 		par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentwindow"]}, "id": 1};
 		doAction(par, xbmc_api_url, nocallback, function(res0){
 			reponse.currentwindow={'id':res0.result.currentwindow.id , 'name':res0.result.currentwindow.label};
@@ -129,7 +205,7 @@ function miseajour_context_et_xml() {
 				navigation_context_viewmode_info(container);
 				// affecte les données
 				if ((container.nb_items!=0)&&(container.nb_items<max_items)&&(reponse.currentwindow.name!=''))  {   //limite réelle ?? 500??? 500 ça marche, 800 non!
-						console.log('traitement des items');
+						//console.log('traitement des items');
 						listitem=[];
 						for (var i=0;i<=container.nb_items;i++) {	
 							listitem.push("Container.ListItem("+i+").Label");
@@ -139,7 +215,7 @@ function miseajour_context_et_xml() {
 							temp_item=[];
 							temp_item_id=[];
 							for(var attributename in res.result){
-								console.log('--'+res.result[attributename]);
+								//console.log('--'+res.result[attributename]);
 								temp_item.push(res.result[attributename]);
 								temp_item_id.push(parseInt(attributename.match(/\d+/g).toString()));
 							}
@@ -182,36 +258,36 @@ function miseajour_context_et_xml() {
 	
 	// génère le fichier XML temporaire à partir de la liste d'items en cours
 	navigation_generation_xml_items = function () {
-
+					var personnalisation=SARAH.context.xbmc.personnalisation;
+					var container=SARAH.context.xbmc.container;
 					datas_xml='<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="ruleXBMC_temp" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">\n';
 					datas_xml+='<rule id="ruleXBMC_temp" scope="public">\n';
 					datas_xml+='<tag>out.action=new Object(); </tag>\n';
 					datas_xml+='<tag>out.action.xbmc="video" </tag>\n';
 					datas_xml+='<one-of>\n';	
-					for (var i=0;i<SARAH.context.xbmc.container.items.length;i++) {
-						if (SARAH.context.xbmc.container.items[i]!='..') {
-							datas_xml+='<item>'+SARAH.context.xbmc.container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "")+'<tag>out.action.action="chercheitem";out.action.parameters="'+SARAH.context.xbmc.container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
-							if (SARAH.context.xbmc.container.sortmethod=='Piste') {
-								datas_xml+='<item>Piste '+SARAH.context.xbmc.container.items_id[i]+'<tag>out.action.action="chercheitem";out.action.parameters="'+SARAH.context.xbmc.container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
+					for (var i=0;i<container.items.length;i++) {
+						if (container.items[i]!='..') {
+							datas_xml+='<item>'+container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "")+'<tag>out.action.action="chercheitem";out.action.parameters="'+container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
+							if (container.sortmethod=='Piste') {
+								datas_xml+='<item>Piste '+container.items_id[i]+'<tag>out.action.action="chercheitem";out.action.parameters="'+container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
 							}
-							
-							if (SARAH.context.xbmc.container.sortmethod=='Épisode') {
-								// /^[Ss]{0,1}\d{1,2}[xXEe]\d\d/gi
-								if (SARAH.context.xbmc.container.items[i].replace(/&/gi, " and ").match(/\d{1,2}[xXEe]\d\d/gi)) {
-									saison_episode=SARAH.context.xbmc.container.items[i].replace(/&/gi, " and ").match(/\d{1,2}[xXEe]\d\d/gi).toString();
-									console.log(saison_episode);
-									console.log('saison: '+saison_episode.match(/^\d{1,2}/gi));
-									console.log('épisode: '+saison_episode.match(/\d{1,2}$/gi));
-									//datas_xml+='<item>épisode '+SARAH.context.xbmc.container.items_id[i]+'<tag>out.action.action="chercheitem";out.action.parameters="'+SARAH.context.xbmc.container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
-									datas_xml+='<item>saison '+saison_episode.match(/^\d{1,2}/gi)+' épisode '+saison_episode.match(/\d{1,2}$/gi)+'<tag>out.action.action="chercheitem";out.action.parameters="'+SARAH.context.xbmc.container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
+							if (container.sortmethod=='Épisode') {
+								if (container.items[i].replace(/&/gi, " and ").match(/\d{1,2}[xXEe]\d\d/gi)) {
+									saison_episode=container.items[i].replace(/&/gi, " and ").match(/\d{1,2}[xXEe]\d\d/gi).toString();
+									datas_xml+='<item>saison '+saison_episode.match(/^\d{1,2}/gi)+' épisode '+saison_episode.match(/\d{1,2}$/gi)+'<tag>out.action.action="chercheitem";out.action.parameters="'+container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
 									}
 									else {
-										if (SARAH.context.xbmc.container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi)) {
-											datas_xml+='<item>'+SARAH.context.xbmc.container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "").replace(/^\d{1,2}[.]/gi, "")+'<tag>out.action.action="chercheitem";out.action.parameters="'+SARAH.context.xbmc.container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
-											datas_xml+='<item>épisode '+SARAH.context.xbmc.container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi)+'<tag>out.action.action="chercheitem";out.action.parameters="'+SARAH.context.xbmc.container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
+										if (container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi)) {
+											datas_xml+='<item>'+container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "").replace(/^\d{1,2}[.]/gi, "")+'<tag>out.action.action="chercheitem";out.action.parameters="'+container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
+											datas_xml+='<item>épisode '+container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi)+'<tag>out.action.action="chercheitem";out.action.parameters="'+container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
 										}
 									}
 								
+							}
+							if (personnalisation[container.items[i].replace(/&/gi, "&amp;")]) {
+								if (infodebug==true) {console.log ('plugin xbmc - Personalisation: '+container.items[i].replace(/&/gi, "&amp;")+' -> '+personnalisation[container.items[i].replace(/&/gi, "&amp;")]);}
+								datas_xml+='<item>'+personnalisation[container.items[i].replace(/&/gi, "&amp;")]+'<tag>out.action.action="chercheitem";out.action.parameters="'+container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
+							
 							}
 						}
 					}
@@ -222,7 +298,7 @@ function miseajour_context_et_xml() {
 					var fs = require('fs');
 					fs.writeFile("plugins/xbmc/xbmc_temp.xml", datas_xml, function(err) {
 						if(err) {console.log(err);}
-						else {console.log("xbmc_temp.xml généré!");}
+						else {console.log("plugin xbmc - xbmc_temp.xml généré!");}
 						//callback();
 					}); 
 			//console.log('FIN de mise a jour context et xml!!!!');
@@ -245,11 +321,10 @@ function miseajour_context_et_xml() {
 				// CAS liste verticale ou horizontale
 				if (SARAH.context.xbmc.container.last_col==1) {
 					positioncurrentcontrol=SARAH.context.xbmc.container.items_id[SARAH.context.xbmc.container.items.contains(currentcontrol)];
-					console.log('Current control:'+currentcontrol+' - position :'+positioncurrentcontrol);
 					// Détermination nom et id du searchcontrol
 					//searchcontrol=data.parameters;
 					positionsearchcontrol=SARAH.context.xbmc.container.items_id[SARAH.context.xbmc.container.items.contains(searchcontrol)];
-					console.log('Search control:'+searchcontrol+' - position :'+positionsearchcontrol);
+					if (infodebug==true) {console.log('xbmc plugin - recherche:'+currentcontrol+' ('+positioncurrentcontrol+') vers '+searchcontrol+' ('+positionsearchcontrol+')');}
 					diffposition=positionsearchcontrol-positioncurrentcontrol;
 					if (diffposition<0) {diffposition+=SARAH.context.xbmc.container.nb_items+1}  //search before current // +1 = '..'  
 					if (diffposition>=((SARAH.context.xbmc.container.nb_items)/2)) {			// Pour définir si il vaut mieux aller dans un sens ou l'autre
@@ -262,10 +337,10 @@ function miseajour_context_et_xml() {
 						repeter=diffposition;
 						searchdirection=SARAH.context.xbmc.container.way_normal;
 					}
-					console.log('sens "'+searchdirection+'" de :'+diffposition);
+					if (infodebug==true) {console.log('xbmc plugin - sens "'+searchdirection+'" de :'+repeter);}
 					// Lance la requète X fois pour naviguer vers la position
 					params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": searchdirection}, "id": 1 };
-						if (diffposition>0)  {
+						if (repeter>0)  {
 							for (var i=0;i<repeter;i++) {
 								doAction(params, xbmc_api_url);
 							}
@@ -279,12 +354,12 @@ function miseajour_context_et_xml() {
 					// Détermination nom et id du searchcontrol
 					//searchcontrol=data.parameters;
 					positionsearchcontrol=SARAH.context.xbmc.container.items_id[SARAH.context.xbmc.container.items.contains(searchcontrol)];
-					console.log('xbmc plugin - recherche:'+currentcontrol+' ('+positioncurrentcontrol+') vers '+searchcontrol+' ('+positionsearchcontrol+')');
+					if (infodebug==true) {console.log('xbmc plugin - recherche:'+currentcontrol+' ('+positioncurrentcontrol+') vers '+searchcontrol+' ('+positionsearchcontrol+')');}
 					// calcul le déplacement entre colonnes 0=aucun, -2=left-left , 1=right,...
 					move_to_col=(positionsearchcontrol % nb_col)-(positioncurrentcontrol % nb_col);
 					// calcul le deplacement entre rangées 0=aucun, -2=up-up, 1=down
 					move_to_row=(Math.ceil((positionsearchcontrol+1)/nb_col))-(Math.ceil((positioncurrentcontrol+1)/nb_col));
-					console.log('xbmc plugin - décalage de '+move_to_col+' colonnes et de '+move_to_row+' rangées.');
+					if (infodebug==true) {console.log('xbmc plugin - décalage de '+move_to_col+' colonnes et de '+move_to_row+' rangées.');}
 					// en priorité Gauche/Haut/ Bas / droite (pour le cas du dernier élément de la liste qui est à chauche)
 					if (move_to_col<0) { 
 						params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": SARAH.context.xbmc.container.way2_reverse}, "id": 1 };
@@ -299,7 +374,7 @@ function miseajour_context_et_xml() {
 						params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": SARAH.context.xbmc.container.way2_normal}, "id": 1 };
 						for (var i=0;i<Math.abs(move_to_col);i++) {doAction(params, xbmc_api_url);}// Lance la requète X fois pour naviguer vers la colonne
 					}
-					console.log('position atteinte');
+					if (infodebug==true) {console.log('plugin xbmc - position atteinte');}
 				}
 				if (callback) {callback();}
 			}
@@ -501,8 +576,8 @@ function miseajour_context_et_xml() {
 					}
 			}
 			// détermination du currentcontrol
-			par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
-			doAction(par, xbmc_api_url, callback, function(res){
+			params={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
+			doAction(params, xbmc_api_url, callback, function(res){
 				currentcontrol=res.result.currentcontrol.label;
 				lenstr=res.result.currentcontrol.label.length-1;
 				if  ((currentcontrol.indexOf("[")==0)&&(currentcontrol.lastIndexOf("]")==lenstr)) {     
@@ -542,6 +617,17 @@ function miseajour_context_et_xml() {
 			//callback({});
 			break;
 
+		case 'personnalisation_to_json':
+			personnalisation_to_json( function(reponse) {
+				var fs = require('fs');
+				fs.writeFile("plugins/xbmc/personnalisation.json", JSON.stringify(reponse), "utf8" );
+				delete SARAH.context.xbmc.personnalisation;
+				SARAH.context.xbmc.personnalisation=reponse;
+				console.dir(SARAH.context.xbmc.personnalisation);
+				console.log('plugin xbmc - fichier personnalisation.json crée et context mis à jour');
+				callback({'tts':'personnalisation mise à jour'});
+			});
+			break;
 
 
 		case 'ActivateWindow':
@@ -805,13 +891,14 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
                 var fileXML = 'plugins/xbmc/xbmc.xml';
             //efface la zone génération automatique
 				var xml = fs.readFileSync(fileXML, 'utf8');
-				var replace = '§ -->\n            <item>ARTIST<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>\n<!-- §';
-				var regexp = new RegExp('§[^§]+§', 'gm');
+				var replace = '¤IMPORTartiste¤ -->\n            <item>ARTIST<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>\n<!-- ¤IMPORTartiste¤';
+				//var regexp = new RegExp('§[^§]+§', 'gm');
+                var regexp = new RegExp('¤IMPORTartiste¤[^*]+¤IMPORTartiste¤', 'gm');
                 var xml = xml.replace(regexp, replace);
                 fs.writeFileSync(fileXML, xml, 'utf8');
 				console.log('XBMC plugin: Zone génération automatique artiste effacée.')
 			// Génère la zone génération automatique sauf si artiste déjà présent
-				replace = '§ -->\n';
+				replace = '¤IMPORTartiste¤ -->\n';
 				var present=0;
                 res.result.artists.forEach(function (value) {
 					// test si ligne déjà présente
@@ -829,8 +916,8 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 						}
                 });
                 var xml = fs.readFileSync(fileXML, 'utf8');
-                replace += '            <!-- §';
-                var regexp = new RegExp('§[^§]+§', 'gm');
+                replace += '            <!-- ¤IMPORTartiste¤';
+                var regexp = new RegExp('¤IMPORTartiste¤[^*]+¤IMPORTartiste¤', 'gm');
                 var xml = xml.replace(regexp, replace);
                 fs.writeFileSync(fileXML, xml, 'utf8');
 			    console.log('XBMC plugin: ' + (res.result.limits.total-present) + ' artistes générés dans xbmc.xml ( +'+present+' déjà personnalisés )');
@@ -846,13 +933,14 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
                 var fileXML = 'plugins/xbmc/xbmc.xml';
             //efface la zone génération automatique
 				var xml = fs.readFileSync(fileXML, 'utf8');
-				var replace = '¤ -->\n            <item>GENRE<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>\n<!-- ¤';
-				var regexp = new RegExp('¤[^¤]+¤', 'gm');
+				var replace = '¤IMPORTgenre¤ -->\n            <item>GENRE<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>\n<!-- ¤IMPORTgenre¤';
+				//var regexp = new RegExp('¤[^¤]+¤', 'gm');
+                var regexp = new RegExp('¤IMPORTgenre¤[^*]+¤IMPORTgenre¤', 'gm');
                 var xml = xml.replace(regexp, replace);
                 fs.writeFileSync(fileXML, xml, 'utf8');
 				console.log('XBMC plugin: Zone génération automatique genre effacée.')
 			// Génère la zone génération automatique sauf si artiste déjà présent
-				replace = '¤ -->\n';
+				replace = '¤IMPORTgenre¤ -->\n';
 				var present=0;
                 res.result.genres.forEach(function (value) {
 					// test si ligne déjà présente
@@ -870,8 +958,9 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 						}
                 });
                 var xml = fs.readFileSync(fileXML, 'utf8');
-                replace += '            <!-- ¤';
-                var regexp = new RegExp('¤[^¤]+¤', 'gm');
+                replace += '            <!-- ¤IMPORTgenre¤';
+                //var regexp = new RegExp('¤[^¤]+¤', 'gm');
+                var regexp = new RegExp('¤IMPORTgenre¤[^*]+¤IMPORTgenre¤', 'gm');
                 var xml = xml.replace(regexp, replace);
                 fs.writeFileSync(fileXML, xml, 'utf8');
 			    console.log('XBMC plugin: ' + (res.result.limits.total-present) + ' genres générés dans xbmc.xml ( +'+present+' déjà personnalisés )');
@@ -887,13 +976,14 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
                 var fileXML = 'plugins/xbmc/xbmc.xml';
             //efface la zone génération automatique
 				var xml = fs.readFileSync(fileXML, 'utf8');
-				var replace = '£ -->\n            <item>SERIE<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>\n<!-- £';
-				var regexp = new RegExp('£[^£]+£', 'gm');
+				var replace = '¤IMPORTseries¤ -->\n            <item>SERIE<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>\n<!-- ¤IMPORTseries¤';
+				//var regexp = new RegExp('£[^£]+£', 'gm');
+                var regexp = new RegExp('¤IMPORTseries¤[^*]+¤IMPORTseries¤', 'gm');
                 var xml = xml.replace(regexp, replace);
                 fs.writeFileSync(fileXML, xml, 'utf8');
 				console.log('XBMC plugin: Zone génération automatique série effacée.')
 			// Génère la zone génération automatique sauf si série déjà présente
-				var replace  = '£ -->\n'; 	// zone a remplacer
+				var replace  = '¤IMPORTseries¤ -->\n'; 	// zone a remplacer
 				var present=0;
                 res.result.tvshows.forEach(function(value) { //value contient label ou id
 					// test si ligne déjà présente
@@ -912,10 +1002,11 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 
 					});
 				var xml = fs.readFileSync(fileXML,'utf8');
-				replace += '            <!-- £';
+				replace += '            <!-- ¤IMPORTseries¤';
 				//console.log(replace);
-				var regexp = new RegExp('£[^£]+£','gm');
-				var xml    = xml.replace(regexp,replace);
+				//var regexp = new RegExp('£[^£]+£','gm');
+				var regexp = new RegExp('¤IMPORTseries¤[^*]+¤IMPORTseries¤', 'gm');
+                var xml    = xml.replace(regexp,replace);
 				//console.log(xml);
 				fs.writeFileSync(fileXML, xml, 'utf8');
 				console.log('XBMC plugin: ' + (res.result.limits.total-present) + ' série générées dans xbmc.xml ( +'+present+' déjà personnalisées )');

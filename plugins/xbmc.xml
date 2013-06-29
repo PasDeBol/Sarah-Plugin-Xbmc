@@ -88,10 +88,11 @@
 			<item>joue de la musique <tag>out.action.action="playlist"; </tag></item>
 		</one-of>
 		<one-of>
-			<!-- Personalisation Genre  -->
-			<!-- Automatic Generation Genre ¤ -->
-      <item>Rock/Pop<tag>out.action.genre = "Rock/Pop"</tag></item>
-      <!-- ¤ Automatic Generation Genre -->
+			<!-- Personalisation Genre ¤PERSOgenre¤ -->
+			<!-- ¤PERSOgenre¤ FIN Personalisation Genre -->
+			<!-- Automatic Generation Genre ¤IMPORTgenre¤ -->
+            <item>GENRE<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>
+            <!-- ¤IMPORTgenre¤ Automatic Generation Genre -->
 		</one-of>
 	</rule>
 
@@ -101,10 +102,11 @@
 		<tag>out.action.xbmc="music" </tag>
 		<item>je veux écouter<tag>out.action.action="artist";</tag></item>
 		<one-of>
-			<!-- Personalisation Artiste  -->
-			<!-- Automatic Generation Artist § -->
-      <item>AC/DC<tag>out.action.artist = "AC/DC"</tag></item>
-      <!-- § Automatic Generation Artist -->
+			<!-- Personalisation Artiste ¤PERSOartiste¤ -->
+            <!-- ¤PERSOartiste¤ Fin de Personalisation Artiste -->
+			<!-- Automatic Generation Artist ¤IMPORTartiste¤ -->
+			<item>ARTIST<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>
+            <!-- ¤IMPORTartiste¤ END Automatic Generation Artist -->
 		</one-of>
 	</rule>
   
@@ -123,10 +125,11 @@
 		<tag>out.action.xbmc="video" </tag>
 		<item>met le prochain épisode de<tag>out.action.action="tvshowtitle";</tag></item>
 		<one-of>
-			<!-- Personalisation Série  -->
-			<!-- Automatic Generation Serie £ -->
-      <item>NCIS<tag>out.action.showid = "9"</tag></item>
-      <!-- £ Automatic Generation Serie -->
+			<!-- Personalisation Série ¤PERSOseries¤ -->
+			<!-- ¤PERSOseries¤ Fin de personalisation Série -->
+			<item>SERIE<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>
+ 			<!-- Automatic Generation Serie ¤IMPORTseries¤ -->
+            <!-- ¤IMPORTseries¤ Automatic Generation Serie -->
 		</one-of>
 	</rule>
 </grammar>

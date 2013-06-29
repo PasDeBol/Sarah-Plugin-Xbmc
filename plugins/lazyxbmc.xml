@@ -141,7 +141,7 @@
 <!-- ************************************************ le foutoir ... certain marche, d'autre non ********************************************* -->
 	<item>autre vue<tag>out.action.action="viewmode";out.action.value="Liste";</tag></item>
 
-
+	<item>Importation des personnalisations<tag>out.action.action="personnalisation_to_json";</tag></item>
  	<item>dossier précédent<tag>out.action.action="ExecuteAction";out.action.value="ParentDir"</tag></item> 
 	<item>affiche le lecteur <tag>out.action.action="ShowOSD";</tag></item>
 	<item>OSD<tag>out.action.action="ExecuteAction";out.action.value="osd";</tag></item>

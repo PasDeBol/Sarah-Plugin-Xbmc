@@ -23,4 +23,8 @@ container
 	nb							nombre d'item dans la liste du container		integer
 	item						label de chaque élement 						[Array]
 	items_id					id de chaque élement 							[Array] (id en fonction de l'élément sélectionné qui prends 0)
-	scrolling_on				Scrolling automatique							(scrolling = valeur existante sinon non existante)
+
+scrolling						Scrolling automatique							(scrolling = valeur existante sinon non existante)
+
+personnalisation
+	labelxbmc					labelperso										Objet - personnalisation chargée depuis personnalisation.Json (lui même créer avec les personnalisations des xml)	
