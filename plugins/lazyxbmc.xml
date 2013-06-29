@@ -64,7 +64,8 @@
 	
 <!-- ************************************************ Navigation dans les Menus ********************************************* -->
 	<item>menu principal<tag>out.action.action="ActivateWindow";out.action.window="home";</tag></item>
-	<item>télé<tag>out.action.action="ActivateWindow";out.action.window="tv";</tag></item>
+	<item>affiche la télé<tag>out.action.action="ActivateWindow";out.action.window="tv";</tag></item>
+	<item>affiche la météo<tag>out.action.action="ActivateWindow";out.action.window="weather";</tag></item>
 	<item>affiche les séries<tag>out.action.action="ActivateWindow";out.action.window="video";out.action.parameters="TvShowTitles";</tag></item>
 	<item>affiche  les films<tag>out.action.action="ActivateWindow";out.action.window="video";out.action.parameters="MovieTitles";</tag></item>
 	<item>affiche  les musiques<tag>out.action.action="ActivateWindow";out.action.window="musiclibrary"</tag></item>
@@ -73,7 +74,12 @@
 	<item>Sous menu<tag>out.action.action="ExecuteAction";out.action.value="contextmenu";</tag></item>
 	<item>Retour<tag>out.action.action="ExecuteAction";out.action.value="back";</tag></item>
 	<item>Info<tag>out.action.action="ExecuteAction";out.action.value="info";</tag></item>
-
+	<item>ferme la fenetre<tag>out.action.action="ExecuteAction";out.action.value="previousmenu";</tag></item> <!-- pour fermer fenetre rechercher par exemple -->
+	<item>analyse le contenu<tag>out.action.action="analyse_le_contenu";</tag></item>
+<!-- ************************************************** Addons  ********************************************* -->
+	<item>Affiche les radios<tag>out.action.action="ExecuteAddon";out.action.parameters="plugin.audio.radio_de";out.action.value=500;</tag></item>
+	<item>Affiche YouTube<tag>out.action.action="ExecuteAddon";out.action.parameters="plugin.video.youtube";out.action.value=2000;</tag></item>
+	
 <!-- ************************************************ Valider/OK  ********************************************* -->
 	<item>choisi<tag>out.action.action="Select";</tag></item>
 	<item>valider<tag>out.action.action="Select";</tag></item>
@@ -161,7 +167,7 @@
 <rule id="lazyruleXBMC_sendText" scope="public">
 	<example>écrit ACDC dans la fenêtre</example>
 	<tag>out.action=new Object();</tag>
-	<item>écris</item><ruleref special="GARBAGE" /><item>dans la fenêtre<tag>out.action.action="sendText";</tag><tag>out._attributes.dictation="true";</tag></item>
+	<item>écris</item><ruleref special="GARBAGE" /><item>dans la fenêtre<tag>out.action.action="sendText";out.action.xbmc="video";out._attributes.dictation="true";</tag></item>
 </rule>
 
 </grammar>
