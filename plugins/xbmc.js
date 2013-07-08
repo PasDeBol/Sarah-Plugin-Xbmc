@@ -1,6 +1,9 @@
 exports.action = function (data, callback, config, SARAH) {
 	// Config
 var max_items=500;
+var delay_xbmc_distant=50;
+var delay_before_control=50;
+
 var infodebug=true;
 	// Retrieve config
     var  api_url;
@@ -94,7 +97,7 @@ function miseajour_context_et_xml() {
 			if (infodebug==true) {console.dir(SARAH.context.xbmc);}				
 			navigation_generation_xml_items();
 					});
-	}, 250); 
+	}, delay_before_control*5); 
 }
 
 	// fonction pour mise à jour des données en fonction du viewmode
@@ -497,9 +500,10 @@ function miseajour_context_et_xml() {
 						params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": "left"}, "id": 1 };
 						doAction(params, xbmc_api_url);
 					}
-				}
-				if (viewmode_found==false) {
 					index++;
+					setTimeout(function(){return changeviewmode(search_viewmode,false,reponse);},delay_xbmc_distant);  //delay d'action xbmc distant
+				}
+				else if (viewmode_found==false) {
 					doAction(Select, xbmc_api_url, callback, function(res){
 						setTimeout(function(){  // délai pour laisser le temps au current control de se mettre à jour
 								par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
@@ -509,8 +513,9 @@ function miseajour_context_et_xml() {
 									// controle le viewmode sélectionné
 									if ((res.result.currentcontrol.label.toLowerCase()==('vue : '+search_viewmode.toLowerCase()))||(index>=maxindex))  {return changeviewmode(search_viewmode,true,reponse);} else {return changeviewmode(search_viewmode,false,reponse);} 
 								});
-							}, 50); 			// le temps de "pause" est nécessaire sinon xbmc renvois parfois le label précédent, malgré un select effectué!
-						});
+							}, delay_before_control); 			// le temps de "pause" est nécessaire sinon xbmc renvois parfois le label précédent, malgré un select effectué!
+						index++;
+					});
 				}
 				else {
 					if (index>=maxindex) {console.log('Plugin xbmc - Viewmode non trouvé!');SARAH.speak('Je n\'ai pas réussi!'); return reponse(false);}
@@ -543,7 +548,7 @@ function miseajour_context_et_xml() {
 				changeviewmode( data.value,false, function (reponse) {
 					if ((reponse==true)&&(previouscurrentcontrol!='')) {
 					//	navigation_cherche_item(previouscurrentcontrol);
-					setTimeout(function(){navigation_cherche_item(previouscurrentcontrol);}, 50);	
+					setTimeout(function(){navigation_cherche_item(previouscurrentcontrol);}, delay_before_control);	
 					}
 				});
 			}

@@ -1,16 +1,16 @@
-﻿<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="futurlazyruleXBMC" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
+﻿<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="lazyruleXBMC" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
   
-<rule id="futurlazyruleXBMC" scope="public">
-		<tag>out.action=new Object();</tag>
+<rule id="lazyruleXBMC" scope="public">
+		<tag>out.action=new Object(); confidence="0.6" </tag>
 		<tag>out.action.xbmc="video" </tag>
 		<one-of>
 <!--	Désactivation temporaire du LAZY durant essais plugin
-		<item>
+-->		<item>
 				Merci ça sera tout, SARAH
 				<tag>out.action._attributes.context = "default"</tag>
 				<tag>out.action._attributes.tts = "mais de rien!"</tag>
 		</item>
--->
+<!---->
 
 
 <!-- ************************************************ Déplacement Droite  Gauche... ***************************************** -->
@@ -55,11 +55,11 @@
 	<item>Lettre précdente<tag>out.action.action="ExecuteAction";out.action.value="prevletter";</tag></item>
 
 <!-- *************************************** Scrolling automatique (value= millisecondes) *********************************** -->
-	<item>scrolling normal<tag>out.action.action="scrolling_on";out.action.parameters="normal";out.action.value=800;</tag></item>
-	<item>scrolling avant<tag>out.action.action="scrolling_on";out.action.parameters="normal";out.action.value=800;</tag></item>
-	<item>scrolling avant rapide<tag>out.action.action="scrolling_on";out.action.parameters="normal";out.action.value=300;</tag></item>
-	<item>scrolling inverse<tag>out.action.action="scrolling_on";out.action.parameters="reverse";out.action.value=800;</tag></item>
-	<item>scrolling arrière<tag>out.action.action="scrolling_on";out.action.parameters="reverse";out.action.value=800;</tag></item>
+	<item>fait un scrolling<tag>out.action.action="scrolling_on";out.action.parameters="normal";out.action.value=800;</tag></item>
+	<item>fait un scrolling avant<tag>out.action.action="scrolling_on";out.action.parameters="normal";out.action.value=800;</tag></item>
+	<item>fait un scrolling avant rapide<tag>out.action.action="scrolling_on";out.action.parameters="normal";out.action.value=300;</tag></item>
+	<item>fait un scrolling inverse<tag>out.action.action="scrolling_on";out.action.parameters="reverse";out.action.value=800;</tag></item>
+	<item>fait un scrolling arrière<tag>out.action.action="scrolling_on";out.action.parameters="reverse";out.action.value=800;</tag></item>
 	<item>arrête le scrolling<tag>out.action.action="scrolling_off"</tag></item>
 	
 <!-- ************************************************ Navigation dans les Menus ********************************************* -->
@@ -76,8 +76,9 @@
 	<item>Info<tag>out.action.action="ExecuteAction";out.action.value="info";</tag></item>
 	<item>ferme la fenetre<tag>out.action.action="ExecuteAction";out.action.value="previousmenu";</tag></item> <!-- pour fermer fenetre rechercher par exemple -->
 	<item>analyse le contenu<tag>out.action.action="analyse_le_contenu";</tag></item>
+
 <!-- ************************************************** Addons  ********************************************* -->
-	<item>Affiche les radios<tag>out.action.action="ExecuteAddon";out.action.parameters="plugin.audio.radio_de";out.action.value=500;</tag></item>
+	<item>Affiche les radios<tag>out.action.action="ExecuteAddon";out.action.parameters="plugin.audio.radio_de";out.action.value=1000;</tag></item>
 	<item>Affiche YouTube<tag>out.action.action="ExecuteAddon";out.action.parameters="plugin.video.youtube";out.action.value=2000;</tag></item>
 	
 <!-- ************************************************ Valider/OK  ********************************************* -->
@@ -109,6 +110,7 @@
 	<item>lecture<tag>out.action.action="ExecuteAction";out.action.value="play";</tag></item>
 	<item>pause<tag>out.action.action="ExecuteAction";out.action.value="pause";</tag></item>
 	<item>stop<tag>out.action.action="ExecuteAction";out.action.value="stop";</tag></item>
+	<item>arrête la lecture<tag>out.action.action="ExecuteAction";out.action.value="stop";</tag></item>
 	<item>en arrière<tag>out.action.action="ExecuteAction";out.action.value="rewind";</tag></item>
 	<item>en arrière rapidement<tag>out.action.action="ExecuteAction";out.action.value="rewind";out.action.repeter=3;</tag></item>
 	<item>en arrière très rapidement<tag>out.action.action="ExecuteAction";out.action.value="rewind";out.action.repeter=5;</tag></item>
