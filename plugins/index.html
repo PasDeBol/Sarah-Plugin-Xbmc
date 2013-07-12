@@ -11,11 +11,8 @@
 </script>
 <p class="page-header">
     <span class="lead">Ce module permet de piloter XBMC avec SARAH</span><br/>
-    <b>Nouveautés V1.4:</b></br>
-	Possibilité d'importer automatiquement les artistes, les genres et les séries dans le <em>xbmc.xml</em> tout en gardant le moyen de le personnaliser.</br>
-	Possibilité de demander le prochain épisode non-vu d'une série.</br>
-	Le plugin peut maintenant gérer la musique sur un XBMC et la vidéo sur un autre. (<em>out.xbmc='video'</em> ou <em>out.xbmc='music'</em>)</br>
-	(Ou bien vidéo et musique sur 2 destinations differentes)</br></br>
+    <b>Nouveautés V1.4XXXX:</b></br>
+	Mode XBMC (contrôle vocal total et direct de XBMC)
 	Participations au plugin: Jean-Philippe Encausse, Maxime Hermouet, Guillaume Brebion, Jérôme Veyret, Aymeric, Vincent Legavre. 
 </p>
 
@@ -29,7 +26,12 @@
             <li class="nav-header">Commandes vocales</li>
             <li><a href="#" data-toggle="plugin-vox-examples">Exemples</a></li>
             <li><a href="#" data-toggle="plugin-vox-errors">Erreurs</a></li>
+            <li class="nav-header">Mode XBMC </li>
+            <li><a href="#" data-toggle="plugin-xbmccommander1">Activation / Désactivation</a></li>
+            <li><a href="#" data-toggle="plugin-xbmccommander2">Les commandes vocales</a></li>
+            <li><a href="#" data-toggle="plugin-xbmccommander3">Fonctions avancées</a></li>
             <li class="divider"></li>
+            <li class="nav-header">XML</li>
             <li><a href="#" data-toggle="plugin-generator">Génération automatique du XML</a></li>
         </ul>
     </div>
@@ -38,7 +40,9 @@
         <!--Config XBMC-->
         <ul class="unstyled" id="plugin-config-xbmc">
             <li><i class="icon-play-circle"></i> Permettre le contrôle de XBMC en HTML et vérifier le port.</li>
-            <li><i class="icon-play-circle"></i> Ajouter de la musique dans la Médiathèque (pas seulement des sources)
+            <li><i class="icon-play-circle"></i> Ajouter de la musique dans la Médiathèque: <br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Ajouter une source<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Clique droit sur la source => 'Ajouter à la médiathèque'
             </li>
             <li><i class="icon-play-circle"></i> Vérifier l'accès à XBMC depuis votre navigateur:
                 <em>http://ip:port</em></li>
@@ -85,11 +89,77 @@
                 incorrecte. (XML...?)
             </li>
         </ul>
+       <!--XBMC Commander 1 -->
+        <ul class="unstyled" id="plugin-xbmccommander1" style="display: none;">
+            <li><i class="icon-play-circle"></i> <strong>Le mode XBMC </strong>permet de controler/télécommander XBMC sans devoir répéter "Sarah".</br></br>
+			<i class="icon-play-circle"></i><strong>Activation:</strong></br>
+			&nbsp;&nbsp;<em>Sarah, active le mode xbmc</em> (Sarah répond)</br></br>
+			<i class="icon-play-circle"></i><strong>Désactivation:</strong></br>
+			&nbsp;&nbsp;<em>Merci, ça sera tout Sarah</em> (Sarah répond) </br>
+			Ou<br>
+			&nbsp;&nbsp;<em>Automatiquement</em> après un temps sans nouvelle commande</br></br>
+			<i class="icon-play-circle"></i><strong>Modification du timeout:</strong></br>
+			Le timeout est défini dans le fichier Custom.ini à la racine de Sarah.<br>
+			&nbsp;&nbsp;ctxTimeout=60000 (60s par défaut)</br></br>
+			<i class="icon-play-circle"></i><strong>Infos / Conseils:</strong></br>
+			Durant le 'mode XBMC', seuls les fichiers lazyxbmc.xml et xbmc_temp.xml sont traité par Sarah.<br>
+			&nbsp;&nbsp;Vos autres plugins ne sont plus opérationnels.</br></br>
+			Sarah contrôle toujours de manière plus précise le 1er mot (qui n'est plus <em>Sarah</em>) </br>
+			&nbsp;&nbsp;Il faut donc bien prononcer le 1er mot (ou adapter le xml en fonction de vos préférences).</br></br>
+			</br></br>
+			Le mode a été testé et développé avec le thème par défaut de XBMC: <em>Confluence</em>. Aucune garantie de fonctionnement avec les autres thèmes.
+            </li>
+        </ul>
+       <!--XBMC Commander 2 -->
+        <ul class="unstyled" id="plugin-xbmccommander2" style="display: none;">
+            <li>
+			<i class="icon-play-circle"></i> Pour voir la <strong>totalité des commandes</strong> consultez le fichier <em><strong>lazzyxbmc.xml</strong></em></br>
+			</br>
+			<i class="icon-play-circle"></i><strong> Quelques commandes:</strong></br></br>
+			Gauche, droite, monte, descend, ok, retour, info...</br></br>
+			2ème à Gauche, 5ème droite, 2ème au dessus, 4ème en dessous, au début, à la fin,...</br></br>
+			Monte le son, baisse le son, coupe le son, remet le son, mets le son à 70%,...</br></br>
+			menu principale, affiche les séries, affiche les musiques par artiste, affiche la météo, ferme la fenêtre ...</br></br>
+			fait un scrolling avant, arrête le scrolling , affichage en liste, affichage en vignette,...</br></br>
+			Affiche les radios (si extension musique xbmc "radio" de Tristan Fisher)</br></br>
+			Affiche YouTube (si addon youtube)
+			</br></br>
+           </li>
+        </ul>
+     <!--XBMC Commander 3 -->
+        <ul class="unstyled" id="plugin-xbmccommander3" style="display: none;">
+            <li>
+			<i class="icon-play-circle"></i><strong>Le scrolling</strong> </br>
+			Le scolling s'arrête automatiquement après avoir bouclé complètement ou après avoir recu une demande quelconque.</br>
+			Vous pouvez régler la vitesse en modifiant dans le XML: <em>out.action.value</em> (millisecondes)</br></br>
+			<i class="icon-play-circle"></i><strong>Analyse automatique du contenu</strong> </br>
+			Chaque fois que vous naviguez dans un menu , le plugin créer le fichier xbmc_temp.xml qui contient les choix possibles. <br>
+			Il suffit alors de prononcer le titre/série/film/... de son choix et xbmc ce positionnera dessus:</br>
+			exemple: Affiche les séries ...OK...NCIS ...OK... Saison 8 ...OK... Ships in the night...OK</br>
+			Au lieu de dire le titre, vous pouvez aussi dire "épisode XX" pour une série ou "Piste XX" pour un album.</br>
+			Si un épisode est nommé S01E02 trucmuche ou 01x02 trucmuche, il faut alors dire: Saison 1, épisode 2 ou trucmuche.</br></br>
+			
+			<i class="icon-play-circle"></i><strong>Analyse du contenu manuelle:</strong> </br>
+			Vous pouver demander à Sarah : "Analyse le contenu" afin d'anlyser à nouveau le contenu de la navigation en cours<br>
+			Cela est utile dans 2 cas:</br>
+			- Si vous lancer un addon qui fait une recherche sur internet (radio/ youtube,...),xbmc tarde a afficher le contenu qui a été traité trop tôt par le plugin</br>
+			- Si vous avez navigué dans xbmc sans passer par les commandes vocales.</br></br>
+			
+ 			<i class="icon-play-circle"></i><strong>Importation des personalisations: </strong></br>
+			Si vous utilisez la fonction d'importation automatique des genres/artistes/séries et que vous les avez personalisé, cette fonction est pour vous!<br>
+			En demandant "Importation des personnalisations" à Sarah, Le plugin analysera vos personnalisations dans xbmc.xml et tiendra compte de celles-ci pour l'analyse du contenu.<br>
+			Il est nécessaire d'effectuer cette opération que si vous avez modifié les personnalisations.</br>
+			(Cette personnalisation est sauvegardée dans le fichier <em>personnalisation.json</em>)
+          </li>
+        </ul>		
+			
+			
+
         <!--Génération XML-->
         <ul class="unstyled" id="plugin-generator" style="display: none;">
             <li><i class="icon-play-circle"></i> Info sur la génération automatique et la personalisation:</br>
  				En cas de problème de reconnaisance d'artistes, de genre ou de série par Sarah, vous pouvez personnaliser le xml en coupant/collant les lignes générées souhaitées
-				entre: </br><em>&#60!-- Personalisation XXXXX --></em></br>et</br><em>&#60!-- Automatic Generation XXXXX § --></em></br> puis en les modifiant à votre convenance! (par exemple: U2: You toux)</br>
+				entre: </br><em>&#60!-- Personalisation XXXXX --></em></br>et</br><em>&#60!-- XXXXX FIN Personalisation--></em></br> puis en les modifiant à votre convenance! (par exemple: U2: You toux)</br>
 				A la prochaine génération automatique, votre personalisation des artistes, genres ou série sera conservée!
            </li></br>
             <li><i class="icon-play-circle"></i> Mise à jour des artistes dans le XML:
