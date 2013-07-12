@@ -927,6 +927,7 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
             if ((typeof res.result.artists != 'undefined') && (typeof res.result.limits != 'undefined')) {
                 var ligneitem = '';
                 var lignehtml = '';
+                var nberreur = 0;
                 var lignehtmlpresent = '';
                 var fs = require('fs');
                 var fileXML = 'plugins/xbmc/xbmc.xml';
@@ -936,38 +937,46 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 				var regexp = new RegExp('¤IMPORTartiste¤[^*]+¤IMPORTartiste¤', 'gm');
                 var xml = xml.replace(regexp, replace);
                 fs.writeFileSync(fileXML, xml, 'utf8');
-				console.log('XBMC plugin: Zone génération automatique artiste effacée.')
+				console.log('plugin xbmc - Zone génération automatique artiste effacée.')
 			// Génère la zone génération automatique sauf si artiste déjà présent
 				replace = '¤IMPORTartiste¤ -->\n';
 				var present=0;
                 res.result.artists.forEach(function (value) {
-					// test si ligne déjà présente
-					lignetest = '<tag>out.action.artist = "' + value.label.replace(/&/gi, "&amp;") + '"</tag>'
-					var regexp = new RegExp(lignetest, 'gm');
-					if (xml.match(regexp))
-							{
-							lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
-							present=present+1;
+					try {
+						// test si ligne déjà présente
+						lignetest = '<tag>out.action.artist = "' + value.label.replace(/&/gi, "&amp;") + '"</tag>'
+						var regexp = new RegExp(lignetest, 'gm');
+						if (xml.match(regexp))
+								{
+								lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
+								present=present+1;
+								}
+						else {
+							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
+							ligneitem = '            <item>' + value.label.replace(/&/gi, "and") + '<tag>out.action.artist = "' + value.label.replace(/&/gi, "&amp;") + '"</tag></item>\n';
+							replace += (ligneitem);
 							}
-					else {
-						lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
-						ligneitem = '            <item>' + value.label.replace(/&/gi, "and") + '<tag>out.action.artist = "' + value.label.replace(/&/gi, "&amp;") + '"</tag></item>\n';
-						replace += (ligneitem);
-						}
-                });
+					} catch(ex) {
+						console.log("plugin xbmc - Erreur d\'importation xml avec l\'artiste "+value.label);
+						lignehtml += value.label.replace(/&/gi, "&amp;") + ' <====== Erreur - importation impossible <br>';
+						nberreur++;
+					}	
+               });
                 var xml = fs.readFileSync(fileXML, 'utf8');
                 replace += '            <!-- ¤IMPORTartiste¤';
                 var regexp = new RegExp('¤IMPORTartiste¤[^*]+¤IMPORTartiste¤', 'gm');
                 var xml = xml.replace(regexp, replace);
                 fs.writeFileSync(fileXML, xml, 'utf8');
-			    console.log('XBMC plugin: ' + (res.result.limits.total-present) + ' artistes générés dans xbmc.xml ( +'+present+' déjà personnalisés )');
-                callback({'tts': '<b>Traitement de ' +(res.result.limits.total)+' artistes dans xbmc.xml<br><br>'+present+' personnalisés:</b><br>'+lignehtmlpresent+'<br><b>'+(res.result.limits.total-present)+' Mises à jour:</b><br>' + lignehtml})
+			    if (nberreur>0) {var texte_erreur=' ( '+nberreur+ ' erreur )';} else {var texte_erreur='';}
+			    console.log('plugin xbmc - ' + (res.result.limits.total-present-nberreur) + ' artistes générés dans xbmc.xml ( +'+present+' déjà personnalisés ) '+texte_erreur);
+                callback({'tts': '<b>Traitement de ' +(res.result.limits.total-nberreur)+' artistes dans xbmc.xml '+texte_erreur+'<br><br>'+present+' personnalisés:</b><br>'+lignehtmlpresent+'<br><b>'+(res.result.limits.total-present)+' Mises à jour:</b><br>' + lignehtml})
             }
 
             // Generation XML Genre
             else if ((typeof res.result.genres != 'undefined') && (typeof res.result.limits != 'undefined')) {
 				var ligneitem = '';
                 var lignehtml = '';
+                var nberreur = 0;
                 var lignehtmlpresent = '';
                 var fs = require('fs');
                 var fileXML = 'plugins/xbmc/xbmc.xml';
@@ -977,39 +986,47 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 				var regexp = new RegExp('¤IMPORTgenre¤[^*]+¤IMPORTgenre¤', 'gm');
                 var xml = xml.replace(regexp, replace);
                 fs.writeFileSync(fileXML, xml, 'utf8');
-				console.log('XBMC plugin: Zone génération automatique genre effacée.')
+				console.log('plugin xbmc - Zone génération automatique genre effacée.')
 			// Génère la zone génération automatique sauf si artiste déjà présent
 				replace = '¤IMPORTgenre¤ -->\n';
 				var present=0;
                 res.result.genres.forEach(function (value) {
+					try {
 					// test si ligne déjà présente
-					lignetest = '<tag>out.action.genre = "' + value.label.replace(/&/gi, "&amp;") + '"</tag>'
-					var regexp = new RegExp(lignetest, 'gm');
-					if (xml.match(regexp))
-							{
-							lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
-							present=present+1;
+						lignetest = '<tag>out.action.genre = "' + value.label.replace(/&/gi, "&amp;") + '"</tag>'
+						var regexp = new RegExp(lignetest, 'gm');
+						if (xml.match(regexp))
+								{
+								lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
+								present=present+1;
+								}
+						else {
+							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
+							ligneitem = '            <item>' + value.label.replace(/&/gi, "and") + '<tag>out.action.genre = "' + value.label.replace(/&/gi, "&amp;") + '"</tag></item>\n';
+							replace += (ligneitem);
 							}
-					else {
-						lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
-						ligneitem = '            <item>' + value.label.replace(/&/gi, "and") + '<tag>out.action.genre = "' + value.label.replace(/&/gi, "&amp;") + '"</tag></item>\n';
-						replace += (ligneitem);
-						}
+					} catch(ex) {
+						console.log("plugin xbmc - Erreur d\'importation xml avec le genre "+value.label);
+						lignehtml += value.label.replace(/&/gi, "&amp;") + ' <====== Erreur - importation impossible <br>';
+						nberreur++;
+					}	
                 });
                 var xml = fs.readFileSync(fileXML, 'utf8');
                 replace += '            <!-- ¤IMPORTgenre¤';
                 var regexp = new RegExp('¤IMPORTgenre¤[^*]+¤IMPORTgenre¤', 'gm');
                 var xml = xml.replace(regexp, replace);
                 fs.writeFileSync(fileXML, xml, 'utf8');
-			    console.log('XBMC plugin: ' + (res.result.limits.total-present) + ' genres générés dans xbmc.xml ( +'+present+' déjà personnalisés )');
-                callback({'tts': '<b>Traitement de ' +(res.result.limits.total)+' genres dans xbmc.xml<br><br>'+present+' personnalisés:</b><br>'+lignehtmlpresent+'<br><b>'+(res.result.limits.total-present)+' Mises à jour:</b><br>' + lignehtml})
+			    if (nberreur>0) {var texte_erreur=' ( '+nberreur+ ' erreur )';} else {var texte_erreur='';}
+                console.log('plugin xbmc - ' + (res.result.limits.total-present-nberreur) + ' genres générés dans xbmc.xml ( +'+present+' déjà personnalisés ) '+texte_erreur);
+				callback({'tts': '<b>Traitement de ' +(res.result.limits.total-nberreur)+' genres dans xbmc.xml '+texte_erreur+'<br><br>'+present+' personnalisés:</b><br>'+lignehtmlpresent+'<br><b>'+(res.result.limits.total-present)+' Mises à jour:</b><br>' + lignehtml})
            }
 
 			// Generation XML Series
 			else if ((typeof res.result.tvshows != 'undefined') && (typeof res.result.limits != 'undefined')){
                 var ligneitem = '';
                 var lignehtml = '';
-                var lignehtmlpresent = '';
+                var nberreur = 0;
+               var lignehtmlpresent = '';
                 var fs = require('fs');
                 var fileXML = 'plugins/xbmc/xbmc.xml';
             //efface la zone génération automatique
@@ -1018,24 +1035,30 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 				var regexp = new RegExp('¤IMPORTseries¤[^*]+¤IMPORTseries¤', 'gm');
                 var xml = xml.replace(regexp, replace);
                 fs.writeFileSync(fileXML, xml, 'utf8');
-				console.log('XBMC plugin: Zone génération automatique série effacée.')
+				console.log('plugin xbmc - Zone génération automatique série effacée.')
 			// Génère la zone génération automatique sauf si série déjà présente
 				var replace  = '¤IMPORTseries¤ -->\n'; 	// zone a remplacer
 				var present=0;
                 res.result.tvshows.forEach(function(value) { //value contient label ou id
-					// test si ligne déjà présente
-					lignetest = '<tag>out.action.showid = "'+value.tvshowid+'"</tag>'
-					var regexp = new RegExp(lignetest, 'gm');
-					if (xml.match(regexp))
-							{
-							lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
-							present=present+1;
+					try {
+						// test si ligne déjà présente
+						lignetest = '<tag>out.action.showid = "'+value.tvshowid+'"</tag>'
+						var regexp = new RegExp(lignetest, 'gm');
+						if (xml.match(regexp))
+								{
+								lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
+								present=present+1;
+								}
+						else {
+							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
+							ligneitem = '            <item>' + value.label.replace(/&/gi, "and") + '<tag>out.action.showid = "' + value.tvshowid + '"</tag></item>\n';
+							replace += (ligneitem);
 							}
-					else {
-						lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
-						ligneitem = '            <item>' + value.label.replace(/&/gi, "and") + '<tag>out.action.showid = "' + value.tvshowid + '"</tag></item>\n';
-						replace += (ligneitem);
-						}
+					} catch(ex) {
+						console.log("plugin xbmc - Erreur d\'importation xml avec la série "+value.label);
+						lignehtml += value.label.replace(/&/gi, "&amp;") + ' <====== Erreur - importation impossible <br>';
+						nberreur++;
+					}	
 
 					});
 				var xml = fs.readFileSync(fileXML,'utf8');
@@ -1043,8 +1066,9 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 				var regexp = new RegExp('¤IMPORTseries¤[^*]+¤IMPORTseries¤', 'gm');
                 var xml    = xml.replace(regexp,replace);
 				fs.writeFileSync(fileXML, xml, 'utf8');
-				console.log('XBMC plugin: ' + (res.result.limits.total-present) + ' série générées dans xbmc.xml ( +'+present+' déjà personnalisées )');
-                callback({'tts': '<b>Traitement de ' +(res.result.limits.total)+' séries dans xbmc.xml<br><br>'+present+' personnalisées:</b><br>'+lignehtmlpresent+'<br><b>'+(res.result.limits.total-present)+' Mises à jour:</b><br>' + lignehtml})
+			    if (nberreur>0) {var texte_erreur=' ( '+nberreur+ ' erreur )';} else {var texte_erreur='';}
+ 				console.log('plugin xbmc - ' + (res.result.limits.total-present-nberreur) + ' série générées dans xbmc.xml ( +'+present+' déjà personnalisées ) '+texte_erreur);
+                callback({'tts': '<b>Traitement de ' +(res.result.limits.total-nberreur)+' séries dans xbmc.xml '+texte_erreur+'<br><br>'+present+' personnalisées:</b><br>'+lignehtmlpresent+'<br><b>'+(res.result.limits.total-present)+' Mises à jour:</b><br>' + lignehtml})
 			}
 
 			// Otherwise
