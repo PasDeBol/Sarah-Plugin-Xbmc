@@ -480,7 +480,20 @@ function miseajour_context_et_xml() {
 			}
 
 			break;
-		
+
+
+		case 'setvolume':
+			
+			if (data.value) {
+				
+				var params = {"jsonrpc": "2.0", "method": "Application.SetVolume", "params": { "volume": parseInt(data.value)}, "id": 1}
+				console.log (params);
+				doAction(params, xbmc_api_url, callback);
+			}
+			break;
+
+
+			
 		case 'viewmode':
 			
 			// Changer de viewmode dans un librairie: changeviewmode(viewmode souhaité, false)
@@ -771,10 +784,11 @@ var sendText = {"jsonrpc":"2.0","method":"Input.SendText", "params": { "text": "
 var next = {"jsonrpc": "2.0", "method": "Player.GoTo", "params": { "playerid": 0, "to": "next" }, "id": 1}
 var prev = {"jsonrpc": "2.0", "method": "Player.GoTo", "params": { "playerid": 0, "to": "previous" }, "id": 1}
 
+// n'est plus utile - function setvolum
 // Set Volume in current player
-var volup = {"jsonrpc": "2.0", "method": "Application.SetVolume", "params": { "volume": 100}, "id": 1}
-var volmid = {"jsonrpc": "2.0", "method": "Application.SetVolume", "params": { "volume": 80}, "id": 1}
-var voldown = {"jsonrpc": "2.0", "method": "Application.SetVolume", "params": { "volume": 50}, "id": 1}
+//var volup = {"jsonrpc": "2.0", "method": "Application.SetVolume", "params": { "volume": 100}, "id": 1}
+//var volmid = {"jsonrpc": "2.0", "method": "Application.SetVolume", "params": { "volume": 80}, "id": 1}
+//var voldown = {"jsonrpc": "2.0", "method": "Application.SetVolume", "params": { "volume": 50}, "id": 1}
 
 // Query library
 var genres = {"jsonrpc": "2.0", "method": "AudioLibrary.GetGenres", "params": {"properties": ["title"], "limits": { "start": 0, "end": 20 }, "sort": { "method": "label", "order": "ascending" }}, "id": "AudioLibrary.GetGenres"}

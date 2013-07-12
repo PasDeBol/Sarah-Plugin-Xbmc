@@ -137,7 +137,21 @@
 	<item>baisse un peu le son<tag>out.action.action="ExecuteAction";out.action.value="volumedown";out.action.repeter=2;</tag></item>
 	<item>coupe le son<tag>out.action.action="ExecuteAction";out.action.value="mute";</tag></item>
 	<item>remet le son<tag>out.action.action="ExecuteAction";out.action.value="mute";</tag></item>
-
+	<item>mets le son <tag>out.action.action="setvolume";</tag>
+		<one-of>
+			<item>à 10%<tag>out.action.value=10;</tag></item>
+			<item>à 20%<tag>out.action.value=20;</tag></item>
+			<item>à 30%<tag>out.action.value=30;</tag></item>
+			<item>à 40%<tag>out.action.value=40;</tag></item>
+			<item>à 50%<tag>out.action.value=50;</tag></item>
+			<item>à 60%<tag>out.action.value=60;</tag></item>
+			<item>à 70%<tag>out.action.value=70;</tag></item>
+			<item>à 80%<tag>out.action.value=80;</tag></item>
+			<item>à 90%<tag>out.action.value=90;</tag></item>
+			<item>à 100%<tag>out.action.value=100;</tag></item>
+		</one-of>
+	</item>
+	
 <!-- ********************************************  Saisir du texte  ************************************** -->
 	<item><ruleref uri="#lazyruleXBMC_sendText"/><tag>out.action = rules.lazyruleXBMC_sendText</tag></item>
 
