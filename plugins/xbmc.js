@@ -3,8 +3,8 @@ exports.action = function (data, callback, config, SARAH) {
 var max_items=500;
 var delay_xbmc_distant=50;
 var delay_before_control=50;
-
 var infodebug=true;
+
 	// Retrieve config
     var  api_url;
     config = config.modules.xbmc;
@@ -207,10 +207,10 @@ function miseajour_context_et_xml() {
 				container.viewmode=res.result['Container.Viewmode'];		// type d'affichage
 				navigation_context_viewmode_info(container);
 				// affecte les données
-				if ((container.nb_items!=0)&&(container.nb_items<max_items)&&(reponse.currentwindow.name!=''))  {   //limite réelle ?? 500??? 500 ça marche, 800 non!
+				if ((container.nb_items!=0)&&(container.nb_items<=(max_items*2))&&(reponse.currentwindow.name!=''))  {   //limite réelle ?? 500??? 500 ça marche, 800 non!
 						//console.log('traitement des items');
 						listitem=[];
-						for (var i=0;i<=container.nb_items;i++) {	
+						for (var i=0;i<=Math.round(container.nb_items/2);i++) {	
 							listitem.push("Container.ListItem("+i+").Label");
 						}
 						par={"jsonrpc":"2.0","method":"XBMC.GetInfoLabels","params": {"labels": listitem}, "id":1}; //demande les labels (titre/nom/...) de chaque ligne 
@@ -222,29 +222,43 @@ function miseajour_context_et_xml() {
 								temp_item.push(res.result[attributename]);
 								temp_item_id.push(parseInt(attributename.match(/\d+/g).toString()));
 							}
-							// renumerote les items avec [..]=0 au lieur CurrentControl=0 
-							var item=[];
-							var item_id=[];
-							var index=0;
-							var pos2point=0; 
-							if (temp_item.contains("..")>=0) {
-								pos2point=temp_item_id[temp_item.contains("..")]; //id actuel de [..] si liste de film,titre...
-								}
-							for (i=0; i<temp_item_id.length;i++) {
-								if ((pos2point+index)<temp_item_id.length) {
-									item.push(temp_item[temp_item_id.contains(pos2point+index)]);
-								}else{
-									item.push(temp_item[temp_item_id.contains(pos2point+index-temp_item_id.length)]);
-								}
-								item_id.push(index);
-								index++;
+							listitem=[];
+							for (var i=(Math.round(container.nb_items/2)+1);i<=container.nb_items;i++) {	
+								listitem.push("Container.ListItem("+i+").Label");
 							}
-							// push vers le context 
-							container.items=item;
-							container.items_id=item_id;
-							reponse.container=container;
-							SARAH.context.xbmc=reponse;
-							return container_info('OK');
+							par={"jsonrpc":"2.0","method":"XBMC.GetInfoLabels","params": {"labels": listitem}, "id":1}; //demande les labels (titre/nom/...) de chaque ligne 
+							doAction(par, xbmc_api_url, nocallback, function(res2){
+								//temp_item=[];
+								//temp_item_id=[];
+								for(var attributename in res2.result){
+									//console.log('--'+res2.result[attributename]);
+									temp_item.push(res2.result[attributename]);
+									temp_item_id.push(parseInt(attributename.match(/\d+/g).toString()));
+								}
+								// renumerote les items avec [..]=0 au lieu de CurrentControl=0 
+								var item=[];
+								var item_id=[];
+								var index=0;
+								var pos2point=0; 
+								if (temp_item.contains("..")>=0) {
+									pos2point=temp_item_id[temp_item.contains("..")]; //id actuel de [..] si liste de film,titre...
+									}
+								for (i=0; i<temp_item_id.length;i++) {
+									if ((pos2point+index)<temp_item_id.length) {
+										item.push(temp_item[temp_item_id.contains(pos2point+index)]);
+									}else{
+										item.push(temp_item[temp_item_id.contains(pos2point+index-temp_item_id.length)]);
+									}
+									item_id.push(index);
+									index++;
+								}
+								// push vers le context 
+								container.items=item;
+								container.items_id=item_id;
+								reponse.container=container;
+								SARAH.context.xbmc=reponse;
+								return container_info('OK');
+							});
 						});
 				}else {
 					console.log('plugin xbmc - items ignoré/aucun! nb_item='+container.nb_items+' , currentwindow.name='+reponse.currentwindow);
@@ -906,7 +920,7 @@ var doAction = function (req, xbmc_api_url, callback, hook) {
                     return;
                 }
             } catch (ex) {
-                console.log(res);
+                //console.log(res);
             }
         }
 
