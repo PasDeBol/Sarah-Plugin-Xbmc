@@ -1,0 +1,19 @@
+
+.plugin-gridster.xbmc .text {
+  background: #33A3EC;
+  left: 0; width: 100%; 
+  display: block;
+  text-align: center;
+}
+
+.plugin-gridster.xbmc .logo {
+  left: 10px; 
+  width: 60%; 
+}
+
+.plugin-gridster.xbmc .logo2 {
+  position: absolute;
+  top: 20px; 
+  left: 0px; 
+  width: 100%; 
+}
