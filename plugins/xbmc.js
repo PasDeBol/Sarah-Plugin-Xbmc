@@ -19,7 +19,6 @@ var infodebug=true;
   //console.log (xbmc_api_url.slice(7,18));
 	if (xbmc_api_url.slice(7,18)!='127.0.0.1') {delay_before_control=delay_before_control_distant;} else {delay_before_control=delay_before_control_local;}
 	
-	
 // arrete le scrolling automatique sur une action quelconque	
 	if (typeof(SARAH.context.xbmc)!="undefined"){
 		if ((data.xbmc=='video') && (data.action!='scrolling_off') && (data.action!='scrolling_on') && (typeof(SARAH.context.xbmc.scrolling)!="undefined"))
@@ -289,26 +288,26 @@ function miseajour_context_et_xml() {
 					datas_xml+='<one-of>\n';	
 					for (var i=0;i<container.items.length;i++) {
 						if (container.items[i]!='..') {
-							datas_xml+='<item>'+container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "")+'<tag>out.action.action="chercheitem";out.action.parameters="'+container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
+							datas_xml+='<item>'+container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "")+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
 							if (container.sortmethod=='Piste') {
-								datas_xml+='<item>Piste '+container.items_id[i]+'<tag>out.action.action="chercheitem";out.action.parameters="'+container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
+								datas_xml+='<item>Piste '+container.items_id[i]+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
 							}
 							if (container.sortmethod=='Épisode') {
 								if (container.items[i].replace(/&/gi, " and ").match(/\d{1,2}[xXEe]\d\d/gi)) {
 									saison_episode=container.items[i].replace(/&/gi, " and ").match(/\d{1,2}[xXEe]\d\d/gi).toString();
-									datas_xml+='<item>saison '+saison_episode.match(/^\d{1,2}/gi)+' épisode '+saison_episode.match(/\d{1,2}$/gi)+'<tag>out.action.action="chercheitem";out.action.parameters="'+container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
+									datas_xml+='<item>saison '+saison_episode.match(/^\d{1,2}/gi)+' épisode '+saison_episode.match(/\d{1,2}$/gi)+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
 									}
 									else {
 										if (container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi)) {
-											datas_xml+='<item>'+container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "").replace(/^\d{1,2}[.]/gi, "")+'<tag>out.action.action="chercheitem";out.action.parameters="'+container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
-											datas_xml+='<item>épisode '+container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi)+'<tag>out.action.action="chercheitem";out.action.parameters="'+container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
+											datas_xml+='<item>'+container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "").replace(/^\d{1,2}[.]/gi, "")+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+											datas_xml+='<item>épisode '+container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi)+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
 										}
 									}
 								
 							}
 							if (personnalisation[container.items[i].replace(/&/gi, "&amp;")]) {
 								if (infodebug==true) {console.log ('plugin xbmc - Personalisation: '+container.items[i].replace(/&/gi, "&amp;")+' -> '+personnalisation[container.items[i].replace(/&/gi, "&amp;")]);}
-								datas_xml+='<item>'+personnalisation[container.items[i].replace(/&/gi, "&amp;")]+'<tag>out.action.action="chercheitem";out.action.parameters="'+container.items[i].replace(/&/gi, "&amp;")+'";</tag></item>\n';
+								datas_xml+='<item>'+personnalisation[container.items[i].replace(/&/gi, "&amp;")]+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
 							
 							}
 						}
@@ -962,8 +961,8 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 				var present=0;
                 res.result.artists.forEach(function (value) {
 					try {
-						// test si ligne déjà présente
-						lignetest = '<tag>out.action.artist = "' + value.label.replace(/&/gi, "&amp;") + '"</tag>'
+						// test si ligne déjà présente  ATTENTION \\( et \\) pour regexp
+						lignetest = '<tag>out.action.artist = encodeURIComponent\\("' + value.label.replace(/&/gi, "&amp;") + '"\\)</tag>';
 						var regexp = new RegExp(lignetest, 'gm');
 						if (xml.match(regexp))
 								{
@@ -972,7 +971,7 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 								}
 						else {
 							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
-							ligneitem = '            <item>' + value.label.replace(/&/gi, "and") + '<tag>out.action.artist = "' + value.label.replace(/&/gi, "&amp;") + '"</tag></item>\n';
+							ligneitem = '            <item>' + value.label.replace(/&/gi, "and") + '<tag>out.action.artist = encodeURIComponent("' + value.label.replace(/&/gi, "&amp;") + '")</tag></item>\n';
 							replace += (ligneitem);
 							}
 					} catch(ex) {
@@ -1012,7 +1011,7 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
                 res.result.genres.forEach(function (value) {
 					try {
 					// test si ligne déjà présente
-						lignetest = '<tag>out.action.genre = "' + value.label.replace(/&/gi, "&amp;") + '"</tag>'
+						lignetest = '<tag>out.action.genre = encodeURIComponent\\("' + value.label.replace(/&/gi, "&amp;") + '"\\)</tag>'
 						var regexp = new RegExp(lignetest, 'gm');
 						if (xml.match(regexp))
 								{
@@ -1021,7 +1020,7 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 								}
 						else {
 							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
-							ligneitem = '            <item>' + value.label.replace(/&/gi, "and") + '<tag>out.action.genre = "' + value.label.replace(/&/gi, "&amp;") + '"</tag></item>\n';
+							ligneitem = '            <item>' + value.label.replace(/&/gi, "and") + '<tag>out.action.genre = encodeURIComponent("' + value.label.replace(/&/gi, "&amp;") + '")</tag></item>\n';
 							replace += (ligneitem);
 							}
 					} catch(ex) {
