@@ -1,8 +1,9 @@
 exports.action = function (data, callback, config, SARAH) {
 	// Config
-var max_items=500;
-var delay_xbmc_distant=50;
-var delay_before_control=50;
+var max_items=1000;
+var delay_before_control_local=50;
+var delay_before_control_distant=400;
+var delay_before_control;
 var infodebug=true;
 
 	// Retrieve config
@@ -15,6 +16,10 @@ var infodebug=true;
 	else if (data.xbmc=='video') 	{ xbmc_api_url=config.api_url_xbmc_video;}
 	else  {return callback({ 'tts': 'Choix du XBMC inconnu!'});}
 
+  //console.log (xbmc_api_url.slice(7,18));
+	if (xbmc_api_url.slice(7,18)!='127.0.0.1') {delay_before_control=delay_before_control_distant;} else {delay_before_control=delay_before_control_local;}
+	
+	
 // arrete le scrolling automatique sur une action quelconque	
 	if (typeof(SARAH.context.xbmc)!="undefined"){
 		if ((data.xbmc=='video') && (data.action!='scrolling_off') && (data.action!='scrolling_on') && (typeof(SARAH.context.xbmc.scrolling)!="undefined"))
@@ -97,7 +102,7 @@ function miseajour_context_et_xml() {
 			if (infodebug==true) {console.dir(SARAH.context.xbmc);}				
 			navigation_generation_xml_items();
 					});
-	}, delay_before_control*5); 
+	}, delay_before_control); 
 }
 
 	// fonction pour mise à jour des données en fonction du viewmode
@@ -207,7 +212,7 @@ function miseajour_context_et_xml() {
 				container.viewmode=res.result['Container.Viewmode'];		// type d'affichage
 				navigation_context_viewmode_info(container);
 				// affecte les données
-				if ((container.nb_items!=0)&&(container.nb_items<=(max_items*2))&&(reponse.currentwindow.name!=''))  {   //limite réelle ?? 500??? 500 ça marche, 800 non!
+				if ((container.nb_items!=0)&&(container.nb_items<=max_items)&&(reponse.currentwindow.name!=''))  {   //limite réelle ?? 500??? 500 ça marche, 800 non!
 						//console.log('traitement des items');
 						listitem=[];
 						for (var i=0;i<=Math.round(container.nb_items/2);i++) {	
@@ -528,7 +533,7 @@ function miseajour_context_et_xml() {
 						doAction(params, xbmc_api_url);
 					}
 					index++;
-					setTimeout(function(){return changeviewmode(search_viewmode,false,reponse);},delay_xbmc_distant);  //delay d'action xbmc distant
+					setTimeout(function(){return changeviewmode(search_viewmode,false,reponse);},delay_before_control);  //delay d'action xbmc distant
 				}
 				else if (viewmode_found==false) {
 					doAction(Select, xbmc_api_url, callback, function(res){
