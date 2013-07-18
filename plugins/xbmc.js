@@ -2,7 +2,7 @@ exports.action = function (data, callback, config, SARAH) {
 	// Config
 var max_items=1000;
 var delay_before_control_local=50;
-var delay_before_control_distant=400;
+var delay_before_control_distant=500;
 var delay_before_control;
 var infodebug=true;
 
@@ -531,10 +531,10 @@ function miseajour_context_et_xml() {
 						params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": "left"}, "id": 1 };
 						doAction(params, xbmc_api_url);
 					}
-					index++;
-					setTimeout(function(){return changeviewmode(search_viewmode,false,reponse);},delay_before_control);  //delay d'action xbmc distant
+					
+					setTimeout(function(){index++; return changeviewmode(search_viewmode,false,reponse);},delay_before_control*2);  //delay d'action xbmc distant
 				}
-				else if (viewmode_found==false) {
+				else if ((viewmode_found==false)&&(index!=0)) {
 					doAction(Select, xbmc_api_url, callback, function(res){
 						setTimeout(function(){  // délai pour laisser le temps au current control de se mettre à jour
 								par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
@@ -548,7 +548,7 @@ function miseajour_context_et_xml() {
 						index++;
 					});
 				}
-				else {
+				else if (viewmode_found==true) {
 					if (index>=maxindex) {console.log('Plugin xbmc - Viewmode non trouvé!');SARAH.speak('Je n\'ai pas réussi!'); return reponse(false);}
 					// mise à jour SARAH.context.xbmc
 						delete SARAH.context.xbmc.container.viemode;
