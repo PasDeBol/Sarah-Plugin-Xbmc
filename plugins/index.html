@@ -11,7 +11,7 @@
 </script>
 <p class="page-header">
     <span class="lead">Ce module permet de piloter XBMC avec SARAH</span><br/>
-    <b>Nouveautés V1.4XXXX:</b></br>
+    <b>Nouveautés V1.5:</b></br>
 	Ajout du contrôle des radios avec l'extension musique xbmc "radio" de Tristan Fisher</br>
 	Ajout de la fonction "c'est quoi cette musique(/vidéo)?"</br>
 	Mode XBMC (contrôle vocal total et direct de XBMC)</br></br>
@@ -42,7 +42,11 @@
     <div class="span9 content">
         <!--Config XBMC-->
         <ul class="unstyled" id="plugin-config-xbmc">
-            <li><i class="icon-play-circle"></i> Permettre le contrôle de XBMC en HTML et vérifier le port.</li></br>
+            <li><i class="icon-play-circle"></i> Permettre le contrôle de XBMC en HTTP et vérifier le port.</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Système -> Paramètres -> services -> Serveur Web)
+			
+			</li></br>
+				
             <li><i class="icon-play-circle"></i> Ajouter de la musique dans la Médiathèque: <br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Ajouter une source<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Clique droit sur la source => 'Ajouter à la médiathèque'
@@ -53,7 +57,7 @@
         </ul>
         <!--Config SARAH-->
         <ul class="unstyled" id="plugin-config-sarah" style="display: none;">
-           <li><i class="icon-play-circle"></i> <strong>Si une version précédente du plugin était déjà installée, il est indispensable de nettoyer manuellement </br>
+           <li><i class="icon-play-circle"></i> <strong>Si votre version précédente du plugin n'était pas la V1.4, il est indispensable de nettoyer manuellement </br>
 			le fichier custom.prop en supprimant tout ce qui concerne xbmc avant de passer à la configuration du plugin.</strong>
             </li></br>
             <li><i class="icon-play-circle"></i> Paramétrer le plugin avec l'<strong>IP</strong> et
@@ -87,7 +91,7 @@
         <!--Erreurs-->
         <ul class="unstyled" id="plugin-vox-errors" style="display: none;">
             <li><i class="icon-play-circle"></i> <em>"Je n'ai pas pu contacter le serveur"</em> : Aucune réponse de XBMC
-                (ip, port, autorisation html...?)
+                (ip, port, autorisation http...?)
             </li>
             <li><i class="icon-play-circle"></i> <em>"Je n'ai pas pu executer l'action"</em> : Réponse de XBMC mais
                 incorrecte. (XML...?)
