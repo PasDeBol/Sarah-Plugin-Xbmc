@@ -12,7 +12,9 @@
 <p class="page-header">
     <span class="lead">Ce module permet de piloter XBMC avec SARAH</span><br/>
     <b>Nouveautés V1.4XXXX:</b></br>
-	Mode XBMC (contrôle vocal total et direct de XBMC)
+	Ajout du contrôle des radios avec l'extension musique xbmc "radio" de Tristan Fisher</br>
+	Ajout de la fonction "c'est quoi cette musique(/vidéo)?"</br>
+	Mode XBMC (contrôle vocal total et direct de XBMC)</br></br>
 	Participations au plugin: Jean-Philippe Encausse, Maxime Hermouet, Guillaume Brebion, Jérôme Veyret, Aymeric, Vincent Legavre. 
 </p>
 
@@ -32,6 +34,7 @@
             <li><a href="#" data-toggle="plugin-xbmccommander3">Fonctions avancées</a></li>
             <li class="divider"></li>
             <li class="nav-header">XML</li>
+            <li><a href="#" data-toggle="plugin-generator-info">Infos et Avertissements</a></li>
             <li><a href="#" data-toggle="plugin-generator">Génération automatique du XML</a></li>
         </ul>
     </div>
@@ -39,13 +42,13 @@
     <div class="span9 content">
         <!--Config XBMC-->
         <ul class="unstyled" id="plugin-config-xbmc">
-            <li><i class="icon-play-circle"></i> Permettre le contrôle de XBMC en HTML et vérifier le port.</li>
+            <li><i class="icon-play-circle"></i> Permettre le contrôle de XBMC en HTML et vérifier le port.</li></br>
             <li><i class="icon-play-circle"></i> Ajouter de la musique dans la Médiathèque: <br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Ajouter une source<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Clique droit sur la source => 'Ajouter à la médiathèque'
-            </li>
+            </li></br>
             <li><i class="icon-play-circle"></i> Vérifier l'accès à XBMC depuis votre navigateur:
-                <em>http://ip:port</em></li>
+                <em>http://ip:port</em></li></br>
             <li><i class="icon-play-circle"></i> Mettez de la musique sur XBMC pour la suite des essais...</li>
         </ul>
         <!--Config SARAH-->
@@ -55,8 +58,9 @@
             </li></br>
             <li><i class="icon-play-circle"></i> Paramétrer le plugin avec l'<strong>IP</strong> et
                 <strong>port</strong> de XBMC (musique et vidéo).</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si le xbmc gérant la musique et la vidéo est le même, remplissez les 2 champs avec les mêmes infos.
-            </li>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si le xbmc gérant la musique et la vidéo est le même, remplissez les 2 champs avec les mêmes infos.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si xbmc est installé sur la même machine que sarah, préférez 127.0.0.1 à l'adresse local (le plugin sera plus réactif).
+            </li></br>
             <li><i class="icon-play-circle"></i> Faites un essai pause/lecture en cliquant ici: <a
                     href='../sarah/xbmc?action=play&xbmc=music' target=_blank>
                 ../sarah/xbmc?action=play</a>. Si ce simple essai fonctionne, tout va bien! (sinon...)
@@ -156,12 +160,19 @@
 			
 
         <!--Génération XML-->
-        <ul class="unstyled" id="plugin-generator" style="display: none;">
+         <ul class="unstyled" id="plugin-generator-info" style="display: none;">
             <li><i class="icon-play-circle"></i> Info sur la génération automatique et la personalisation:</br>
  				En cas de problème de reconnaisance d'artistes, de genre ou de série par Sarah, vous pouvez personnaliser le xml en coupant/collant les lignes générées souhaitées
 				entre: </br><em>&#60!-- Personalisation XXXXX --></em></br>et</br><em>&#60!-- XXXXX FIN Personalisation--></em></br> puis en les modifiant à votre convenance! (par exemple: U2: You toux)</br>
 				A la prochaine génération automatique, votre personalisation des artistes, genres ou série sera conservée!
            </li></br>
+            <li><i class="icon-play-circle"></i> Attention aux caractères spéciaux:</br>
+ 				Le caractère <strong>&amp;</strong> est maintenant correctement géré mais il y a des erreurs d'importations avec <strong>[</strong>, <strong>]</strong> et sans doute d'autres charactères. <br>
+				Ces erreurs sont (normalement) signalées dans la page html qui résume les importations effectuées mais d'autres bugs subsistent sans doute.
+           </li></br>
+			
+        </ul>
+		<ul class="unstyled" id="plugin-generator" style="display: none;">
             <li><i class="icon-play-circle"></i> Mise à jour des artistes dans le XML:
                 <a href='../sarah/xbmc?action=xml_artist&xbmc=music' target=_blank>../sarah/xbmc?action=xml_artist&xbmc=music</a></br>
 			</li></br>

@@ -971,7 +971,7 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 								}
 						else {
 							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
-							ligneitem = '            <item>' + value.label.replace(/&/gi, "and") + '<tag>out.action.artist = encodeURIComponent("' + value.label.replace(/&/gi, "&amp;") + '")</tag></item>\n';
+							ligneitem = '            <item>' + value.label.replace(/&/gi, "and") + '<tag>out.action.artist = encodeURIComponent("' + value.label.replace(/&/gi, "&amp;").replace(/"/gi, "\\\"") + '")</tag></item>\n';
 							replace += (ligneitem);
 							}
 					} catch(ex) {
@@ -1020,7 +1020,7 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 								}
 						else {
 							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
-							ligneitem = '            <item>' + value.label.replace(/&/gi, "and") + '<tag>out.action.genre = encodeURIComponent("' + value.label.replace(/&/gi, "&amp;") + '")</tag></item>\n';
+							ligneitem = '            <item>' + value.label.replace(/&/gi, "and") + '<tag>out.action.genre = encodeURIComponent("' + value.label.replace(/&/gi, "&amp;").replace(/"/gi, "\\\"") + '")</tag></item>\n';
 							replace += (ligneitem);
 							}
 					} catch(ex) {
