@@ -101,8 +101,8 @@
 	<item>ajoute ça<tag>out.action.action="ExecuteAction";out.action.value="queue";</tag></item>
 	<item>enlève ça<tag>out.action.action="ExecuteAction";out.action.value="delete";</tag></item>
 	<item>enlève ça et les 2 suivantes<tag>out.action.action="ExecuteAction";out.action.value="delete";out.action.repeter=2;</tag></item>
-	<item>enlève ça et les 3 suivantes<tag>out.action.action="ExecuteAction";out.action.value="delete";out.action.repeter=2;</tag></item>
-	<item>enlève ça et les 4 suivantes<tag>out.action.action="ExecuteAction";out.action.value="delete";out.action.repeter=2;</tag></item>
+	<item>enlève ça et les 3 suivantes<tag>out.action.action="ExecuteAction";out.action.value="delete";out.action.repeter=3;</tag></item>
+	<item>enlève ça et les 4 suivantes<tag>out.action.action="ExecuteAction";out.action.value="delete";out.action.repeter=4;</tag></item>
 	<item>suivante<tag>out.action.action="ExecuteAction";out.action.value="skipnext";</tag></item>
 	<item>précédent<tag>out.action.action="ExecuteAction";out.action.value="skipprevious";</tag></item>
 	
@@ -183,7 +183,7 @@
 <rule id="lazyruleXBMC_sendText" scope="public">
 	<example>écrit ACDC dans la fenêtre</example>
 	<tag>out.action=new Object();</tag>
-	<item>écris</item><ruleref special="GARBAGE" /><item>dans la fenêtre<tag>out.action.action="sendText";out.action.xbmc="video";out._attributes.dictation="true";</tag></item>
+	<item>écris dans la fenêtre:</item><ruleref special="GARBAGE" /><item> <tag>out.action.action="sendText";out.action.xbmc="video";out._attributes.dictation="true";</tag></item>
 </rule>
 
 </grammar>

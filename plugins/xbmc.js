@@ -704,7 +704,7 @@ function miseajour_context_et_xml() {
 					doAction(sendText, xbmc_api_url, callback);
 				}
 */
-				value=data.dictation.slice(6,data.dictation.length-16);
+				value=data.dictation.slice(21,data.dictation.length);
 				if (value){
 					if (infodebug==true) {console.log('plugin xbmc - sendtext value = ' + value);}
 					sendText.params.text = value;
