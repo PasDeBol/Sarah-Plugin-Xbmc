@@ -12,7 +12,7 @@
 <p class="page-header">
     <span class="lead">Ce module permet de piloter XBMC avec SARAH</span><br/>
     <b>Nouveautés V1.5:</b></br>
-	Ajout du contrôle des radios avec l'extension musique xbmc "radio" de Tristan Fisher</br>
+	Ajout du contrôle des radios avec l'extension musique xbmc "radio"</br>
 	Ajout de la fonction "c'est quoi cette musique(/vidéo)?"</br>
 	Mode XBMC (contrôle vocal total et direct de XBMC)</br></br>
 	Participations au plugin: Jean-Philippe Encausse, Maxime Hermouet, Guillaume Brebion, Jérôme Veyret, Aymeric, Vincent Legavre. 
@@ -28,7 +28,7 @@
             <li class="nav-header">Commandes vocales</li>
             <li><a href="#" data-toggle="plugin-vox-examples">Exemples</a></li>
             <li><a href="#" data-toggle="plugin-vox-errors">Erreurs</a></li>
-            <li class="nav-header">Mode XBMC </li>
+            <li class="nav-header">Mode XBMC (Voice commander)</li>
             <li><a href="#" data-toggle="plugin-xbmccommander1">Activation / Désactivation</a></li>
             <li><a href="#" data-toggle="plugin-xbmccommander2">Les commandes vocales</a></li>
             <li><a href="#" data-toggle="plugin-xbmccommander3">Fonctions avancées</a></li>
@@ -43,7 +43,7 @@
         <!--Config XBMC-->
         <ul class="unstyled" id="plugin-config-xbmc">
             <li><i class="icon-play-circle"></i> Permettre le contrôle de XBMC en HTTP et vérifier le port.</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Système -> Paramètres -> services -> Serveur Web)
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Système -> Paramètres -> services -> Serveur Web
 			
 			</li></br>
 				
@@ -53,6 +53,10 @@
             </li></br>
             <li><i class="icon-play-circle"></i> Vérifier l'accès à XBMC depuis votre navigateur:
                 <em>http://ip:port</em></li></br>
+			<li><i class="icon-play-circle"></i> <strong>(Facultatif)</strong> Installer l'extension <em>Radio</em> dans Xbmc:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <em>Musiques -> Extensions -> plus -> Radio (auteur: Tristan Fisher) -> Installer </em></li></br>
+			<li><i class="icon-play-circle"></i> <strong>(Facultatif)</strong> Installer le plugin YouTube dans Xbmc:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <em>vidéo -> Extensions -> plus -> YouTube (auteur: TheCollective) -> Installer</em></li></br>
             <li><i class="icon-play-circle"></i> Mettez de la musique sur XBMC pour la suite des essais...</li>
         </ul>
         <!--Config SARAH-->
@@ -62,13 +66,16 @@
             </li></br>
             <li><i class="icon-play-circle"></i> Paramétrer le plugin avec l'<strong>IP</strong> et
                 <strong>port</strong> de XBMC (musique et vidéo).</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si le xbmc gérant la musique et la vidéo est le même, remplissez les 2 champs avec les mêmes infos.</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si xbmc est installé sur la même machine que sarah, préférez 127.0.0.1 à l'adresse local (le plugin sera plus réactif).
-            </li></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Si le xbmc gérant la musique et la vidéo est le même, remplissez les 2 champs avec les mêmes infos.</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Si xbmc est installé sur la même machine que Sarah (Nodejs), préférez 127.0.0.1 à l'adresse local (le plugin sera plus réactif avec cette IP).<br>
+ 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- La notion xbmc musique/vidéo est un exemple, vous pouvez organiser ça comme vous le souhiatez. (pensez à modifier le xml)</br>
+           </li></br>
             <li><i class="icon-play-circle"></i> Faites un essai pause/lecture en cliquant ici: <a
                     href='../sarah/xbmc?action=play&xbmc=music' target=_blank>
                 ../sarah/xbmc?action=play</a>. Si ce simple essai fonctionne, tout va bien! (sinon...)
-            </li>
+            </li><br>
+			<li><i class="icon-play-circle"></i> <strong>(Facultatif)</strong> Si vous souhaitez moins de log dans la console NodeJS:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- éditez le fichier <em>xbmc.js</em> et mettez la variable <em>infodebug</em> à <em>false</em>.</li></br>
         </ul>
         <!--Exemples-->
         <ul class="unstyled" id="plugin-vox-examples" style="display: none;">
@@ -82,10 +89,10 @@
             <li><i class="icon-play-circle"></i> Sarah, recherche ****** dans les musiques (tentera de trouver **** dans
                 les titres, artistes ou genres)
 			</li>
-            <li><i class="icon-play-circle"></i> Sarah, je veux écouter la radio NRJ/Fréquence 3/... (<span class="text-error">si vous avez installé le plugin "Radio" dans Musique et configurer votre radio préférée dans le fichier xbmc.xml</span>)
+            <li><i class="icon-play-circle"></i> Sarah, je veux écouter la radio NRJ/Fréquence 3/... (<span class="text-error">si plugin "Radio" installé dans xbmc.</span>)
 			<li><i class="icon-play-circle"></i> Sarah, c'est quoi cette musique/vidéo ?</li>
-             <li><i class="icon-play-circle"></i> met le prochain épisode de House/Braquo/...(<span class="text-error">si importation des séries</span>)</li>
-            <li><i class="icon-play-circle"></i> met en pause la série.
+             <li><i class="icon-play-circle"></i> Sarah, met le prochain épisode de House/Braquo/...(<span class="text-error">si importation des séries</span>)</li>
+            <li><i class="icon-play-circle"></i> Sarah, met en pause la série.
 			</li>
         </ul>
         <!--Erreurs-->
@@ -101,22 +108,23 @@
         <ul class="unstyled" id="plugin-xbmccommander1" style="display: none;">
             <li><i class="icon-play-circle"></i> <strong>Le mode XBMC </strong>permet de controler/télécommander XBMC sans devoir répéter "Sarah".</br></br>
 			<i class="icon-play-circle"></i><strong>Activation:</strong></br>
-			&nbsp;&nbsp;<em>Sarah, active le mode xbmc</em> (Sarah répond)</br></br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <em>Sarah, active le mode xbmc</em> (Sarah répond)</br></br>
 			<i class="icon-play-circle"></i><strong>Désactivation:</strong></br>
-			&nbsp;&nbsp;<em>Merci, ça sera tout Sarah</em> (Sarah répond) </br>
-			Ou<br>
-			&nbsp;&nbsp;<em>Automatiquement</em> après un temps sans nouvelle commande</br></br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <em>Merci, ça sera tout Sarah</em> (Sarah répond) </br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ou<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <em>Automatiquement</em> après un temps sans nouvelle commande</br></br>
 			<i class="icon-play-circle"></i><strong>Modification du timeout:</strong></br>
-			Le timeout est défini dans le fichier Custom.ini à la racine de Sarah.<br>
-			&nbsp;&nbsp;ctxTimeout=60000 (60s par défaut)</br></br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Le timeout est défini dans le fichier Custom.ini à la racine de Sarah.<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctxTimeout=60000 (60s par défaut)</br></br>
 			<i class="icon-play-circle"></i><strong>Infos / Conseils:</strong></br>
-			Durant le 'mode XBMC', seuls les fichiers lazyxbmc.xml et xbmc_temp.xml sont traité par Sarah.<br>
-			&nbsp;&nbsp;Vos autres plugins ne sont plus opérationnels.</br></br>
-			Sarah contrôle toujours de manière plus précise le 1er mot (qui n'est plus <em>Sarah</em>) </br>
-			&nbsp;&nbsp;Il faut donc bien prononcer le 1er mot (ou adapter le xml en fonction de vos préférences).</br></br>
-			</br></br>
-			Le mode a été testé et développé avec le thème par défaut de XBMC: <em>Confluence</em>. Aucune garantie de fonctionnement avec les autres thèmes.
-            </li>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Durant le 'mode XBMC', seuls les fichiers lazyxbmc.xml et xbmc_temp.xml sont traité par Sarah.<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vos autres plugins ne sont plus opérationnels.</br></br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Sarah contrôle toujours de manière plus précise le 1er mot (qui n'est plus <em>Sarah</em>) </br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Il faut donc bien prononcer le 1er mot (ou adapter le xml en fonction de vos préférences).</br></br>
+			<i class="icon-play-circle"></i><strong>Le mode a été testé et développé avec le thème par défaut de XBMC: <em>Confluence</em>.</strong> </br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Aucune garantie de fonctionnement avec les autres thèmes.</br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Il doit être possible d'adapté le thème en modifiant le code de xbmc.js (fonction: navigation_context_viewmode_info)
+			</li>
         </ul>
        <!--XBMC Commander 2 -->
         <ul class="unstyled" id="plugin-xbmccommander2" style="display: none;">
@@ -125,9 +133,10 @@
 			</br>
 			<i class="icon-play-circle"></i><strong> Quelques commandes:</strong></br></br>
 			Gauche, droite, monte, descend, ok, retour, info...</br></br>
-			2ème à Gauche, 5ème droite, 2ème au dessus, 4ème en dessous, au début, à la fin,...</br></br>
+			2ème à Gauche, 5ème à droite, 2ème au dessus, 4ème en dessous, au début, à la fin,...</br></br>
 			Monte le son, baisse le son, coupe le son, remet le son, mets le son à 70%,...</br></br>
 			menu principale, affiche les séries, affiche les musiques par artiste, affiche la météo, ferme la fenêtre ...</br></br>
+			ajoute ça, enlève ça (à la playlist), affiche la playlist</br>
 			fait un scrolling avant, arrête le scrolling , affichage en liste, affichage en vignette,...</br></br>
 			Affiche les radios (si extension musique xbmc "radio" de Tristan Fisher)</br></br>
 			Affiche YouTube (si addon youtube)

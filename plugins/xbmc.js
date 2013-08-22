@@ -723,9 +723,9 @@ function miseajour_context_et_xml() {
 			break;
 
 		case 'analyse_le_contenu':
-			//setTimeout(function(){miseajour_context_et_xml();}, 5000);
 			miseajour_context_et_xml();
-			callback();	
+			setTimeout(function(){callback({"tts":"c\'est fait!"});}, delay_before_control);
+			//callback();	
 			break;
 			
 		case 'whatIsPlaying':
