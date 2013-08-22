@@ -62,7 +62,8 @@
 	<item>fait un scrolling arrière<tag>out.action.action="scrolling_on";out.action.parameters="reverse";out.action.value=800;</tag></item>
 	<item>arrête le scrolling<tag>out.action.action="scrolling_off"</tag></item>
 	
-<!-- ************************************************ Navigation dans les Menus ********************************************* -->
+<!-- ************************************************ Navigation dans xbmc ********************************************* -->
+	<item>Importation des personnalisations<tag>out.action.action="personnalisation_to_json";</tag></item>
 	<item>menu principal<tag>out.action.action="ActivateWindow";out.action.window="home";</tag></item>
 	<item>affiche la télé<tag>out.action.action="ActivateWindow";out.action.window="tv";</tag></item>
 	<item>affiche la météo<tag>out.action.action="ActivateWindow";out.action.window="weather";</tag></item>
@@ -76,6 +77,7 @@
 	<item>Info<tag>out.action.action="ExecuteAction";out.action.value="info";</tag></item>
 	<item>ferme la fenetre<tag>out.action.action="ExecuteAction";out.action.value="previousmenu";</tag></item> <!-- pour fermer fenetre rechercher par exemple -->
 	<item>analyse le contenu<tag>out.action.action="analyse_le_contenu";</tag></item>
+	<item>Marquer comme vu<tag>out.action.action="ExecuteAction";out.action.value="togglewatched";</tag></item>
 
 <!-- ************************************************** Addons  ********************************************* -->
 	<item>Affiche les radios<tag>out.action.action="ExecuteAddon";out.action.parameters="plugin.audio.radio_de";out.action.value=1000;</tag></item>
@@ -87,6 +89,7 @@
 	<item>valide<tag>out.action.action="Select";</tag></item>
 	<item>ok<tag>out.action.action="Select";</tag></item>
 	<item>select<tag>out.action.action="Select";</tag></item>
+	<item>sélectionner<tag>out.action.action="ExecuteAction";out.action.value="highlight"</tag></item>   <!-- permet de sélectionner l'item lorsque le focus est nul part!-->
 
 <!-- ************************************************ ViewMode  ********************************************* -->
 	<item>affichage en liste<tag>out.action.action="viewmode";out.action.value="liste";</tag></item>
@@ -162,22 +165,15 @@
 
 <!-- ************************************************ le foutoir ... certain marche, d'autre non ********************************************* -->
 	<item>autre vue<tag>out.action.action="viewmode";out.action.value="Liste";</tag></item>
-
-	<item>Importation des personnalisations<tag>out.action.action="personnalisation_to_json";</tag></item>
  	<item>dossier précédent<tag>out.action.action="ExecuteAction";out.action.value="ParentDir"</tag></item> 
 	<item>affiche le lecteur <tag>out.action.action="ShowOSD";</tag></item>
 	<item>OSD<tag>out.action.action="ExecuteAction";out.action.value="osd";</tag></item>
 	<item>cache le lecteur <tag>out.action.action="ShowOSD";</tag></item>
 	<item>fermer<tag>out.action.action="ExecuteAction";out.action.value="close";</tag></item>
-	<item>sélectionner<tag>out.action.action="ExecuteAction";out.action.value="highlight"</tag></item>   <!-- permet de sélectionner l'item lorsque le focus est nul part!-->
-	
-	<item>Marquer comme vu<tag>out.action.action="ExecuteAction";out.action.value="togglewatched";</tag></item>
 	<item>épisode suivant<tag>out.action.action="ExecuteAction";out.action.value="nextscene";</tag></item>
 	<item>introspect<tag>out.action.action="introspect";</tag></item>
-
-	
 	</one-of>
-		<tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag>
+	<tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag>
 </rule>  
   
 <rule id="lazyruleXBMC_sendText" scope="public">
