@@ -4,14 +4,12 @@
 		<tag>out.action=new Object(); confidence="0.6" </tag>
 		<tag>out.action.xbmc="video" </tag>
 		<one-of>
-<!--	Désactivation temporaire du LAZY durant essais plugin
--->		<item>
+<!-- ************************************************ Désactivation du mode xbmc ***************************************** -->
+		<item>
 				Merci ça sera tout, SARAH
 				<tag>out.action._attributes.context = "default"</tag>
 				<tag>out.action._attributes.tts = "mais de rien!"</tag>
 		</item>
-<!---->
-
 
 <!-- ************************************************ Déplacement Droite  Gauche... ***************************************** -->
 <!-- **** Doite ***** -->

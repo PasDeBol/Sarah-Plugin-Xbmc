@@ -12,9 +12,9 @@
 <p class="page-header">
     <span class="lead">Ce module permet de piloter XBMC avec SARAH</span><br/>
     <b>Nouveautés V1.5:</b></br>
+	Mode XBMC (voice commander): Contrôle vocal total et direct de XBMC</br></br>
 	Ajout du contrôle des radios avec l'extension musique xbmc "radio"</br>
 	Ajout de la fonction "c'est quoi cette musique(/vidéo)?"</br>
-	Mode XBMC (contrôle vocal total et direct de XBMC)</br></br>
 	Participations au plugin: Jean-Philippe Encausse, Maxime Hermouet, Guillaume Brebion, Jérôme Veyret, Aymeric, Vincent Legavre. 
 </p>
 
@@ -25,13 +25,14 @@
             <li class="nav-header">Configuration</li>
             <li class="active"><a href="" data-toggle="plugin-config-xbmc">XBMC</a></li>
             <li><a href="" data-toggle="plugin-config-sarah">SARAH</a></li>
+            <li><a href="#" data-toggle="plugin-vox-errors">Erreurs</a></li>
             <li class="nav-header">Commandes vocales</li>
             <li><a href="#" data-toggle="plugin-vox-examples">Exemples</a></li>
-            <li><a href="#" data-toggle="plugin-vox-errors">Erreurs</a></li>
             <li class="nav-header">Mode XBMC (Voice commander)</li>
             <li><a href="#" data-toggle="plugin-xbmccommander1">Activation / Désactivation</a></li>
             <li><a href="#" data-toggle="plugin-xbmccommander2">Les commandes vocales</a></li>
             <li><a href="#" data-toggle="plugin-xbmccommander3">Fonctions avancées</a></li>
+            <li><a href="#" data-toggle="plugin-xbmccommander4">Paramétrages avancés</a></li>
             <li class="divider"></li>
             <li class="nav-header">XML</li>
             <li><a href="#" data-toggle="plugin-generator-info">Infos et Avertissements</a></li>
@@ -89,7 +90,10 @@
             <li><i class="icon-play-circle"></i> Sarah, recherche ****** dans les musiques (tentera de trouver **** dans
                 les titres, artistes ou genres)
 			</li>
-            <li><i class="icon-play-circle"></i> Sarah, je veux écouter la radio NRJ/Fréquence 3/... (<span class="text-error">si plugin "Radio" installé dans xbmc.</span>)
+            <li><i class="icon-play-circle"></i> Sarah, je veux écouter la radio NRJ/Fréquence 3/... (<span class="text-error">si plugin "Radio" installé dans xbmc.</span>)<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Quelques radios ont déjà été ajouté dans xbmc.xml, vous pouvez en rajouter.</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- L'ID de la radio peut être trouvé en tapant <em>http://radio.fr/info/index/searchembeddedbroadcast?start=0&rows=10&q=Nom Radio</em> dans un navigateur
+			</li>
 			<li><i class="icon-play-circle"></i> Sarah, c'est quoi cette musique/vidéo ?</li>
              <li><i class="icon-play-circle"></i> Sarah, met le prochain épisode de House/Braquo/...(<span class="text-error">si importation des séries</span>)</li>
             <li><i class="icon-play-circle"></i> Sarah, met en pause la série.
@@ -107,24 +111,19 @@
        <!--XBMC Commander 1 -->
         <ul class="unstyled" id="plugin-xbmccommander1" style="display: none;">
             <li><i class="icon-play-circle"></i> <strong>Le mode XBMC </strong>permet de controler/télécommander XBMC sans devoir répéter "Sarah".</br></br>
-			<i class="icon-play-circle"></i><strong>Activation:</strong></br>
+			<i class="icon-play-circle"></i><strong> Activation:</strong></br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <em>Sarah, active le mode xbmc</em> (Sarah répond)</br></br>
-			<i class="icon-play-circle"></i><strong>Désactivation:</strong></br>
+			<i class="icon-play-circle"></i><strong> Désactivation:</strong></br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <em>Merci, ça sera tout Sarah</em> (Sarah répond) </br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ou<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <em>Automatiquement</em> après un temps sans nouvelle commande</br></br>
-			<i class="icon-play-circle"></i><strong>Modification du timeout:</strong></br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Le timeout est défini dans le fichier Custom.ini à la racine de Sarah.<br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctxTimeout=60000 (60s par défaut)</br></br>
-			<i class="icon-play-circle"></i><strong>Infos / Conseils:</strong></br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Durant le 'mode XBMC', seuls les fichiers lazyxbmc.xml et xbmc_temp.xml sont traité par Sarah.<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vos autres plugins ne sont plus opérationnels.</br></br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Sarah contrôle toujours de manière plus précise le 1er mot (qui n'est plus <em>Sarah</em>) </br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Il faut donc bien prononcer le 1er mot (ou adapter le xml en fonction de vos préférences).</br></br>
-			<i class="icon-play-circle"></i><strong>Le mode a été testé et développé avec le thème par défaut de XBMC: <em>Confluence</em>.</strong> </br>
+			<i class="icon-play-circle"></i><strong> Le mode a été testé et développé avec le thème par défaut de XBMC: <em>Confluence</em>.</strong> </br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Aucune garantie de fonctionnement avec les autres thèmes.</br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Il doit être possible d'adapté le thème en modifiant le code de xbmc.js (fonction: navigation_context_viewmode_info)
-			</li>
+ 			</li>
         </ul>
        <!--XBMC Commander 2 -->
         <ul class="unstyled" id="plugin-xbmccommander2" style="display: none;">
@@ -136,7 +135,7 @@
 			2ème à Gauche, 5ème à droite, 2ème au dessus, 4ème en dessous, au début, à la fin,...</br></br>
 			Monte le son, baisse le son, coupe le son, remet le son, mets le son à 70%,...</br></br>
 			menu principale, affiche les séries, affiche les musiques par artiste, affiche la météo, ferme la fenêtre ...</br></br>
-			ajoute ça, enlève ça (à la playlist), affiche la playlist</br>
+			ajoute ça, enlève ça (à la playlist), affiche la playlist</br></br>
 			fait un scrolling avant, arrête le scrolling , affichage en liste, affichage en vignette,...</br></br>
 			Affiche les radios (si extension musique xbmc "radio" de Tristan Fisher)</br></br>
 			Affiche YouTube (si addon youtube)
@@ -150,7 +149,7 @@
 			Le scolling s'arrête automatiquement après avoir bouclé complètement ou après avoir recu une demande quelconque.</br>
 			Vous pouvez régler la vitesse en modifiant dans le XML: <em>out.action.value</em> (millisecondes)</br></br>
 			<i class="icon-play-circle"></i><strong>Analyse automatique du contenu</strong> </br>
-			Chaque fois que vous naviguez dans un menu , le plugin créer le fichier xbmc_temp.xml qui contient les choix possibles. <br>
+			Chaque fois que vous naviguez dans un menu , le plugin créer le fichier xbmc_temp.xml qui contient les choix possibles (dans une limite de 1000 items). <br>
 			Il suffit alors de prononcer le titre/série/film/... de son choix et xbmc ce positionnera dessus:</br>
 			exemple: Affiche les séries ...OK...NCIS ...OK... Saison 8 ...OK... Ships in the night...OK</br>
 			Au lieu de dire le titre, vous pouvez aussi dire "épisode XX" pour une série ou "Piste XX" pour un album.</br>
@@ -170,6 +169,29 @@
           </li>
         </ul>		
 			
+     <!--XBMC Commander 4 -->
+        <ul class="unstyled" id="plugin-xbmccommander4" style="display: none;">
+            <li>
+			<i class="icon-play-circle"></i><strong>Avec un xbmc installé sur une machine distante:</strong> </br>
+			Il se peut que la mise à jour du contenu se fasse trop tôt si le temps de latence (ping) entre la machine nodejs et celle xbmc est trop important.</br>
+			Dans ce cas, vous pouvez augmenter dans le fichier  <em>xbmc.js</em> la variable </em>delay_before_control_distant</em>(500 millisecondes par défaut)</br></br>
+			<i class="icon-play-circle"></i><strong>Modification du timeout de désactivation automatique:</strong></br>
+			Le timeout est défini dans le fichier Custom.ini à la racine de Sarah et concerne le mode Lazzy de tous les plugins.<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctxTimeout=60000 (60s par défaut)</br></br>
+			<i class="icon-play-circle"></i><strong>Si votre thème XBMC est different de <em>Confluence</em>:</strong> </br>
+			Il doit être possible d'adapté le thème en modifiant le code de xbmc.js</br>
+			Dans la fonction navigation_context_viewmode_info, il faut paramétrer les <em>temp_data</em> pour chaque format d'affichage (viewmode)</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.way_normal est le sens normal de défilement (celui du scrolling et de la recherche)	</br>	
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.way_reverse est le sens inverse de défilement		</br>				
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.way2_normal est le sens normal de défilement pour le second axe d'un tableau</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.way2_reverse est le sens inverse de défilement pour le second axe d'un tableau</br>					
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.way_options est le sens pour atteindre le menu d'affichage</br>				
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.way_optionsback est le sens pour quitter le menu d'affichage</br>	
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.first_col=1 laisser à 1</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.last_col= le nombre de colonne du mode d'affichage</br></br>
+			Si vous créer une configuration pour un thème... partagez la! ;-)</br></br>
+			</li>
+		</ul>		
 			
 
         <!--Génération XML-->
