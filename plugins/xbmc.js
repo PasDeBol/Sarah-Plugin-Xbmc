@@ -591,7 +591,8 @@ function miseajour_context_et_xml() {
 			else {console.log('plugin xbmc - viewmode : il manque data.parameters');}
 		
 			break;
-		
+
+			
 		case 'goto_leftmenu':
 			// Sélectionne le menu et le bon tri/choix/valeur de ce menu (si xxxxxx : yyy) dans le menu lateral
 			var index=0;
