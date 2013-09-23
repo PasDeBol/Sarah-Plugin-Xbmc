@@ -480,7 +480,12 @@ function miseajour_context_et_xml() {
 			if (data.value==1) doAction(shuffle_on, xbmc_api_url, callback);
 			if (data.value==0) doAction(shuffle_off, xbmc_api_url, callback);
 			break;
-
+		case 'quitxbmc':
+			doAction(quitxbmc, xbmc_api_url, callback);
+            break;
+		case 'shutdownxbmc':
+			doAction(shutdownxbmc, xbmc_api_url, callback);
+            break;
 		case 'ExecuteAction':
 			params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": data.value}, "id": 1 };
 			if (typeof(data.repeter)=='undefined') {repeter=1; } else {repeter=data.repeter; } // repeter à 1 par défaut.
@@ -943,6 +948,11 @@ var playserie = {"jsonrpc": "2.0", "method": "Player.Open", "params": { "item": 
 
 // radio
 var xml_radio = '{"jsonrpc":"2.0","method":"Player.Open","params":{"item":{"file":"plugin://plugin.audio.radio_de/station/radioid"}},"id":1}';
+
+// xbmc
+var quitxbmc = {"jsonrpc":"2.0","method":"Application.Quit","id":"1"};
+var shutdownxbmc={"jsonrpc":"2.0","method":"System.Shutdown","id":"1"};
+
 
 var doRadio = function(radioid, xbmc_api_url, callback) {
   var xml=JSON.parse(xml_radio);

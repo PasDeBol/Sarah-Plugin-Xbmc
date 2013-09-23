@@ -29,6 +29,10 @@
 			<item>remet la série<tag>out.action.action="playvideo"</tag><tag>out.action.xbmc="video" </tag></item>
 			<item>c'est quoi cette musique<tag>out.action.action="whatIsPlaying"</tag><tag>out.action.xbmc="music" </tag></item>
 			<item>c'est quoi cette vidéo<tag>out.action.action="whatIsPlaying"</tag><tag>out.action.xbmc="video" </tag></item>
+			<item>ferme l'application xbmc vidéo<tag>out.action.action="quitxbmc"</tag><tag>out.action.xbmc="video" </tag></item>
+			<item>ferme l'application xbmc musique<tag>out.action.action="quitxbmc"</tag><tag>out.action.xbmc="music" </tag></item>
+			<item>power off xbmc vidéo<tag>out.action.action="shutdownxbmc"</tag><tag>out.action.xbmc="video" </tag></item>
+			<item>power off xbmc musique<tag>out.action.action="shutdownxbmc"</tag><tag>out.action.xbmc="music" </tag></item>
 
 		</one-of>
 	</rule>  
