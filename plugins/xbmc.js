@@ -587,7 +587,122 @@ function miseajour_context_et_xml() {
 		
 			break;
 		
-		case 'scrolling_on':
+		case 'goto_leftmenu':
+			// Sélectionne le menu et le bon tri/choix/valeur de ce menu (si xxxxxx : yyy) dans le menu lateral
+			var index=0;
+			var maxindex=15;
+
+			var goto_leftmenu=function (search_menu,menu_found,tri_found, reponse){
+				console.log("-------------------"+index);
+				if (index==0) {
+					// bouge à gauche ou haut pour faire apparaitre le menu laterale 
+					if ((SARAH.context.xbmc.container.way_options=='left')||(SARAH.context.xbmc.container.way_options=='up')) {
+						params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": SARAH.context.xbmc.container.way_options}, "id": 1 };
+						doAction(params, xbmc_api_url, callback);
+					}
+					// Reviens au début de la liste puis gauche pour faire apparaitre le menu laterale 
+					if (SARAH.context.xbmc.container.way_options=='homeleft') {
+						params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": "firstpage"}, "id": 1 };
+						doAction(params, xbmc_api_url, callback);
+						params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": "left"}, "id": 1 };
+						doAction(params, xbmc_api_url);
+					}
+					setTimeout(function(){
+						par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
+						doAction(par, xbmc_api_url, callback, function(res){
+							index++;
+							// controle le menu sélectionné
+								if ((search_menu.indexOf(":"))&&(res.result.currentcontrol.label.indexOf(":"))) {	//case menu with choice:   menu:Order
+									if ((res.result.currentcontrol.label.toLowerCase().slice(0,res.result.currentcontrol.label.indexOf(":")))==(search_menu.toLowerCase().slice(0,search_menu.indexOf(":"))))
+										{menu_found=true;}     
+									if ((res.result.currentcontrol.label.toLowerCase().slice(res.result.currentcontrol.label.indexOf(":")+1,res.result.currentcontrol.label.length))==(search_menu.toLowerCase().slice(search_menu.indexOf(":")+1,search_menu.length)))
+										{tri_found=true;}    
+									return goto_leftmenu(search_menu,menu_found,tri_found,reponse);	
+								}
+								else {																				//simple menu
+									if ((res.result.currentcontrol.label.toLowerCase().slice(0,search_menu.length)==(search_menu.toLowerCase()))) 
+										{ return goto_leftmenu(search_menu,true,true,reponse);}	
+									else {return goto_leftmenu(search_menu,false,false,reponse);}
+								}
+						});		
+					},delay_before_control*2);
+				}
+				else if (((menu_found==false)||(tri_found==false))&&(index>0)) {
+					if (menu_found==false) {action=Down;} else {action=Select}	// Down pour trouver le menu puis Select pour trouver la bonne valeur
+					doAction(action, xbmc_api_url, callback, function(res){
+						setTimeout(function(){  // délai pour laisser le temps au current control de se mettre à jour
+							par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
+							doAction(par, xbmc_api_url, callback, function(res){
+								index++;
+								// controle le menu sélectionné
+								console.log(res.result.currentcontrol.label);
+								console.log(search_menu);
+								console.log("--");
+								
+								if ((search_menu.indexOf(":"))&&(res.result.currentcontrol.label.indexOf(":"))) {  //case menu with choice:   menu:Order
+									if ((res.result.currentcontrol.label.toLowerCase().slice(0,res.result.currentcontrol.label.indexOf(":")))==(search_menu.toLowerCase().slice(0,search_menu.indexOf(":"))))
+										{menu_found=true;}     
+									if ((res.result.currentcontrol.label.toLowerCase().slice(res.result.currentcontrol.label.indexOf(":")+1,res.result.currentcontrol.label.length))==(search_menu.toLowerCase().slice(search_menu.indexOf(":")+1,search_menu.length)))
+										{tri_found=true;}
+									if (index>=maxindex) {menu_found=true; tri_found=true;}
+									return goto_leftmenu(search_menu,menu_found,tri_found,reponse);	
+								}
+								else {																				//simple menu
+									if (((res.result.currentcontrol.label.toLowerCase().slice(0,search_menu.length)==(search_menu.toLowerCase())))||(index>=maxindex)) 
+										{ return goto_leftmenu(search_menu,true,true,reponse);}	
+									else {return goto_leftmenu(search_menu,false,false,reponse);}
+								}
+							});
+						}, delay_before_control); 			// le temps de "pause" est nécessaire sinon xbmc renvois parfois le label précédent, malgré un select effectué!
+							
+					});
+				}
+				else if ((menu_found==true)&&(tri_found==true)) {
+					if (index>=maxindex) {console.log('Plugin xbmc - Menu non trouvé!');SARAH.speak('Je n\'ai pas réussi!'); return reponse(false);}
+					
+					if ((search_menu.toLowerCase().slice(0,search_menu.indexOf(":")))=="vue ") {    // search_menu="Vue :" -> Change Viewmode
+						// mise à jour SARAH.context.xbmc
+						delete SARAH.context.xbmc.container.viemode;
+						SARAH.context.xbmc.container.viewmode=search_menu.slice(search_menu.indexOf(": ")+2,search_menu.length)
+						navigation_context_viewmode_info(SARAH.context.xbmc.container);
+					}
+					
+					if (SARAH.context.xbmc.container.way_optionsback) {
+						params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": SARAH.context.xbmc.container.way_optionsback}, "id": 1 };
+						console.log("--> back!");
+						doAction(params, xbmc_api_url,callback, function(res){
+							
+							return reponse(true);
+						});
+					}
+					else {return reponse(true);}
+				}
+			}
+			if (data.value) {
+				var previouscurrentcontrol='';
+				if (SARAH.context.xbmc.container.way_options=='homeleft') {
+					par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
+					doAction(par, xbmc_api_url, callback, function(res){
+						previouscurrentcontrol=res.result.currentcontrol.label;
+						lenstr=res.result.currentcontrol.label.length-1;
+						if  ((previouscurrentcontrol.indexOf("[")==0)&&(previouscurrentcontrol.lastIndexOf("]")==lenstr)) {     
+							previouscurrentcontrol=res.result.currentcontrol.label.slice(1,lenstr);// suppression des [ ] (string!) 
+						}
+					});
+				}
+				goto_leftmenu( data.value,false, false, function (reponse) {
+					if (reponse==true) {
+						setTimeout(function(){navigation_cherche_item(previouscurrentcontrol);}, delay_before_control);	
+						console.log("true");
+						
+					}
+				});
+			}
+			else {console.log('plugin xbmc - goto_leftmenu : il manque data.parameters');}
+		
+			break;
+
+			case 'scrolling_on':
 			if (typeof(SARAH.context.xbmc.scrolling)!="undefined") {
 				console.log('plugin xbmc - fin de scrolling!');
 				delete SARAH.context.xbmc.scrolling;
