@@ -3,5 +3,6 @@
 <tag>out.action=new Object(); </tag>
 <tag>out.action.xbmc="video" </tag>
 <tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag>
+
 </rule>
 </grammar>
