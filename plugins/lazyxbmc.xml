@@ -90,13 +90,28 @@
 	<item>sélectionner<tag>out.action.action="ExecuteAction";out.action.value="highlight"</tag></item>   <!-- permet de sélectionner l'item lorsque le focus est nul part!-->
 
 <!-- ************************************************ ViewMode  ********************************************* -->
-	<item>affichage en liste<tag>out.action.action="viewmode";out.action.value="liste";</tag></item>
-	<item>affichage en vignette<tag>out.action.action="viewmode";out.action.value="vignette";</tag></item>
-	<item>affichage en affiches<tag>out.action.action="viewmode";out.action.value="galerie d'affiches";</tag></item>
-	<item>affichage large<tag>out.action.action="viewmode";out.action.value="large";</tag></item>
-	<item>affichage Fanart<tag>out.action.action="viewmode";out.action.value="fanart";</tag></item>
+	<item>affichage en liste<tag>out.action.action="goto_leftmenu";out.action.value="Vue : liste";</tag></item>
+	<item>affichage en vignette<tag>out.action.action="goto_leftmenu";out.action.value="Vue : vignette";</tag></item>
+	<item>affichage en affiches<tag>out.action.action="goto_leftmenu";out.action.value="Vue : galerie d'affiches";</tag></item>
+	<item>affichage large<tag>out.action.action="goto_leftmenu";out.action.value="Vue : large";</tag></item>
+	<item>affichage Fanart<tag>out.action.action="goto_leftmenu";out.action.value="Vue : fanart";</tag></item>
 	<item>affichage suivant<tag>out.action.action="viewmode";out.action.value="next";</tag></item>
 
+	<item>Trier par année<tag>out.action.action="goto_leftmenu";out.action.value="Trier par : année";</tag></item>
+	<item>Trier par titre<tag>out.action.action="goto_leftmenu";out.action.value="Trier par : titre";</tag></item>
+	<item>Trier par épisode<tag>out.action.action="goto_leftmenu";out.action.value="Trier par : épisode";</tag></item>
+	<item>Trier par durée<tag>out.action.action="goto_leftmenu";out.action.value="Trier par : durée";</tag></item>
+	<item>Trier par intérêt<tag>out.action.action="goto_leftmenu";out.action.value="Trier par : intérêt";</tag></item>
+
+	<item>affiche les chaine TV<tag>out.action.action="goto_leftmenu";out.action.value="Chaînes TV";</tag></item>
+	<item>affiche les chaine Radio<tag>out.action.action="goto_leftmenu";out.action.value="Chaînes Radio";</tag></item>
+	<item>affiche les programmes<tag>out.action.action="goto_leftmenu";out.action.value="Guide des Programmes: Maintenant";</tag></item>
+	<item>affiche les programmes suivant<tag>out.action.action="goto_leftmenu";out.action.value="Guide des Programmes: Suivant";</tag></item>
+	<item>affiche les programmes chronologie<tag>out.action.action="goto_leftmenu";out.action.value="Guide des Programmes: Chronologie";</tag></item>
+
+	
+	<item>Trie ascendant<tag>out.action.action="goto_leftmenu";out.action.value="Tri : ascendant";</tag></item>
+	<item>Trie descendant<tag>out.action.action="goto_leftmenu";out.action.value="Tri : descendant";</tag></item>
 	<!-- ************************************************ Play list  ********************************************* -->
 	<item>play liste<tag>out.action.action="ExecuteAction";out.action.value="playlist";</tag></item>
 	<item>ajoute ça<tag>out.action.action="ExecuteAction";out.action.value="queue";</tag></item>
