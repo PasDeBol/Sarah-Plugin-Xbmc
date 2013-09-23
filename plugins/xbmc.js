@@ -281,8 +281,8 @@ function miseajour_context_et_xml() {
 	navigation_generation_xml_items = function () {
 					var personnalisation=SARAH.context.xbmc.personnalisation;
 					var container=SARAH.context.xbmc.container;
-					datas_xml='<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="ruleXBMC_temp" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">\n';
-					datas_xml+='<rule id="ruleXBMC_temp" scope="public">\n';
+					datas_xml='<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="ruleLAZYXBMC_temp" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">\n';
+					datas_xml+='<rule id="ruleLAZYXBMC_temp" scope="public">\n';
 					datas_xml+='<tag>out.action=new Object(); </tag>\n';
 					datas_xml+='<tag>out.action.xbmc="video" </tag>\n';
 					datas_xml+='<one-of>\n';	
@@ -317,9 +317,9 @@ function miseajour_context_et_xml() {
 					datas_xml+='</rule>\n';
 					datas_xml+='</grammar>\n';
 					var fs = require('fs');
-					fs.writeFile("plugins/xbmc/xbmc_temp.xml", datas_xml, function(err) {
+					fs.writeFile("plugins/xbmc/lazyxbmc_temp.xml", datas_xml, function(err) {
 						if(err) {console.log(err);}
-						else {console.log("plugin xbmc - xbmc_temp.xml généré!");}
+						else {console.log("plugin xbmc - lazyxbmc_temp.xml généré!");}
 						//callback();
 					}); 
 			//console.log('FIN de mise a jour context et xml!!!!');
