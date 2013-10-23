@@ -968,8 +968,9 @@ var doRadio = function(radioid, xbmc_api_url, callback) {
 
 var dotv = function(channelname, xbmc_api_url, callback) {
 var http = require('http');
+var url = xbmc_api_url.substring(7,19)
 	var options = {
-	  hostname: '192.168.1.22',
+	  hostname: url,
 	  port: 80,
 	  path: '/jsonrpc?request={"id":1,"jsonrpc":"2.0","method":"PVR.GetChannels","params":{"channelgroupid":"alltv","properties":["channel","channeltype","hidden","lastplayed","locked","thumbnail"]}}',
 	};
@@ -990,11 +991,8 @@ var http = require('http');
 					for ( var j = 0; found && j < tokens.length; j++ ) {
 						found = new RegExp(tokens[j],'i').test(channelname);
 					}
-
-		console.log ( "Found channel (" + i + ") " + channels.channel + ": " + found );
 		if ( found ) {
 			var xml_tv = '{"jsonrpc":"2.0","method":"Player.Open","params":{"item":{"channelid":' + channels.channelid + '}}}';
-	console.log(xml_tv);
 	var xml=JSON.parse(xml_tv);
   sendJSONRequest(xbmc_api_url, xml, function(res){
     if (res === false) callback({"tts":"Je n'ai pas réussi à mettre la radio."})
