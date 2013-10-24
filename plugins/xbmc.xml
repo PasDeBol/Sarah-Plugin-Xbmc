@@ -11,7 +11,8 @@
 			<item><ruleref uri="#ruleXBMC_Telecommande"/><tag>out.action = rules.ruleXBMC_Telecommande</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
 			<item><ruleref uri="#ruleXBMC_Serie"/><tag>out.action = rules.ruleXBMC_Serie;</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
 			<item><ruleref uri="#ruleXBMC_Radio"/><tag>out.action = rules.ruleXBMC_Radio;</tag><tag>out.action._attributes.tts = "Je mets la radio"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
-			<item>active le mode xbmc<tag>out.action._attributes.context = "lazyxbmc.xml,lazyxbmc_temp.xml"</tag><tag>out.action._attributes.tts = "Mode XBMC activé. Que veux tu ?"</tag></item>
+			<item><ruleref uri="#ruleXBMC_Tv"/><tag>out.action = rules.ruleXBMC_Tv;</tag><tag>out.action._attributes.tts = "Je mets la tele"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
+			<item>active le mode xbmc<tag>out.action._attributes.context = "lazyxbmc.xml,lazyxbmc_temp.xml"</tag><tag>out.action._attributes.tts = "Mode XBMC activé"</tag></item>
 		</one-of>
 	</rule>  
   
@@ -74,6 +75,21 @@
 			<item>éRe Thé eSse<tag>out.action.radioid="3123"</tag></item>
 			<item>Fréquence 3<tag>out.action.radioid="1588"</tag></item>
 			<item>Pulsse Radio<tag>out.action.radioid="1813"</tag></item>
+		</one-of>
+  </rule>  
+  
+  	<rule id="ruleXBMC_Tv" scope="public">
+		<example>SARAH je veux écouter la chaine M6</example>
+		<tag>out.action=new Object();</tag>
+		<tag>out.action.xbmc="music";</tag>
+		<one-of>
+			<item>je veux regarder la chaine <tag>out.action.action="tv";</tag></item>
+			<item>affiche la chaine <tag>out.action.action="tv";</tag></item>
+		</one-of>
+		<one-of>
+			<item>TF1<tag>out.action.channelname="TF1"</tag></item>
+			<item>France deux<tag>out.action.channelname="France 2"</tag></item>
+			<item>M6<tag>out.action.channelname="M6"</tag></item>
 		</one-of>
   </rule>  
   

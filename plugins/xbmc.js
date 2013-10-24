@@ -504,7 +504,6 @@ function miseajour_context_et_xml() {
 
 			break;
 
-
 		case 'setvolume':
 			
 			if (data.value) {
@@ -797,6 +796,10 @@ function miseajour_context_et_xml() {
 		case 'radio':
 			doRadio(data.radioid, xbmc_api_url, callback);
 			break;
+			
+		case 'tv':
+			dotv(data.channelname, xbmc_api_url, callback);
+			break;
 
 		case 'ExecuteAddon':
 			if ((data.parameters)&&(data.value)) {
@@ -954,7 +957,6 @@ var xml_radio = '{"jsonrpc":"2.0","method":"Player.Open","params":{"item":{"file
 var quitxbmc = {"jsonrpc":"2.0","method":"Application.Quit","id":"1"};
 var shutdownxbmc={"jsonrpc":"2.0","method":"System.Shutdown","id":"1"};
 
-
 var doRadio = function(radioid, xbmc_api_url, callback) {
   var xml=JSON.parse(xml_radio);
   xml.params.item.file=xml.params.item.file.replace(/radioid/,radioid);
@@ -962,6 +964,48 @@ var doRadio = function(radioid, xbmc_api_url, callback) {
     if (res === false) callback({"tts":"Je n'ai pas réussi à mettre la radio."})
     else callback({})
   });
+}
+
+var dotv = function(channelname, xbmc_api_url, callback) {
+var http = require('http');
+var url = xbmc_api_url.substring(7,19)
+	var options = {
+	  hostname: url,
+	  port: 80,
+	  path: '/jsonrpc?request={"id":1,"jsonrpc":"2.0","method":"PVR.GetChannels","params":{"channelgroupid":"alltv","properties":["channel","channeltype","hidden","lastplayed","locked","thumbnail"]}}',
+	};
+	
+	http.get(options, function(res) {
+			
+			var buffer = '';
+			res.on('data', function (chunk) {
+					buffer += chunk;
+				});
+			
+			res.on('end', function(){
+					var json = JSON.parse(buffer);
+					for ( var i = 0; i < json.result.channels.length; i++ ) {
+					var channels = json.result.channels[i];
+					var tokens = channels.channel.split(' ');
+					var found = true;
+					for ( var j = 0; found && j < tokens.length; j++ ) {
+						found = new RegExp(tokens[j],'i').test(channelname);
+					}
+		if ( found ) {
+			var xml_tv = '{"jsonrpc":"2.0","method":"Player.Open","params":{"item":{"channelid":' + channels.channelid + '}}}';
+	var xml=JSON.parse(xml_tv);
+  sendJSONRequest(xbmc_api_url, xml, function(res){
+    if (res === false) callback({"tts":"Je n'ai pas réussi à mettre la radio."})
+    else callback({})
+  });
+
+		}
+	}
+				});
+		}).on('error', function(e) {
+			callback("Une erreur s'est produite: " + e.message);
+		});
+		
 }
 
 doPlaylistSerie = function (id, xbmc_api_url, callback){
@@ -1243,7 +1287,7 @@ var sendJSONRequest = function (url, reqJSON, callback) {
             }
 
             // Log the response
-            // console.log(json);
+            console.log(reqJSON);
 
             // Return the response
             callback(json);
