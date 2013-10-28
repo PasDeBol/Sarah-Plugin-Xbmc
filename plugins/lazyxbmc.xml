@@ -15,37 +15,43 @@
 <!-- **** Doite ***** -->
 	<item>droite<tag>out.action.action="ExecuteAction";out.action.value="right";</tag></item>
 	<item>à droite<tag>out.action.action="ExecuteAction";out.action.value="right";</tag></item>
-	<item>2ème à droite<tag>out.action.action="ExecuteAction";out.action.value="right";out.action.repeter=2;</tag></item>
-	<item>3ème à droite<tag>out.action.action="ExecuteAction";out.action.value="right";out.action.repeter=3;</tag></item>
-	<item>4ème à droite<tag>out.action.action="ExecuteAction";out.action.value="right";out.action.repeter=4;</tag></item>
-	<item>5ème à droite<tag>out.action.action="ExecuteAction";out.action.value="right";out.action.repeter=5;</tag></item>
+	<item>deuxième à droite<tag>out.action.action="ExecuteAction";out.action.value="right";out.action.repeter=2;</tag></item>
+	<item>troisième à droite<tag>out.action.action="ExecuteAction";out.action.value="right";out.action.repeter=3;</tag></item>
+	<item>quatrième à droite<tag>out.action.action="ExecuteAction";out.action.value="right";out.action.repeter=4;</tag></item>
+	<item>cinquième à droite<tag>out.action.action="ExecuteAction";out.action.value="right";out.action.repeter=5;</tag></item>
 <!-- **** Gauche ***** -->
 	<item>gauche<tag>out.action.action="ExecuteAction";out.action.value="left";</tag></item>
 	<item>à gauche<tag>out.action.action="ExecuteAction";out.action.value="left";</tag></item>
-	<item>2ème à gauche<tag>out.action.action="ExecuteAction";out.action.value="left";out.action.repeter=2;</tag></item>
-	<item>3ème à gauche<tag>out.action.action="ExecuteAction";out.action.value="left";out.action.repeter=3;</tag></item>
-	<item>4ème à gauche<tag>out.action.action="ExecuteAction";out.action.value="left";out.action.repeter=4;</tag></item>
-	<item>5ème à gauche<tag>out.action.action="ExecuteAction";out.action.value="left";out.action.repeter=5;</tag></item>
+	<item>deuxième à gauche<tag>out.action.action="ExecuteAction";out.action.value="left";out.action.repeter=2;</tag></item>
+	<item>troisième à gauche<tag>out.action.action="ExecuteAction";out.action.value="left";out.action.repeter=3;</tag></item>
+	<item>quatrième à gauche<tag>out.action.action="ExecuteAction";out.action.value="left";out.action.repeter=4;</tag></item>
+	<item>cinquième à gauche<tag>out.action.action="ExecuteAction";out.action.value="left";out.action.repeter=5;</tag></item>
 <!-- **** Haut ***** -->
 	<item>remonte<tag>out.action.action="ExecuteAction";out.action.value="up";</tag></item>
 	<item>monte<tag>out.action.action="ExecuteAction";out.action.value="up";</tag></item>
 	<item>page suivante<tag>out.action.action="ExecuteAction";out.action.value="pagedown";</tag></item>
+	<item>va plus haut<tag>out.action.action="ExecuteAction";out.action.value="scrollup";out.action.repeter=10;</tag></item>
 	<item>plus haut<tag>out.action.action="ExecuteAction";out.action.value="scrollup";out.action.repeter=10;</tag></item>
 	<item>au dessus<tag>out.action.action="ExecuteAction";out.action.value="up";</tag></item>
-	<item>2ème au dessus<tag>out.action.action="ExecuteAction";out.action.value="up";out.action.repeter=2;</tag></item>
-	<item>3ème au dessus<tag>out.action.action="ExecuteAction";out.action.value="up";out.action.repeter=3;</tag></item>
-	<item>4ème au dessus<tag>out.action.action="ExecuteAction";out.action.value="up";out.action.repeter=4;</tag></item>
-	<item>5ème au dessus<tag>out.action.action="ExecuteAction";out.action.value="up";out.action.repeter=5;</tag></item>
+	<item>deuxième au dessus<tag>out.action.action="ExecuteAction";out.action.value="up";out.action.repeter=2;</tag></item>
+	<item>troisième au dessus<tag>out.action.action="ExecuteAction";out.action.value="up";out.action.repeter=3;</tag></item>
+	<item>quatrième au dessus<tag>out.action.action="ExecuteAction";out.action.value="up";out.action.repeter=4;</tag></item>
+	<item>cinquième au dessus<tag>out.action.action="ExecuteAction";out.action.value="up";out.action.repeter=5;</tag></item>
 <!-- **** Bas ***** -->
 	<item>descend<tag>out.action.action="ExecuteAction";out.action.value="down";</tag></item>
 	<item>redescend<tag>out.action.action="ExecuteAction";out.action.value="down";</tag></item>
 	<item>page précédente<tag>out.action.action="ExecuteAction";out.action.value="pageup";</tag></item>
 	<item>plus bas<tag>out.action.action="ExecuteAction";out.action.value="scrolldown";out.action.repeter=10;</tag></item>
+	<item>va plus bas<tag>out.action.action="ExecuteAction";out.action.value="scrolldown";out.action.repeter=10;</tag></item>
 	<item>au dessous<tag>out.action.action="ExecuteAction";out.action.value="down";</tag></item>
-	<item>2ème au dessous<tag>out.action.action="ExecuteAction";out.action.value="down";out.action.repeter=2;</tag></item>
-	<item>3ème au dessous<tag>out.action.action="ExecuteAction";out.action.value="down";out.action.repeter=3;</tag></item>
-	<item>4ème au dessous<tag>out.action.action="ExecuteAction";out.action.value="down";out.action.repeter=4;</tag></item>
-	<item>5ème au dessous<tag>out.action.action="ExecuteAction";out.action.value="down";out.action.repeter=5;</tag></item>
+	<item>deuxième au dessous<tag>out.action.action="ExecuteAction";out.action.value="down";out.action.repeter=2;</tag></item>
+	<item>troisième au dessous<tag>out.action.action="ExecuteAction";out.action.value="down";out.action.repeter=3;</tag></item>
+	<item>quatrième au dessous<tag>out.action.action="ExecuteAction";out.action.value="down";out.action.repeter=4;</tag></item>
+	<item>cinquième au dessous<tag>out.action.action="ExecuteAction";out.action.value="down";out.action.repeter=5;</tag></item>
+        <item>deuxième en dessous<tag>out.action.action="ExecuteAction";out.action.value="down";out.action.repeter=2;</tag></item>
+	<item>troisième en dessous<tag>out.action.action="ExecuteAction";out.action.value="down";out.action.repeter=3;</tag></item>
+	<item>quatrième en dessous<tag>out.action.action="ExecuteAction";out.action.value="down";out.action.repeter=4;</tag></item>
+	<item>cinquième en dessous<tag>out.action.action="ExecuteAction";out.action.value="down";out.action.repeter=5;</tag></item>
 <!-- **** saut vers debut, fin, lettre... -->
 	<item>à la fin <tag>out.action.action="ExecuteAction";out.action.value="lastpage";</tag></item>
 	<item>au début<tag>out.action.action="ExecuteAction";out.action.value="firstpage";</tag></item>
@@ -117,15 +123,18 @@
 	<item>play liste<tag>out.action.action="ExecuteAction";out.action.value="playlist";</tag></item>
 	<item>ajoute ça<tag>out.action.action="ExecuteAction";out.action.value="queue";</tag></item>
 	<item>enlève ça<tag>out.action.action="ExecuteAction";out.action.value="delete";</tag></item>
-	<item>enlève ça et les 2 suivantes<tag>out.action.action="ExecuteAction";out.action.value="delete";out.action.repeter=2;</tag></item>
-	<item>enlève ça et les 3 suivantes<tag>out.action.action="ExecuteAction";out.action.value="delete";out.action.repeter=3;</tag></item>
-	<item>enlève ça et les 4 suivantes<tag>out.action.action="ExecuteAction";out.action.value="delete";out.action.repeter=4;</tag></item>
+	<item>enlève ça et les deux suivantes<tag>out.action.action="ExecuteAction";out.action.value="delete";out.action.repeter=2;</tag></item>
+	<item>enlève ça et les trois suivantes<tag>out.action.action="ExecuteAction";out.action.value="delete";out.action.repeter=3;</tag></item>
+	<item>enlève ça et les quattre suivantes<tag>out.action.action="ExecuteAction";out.action.value="delete";out.action.repeter=4;</tag></item>
 	<item>suivante<tag>out.action.action="ExecuteAction";out.action.value="skipnext";</tag></item>
 	<item>précédent<tag>out.action.action="ExecuteAction";out.action.value="skipprevious";</tag></item>
 	
 <!-- ************************************************ Fonction dans le Player  ********************************************* -->
 	<item>lecture<tag>out.action.action="ExecuteAction";out.action.value="play";</tag></item>
 	<item>pause<tag>out.action.action="ExecuteAction";out.action.value="pause";</tag></item>
+	<item>met en pause<tag>out.action.action="ExecuteAction";out.action.value="pause";</tag></item>
+        <item>met en pause la musique<tag>out.action.action="ExecuteAction";out.action.value="pause";</tag></item>
+        <item>met en pause la lecture<tag>out.action.action="ExecuteAction";out.action.value="pause";</tag></item>
 	<item>stop<tag>out.action.action="ExecuteAction";out.action.value="stop";</tag></item>
 	<item>arrête la lecture<tag>out.action.action="ExecuteAction";out.action.value="stop";</tag></item>
 	<item>en arrière<tag>out.action.action="ExecuteAction";out.action.value="rewind";</tag></item>
