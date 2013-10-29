@@ -295,12 +295,12 @@ function miseajour_context_et_xml() {
 							if (container.sortmethod=='Épisode') {
 								if (container.items[i].replace(/&/gi, " and ").match(/\d{1,2}[xXEe]\d\d/gi)) {
 									saison_episode=container.items[i].replace(/&/gi, " and ").match(/\d{1,2}[xXEe]\d\d/gi).toString();
-									datas_xml+='<item>saison '+sanitizeNumber(saison_episode.replace(/&/gi, " and ").match(/^\d{1,2}/gi))+' épisode '+sanitizeNumber(saison_episode.replace(/&/gi, " and ").match(/\d{1,2}$/gi))+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+									datas_xml+='<item>saison '+sanitizeNumber(saison_episode.replace(/&/gi, " and ").match(/^\d{1,2}/gi).toString())+' épisode '+sanitizeNumber(saison_episode.replace(/&/gi, " and ").match(/\d{1,2}$/gi).toString())+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
 									}
 									else {
 										if (container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi)) {
 											datas_xml+='<item>'+sanitizeNumber(container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "").replace(/^\d{1,2}[.]/gi, ""))+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
-											datas_xml+='<item>épisode '+sanitizeNumber(container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi))+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+											datas_xml+='<item>épisode '+sanitizeNumber(container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi).toString())+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
 										}
 									}
 								
