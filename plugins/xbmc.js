@@ -288,7 +288,7 @@ function miseajour_context_et_xml() {
 					datas_xml+='<one-of>\n';	
 					for (var i=0;i<container.items.length;i++) {
 						if (container.items[i]!='..') {
-							datas_xml+='<item>'+sanitizeNumber(container.items[i].replace(/&/gi, " and ").replace(/\* /gi, ""))+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+							datas_xml+='<item>'+sanitizeNumber(container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "").replace(/:/gi, ""))+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
 							if (container.sortmethod=='Piste') {
 								datas_xml+='<item>Piste '+sanitizeNumber(container.items_id[i])+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
 							}
