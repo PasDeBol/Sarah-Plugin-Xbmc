@@ -34,6 +34,8 @@
 			<item>ferme l'application xbmc musique<tag>out.action.action="quitxbmc"</tag><tag>out.action.xbmc="music" </tag></item>
 			<item>power off xbmc vidéo<tag>out.action.action="shutdownxbmc"</tag><tag>out.action.xbmc="video" </tag></item>
 			<item>power off xbmc musique<tag>out.action.action="shutdownxbmc"</tag><tag>out.action.xbmc="music" </tag></item>
+			<item>mise à jour de la librairie vidéo<tag>out.action.action="videolibraryscan"</tag><tag>out.action.xbmc="video" </tag></item>
+			<item>mise à jour de la librairie musicale<tag>out.action.action="audiolibraryscan"</tag><tag>out.action.xbmc="music" </tag></item>
 
 		</one-of>
 	</rule>  
@@ -79,7 +81,7 @@
   </rule>  
   
   	<rule id="ruleXBMC_Tv" scope="public">
-		<example>SARAH je veux écouter la chaine M6</example>
+		<example>SARAH je veux regarder la chaine M6</example>
 		<tag>out.action=new Object();</tag>
 		<tag>out.action.xbmc="music";</tag>
 		<one-of>
@@ -87,6 +89,7 @@
 			<item>affiche la chaine <tag>out.action.action="tv";</tag></item>
 		</one-of>
 		<one-of>
+			<!-- Complétez vos chaines ici: -->
 			<item>TF1<tag>out.action.channelname="TF1"</tag></item>
 			<item>France deux<tag>out.action.channelname="France 2"</tag></item>
 			<item>M6<tag>out.action.channelname="M6"</tag></item>

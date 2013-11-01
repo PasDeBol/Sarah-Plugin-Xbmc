@@ -476,6 +476,13 @@ function miseajour_context_et_xml() {
             doAction(Select, xbmc_api_url, callback);
 			miseajour_context_et_xml();
             break;
+		case 'videolibraryscan':
+			console.log('test:'+VideoLibraryScan);
+            doAction(VideoLibraryScan, xbmc_api_url, callback);
+			break;
+		case 'audiolibraryscan':
+            doAction(AudioLibraryScan, xbmc_api_url, callback);
+			break;
 		case 'shuffle':
 			if (data.value==1) doAction(shuffle_on, xbmc_api_url, callback);
 			if (data.value==0) doAction(shuffle_off, xbmc_api_url, callback);
@@ -918,6 +925,10 @@ var Back={"jsonrpc": "2.0", "method": "Input.Back", "params": {}, "id": 1}
 var Info={"jsonrpc": "2.0", "method": "Input.Info", "params": {}, "id": 1}
 var ContextMenu={"jsonrpc": "2.0", "method": "Input.ContextMenu", "params": {}, "id": 1}
 var ShowOSD={"jsonrpc": "2.0", "method": "Input.ShowOSD", "params": {}, "id": 1}
+
+// Library
+var VideoLibraryScan={"jsonrpc":"2.0","method":"VideoLibrary.Scan","id":1}
+var AudioLibraryScan={"jsonrpc":"2.0","method":"AudioLibrary.Scan","id":1}
 
 // Send text
 var sendText = {"jsonrpc":"2.0","method":"Input.SendText", "params": { "text": "", "done": false }, "id":1}
