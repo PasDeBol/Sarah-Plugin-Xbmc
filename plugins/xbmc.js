@@ -290,7 +290,7 @@ function miseajour_context_et_xml() {
 						if (container.items[i]!='..') {
 							datas_xml+='<item>'+sanitizeNumber(container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "").replace(/:/gi, ""))+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
 							if (container.sortmethod=='Piste') {
-								datas_xml+='<item>Piste '+sanitizeNumber(container.items_id[i].toString()+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+								datas_xml+='<item>Piste '+sanitizeNumber(container.items_id[i].toString())+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
 							}
 							if (container.sortmethod=='Épisode') {
 								if (container.items[i].replace(/&/gi, " and ").match(/\d{1,2}[xXEe]\d\d/gi)) {
