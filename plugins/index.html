@@ -10,12 +10,15 @@
     });
 </script>
 <p class="page-header">
-    <span class="lead">Ce module permet de piloter XBMC avec SARAH</span><br/>
+	<span class="lead">Ce module permet de piloter XBMC avec SARAH</span></br></br>
+	Participation au plugin:</br>
+	 Jean-Philippe Encausse, Jérôme Veyret, Maxime Hermouet, Guillaume Brebion, Aymeric, Vincent Legavre, vincent fresnel, Gevrey Loic.
+			
 </p>
 
-<div id="plugin-menu" class="row-fluid">
+<div id="plugin-menu" class="row">
     <!--Navigation-->
-    <div class="span3 well plugin-nav">
+    <div class="stretch col-md-3 well plugin-nav">
         <ul class="nav nav-list">
             <li class="nav-header">Configuration</li>
             <li class="#"><a href="" data-toggle="plugin-config-xbmc">XBMC</a></li>
@@ -34,10 +37,15 @@
             <li><a href="#" data-toggle="plugin-generator">Génération automatique du XML</a></li>
         </ul>
     </div>
-<!--Version-->
-    <div class="span9 content">
-        <ul class="unstyled" id="plugin-version-xbmc">
-            <li><i class="icon-play-circle"></i> Version 1.51:</br>
+	<!--Content-->
+	<div class="col-md-9 content">
+		
+		<!--Version-->
+		<ul class="unstyled" id="plugin-version-xbmc">
+			<div class="alert alert-success">Versions</div>
+			<li><i class="icon-play-circle"></i> Version 1.52:</br>
+			[X] Conversion des nombres (max 999) en lettre pour problème de reconnaissance vocale des chiffres.</br>
+			[X] PVR Affichage directe d'une chaine depuis plugin Progtv (V1.3 ou +)</br>
 			[X] DIRECT-TV : Affichage des chaînes TV, Radios, Guide des programmes, Enregistrements.</br>
 			[X] Nouvelle gestion du menu lateral et options.</br>
 			[X] Fermer XBMC ou Eteindre la machine</br>
@@ -52,11 +60,14 @@
 			...
 			</li></br>
 		</ul>
- <!--Content-->
-    <div class="span9 content">
+
+
         <!--Config XBMC-->
-        <ul class="unstyled" id="plugin-config-xbmc" style="display: none;">
-            <li><i class="icon-play-circle"></i> Permettre le contrôle de XBMC en HTTP et vérifier le port.</br>
+		
+		<ul class="unstyled" id="plugin-config-xbmc" style="display: none;">
+			<div class="alert alert-success">Configuration - XBMC</div>
+			
+			<li><i class="icon-play-circle"></i> Permettre le contrôle de XBMC en HTTP et vérifier le port.</br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Système -> Paramètres -> services -> Serveur Web
 			
 			</li></br>
@@ -75,7 +86,9 @@
         </ul>
         <!--Config SARAH-->
         <ul class="unstyled" id="plugin-config-sarah" style="display: none;">
-           <li><i class="icon-play-circle"></i> <strong>Si votre version précédente du plugin n'était pas la V1.4, il est indispensable de nettoyer manuellement </br>
+ 			<div class="alert alert-success">Configuration - S.A.R.A.H.</div>
+
+			<li><i class="icon-play-circle"></i> <strong>Si votre version précédente du plugin n'était pas la V1.4, il est indispensable de nettoyer manuellement </br>
 			le fichier custom.prop en supprimant tout ce qui concerne xbmc avant de passer à la configuration du plugin.</strong>
             </li></br>
             <li><i class="icon-play-circle"></i> Paramétrer le plugin avec l'<strong>IP</strong> et
@@ -93,28 +106,30 @@
         </ul>
         <!--Exemples-->
         <ul class="unstyled" id="plugin-vox-examples" style="display: none;">
-            <li><i class="icon-play-circle"></i> Sarah, musique en pause.</li>
+ 			<div class="alert alert-success">Commandes Vocales - Exemples</div>
+			<li><i class="icon-play-circle"></i> Sarah, musique en pause.</li>
             <li><i class="icon-play-circle"></i> Sarah, reprends la musique</li>
-            <li><i class="icon-play-circle"></i> Sarah, joue de la musique Rock/pop/... (<span class="text-error">si importation des genres</span>)
+            <li><i class="icon-play-circle"></i> Sarah, joue de la musique Rock/pop/... (<col-md- class="text-error">si importation des genres</col-md->)
             </li>
-            <li><i class="icon-play-circle"></i> Sarah, je veux écouter ACDC/Coeur de pirate/... (<span
-                    class="text-error">si importation des artistes</span>)
+            <li><i class="icon-play-circle"></i> Sarah, je veux écouter ACDC/Coeur de pirate/... (<col-md-
+                    class="text-error">si importation des artistes</col-md->)
             </li>
             <li><i class="icon-play-circle"></i> Sarah, recherche ****** dans les musiques (tentera de trouver **** dans
                 les titres, artistes ou genres)
 			</li>
-            <li><i class="icon-play-circle"></i> Sarah, je veux écouter la radio NRJ/Fréquence 3/... (<span class="text-error">si plugin "Radio" installé dans xbmc.</span>)<br>
+            <li><i class="icon-play-circle"></i> Sarah, je veux écouter la radio NRJ/Fréquence 3/... (<col-md- class="text-error">si plugin "Radio" installé dans xbmc.</col-md->)<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Quelques radios ont déjà été ajouté dans xbmc.xml, vous pouvez en rajouter.</br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- L'ID de la radio peut être trouvé en tapant <em>http://radio.fr/info/index/searchembeddedbroadcast?start=0&rows=10&q=Nom Radio</em> dans un navigateur
 			</li>
 			<li><i class="icon-play-circle"></i> Sarah, c'est quoi cette musique/vidéo ?</li>
-             <li><i class="icon-play-circle"></i> Sarah, met le prochain épisode de House/Braquo/...(<span class="text-error">si importation des séries</span>)</li>
+             <li><i class="icon-play-circle"></i> Sarah, met le prochain épisode de House/Braquo/...(<col-md- class="text-error">si importation des séries</col-md->)</li>
             <li><i class="icon-play-circle"></i> Sarah, met en pause la série.
 			</li>
         </ul>
         <!--Erreurs-->
         <ul class="unstyled" id="plugin-vox-errors" style="display: none;">
-            <li><i class="icon-play-circle"></i> <em>"Je n'ai pas pu contacter le serveur"</em> : Aucune réponse de XBMC
+        	<div class="alert alert-success">Configuration - Erreurs</div>
+			<li><i class="icon-play-circle"></i> <em>"Je n'ai pas pu contacter le serveur"</em> : Aucune réponse de XBMC
                 (ip, port, autorisation http...?)
             </li>
             <li><i class="icon-play-circle"></i> <em>"Je n'ai pas pu executer l'action"</em> : Réponse de XBMC mais
@@ -123,7 +138,8 @@
         </ul>
        <!--XBMC Commander 1 -->
         <ul class="unstyled" id="plugin-xbmccommander1" style="display: none;">
-            <li><i class="icon-play-circle"></i> <strong>Le mode XBMC </strong>permet de controler/télécommander XBMC sans devoir répéter "Sarah".</br></br>
+			<div class="alert alert-success">Mode XBMC - Activation/Désactivation</div>
+			<li><i class="icon-play-circle"></i> <strong>Le mode XBMC </strong>permet de controler/télécommander XBMC sans devoir répéter "Sarah".</br></br>
 			<i class="icon-play-circle"></i><strong> Activation:</strong></br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <em>Sarah, active le mode xbmc</em> (Sarah répond)</br></br>
 			<i class="icon-play-circle"></i><strong> Désactivation:</strong></br>
@@ -140,6 +156,7 @@
         </ul>
        <!--XBMC Commander 2 -->
         <ul class="unstyled" id="plugin-xbmccommander2" style="display: none;">
+ 			<div class="alert alert-success">Mode XBMC - Les commandes vocales</div>
             <li>
 			<i class="icon-play-circle"></i> Pour voir la <strong>totalité des commandes</strong> consultez le fichier <em><strong>lazzyxbmc.xml</strong></em></br>
 			</br>
@@ -157,6 +174,7 @@
         </ul>
      <!--XBMC Commander 3 -->
         <ul class="unstyled" id="plugin-xbmccommander3" style="display: none;">
+			<div class="alert alert-success">Mode XBMC - Fonctions avancées</div>
             <li>
 			<i class="icon-play-circle"></i><strong>Le scrolling</strong> </br>
 			Le scolling s'arrête automatiquement après avoir bouclé complètement ou après avoir recu une demande quelconque.</br>
@@ -184,6 +202,7 @@
 			
      <!--XBMC Commander 4 -->
         <ul class="unstyled" id="plugin-xbmccommander4" style="display: none;">
+			<div class="alert alert-success">Mode XBMC - Paramétrages avancés</div>
             <li>
 			<i class="icon-play-circle"></i><strong>Avec un xbmc installé sur une machine distante:</strong> </br>
 			Il se peut que la mise à jour du contenu se fasse trop tôt si le temps de latence (ping) entre la machine nodejs et celle xbmc est trop important.</br>
@@ -209,6 +228,7 @@
 
         <!--Génération XML-->
          <ul class="unstyled" id="plugin-generator-info" style="display: none;">
+			<div class="alert alert-success">XML - Infos et Avertissements</div>
             <li><i class="icon-play-circle"></i> Info sur la génération automatique et la personalisation:</br>
  				En cas de problème de reconnaisance d'artistes, de genre ou de série par Sarah, vous pouvez personnaliser le xml en coupant/collant les lignes générées souhaitées
 				entre: </br><em>&#60!-- Personalisation XXXXX --></em></br>et</br><em>&#60!-- XXXXX FIN Personalisation--></em></br> puis en les modifiant à votre convenance! (par exemple: U2: You toux)</br>
@@ -221,6 +241,7 @@
 			
         </ul>
 		<ul class="unstyled" id="plugin-generator" style="display: none;">
+			<div class="alert alert-success">XML - Génération automatique du XML</div>
             <li><i class="icon-play-circle"></i> Mise à jour des artistes dans le XML:
                 <a href='../sarah/xbmc?action=xml_artist&xbmc=music' target=_blank>../sarah/xbmc?action=xml_artist&xbmc=music</a></br>
 			</li></br>
