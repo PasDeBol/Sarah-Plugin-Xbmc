@@ -985,7 +985,6 @@ var dotv = function(channelname, xbmc_api_url, callback) {
 	var http = require('http');
 	doAction(GetListChannels, xbmc_api_url, callback, function(res){
 			for ( var i = 0; i < res.result.channels.length; i++ ) {
-				console.log(i);
 				var channels = res.result.channels[i];
 				var tokens = channels.channel.split(' ');
 				var found = true;
@@ -996,9 +995,10 @@ var dotv = function(channelname, xbmc_api_url, callback) {
 					SetChannel.params.item.channelid=channels.channelid;
 					//doAction(SetChannel, xbmc_api_url);
 					doAction(SetChannel, xbmc_api_url, function(res){
-						if (res === false) callback({"tts":"Je n'ai pas réussi à mettre cette chaine."})
+						if (res === false) callback({"tts":"Je n'ai pas réussi à mettre cette chaine."}) 
+						else callback();
 					});
-					callback();
+					
 					break;
 				}
 			}
