@@ -288,26 +288,26 @@ function miseajour_context_et_xml() {
 					datas_xml+='<one-of>\n';	
 					for (var i=0;i<container.items.length;i++) {
 						if (container.items[i]!='..') {
-							datas_xml+='<item>'+container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "")+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+							datas_xml+='<item>'+sanitizeNumber(container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "").replace(/:/gi, ""))+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
 							if (container.sortmethod=='Piste') {
-								datas_xml+='<item>Piste '+container.items_id[i]+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+								datas_xml+='<item>Piste '+sanitizeNumber(container.items_id[i].toString()+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
 							}
 							if (container.sortmethod=='Épisode') {
 								if (container.items[i].replace(/&/gi, " and ").match(/\d{1,2}[xXEe]\d\d/gi)) {
 									saison_episode=container.items[i].replace(/&/gi, " and ").match(/\d{1,2}[xXEe]\d\d/gi).toString();
-									datas_xml+='<item>saison '+saison_episode.match(/^\d{1,2}/gi)+' épisode '+saison_episode.match(/\d{1,2}$/gi)+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+									datas_xml+='<item>saison '+sanitizeNumber(saison_episode.replace(/&/gi, " and ").match(/^\d{1,2}/gi).toString())+' épisode '+sanitizeNumber(saison_episode.replace(/&/gi, " and ").match(/\d{1,2}$/gi).toString())+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
 									}
 									else {
 										if (container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi)) {
-											datas_xml+='<item>'+container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "").replace(/^\d{1,2}[.]/gi, "")+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
-											datas_xml+='<item>épisode '+container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi)+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+											datas_xml+='<item>'+sanitizeNumber(container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "").replace(/^\d{1,2}[.]/gi, ""))+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+											datas_xml+='<item>épisode '+sanitizeNumber(container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi).toString())+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
 										}
 									}
 								
 							}
 							if (personnalisation[container.items[i].replace(/&/gi, "&amp;")]) {
 								if (infodebug==true) {console.log ('plugin xbmc - Personalisation: '+container.items[i].replace(/&/gi, "&amp;")+' -> '+personnalisation[container.items[i].replace(/&/gi, "&amp;")]);}
-								datas_xml+='<item>'+personnalisation[container.items[i].replace(/&/gi, "&amp;")]+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+								datas_xml+='<item>'+sanitizeNumber(personnalisation[container.items[i].replace(/&/gi, "&amp;")])+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
 							
 							}
 						}
@@ -1190,7 +1190,7 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 								}
 						else {
 							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
-							ligneitem = '            <item>' + value.label.replace(/&/gi, "and") + '<tag>out.action.genre = encodeURIComponent("' + value.label.replace(/&/gi, "&amp;").replace(/"/gi, "\\\"") + '")</tag></item>\n';
+							ligneitem = '            <item>' + value.label.replace(/&/gi, " and ") + '<tag>out.action.genre = encodeURIComponent("' + value.label.replace(/&/gi, "&amp;").replace(/"/gi, "\\\"") + '")</tag></item>\n';
 							replace += (ligneitem);
 							}
 					} catch(ex) {
@@ -1239,7 +1239,7 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 								}
 						else {
 							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
-							ligneitem = '            <item>' + value.label.replace(/&/gi, "and") + '<tag>out.action.showid = "' + value.tvshowid + '"</tag></item>\n';
+							ligneitem = '            <item>' + value.label.replace(/&/gi, " and ") + '<tag>out.action.showid = "' + value.tvshowid + '"</tag></item>\n';
 							replace += (ligneitem);
 							}
 					} catch(ex) {
@@ -1310,4 +1310,44 @@ var handleJSONResponse = function (res, callback) {
 
     return true;
 } 
+
+function sanitizeNumber(_item) {
+    var number = _item.match(/([0-9]+)/g);
+    for (var i in number) {
+        _item = _item.replace(number[i], num2Letters(number[i]));
+    }
+    return _item;
+}
+
+function num2Letters(number) {
+    if (isNaN(number) || number < 0 || 999 < number) {
+        return number;
+    }
+    if (number === 0 || number === '0') {
+        return 'zéro';
+    }
+    var units2Letters = ['', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf', 'dix', 'onze', 'douze', 'treize', 'quatorze', 'quinze', 'seize', 'dix-sept', 'dix-huit', 'dix-neuf'],
+            tens2Letters = ['', 'dix', 'vingt', 'trente', 'quarante', 'cinquante', 'soixante', 'soixante', 'quatre-vingt', 'quatre-vingt'];
+    var units = number % 10,
+            tens = (number % 100 - units) / 10,
+            hundreds = (number % 1000 - number % 100) / 100;
+    var unitsOut, tensOut, hundredsOut;
+    // Traitement des unités
+    unitsOut = (units === 1 && tens > 0 && tens !== 8 ? 'et-' : '') + units2Letters[units];
+    // Traitement des dizaines
+    if (tens === 1 && units > 0) {
+        tensOut = units2Letters[10 + units];
+        unitsOut = '';
+    } else if (tens === 7 || tens === 9) {
+        tensOut = tens2Letters[tens] + '-' + (tens === 7 && units === 1 ? 'et-' : '') + units2Letters[10 + units];
+        unitsOut = '';
+    } else {
+        tensOut = tens2Letters[tens];
+    }
+    tensOut += (units === 0 && tens === 8 ? 's' : '');
+    // Traitement des centaines
+    hundredsOut = (hundreds > 1 ? units2Letters[hundreds] + '-' : '') + (hundreds > 0 ? 'cent' : '') + (hundreds > 1 && tens == 0 && units == 0 ? 's' : '');
+    // Retour du total
+    return hundredsOut + (hundredsOut && tensOut ? '-' : '') + tensOut + (hundredsOut && unitsOut || tensOut && unitsOut ? '-' : '') + unitsOut;
+}
 
