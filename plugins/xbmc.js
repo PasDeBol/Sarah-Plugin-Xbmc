@@ -805,7 +805,13 @@ function miseajour_context_et_xml() {
 			break;
 			
 		case 'tv':
-			dotv(data.channelname, xbmc_api_url, callback);
+			if (typeof(data.channelid)!="undefined")  
+				{dotvid(data.channelid, xbmc_api_url, callback);}
+			else if (typeof(data.channelname)!="undefined")  
+				{dotv(data.channelname, xbmc_api_url, callback);}
+			else {
+				console.log('plugin xbmc - il manque data.channelid ou data.channelname');callback();
+			}
 			break;
 
 		case 'ExecuteAddon':
@@ -992,17 +998,19 @@ var dotv = function(channelname, xbmc_api_url, callback) {
 					found = new RegExp(tokens[j],'i').test(channelname);
 				}
 				if (found) {
-					SetChannel.params.item.channelid=channels.channelid;
-					//doAction(SetChannel, xbmc_api_url);
-					doAction(SetChannel, xbmc_api_url, function(res){
-						if (res === false) callback({"tts":"Je n'ai pas réussi à mettre cette chaine."}) 
-						else callback();
-					});
-					
+					dotvid (SetChannel, xbmc_api_url, callback);
 					break;
 				}
 			}
 			if (!found) {callback({"tts":"Je n'ai pas trouvé cette chaîne dans xbmc."});}
+	});
+}
+
+var dotvid = function(channelid, xbmc_api_url, callback) {
+	SetChannel.params.item.channelid=parseInt(channelid);
+	doAction(SetChannel, xbmc_api_url, function(res){
+		if (res === false) callback({"tts":"Je n'ai pas réussi à mettre cette chaine."}) 
+		else callback();
 	});
 }
 
