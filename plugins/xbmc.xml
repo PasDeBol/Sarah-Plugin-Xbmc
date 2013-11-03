@@ -83,7 +83,7 @@
   	<rule id="ruleXBMC_Tv" scope="public">
 		<example>SARAH je veux regarder la chaine M6</example>
 		<tag>out.action=new Object();</tag>
-		<tag>out.action.xbmc="music";</tag>
+		<tag>out.action.xbmc="video";</tag>
 		<one-of>
 			<item>je veux regarder la chaine <tag>out.action.action="tv";</tag></item>
 			<item>affiche la chaine <tag>out.action.action="tv";</tag></item>
