@@ -419,6 +419,9 @@ function miseajour_context_et_xml() {
 		case 'xml_channel':
 			doXML(xml_channel, xbmc_api_url, callback);
 			break;
+		case 'xml_film':
+			doXML(xml_film, xbmc_api_url, callback);
+			break;
 		case 'playlist':
             var filter = {"and": []};
             if (data.genre) {
@@ -450,6 +453,17 @@ function miseajour_context_et_xml() {
             break;
 		case 'tvshowtitle': 
 			doPlaylistSerie(data.showid ,xbmc_api_url , callback);
+			break;
+		case 'film': 
+			if ((typeof(data.movieid)!="undefined") && (typeof(data.resume)!="undefined")) {
+				readmovie.params.item.movieid=parseInt(data.movieid);
+				(data.resume==1) ? readmovie.params.options.resume=true : readmovie.params.options.resume=false ;
+				console.dir(readmovie);
+				doAction(readmovie, xbmc_api_url, callback);
+			}
+			else {
+				console.log('plugin xbmc - il manque data.movieid ou data.resume');callback();
+			}
 			break;
 		case 'play':
             doAction(play, xbmc_api_url, callback);
@@ -912,7 +926,8 @@ var introspect = { "jsonrpc": "2.0", "method": "JSONRPC.Introspect", "params": {
 var xml_artist = {"jsonrpc": "2.0", "method": "AudioLibrary.GetArtists", "params": {}, "id": 1}
 var xml_genre = {"jsonrpc": "2.0", "method": "AudioLibrary.GetGenres", "params": {}, "id": 1}
 var xml_serie={"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {}, "id": 1}
-var xml_channel={"id":1,"jsonrpc":"2.0","method":"PVR.GetChannels","params":{"channelgroupid":"alltv","properties":["channel","channeltype","hidden","lastplayed","locked"]}};
+var xml_channel={"id":1,"jsonrpc":"2.0","method":"PVR.GetChannels","params":{"channelgroupid":"alltv","properties":["channel","channeltype","hidden","lastplayed","locked"]}}
+var xml_film={"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {}, "id": 1}
 
 // Toggle play / pause in current player
 var play = {"jsonrpc": "2.0", "method": "Player.PlayPause", "params": { "playerid": 0 }, "id": 1};
@@ -974,9 +989,12 @@ var playserie = {"jsonrpc": "2.0", "method": "Player.Open", "params": { "item": 
 // radio
 var xml_radio = '{"jsonrpc":"2.0","method":"Player.Open","params":{"item":{"file":"plugin://plugin.audio.radio_de/station/radioid"}},"id":1}';
 
-//tv
+// tv
 var GetListChannels={"id":1,"jsonrpc":"2.0","method":"PVR.GetChannels","params":{"channelgroupid":"alltv","properties":["channel","channeltype","hidden","lastplayed","locked"]}};
 var SetChannel= {"jsonrpc":"2.0","method":"Player.Open","params":{"item":{"channelid":''}}};
+
+// film
+var readmovie={ "jsonrpc": "2.0", "method": "Player.Open", "params": { "item": { "movieid": '' }, "options":{ "resume": '' } }, "id": 1 }
 					
 // xbmc
 var quitxbmc = {"jsonrpc":"2.0","method":"Application.Quit","id":"1"};
@@ -1317,6 +1335,57 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
                 console.log('plugin xbmc - ' + (res.result.limits.total-present-nberreur) + ' channels générés dans xbmc.xml ( +'+present+' déjà personnalisés ) '+texte_erreur);
 				callback({'tts': '<b>Traitement de ' +(res.result.limits.total-nberreur)+' channels dans xbmc.xml '+texte_erreur+'<br><br>'+present+' personnalisés:</b><br>'+lignehtmlpresent+'<br><b>'+(res.result.limits.total-present)+' Mises à jour:</b><br>' + lignehtml})
            }
+
+			// Generation XML Films 
+			else if ((typeof res.result.movies != 'undefined') && (typeof res.result.limits != 'undefined')){
+                var ligneitem = '';
+                var lignehtml = '';
+                var nberreur = 0;
+               var lignehtmlpresent = '';
+                var fs = require('fs');
+                var fileXML = 'plugins/xbmc/xbmc.xml';
+            //efface la zone génération automatique
+				var xml = fs.readFileSync(fileXML, 'utf8');
+				var replace = '¤IMPORTfilm¤ -->\n            <item>FILM NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>\n<!-- ¤IMPORTfilm¤';
+				var regexp = new RegExp('¤IMPORTfilm¤[^*]+¤IMPORTfilm¤', 'gm');
+                var xml = xml.replace(regexp, replace);
+                fs.writeFileSync(fileXML, xml, 'utf8');
+				console.log('plugin xbmc - Zone génération automatique film effacée.')
+			// Génère la zone génération automatique sauf si film déjà présente
+				var replace  = '¤IMPORTfilm¤ -->\n'; 	// zone a remplacer
+				var present=0;
+                res.result.movies.forEach(function(value) { //value contient label ou id
+					try {
+						// test si ligne déjà présente
+						lignetest = '<tag>out.action.movieid = "'+value.movieid+'"</tag>'
+						var regexp = new RegExp(lignetest, 'gm');
+						if (xml.match(regexp))
+								{
+								lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
+								present=present+1;
+								}
+						else {
+							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
+							ligneitem = '            <item>' + value.label.replace(/&/gi, " and ") + '<tag>out.action.movieid = "' + value.movieid + '"</tag></item>\n';
+							replace += (ligneitem);
+							}
+					} catch(ex) {
+						console.log("plugin xbmc - Erreur d\'importation xml avec le film "+value.label);
+						lignehtml += value.label.replace(/&/gi, "&amp;") + ' <====== Erreur - importation impossible <br>';
+						nberreur++;
+					}	
+
+					});
+				var xml = fs.readFileSync(fileXML,'utf8');
+				replace += '            <!-- ¤IMPORTfilm¤';
+				var regexp = new RegExp('¤IMPORTfilm¤[^*]+¤IMPORTfilm¤', 'gm');
+                var xml    = xml.replace(regexp,replace);
+				fs.writeFileSync(fileXML, xml, 'utf8');
+			    if (nberreur>0) {var texte_erreur=' ( '+nberreur+ ' erreur )';} else {var texte_erreur='';}
+ 				console.log('plugin xbmc - ' + (res.result.limits.total-present-nberreur) + ' série générées dans xbmc.xml ( +'+present+' déjà personnalisées ) '+texte_erreur);
+                callback({'tts': '<b>Traitement de ' +(res.result.limits.total-nberreur)+' séries dans xbmc.xml '+texte_erreur+'<br><br>'+present+' personnalisées:</b><br>'+lignehtmlpresent+'<br><b>'+(res.result.limits.total-present)+' Mises à jour:</b><br>' + lignehtml})
+			}
+
 
 		   // Otherwise
             else if (callback) {

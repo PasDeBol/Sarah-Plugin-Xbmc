@@ -44,6 +44,8 @@
 		<ul class="unstyled" id="plugin-version-xbmc">
 			<div class="alert alert-success">Versions</div>
 			<li><i class="icon-play-circle"></i> Version 1.52:</br>
+			[X] importation XML des films
+			[X] lecture (ou reprise) d'un film 
 			[X] importation XML des chaînes TV</br>
 			[X] PVR Affichage directe d'une chaine via XML</br>
 			[X] mise à jour de la Médiathèque (musicale ou vidéo)</br>
@@ -112,20 +114,20 @@
  			<div class="alert alert-success">Commandes Vocales - Exemples</div>
 			<li><i class="icon-play-circle"></i> Sarah, musique en pause.</li>
             <li><i class="icon-play-circle"></i> Sarah, reprends la musique</li>
-            <li><i class="icon-play-circle"></i> Sarah, joue de la musique Rock/pop/... (<col-md- class="text-error">si importation des genres</col-md->)
+            <li><i class="icon-play-circle"></i> Sarah, joue de la musique Rock/pop/... (si importation des genres)
             </li>
-            <li><i class="icon-play-circle"></i> Sarah, je veux écouter ACDC/Coeur de pirate/... (<col-md-
-                    class="text-error">si importation des artistes</col-md->)
+            <li><i class="icon-play-circle"></i> Sarah, je veux écouter ACDC/Coeur de pirate/... (si importation des artistes)
             </li>
-            <li><i class="icon-play-circle"></i> Sarah, recherche ****** dans les musiques (tentera de trouver **** dans
-                les titres, artistes ou genres)
+            <li><i class="icon-play-circle"></i> Sarah, je veux regarder (le)/(la suite du) film trucbidule (si importation des films)
+            </li>
+            <li><i class="icon-play-circle"></i> Sarah, recherche ****** dans les musiques (tentera de trouver **** dans les titres, artistes ou genres)
 			</li>
-            <li><i class="icon-play-circle"></i> Sarah, je veux écouter la radio NRJ/Fréquence 3/... (<col-md- class="text-error">si plugin "Radio" installé dans xbmc.</col-md->)<br>
+            <li><i class="icon-play-circle"></i> Sarah, je veux écouter la radio NRJ/Fréquence 3/... (si plugin "Radio" installé dans xbmc.)<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Quelques radios ont déjà été ajouté dans xbmc.xml, vous pouvez en rajouter.</br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- L'ID de la radio peut être trouvé en tapant <em>http://radio.fr/info/index/searchembeddedbroadcast?start=0&rows=10&q=Nom Radio</em> dans un navigateur
 			</li>
 			<li><i class="icon-play-circle"></i> Sarah, c'est quoi cette musique/vidéo ?</li>
-             <li><i class="icon-play-circle"></i> Sarah, met le prochain épisode de House/Braquo/...(<col-md- class="text-error">si importation des séries</col-md->)</li>
+             <li><i class="icon-play-circle"></i> Sarah, met le prochain épisode de House/Braquo/...(si importation des séries)</li>
             <li><i class="icon-play-circle"></i> Sarah, met en pause la série.
             <li><i class="icon-play-circle"></i> Sarah, met à jour la librairie musisale (ou vidéo).
             <li><i class="icon-play-circle"></i> Sarah, power off xbmc vidéo (ou musique).
@@ -259,6 +261,9 @@
             </li></br>
            <li><i class="icon-play-circle"></i> Mise à jour des chaînes dans le XML:
                 <a href='../sarah/xbmc?action=xml_channel&xbmc=video' target=_blank>../sarah/xbmc?action=xml_channel&xbmc=video</a>
+            </li></br>
+           <li><i class="icon-play-circle"></i> Mise à jour des fims dans le XML:
+                <a href='../sarah/xbmc?action=xml_film&xbmc=video' target=_blank>../sarah/xbmc?action=xml_film&xbmc=video</a>
             </li></br>
 			
         </ul>
