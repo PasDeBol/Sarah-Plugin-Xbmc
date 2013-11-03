@@ -416,6 +416,9 @@ function miseajour_context_et_xml() {
 		case 'xml_serie':
 			doXML(xml_serie, xbmc_api_url, callback);
 			break;
+		case 'xml_channel':
+			doXML(xml_channel, xbmc_api_url, callback);
+			break;
 		case 'playlist':
             var filter = {"and": []};
             if (data.genre) {
@@ -909,6 +912,7 @@ var introspect = { "jsonrpc": "2.0", "method": "JSONRPC.Introspect", "params": {
 var xml_artist = {"jsonrpc": "2.0", "method": "AudioLibrary.GetArtists", "params": {}, "id": 1}
 var xml_genre = {"jsonrpc": "2.0", "method": "AudioLibrary.GetGenres", "params": {}, "id": 1}
 var xml_serie={"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {}, "id": 1}
+var xml_channel={"id":1,"jsonrpc":"2.0","method":"PVR.GetChannels","params":{"channelgroupid":"alltv","properties":["channel","channeltype","hidden","lastplayed","locked"]}};
 
 // Toggle play / pause in current player
 var play = {"jsonrpc": "2.0", "method": "Player.PlayPause", "params": { "playerid": 0 }, "id": 1};
@@ -1265,7 +1269,56 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
                 callback({'tts': '<b>Traitement de ' +(res.result.limits.total-nberreur)+' séries dans xbmc.xml '+texte_erreur+'<br><br>'+present+' personnalisées:</b><br>'+lignehtmlpresent+'<br><b>'+(res.result.limits.total-present)+' Mises à jour:</b><br>' + lignehtml})
 			}
 
-			// Otherwise
+            // Generation XML Channel
+            else if ((typeof res.result.channels != 'undefined') && (typeof res.result.limits != 'undefined')) {
+				var ligneitem = '';
+                var lignehtml = '';
+                var nberreur = 0;
+                var lignehtmlpresent = '';
+                var fs = require('fs');
+                var fileXML = 'plugins/xbmc/xbmc.xml';
+            //efface la zone génération automatique
+				var xml = fs.readFileSync(fileXML, 'utf8');
+				var replace = '¤IMPORTchannel¤ -->\n            <item>CHAINE NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>\n<!-- ¤IMPORTchannel¤';
+				var regexp = new RegExp('¤IMPORTchannel¤[^*]+¤IMPORTchannel¤', 'gm');
+                var xml = xml.replace(regexp, replace);
+                fs.writeFileSync(fileXML, xml, 'utf8');
+				console.log('plugin xbmc - Zone génération automatique channel effacée.')
+			// Génère la zone génération automatique sauf si artiste déjà présent
+				replace = '¤IMPORTchannel¤ -->\n';
+				var present=0;
+                res.result.channels.forEach(function (value) {
+					try {
+					// test si ligne déjà présente
+						lignetest = '<tag>out.action.action="tv";out.action.channelid = '+value.channelid+'</tag>';
+						var regexp = new RegExp(lignetest, 'gm');
+						if (xml.match(regexp))
+								{
+								lignehtmlpresent += value.channel.replace(/&/gi, "&amp;") + ' (id '+value.channelid+')<br>'
+								present=present+1;
+								}
+						else {
+							lignehtml += value.channel.replace(/&/gi, "&amp;") + ' (id '+value.channelid+')<br>'
+							ligneitem = '            <item>' + value.channel.replace(/&/gi, " and ") + '<tag>out.action.action="tv";out.action.channelid = '+value.channelid+'</tag></item>\n';
+							replace += (ligneitem);
+							}
+					} catch(ex) {
+						console.log("plugin xbmc - Erreur d\'importation xml avec le channel "+value.label);
+						lignehtml += value.channel.replace(/&/gi, "&amp;") + ' <====== Erreur - importation impossible <br>';
+						nberreur++;
+					}	
+                });
+                var xml = fs.readFileSync(fileXML, 'utf8');
+                replace += '            <!-- ¤IMPORTchannel¤';
+                var regexp = new RegExp('¤IMPORTchannel¤[^*]+¤IMPORTchannel¤', 'gm');
+                var xml = xml.replace(regexp, replace);
+                fs.writeFileSync(fileXML, xml, 'utf8');
+			    if (nberreur>0) {var texte_erreur=' ( '+nberreur+ ' erreur )';} else {var texte_erreur='';}
+                console.log('plugin xbmc - ' + (res.result.limits.total-present-nberreur) + ' channels générés dans xbmc.xml ( +'+present+' déjà personnalisés ) '+texte_erreur);
+				callback({'tts': '<b>Traitement de ' +(res.result.limits.total-nberreur)+' channels dans xbmc.xml '+texte_erreur+'<br><br>'+present+' personnalisés:</b><br>'+lignehtmlpresent+'<br><b>'+(res.result.limits.total-present)+' Mises à jour:</b><br>' + lignehtml})
+           }
+
+		   // Otherwise
             else if (callback) {
                 callback({'tts': 'Erreur: aucune importation effectuée!'})
             }

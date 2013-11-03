@@ -89,10 +89,11 @@
 			<item>affiche la chaine <tag>out.action.action="tv";</tag></item>
 		</one-of>
 		<one-of>
-			<!-- Complétez vos chaines ici: -->
-			<item>TF1<tag>out.action.channelname="TF1"</tag></item>
-			<item>France deux<tag>out.action.channelname="France 2"</tag></item>
-			<item>M6<tag>out.action.channelname="M6"</tag></item>
+			<!-- Personalisation Channel ¤PERSOchannel¤ -->
+			<!-- ¤PERSOchannel¤ FIN Personalisation Channel -->
+			<!-- Automatic Generation Channel ¤IMPORTchannel¤ -->
+            <item>CHAINE NON DEFINI<tag>out.action._attributes.tts ="Aucune importation XML effectuée"</tag></item>
+            <!-- ¤IMPORTchannel¤ Automatic Generation Channel -->
 		</one-of>
   </rule>  
   
