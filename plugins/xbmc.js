@@ -533,6 +533,29 @@ function miseajour_context_et_xml() {
 		case 'shutdownxbmc':
 			doAction(shutdownxbmc, xbmc_api_url, callback);
             break;
+		case 'filmavoir':
+			doAction(unsetmovie, xbmc_api_url, callback, function(res){
+				var moviestosee="";
+				if (res.result.limits.total==0) {
+					callback({'tts':'il semble que tu ai tout regardé!'});
+				}
+				else if (res.result.limits.total<=5) {
+					for (var i=0;i<(res.result.limits.total-1);i++) {
+						if (moviestosee!="") {moviestosee+=', ... ';}
+						moviestosee+=res.result.movies[i].label
+					}
+					callback({'tts':'Il te reste '+res.result.limits.total+' films que tu n\'as pas encore regardé:... '+moviestosee});
+				}
+				else {
+					var moviestosee="";
+					for (var i=0;i<Math.min(3,res.result.limits.total);i++) { // 3=> nombre de films cités
+						if (moviestosee!="") {moviestosee+=', ... ';}
+						moviestosee+=res.result.movies[Math.floor((Math.random()*(res.result.limits.total-1)))].label
+					}
+					callback({'tts':'Il y a '+res.result.limits.total+' films que tu n\'as pas encore regardé, dont... '+moviestosee});
+				}
+			});
+            break;
 		case 'ExecuteAction':
 			params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": data.value}, "id": 1 };
 			if (typeof(data.repeter)=='undefined') {repeter=1; } else {repeter=data.repeter; } // repeter à 1 par défaut.
@@ -1018,6 +1041,7 @@ var SetChannel= {"jsonrpc":"2.0","method":"Player.Open","params":{"item":{"chann
 
 // film
 var readmovie={ "jsonrpc": "2.0", "method": "Player.Open", "params": { "item": { "movieid": '' }, "options":{ "resume": '' } }, "id": 1 }
+var unsetmovie={"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"filter": {"operator": "is", "field": "playcount", "value": "0"}}, "id": 1}					
 					
 // xbmc
 var quitxbmc = {"jsonrpc":"2.0","method":"Application.Quit","id":"1"};
