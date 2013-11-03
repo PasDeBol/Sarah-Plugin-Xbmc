@@ -68,6 +68,30 @@ personnalisation_to_json = function (reponse) {
 				}
 				
 			//recherche la personalisation
+			//films
+				var regexp = new RegExp('¤PERSOfilm¤[^*]+¤PERSOfilm¤', 'gm');
+				zone_perso=xml.match(regexp).toString();
+				regexp = RegExp('\<item>.*<tag>', 'gi');
+				if (regexp.test(zone_perso)==true) {
+					labelperso=zone_perso.match(regexp);
+					regexp = RegExp('\".*"', 'gi');
+					id_film=zone_perso.match(regexp);
+					params={"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {}, "id": 1};
+					labelxbmc={};
+					doAction(params, xbmc_api_url, callback, function(res){
+						for (var i=0;i<res.result.movies.length;i++) {
+							labelxbmc[res.result.movies[i].movieid]=res.result.movies[i].label.replace(/&/gi, "&amp;");
+						}
+						for (var i=0;i<id_film.length;i++) {
+							dataperso[labelxbmc[id_film[i].slice(1,id_film[i].length-1)]]=labelperso[i].slice(6,labelperso[i].length-5);
+						}
+						return reponse(dataperso);
+					});
+				}
+				else 
+					{return reponse(dataperso);}
+
+			//recherche la personalisation
 			// série
 				var regexp = new RegExp('¤PERSOseries¤[^*]+¤PERSOseries¤', 'gm');
 				zone_perso=xml.match(regexp).toString();
@@ -308,7 +332,6 @@ function miseajour_context_et_xml() {
 							if (personnalisation[container.items[i].replace(/&/gi, "&amp;")]) {
 								if (infodebug==true) {console.log ('plugin xbmc - Personalisation: '+container.items[i].replace(/&/gi, "&amp;")+' -> '+personnalisation[container.items[i].replace(/&/gi, "&amp;")]);}
 								datas_xml+='<item>'+sanitizeNumber(personnalisation[container.items[i].replace(/&/gi, "&amp;")])+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
-							
 							}
 						}
 					}
