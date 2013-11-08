@@ -12,8 +12,8 @@ var infodebug=true;
 	if ((!config.api_url_xbmc_music)||(!config.api_url_xbmc_video)) {
         return callback({ 'tts': 'Configuration XBMC invalide' });
     }
-	if (data.xbmc=='music') 		{ xbmc_api_url=config.api_url_xbmc_music;}
-	else if (data.xbmc=='video') 	{ xbmc_api_url=config.api_url_xbmc_video;}
+	if (data.xbmc=='music') 		{ xbmc_api_url='http://'+config.api_url_xbmc_music+'/jsonrpc';}
+	else if (data.xbmc=='video') 	{ xbmc_api_url='http://'+config.api_url_xbmc_video+'/jsonrpc';}
 	else  {return callback({ 'tts': 'Choix du XBMC inconnu!'});}
 
   //console.log (xbmc_api_url.slice(7,18));

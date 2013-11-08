@@ -3,8 +3,8 @@
     "xbmc":     {
       "description": "Commande Vocale pour XBMC (Frodo: 12.x)",
       "version"    : "1.5",
-      "api_url_xbmc_music"    : "http://[FIXME]:[FIXME]/jsonrpc",
-      "api_url_xbmc_video"    : "http://[FIXME]:[FIXME]/jsonrpc"
+      "api_url_xbmc_music"    : "[FIXME]:[FIXME]",
+      "api_url_xbmc_video"    : "[FIXME]:[FIXME]"
     }
   }
 }
