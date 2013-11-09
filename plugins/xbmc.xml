@@ -25,6 +25,7 @@
 			<item>musique précédente<tag>out.action.action="prev"</tag><tag>out.action.xbmc="music" </tag></item>
 			<item>met en pause la musique<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
 			<item>musique en pause<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
+			<item>arrête la musique <tag>out.action.action="ExecuteAction";out.action.value="stop";</tag><tag>out.action.xbmc="music" </tag></item>
 			<item>met la musique sur pause<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
 			<item>reprends la musique<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
 			<item>met en pause la série<tag>out.action.action="playvideo"</tag><tag>out.action.xbmc="video" </tag></item>
