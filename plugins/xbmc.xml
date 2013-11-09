@@ -13,7 +13,7 @@
 			<item><ruleref uri="#ruleXBMC_Radio"/><tag>out.action = rules.ruleXBMC_Radio;</tag><tag>out.action._attributes.tts = "Je mets la radio"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
 			<item><ruleref uri="#ruleXBMC_Tv"/><tag>out.action = rules.ruleXBMC_Tv;</tag><tag>out.action._attributes.tts = "Je mets la tele"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
 			<item><ruleref uri="#ruleXBMC_Film"/><tag>out.action = rules.ruleXBMC_Film;</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
-			<item>active le mode xbmc<tag>out.action._attributes.context = "lazyxbmc.xml,lazyxbmc_temp.xml"</tag><tag>out.action._attributes.tts = "Mode XBMC activé"</tag></item>
+			<item>active le mode xbmc<tag>out.action._attributes.context = "lazyxbmc.xml,lazyxbmc_temp.xml"</tag><tag>out.action._attributes.tts = "Mode XBMC activé, que veux tu?"</tag></item>
 		</one-of>
 	</rule>  
   
