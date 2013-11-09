@@ -23,6 +23,7 @@
             <li class="nav-header">Configuration</li>
             <li class="#"><a href="" data-toggle="plugin-config-xbmc">XBMC</a></li>
             <li><a href="#" data-toggle="plugin-config-sarah">SARAH</a></li>
+            <li><a href="#" data-toggle="plugin-vox-test">Test de la configuration</a></li>
             <li><a href="#" data-toggle="plugin-vox-errors">Erreurs</a></li>
             <li class="nav-header">Commandes vocales</li>
             <li><a href="#" data-toggle="plugin-vox-examples">Exemples</a></li>
@@ -44,6 +45,9 @@
 		<ul class="unstyled" id="plugin-version-xbmc">
 			<div class="alert alert-success">Versions</div>
 			<li><i class="icon-play-circle"></i> Version 1.52:</br>
+			[X] Test de configuration et communication.
+			[X] Simplification configuration: [IP]:[Port]
+			[X] Correction Mode Xbmc: possiblité de prononcer juste le titre de la chanson (avant: 01.artiste machin - chanson truc)</br>
 			[X] Qu'est ce que j'ai comme film à voir?</br>
 			[X] importation XML des films (+personnalisation)</br>
 			[X] lecture (ou reprise) d'un film </br>
@@ -94,18 +98,15 @@
         <ul class="unstyled" id="plugin-config-sarah" style="display: none;">
  			<div class="alert alert-success">Configuration - S.A.R.A.H.</div>
 
-			<li><i class="icon-play-circle"></i> <strong>Si votre version précédente du plugin n'était pas la V1.4, il est indispensable de nettoyer manuellement </br>
-			le fichier custom.prop en supprimant tout ce qui concerne xbmc avant de passer à la configuration du plugin.</strong>
-            </li></br>
-            <li><i class="icon-play-circle"></i> Paramétrer le plugin avec l'<strong>IP</strong> et
+           <li><i class="icon-play-circle"></i> Paramétrer le plugin avec l'<strong>IP</strong> et
                 <strong>port</strong> de XBMC (musique et vidéo).</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Si le xbmc gérant la musique et la vidéo est le même, remplissez les 2 champs avec les mêmes infos.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Si xbmc est installé sur la même machine que Sarah (Nodejs), préférez 127.0.0.1 à l'adresse local (le plugin sera plus réactif avec cette IP).<br>
- 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- La notion xbmc musique/vidéo est un exemple, vous pouvez organiser ça comme vous le souhiatez. (pensez à modifier le xml)</br>
+ 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- La notion xbmc musique/vidéo est un exemple, vous pouvez organiser ça comme vous le souhaitez. (pensez à modifier le xml)</br>
            </li></br>
-            <li><i class="icon-play-circle"></i> Faites un essai pause/lecture en cliquant ici: <a
+            <li><i class="icon-play-circle"></i> <strong>Si la musique est toujours en cours sur XBMC,</strong> Faites un essai pause/lecture en cliquant ici: <a
                     href='../sarah/xbmc?action=play&xbmc=music' target=_blank>
-                ../sarah/xbmc?action=play</a>. Si ce simple essai fonctionne, tout va bien! (sinon...)
+                ../sarah/xbmc?action=play</a>. Si ce simple essai fonctionne, tout va bien! (sinon aller directement à 'Test de la configuration')
             </li><br>
 			<li><i class="icon-play-circle"></i> <strong>(Facultatif)</strong> Si vous souhaitez moins de log dans la console NodeJS:<br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- éditez le fichier <em>xbmc.js</em> et mettez la variable <em>infodebug</em> à <em>false</em>.</li></br>
@@ -136,7 +137,16 @@
             <li><i class="icon-play-circle"></i> Qu'est ce que j'ai comme film à voir? (Sarah indique le nombre de films non vu et en cite 3 au hasard).
 			</li>
         </ul>
-        <!--Erreurs-->
+        <!--Test-->
+        <ul class="unstyled" id="plugin-vox-test" style="display: none;">
+        	<div class="alert alert-success">Configuration - Test</div>
+			<li><i class="icon-play-circle"></i>Si vous n'arrivez pas à faire communiquer Sarah et vos (/votre) XBMC, vous pouvez effectuer ce test. Celui ci devrait pouvoir vous guider sur la cause du problème. 
+			</br>Il est nécessaire de démarrer les XBMC 'music' et 'video' (ou un seul XBMC si 'music' et 'video' sont un seul XBMC).
+			</br>Le teste ne fonctionne pas si vous avez installer le NodeJS sur Linux.
+			</br><a href='../sarah/xbmc?action=testconfig' target=_blank> Cliquez sur ce lien pour lancer le test.</a>
+	        </li>
+        </ul>
+       <!--Erreurs-->
         <ul class="unstyled" id="plugin-vox-errors" style="display: none;">
         	<div class="alert alert-success">Configuration - Erreurs</div>
 			<li><i class="icon-play-circle"></i> <em>"Je n'ai pas pu contacter le serveur"</em> : Aucune réponse de XBMC

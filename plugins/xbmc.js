@@ -5,7 +5,11 @@ var delay_before_control_local=50;
 var delay_before_control_distant=500;
 var delay_before_control;
 var infodebug=true;
-
+	if (data.action=='testconfig') {
+		var tools = require('./xbmctools.js');
+		tools.testconfig(config.modules.xbmc,callback);
+		return;
+	}
 	// Retrieve config
     var  api_url;
     config = config.modules.xbmc;
