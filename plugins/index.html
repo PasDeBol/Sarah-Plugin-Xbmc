@@ -44,7 +44,7 @@
 		<!--Version-->
 		<ul class="unstyled" id="plugin-version-xbmc">
 			<div class="alert alert-success">Versions</div>
-			<li><i class="icon-play-circle"></i> Version 1.52:</br>
+			<li><i class="icon-play-circle"></i> Version 1.6:</br>
 			[X] Test de configuration et communication.</br>
 			[X] Simplification configuration: [IP]:[Port]</br>
 			[X] Correction Mode Xbmc: possiblité de prononcer juste le titre de la chanson (avant: 01.artiste machin - chanson truc)</br>
@@ -114,29 +114,25 @@
         <!--Exemples-->
         <ul class="unstyled" id="plugin-vox-examples" style="display: none;">
  			<div class="alert alert-success">Commandes Vocales - Exemples</div>
-			<li><i class="icon-play-circle"></i> Sarah, musique en pause.</li>
-            <li><i class="icon-play-circle"></i> Sarah, reprends la musique</li>
-            <li><i class="icon-play-circle"></i> Sarah, joue de la musique Rock/pop/... (si importation des genres)
-            </li>
-            <li><i class="icon-play-circle"></i> Sarah, je veux écouter ACDC/Coeur de pirate/... (si importation des artistes)
-            </li>
-            <li><i class="icon-play-circle"></i> Sarah, je veux regarder (le)/(la suite du) film trucbidule (si importation des films)
-            </li>
-            <li><i class="icon-play-circle"></i> Sarah, recherche ****** dans les musiques (tentera de trouver **** dans les titres, artistes ou genres)
-			</li>
-            <li><i class="icon-play-circle"></i> Sarah, je veux écouter la radio NRJ/Fréquence 3/... (si plugin "Radio" installé dans xbmc.)<br>
+            <li><i class="icon-play-circle"></i><strong> Quelques commandes:</strong></br></br>
+			Sarah, musique en pause.</br></br>
+            Sarah, reprends la musique.</br></br>
+            Sarah, joue de la musique Rock/pop/... (si importation des genres).</br></br>
+            Sarah, je veux écouter ACDC/Coeur de pirate/... (si importation des artistes).</br></br>
+            Sarah, je veux regarder (le)/(la suite du) film trucbidule (si importation des films).</br></br>
+            Sarah, recherche ****** dans les musiques (tentera de trouver **** dans les titres, artistes ou genres).</br></br>
+            Sarah, je veux écouter la radio NRJ/Fréquence 3/... (si plugin "Radio" installé dans xbmc).<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Quelques radios ont déjà été ajouté dans xbmc.xml, vous pouvez en rajouter.</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- L'ID de la radio peut être trouvé en tapant <em>http://radio.fr/info/index/searchembeddedbroadcast?start=0&rows=10&q=Nom Radio</em> dans un navigateur
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- L'ID de la radio peut être trouvé en tapant <em>http://radio.fr/info/index/searchembeddedbroadcast?start=0&rows=10&q=Nom Radio</em> dans un navigateur</br></br>
+			Sarah, c'est quoi cette musique/vidéo ?</br></br>
+             Sarah, met le prochain épisode de House/Braquo/...(si importation des séries).</br></br>
+            Sarah, je veux regarder la chaine TF1.</br></br>
+            Sarah, met à jour la librairie musisale (ou vidéo).</br></br>
+            Sarah, power off xbmc vidéo (ou musique).</br></br>
+            Sarah, ferme l'application xbmc musique (ou vidéo).</br></br>
+            Qu'est ce que j'ai comme film à voir? (Sarah indique le nombre de films non vu et en cite 3 au hasard).</br></br>
 			</li>
-			<li><i class="icon-play-circle"></i> Sarah, c'est quoi cette musique/vidéo ?</li>
-             <li><i class="icon-play-circle"></i> Sarah, met le prochain épisode de House/Braquo/...(si importation des séries)</li>
-            <li><i class="icon-play-circle"></i> Sarah, met en pause la série.
-            <li><i class="icon-play-circle"></i> Sarah, met à jour la librairie musisale (ou vidéo).
-            <li><i class="icon-play-circle"></i> Sarah, power off xbmc vidéo (ou musique).
-            <li><i class="icon-play-circle"></i> Sarah, ferme l'application xbmc musique (ou vidéo).
-            <li><i class="icon-play-circle"></i> Qu'est ce que j'ai comme film à voir? (Sarah indique le nombre de films non vu et en cite 3 au hasard).
-			</li>
-			</br></br><Strong>Liste complète des commandes (hors mode xbmc):</strong></br>
+			<li><i class="icon-play-circle"></i><strong>Liste complète des commandes (hors mode xbmc):</strong></br></br>
 				Sarah, active le mode xbmc </br>
 				Sarah, musique suivante </br>
 				Sarah, musique précédente </br>
@@ -199,7 +195,9 @@
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vos autres plugins ne sont plus opérationnels.</br></br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Sarah contrôle toujours de manière plus précise le 1er mot (qui n'est plus <em>Sarah</em>) </br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Il faut donc bien prononcer le 1er mot (ou adapter le xml en fonction de vos préférences).</br></br>
-			<i class="icon-play-circle"></i><strong> Le mode a été testé et développé avec le thème par défaut de XBMC: <em>Confluence</em>.</strong> </br>
+			</li>
+			<li><i class="icon-play-circle"></i><strong> Le mode a été testé et développé avec le thème par défaut de XBMC: <em>Confluence</em>.</strong> </br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Il fonctionne aussi avec Aeon Nox.</br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Aucune garantie de fonctionnement avec les autres thèmes.</br>
  			</li>
         </ul>
@@ -389,14 +387,15 @@
      <!--XBMC Commander 4 -->
         <ul class="unstyled" id="plugin-xbmccommander4" style="display: none;">
 			<div class="alert alert-success">Mode XBMC - Paramétrages avancés</div>
-            <li>
-			<i class="icon-play-circle"></i><strong>Avec un xbmc installé sur une machine distante:</strong> </br>
+            <li><i class="icon-play-circle"></i><strong>Avec un xbmc installé sur une machine distante:</strong> </br>
 			Il se peut que la mise à jour du contenu se fasse trop tôt si le temps de latence (ping) entre la machine nodejs et celle xbmc est trop important.</br>
 			Dans ce cas, vous pouvez augmenter dans le fichier  <em>xbmc.js</em> la variable </em>delay_before_control_distant</em>(500 millisecondes par défaut)</br></br>
-			<i class="icon-play-circle"></i><strong>Modification du timeout de désactivation automatique:</strong></br>
+			</li>
+			<li><i class="icon-play-circle"></i><strong>Modification du timeout de désactivation automatique:</strong></br>
 			Le timeout est défini dans le fichier Custom.ini à la racine de Sarah et concerne le mode Lazzy de tous les plugins.<br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctxTimeout=60000 (60s par défaut)</br></br>
-			<i class="icon-play-circle"></i><strong>Si votre thème XBMC est different de <em>Confluence</em>:</strong> </br>
+			</li>
+			<li><i class="icon-play-circle"></i><strong>Si votre thème XBMC est different de <em>Confluence</em> (ou autre compatible):</strong> </br>
 			Il doit être possible d'adapté le thème en modifiant le code de xbmc.js</br>
 			Dans la fonction navigation_context_viewmode_info, il faut paramétrer les <em>temp_data</em> pour chaque format d'affichage (viewmode)</br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.way_normal est le sens normal de défilement (celui du scrolling et de la recherche)	</br>	

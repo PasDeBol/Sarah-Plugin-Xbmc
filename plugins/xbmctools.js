@@ -216,6 +216,25 @@ module.exports = {
 					htmlmusic+="<br>&nbsp;&nbsp;&nbsp;|| OK";
 					htmlmusic+='<br>&nbsp;&nbsp;&nbsp;|| Info:  Nombre de films :'+json.result.limits.total;
 				}
+				goto_controletheme();
+			});
+		}
+		function goto_controletheme() {
+			htmlmusic+='</br>Controle du theme/skin xbmc "video":';
+			var request = require('request');
+			var rqjson={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["skin"]}, "id": 1};
+			request({'uri': 'http://'+configurlvideo+'/jsonrpc','method': 'POST', 'json' : rqjson , 'timeout': 2000}, function (err, response, json) {
+				if ((json.result.skin.name!='Confluence')&&(json.result.skin.name!='Aeon Nox')) {
+					warning=true;
+					htmlmusic+="<br>|| WARNING votre thème est "+json.result.skin.name+", ce n'est pas le thème par défaut. Cela peut éventuellement poser problème en 'mode xbmc'";
+					htmlmusic+="<br>|| Cela peut éventuellement poser problème en 'mode xbmc'";
+					
+					}
+				else {
+					htmlmusic+="<br>&nbsp;&nbsp;&nbsp;|| OK";
+					htmlmusic+="<br>&nbsp;&nbsp;&nbsp;|| Info: votre thème est "+json.result.skin.name;
+				}
+				
 				htmlmusic+='</br><br>';
 				htmlmusic+='################<br>';
 				htmlmusic+='# Tout est correct! #<br>';
