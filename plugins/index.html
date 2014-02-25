@@ -26,7 +26,7 @@
             <li><a href="#" data-toggle="plugin-vox-test">Test de la configuration</a></li>
             <li><a href="#" data-toggle="plugin-vox-errors">Erreurs</a></li>
             <li class="nav-header">Commandes vocales</li>
-            <li><a href="#" data-toggle="plugin-vox-examples">Exemples</a></li>
+            <li><a href="#" data-toggle="plugin-vox-examples">Exemples & Informations</a></li>
             <li class="nav-header">Mode XBMC (Voice commander)</li>
             <li><a href="#" data-toggle="plugin-xbmccommander1">Activation / Désactivation</a></li>
             <li><a href="#" data-toggle="plugin-xbmccommander2">Les commandes vocales</a></li>
@@ -44,6 +44,14 @@
 		<!--Version-->
 		<ul class="unstyled" id="plugin-version-xbmc">
 			<div class="alert alert-success">Versions</div>
+			<li><i class="icon-play-circle"></i> Version 1.7:</br>
+			[X] Lecture d'une playlist (.m3u) ou smartlist (.xsp) musicale .</br>
+			[X] Importation XML des playlists (.m3u) et smartlist (.xsp) musicale .</br>
+			[&nbsp; ] Affichage sur Xbmc d'une smartlist (.xsp) vidéo .</br>
+			[&nbsp; ] Importation XML des smartlist (.xsp) vidéo .</br>
+			[&nbsp; ] Affichage des sous-titres (??!! à voir...).</br>
+			</li></br>
+
 			<li><i class="icon-play-circle"></i> Version 1.6:</br>
 			[X] Test de configuration et communication.</br>
 			[X] Simplification configuration: [IP]:[Port]</br>
@@ -113,8 +121,19 @@
         </ul>
         <!--Exemples-->
         <ul class="unstyled" id="plugin-vox-examples" style="display: none;">
- 			<div class="alert alert-success">Commandes Vocales - Exemples</div>
-            <li><i class="icon-play-circle"></i><strong> Quelques commandes:</strong></br></br>
+ 			<div class="alert alert-success">Commandes Vocales - Exemples & informations</div>
+            <li><i class="icon-play-circle"></i><strong> Informations:</strong></br></br>
+			Pour les playlist .M3U: Par défaut, Xbmc prends les fichiers .M3U pour des images!</br>
+			Il est nécessaire de supprimer cette affectation en rajoutant ces lignes</br>
+			<em>&lt;advancedsettings&gt;</br>
+			&nbsp;&nbsp;&lt;pictureextensions&gt;</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&lt;remove&gt;.m3u&lt;/remove&gt;</br>
+			&nbsp;&nbsp;&lt;/pictureextensions&gt;</br>
+			&lt;/advancedsettings&gt;</em></br>
+			dans le fichier de configuration <em>advancedsettings.xml </em> (Le fichier est a créer si besoin)</br>
+			plus d'info <a href='http://trac.xbmc.org/ticket/14124' target=_blank>ICI</a> et <a href='http://wiki.xbmc.org/?title=Advancedsettings.xml' target=_blank>LA</a>!</br>
+			</li></br>
+			<li><i class="icon-play-circle"></i><strong> Quelques commandes:</strong></br></br>
 			Sarah, musique en pause.</br></br>
             Sarah, reprends la musique.</br></br>
             Sarah, joue de la musique Rock/pop/... (si importation des genres).</br></br>
@@ -161,6 +180,8 @@
 				Sarah, joue de la musique XXXGenreXXX (importation XML nécessaire) </br>
 				Sarah, je veux écouter XXArtistXX (importation XML nécessaire)</br>
 				Sarah, met le prochain épisode de XXSérieXX (importation XML nécessaire) </br>
+				Sarah, je veux écouter ma playliste XXMaPlaylistXX (importation XML nécessaire) </br>
+				Sarah, joue ma playliste XXMaPlaylistXX (importation XML nécessaire) </br>
         </ul>
         <!--Test-->
         <ul class="unstyled" id="plugin-vox-test" style="display: none;">
@@ -432,6 +453,9 @@
 			</li></br>
             <li><i class="icon-play-circle"></i> Mise à jour des genres dans le XML:
                 <a href='../sarah/xbmc?action=xml_genre&xbmc=music' target=_blank>../sarah/xbmc?action=xml_genre&xbmc=music</a>
+            </li></br>
+            <li><i class="icon-play-circle"></i> Mise à jour des playlists musicale dans le XML:
+                <a href='../sarah/xbmc?action=xml_playlistmusic&xbmc=music' target=_blank>../sarah/xbmc?action=xml_playlistmusic&xbmc=music</a>
             </li></br>
             <li><i class="icon-play-circle"></i> Mise à jour des séries dans le XML:
                 <a href='../sarah/xbmc?action=xml_serie&xbmc=video' target=_blank>../sarah/xbmc?action=xml_serie&xbmc=video</a>

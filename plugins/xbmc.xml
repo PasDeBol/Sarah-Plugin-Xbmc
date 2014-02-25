@@ -138,6 +138,23 @@
 		</one-of>
 	</rule>
 
+		<rule id="ruleXBMC_File_playlist_music" scope="public">
+		<example>SARAH joue ma playliste _MaPlayList_</example>
+		<tag>out.action=new Object();</tag>
+		<tag>out.action.xbmc="music";</tag>
+		<one-of>
+			<item>je veux écouter ma playliste <tag>out.action.action="playlistmusic";</tag></item>
+			<item>joue ma playliste <tag>out.action.action="playlistmusic";</tag></item>
+		</one-of>
+		<one-of>
+			<!-- Personalisation Channel ¤PERSOplaylistmusic¤ -->
+			<!-- ¤PERSOplaylistmusic¤ FIN Personalisation Channel -->
+			<!-- Automatic Generation Channel ¤IMPORTplaylistmusic¤ -->
+            <item>playliste Musicale NON DEFINI <tag>out.action._attributes.tts ="Aucune importation XML effectuée"</tag></item>
+            <!-- ¤IMPORTplaylistmusic¤ Automatic Generation Channel -->
+		</one-of>
+	</rule>  
+
 	<rule id="ruleXBMC_Artist" scope="public">
 		<example>SARAH je veux écouter ACDC</example>
 		<tag>out.action=new Object();</tag>
