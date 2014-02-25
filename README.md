@@ -8,7 +8,7 @@ Plugin pour S.A.R.A.H. (http://www.encausse.net) qui permet de piloter XBMC
 '\build\xxxxxx.zip' les dernières Béta Stables
 
 
-24/08/13: Version 1.6 Béta
+24/08/13: Version 1.6 Release
 
 23/08/13: Version 1.5 Release 
 
