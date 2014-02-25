@@ -5,6 +5,7 @@ Sarah, musique précédente </br>
 Sarah, met en pause la musique </br>
 Sarah, musique en pause </br>
 Sarah, arrête la musique </br>
+Sarah, arrête le film</br>
 Sarah, met la musique sur pause </br>
 Sarah, reprends la musique </br>
 Sarah, met en pause la série </br>
@@ -27,6 +28,8 @@ Sarah, met de la musique XXXGenreXXX... (importation XML nécessaire) </br>
 Sarah, joue de la musique XXXGenreXXX (importation XML nécessaire) </br>
 Sarah, je veux écouter XXArtistXX (importation XML nécessaire)</br>
 Sarah, met le prochain épisode de XXSérieXX (importation XML nécessaire) </br>
+Sarah, je veux écouter ma playliste XXMaPlaylistXX (importation XML nécessaire) </br>
+Sarah, joue ma playliste XXMaPlaylistXX (importation XML nécessaire) </br>
  </br>
 En mode XBMC: </br>
 Merci ça sera tout, SARAH </br>
