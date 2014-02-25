@@ -2,7 +2,7 @@
   "modules" : { 
     "xbmc":     {
       "description": "Commande Vocale pour XBMC (Frodo: 12.x)",
-      "version"    : "1.6",
+      "version"    : "1.6x",
       "api_url_xbmc_music"    : "[FIXME]:[FIXME]",
       "api_url_xbmc_video"    : "[FIXME]:[FIXME]"
     }
