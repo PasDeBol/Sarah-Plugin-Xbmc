@@ -6,6 +6,8 @@
 		
 		<one-of>
 			<item><ruleref uri="#ruleXBMC_playlist"/><tag>out.action = rules.ruleXBMC_playlist;</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
+			<item><ruleref uri="#ruleXBMC_File_playlist_music"/><tag>out.action = rules.ruleXBMC_File_playlist_music;</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
+			<item><ruleref uri="#ruleXBMC_File_playlist_video"/><tag>out.action = rules.ruleXBMC_File_playlist_video;</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
 			<item><ruleref uri="#ruleXBMC_search"/><tag>out.action = rules.ruleXBMC_search;</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
 			<item><ruleref uri="#ruleXBMC_Artist"/><tag>out.action = rules.ruleXBMC_Artist;</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
 			<item><ruleref uri="#ruleXBMC_Telecommande"/><tag>out.action = rules.ruleXBMC_Telecommande</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
@@ -156,6 +158,22 @@
 		</one-of>
 	</rule>  
 
+	<rule id="ruleXBMC_File_playlist_video" scope="public">
+		<example>SARAH affiche ma playliste _MaPlayList_</example>
+		<tag>out.action=new Object();</tag>
+		<tag>out.action.xbmc="video";</tag>
+		<one-of>
+			<item>affiche ma playliste <tag>out.action.action="playlistvideo";</tag></item>
+		</one-of>
+		<one-of>
+			<!-- Personalisation Channel ¤PERSOplaylistvideo¤ -->
+			<!-- ¤PERSOplaylistvideo¤ FIN Personalisation Channel -->
+			<!-- Automatic Generation Channel ¤IMPORTplaylistvideo¤ -->
+            <item>PLAYLIST VIDEO NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>
+            <!-- ¤IMPORTplaylistvideo¤ Automatic Generation Channel -->
+		</one-of>
+	</rule>  
+	
 	<rule id="ruleXBMC_Artist" scope="public">
 		<example>SARAH je veux écouter ACDC</example>
 		<tag>out.action=new Object();</tag>

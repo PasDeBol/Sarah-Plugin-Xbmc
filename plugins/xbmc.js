@@ -447,6 +447,9 @@ function miseajour_context_et_xml() {
         case 'xml_playlistmusic':
             doXML(xml_playlistmusic, xbmc_api_url, callback);
             break;
+        case 'xml_playlistvideo':
+            doXML(xml_playlistvideo, xbmc_api_url, callback);
+            break;
 		case 'xml_serie':
 			doXML(xml_serie, xbmc_api_url, callback);
 			break;
@@ -502,6 +505,10 @@ function miseajour_context_et_xml() {
 		case 'playlistmusic':
 			playlistmusic.params.item.file=data.playlistfile;
 			doAction(playlistmusic, xbmc_api_url, callback);
+			break;
+		case 'playlistvideo':
+			playlistvideo.params.parameters=[data.playlistfile];
+			doAction(playlistvideo, xbmc_api_url, callback);
 			break;
 		case 'play':
             doAction(play, xbmc_api_url, callback);
@@ -987,6 +994,7 @@ var introspect = { "jsonrpc": "2.0", "method": "JSONRPC.Introspect", "params": {
 var xml_artist = {"jsonrpc": "2.0", "method": "AudioLibrary.GetArtists", "params": {}, "id": 1}
 var xml_genre = {"jsonrpc": "2.0", "method": "AudioLibrary.GetGenres", "params": {}, "id": 1}
 var xml_playlistmusic = {"jsonrpc": "2.0", "method": "Files.GetDirectory", "params": {"directory": "special://profile/playlists/music", "media": "music"}, "id": 1}
+var xml_playlistvideo = {"jsonrpc": "2.0", "method": "Files.GetDirectory", "params": {"directory": "special://profile/playlists/video", "media": "video"}, "id": 1}
 var xml_serie={"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {}, "id": 1}
 var xml_channel={"id":1,"jsonrpc":"2.0","method":"PVR.GetChannels","params":{"channelgroupid":"alltv","properties":["channel","channeltype","hidden","lastplayed","locked"]}}
 var xml_film={"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {}, "id": 1}
@@ -1045,8 +1053,10 @@ var runlist = {"jsonrpc": "2.0", "id": 2, "method": "Player.Open", "params": {"i
 var shuffle_on = {"jsonrpc": "2.0", "method": "Player.SetShuffle",  "params": { "playerid": 0 ,"shuffle":true}, "id": 1}
 var shuffle_off = {"jsonrpc": "2.0", "method": "Player.SetShuffle",  "params": { "playerid": 0 ,"shuffle":false}, "id": 1}
 
-// Playlistfile
-var playlistmusic ={ "jsonrpc": "2.0", "method": "Player.Open", "params": { "item": { "file": "" }, "options" : {"shuffled":true}}, "id": 0 }
+// Playlistfile (Play)
+var playlistmusic ={ "jsonrpc": "2.0", "method": "Player.Open", "params": { "item": { "file": "" }, "options" : {"shuffled":true}}, "id": 1 }
+// Playlistfile (Show)
+var playlistvideo ={"jsonrpc":"2.0","method": "GUI.ActivateWindow", "params": { "window": "video", "parameters":[]}, "id": 1 }
 
 // Séries
 var playserie = {"jsonrpc": "2.0", "method": "Player.Open", "params": { "item": {"file":""} , "options":{ "resume":true } }, "id": 3}
@@ -1304,7 +1314,7 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
            }
 
 			// Generation XML playlistmusic
-            else if ((typeof res.result.files != 'undefined') && (typeof res.result.limits != 'undefined')) {
+            else if ((typeof res.result.files != 'undefined') && (typeof res.result.limits != 'undefined') && (req==xml_playlistmusic)) {
 				var ligneitem = '';
                 var lignehtml = '';
                 var nberreur = 0;
@@ -1350,6 +1360,55 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 			    if (nberreur>0) {var texte_erreur=' ( '+nberreur+ ' erreur )';} else {var texte_erreur='';}
                 console.log('plugin xbmc - ' + (res.result.limits.total-present-nberreur) + ' playlistmusics générés dans xbmc.xml ( +'+present+' déjà personnalisés ) '+texte_erreur);
 				callback({'tts': '<b>Traitement de ' +(res.result.limits.total-nberreur)+' playlistmusics dans xbmc.xml '+texte_erreur+'<br><br>'+present+' personnalisés:</b><br>'+lignehtmlpresent+'<br><b>'+(res.result.limits.total-present)+' Mises à jour:</b><br>' + lignehtml})
+           }
+
+		   	// Generation XML playlistvideo
+            else if ((typeof res.result.files != 'undefined') && (typeof res.result.limits != 'undefined') && (req==xml_playlistvideo)) {
+				var ligneitem = '';
+                var lignehtml = '';
+                var nberreur = 0;
+                var lignehtmlpresent = '';
+                var fs = require('fs');
+                var fileXML = 'plugins/xbmc/xbmc.xml';
+            //efface la zone génération automatique
+				var xml = fs.readFileSync(fileXML, 'utf8');
+				var replace = '¤IMPORTplaylistvideo¤ -->\n            <item>PLAYLIST VIDEO NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>\n<!-- ¤IMPORTplaylistvideo¤';
+				var regexp = new RegExp('¤IMPORTplaylistvideo¤[^*]+¤IMPORTplaylistvideo¤', 'gm');
+                var xml = xml.replace(regexp, replace);
+                fs.writeFileSync(fileXML, xml, 'utf8');
+				console.log('plugin xbmc - Zone génération automatique playlistvideo effacée.')
+			// Génère la zone génération automatique sauf si playlistvideo déjà présent
+				replace = '¤IMPORTplaylistvideo¤ -->\n';
+				var present=0;
+                res.result.files.forEach(function (value) {
+					try {
+					// test si ligne déjà présente
+						lignetest = '<tag>out.action.playlistfile = encodeURIComponent\\("' + value.file.replace(/&/gi, "&amp;") + '"\\)</tag>'
+						var regexp = new RegExp(lignetest, 'gm');
+						if (xml.match(regexp))
+								{
+								lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
+								present=present+1;
+								}
+						else {
+							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
+							ligneitem = '            <item>' + value.label.replace(/&/gi, " and ") + '<tag>out.action.playlistfile = encodeURIComponent("' + value.file.replace(/&/gi, "&amp;").replace(/"/gi, "\\\"") + '")</tag></item>\n';
+							replace += (ligneitem);
+							}
+					} catch(ex) {
+						console.log("plugin xbmc - Erreur d\'importation xml avec le playlistvideo "+value.label);
+						lignehtml += value.file.replace(/&/gi, "&amp;") + '(' + value.label.replace(/&/gi, "&amp;") + ') <====== Erreur - importation impossible <br>';
+						nberreur++;
+					}	
+                });
+                var xml = fs.readFileSync(fileXML, 'utf8');
+                replace += '            <!-- ¤IMPORTplaylistvideo¤';
+                var regexp = new RegExp('¤IMPORTplaylistvideo¤[^*]+¤IMPORTplaylistvideo¤', 'gm');
+                var xml = xml.replace(regexp, replace);
+                fs.writeFileSync(fileXML, xml, 'utf8');
+			    if (nberreur>0) {var texte_erreur=' ( '+nberreur+ ' erreur )';} else {var texte_erreur='';}
+                console.log('plugin xbmc - ' + (res.result.limits.total-present-nberreur) + ' playlistvideos générés dans xbmc.xml ( +'+present+' déjà personnalisés ) '+texte_erreur);
+				callback({'tts': '<b>Traitement de ' +(res.result.limits.total-nberreur)+' playlistvideos dans xbmc.xml '+texte_erreur+'<br><br>'+present+' personnalisés:</b><br>'+lignehtmlpresent+'<br><b>'+(res.result.limits.total-present)+' Mises à jour:</b><br>' + lignehtml})
            }
 
 			// Generation XML Series
