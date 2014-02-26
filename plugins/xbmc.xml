@@ -41,7 +41,7 @@
 			<item>power off xbmc musique<tag>out.action.action="shutdownxbmc"</tag><tag>out.action.xbmc="music" </tag></item>
 			<item>mise à jour de la librairie vidéo<tag>out.action.action="videolibraryscan"</tag><tag>out.action.xbmc="video" </tag></item>
 			<item>mise à jour de la librairie musicale<tag>out.action.action="audiolibraryscan"</tag><tag>out.action.xbmc="music" </tag></item>
-
+			<item>affiche les paroles de la chanson<tag>out.action.action="ExecuteAddon";out.action.parameters="script.cu.lrclyrics";out.action.value=1;</tag><tag>out.action.xbmc="music" </tag></item>
 		</one-of>
 	</rule>  
   
@@ -184,7 +184,7 @@
             <!-- ¤PERSOartiste¤ Fin de Personalisation Artiste -->
 			<!-- Automatic Generation Artist ¤IMPORTartiste¤ -->
             <item>ARTIST NON DEFINI<tag>out.action._attributes.tts ="Aucune importation XML effectuée"</tag></item>
-           <!-- ¤IMPORTartiste¤ END Automatic Generation Artist -->
+            <!-- ¤IMPORTartiste¤ END Automatic Generation Artist -->
 		</one-of>
 	</rule>
   

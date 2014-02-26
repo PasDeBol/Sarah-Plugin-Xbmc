@@ -86,7 +86,9 @@
 <!-- ************************************************** Addons  ********************************************* -->
 	<item>Affiche les radios<tag>out.action.action="ExecuteAddon";out.action.parameters="plugin.audio.radio_de";out.action.value=1000;</tag></item>
 	<item>Affiche YouTube<tag>out.action.action="ExecuteAddon";out.action.parameters="plugin.video.youtube";out.action.value=2000;</tag></item>
-	
+	<item>affiche les paroles de la chanson<tag>out.action.action="ExecuteAddon";out.action.parameters="script.cu.lrclyrics";out.action.value=1;</tag><tag>out.action.xbmc="music" </tag></item>
+	<item>Choisir un sous-titre<tag>out.action.action="ExecuteAddon";out.action.parameters="script.xbmc.subtitles";out.action.value=1;</tag><tag>out.action.xbmc="video" </tag></item>
+
 <!-- ************************************************ Valider/OK  ********************************************* -->
 	<item>choisi<tag>out.action.action="Select";</tag></item>
 	<item>valider<tag>out.action.action="Select";</tag></item>
@@ -155,7 +157,8 @@
 	<item>zoume normal<tag>out.action.action="ExecuteAction";out.action.value="zoomnormal";</tag></item>
 	<item>active le mode aléatoire<tag>out.action.action="shuffle";out.action.value=1</tag></item>
 	<item>enlève le mode aléatoire<tag>out.action.action="shuffle";out.action.value=0</tag></item>
-
+	<item>enlève les sous-titres<tag>out.action.action="setsubtitle";out.action.value='off'</tag></item>
+	<item>affiche les sous-titres<tag>out.action.action="setsubtitle";out.action.value='on'</tag></item>
 <!-- ************************************************ Son  ********************************************* -->
 	<item>monte franchement le son<tag>out.action.action="ExecuteAction";out.action.value="volumeup";out.action.repeter=15;</tag></item>
 	<item>monte un peu le son<tag>out.action.action="ExecuteAction";out.action.value="volumeup";out.action.repeter=2;</tag></item>

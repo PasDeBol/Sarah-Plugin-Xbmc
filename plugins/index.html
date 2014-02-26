@@ -12,7 +12,7 @@
 <p class="page-header">
 	<span class="lead">Ce module permet de piloter XBMC avec SARAH</span></br></br>
 	Participation au plugin:</br>
-	 Jean-Philippe Encausse, Jérôme Veyret, Maxime Hermouet, Guillaume Brebion, Aymeric, Vincent Legavre, vincent fresnel, Gevrey Loic.
+	 Jean-Philippe Encausse, Jérôme Veyret, Maxime Hermouet, Guillaume Brebion, Aymeric, Vincent Legavre, vincent fresnel, Gevrey Loic, David M. .
 			
 </p>
 
@@ -50,7 +50,9 @@
 			[X] Importation XML des playlists (.m3u) et smartlist (.xsp) musicale .</br>
 			[X] Affichage sur Xbmc d'une smartlist (.xsp) vidéo .</br>
 			[X] Importation XML des smartlist (.xsp) vidéo .</br>
-			[&nbsp; ] Affichage des sous-titres (??!! à voir...).</br>
+			[X] Afficher les paroles la chanson</br>
+			[X] Choisir les sous-titres (en mode XBMC seulement).</br>
+			[X] Afficher/Enlever les sous-titres (en mode XBMC seulement).</br>
 			</li></br>
 
 			<li><i class="icon-play-circle"></i> Version 1.6:</br>
@@ -189,6 +191,7 @@
 				Sarah, je veux écouter ma playliste XXMaPlaylistXX (importation XML nécessaire) </br>
 				Sarah, joue ma playliste XXMaPlaylistMusicXX (importation XML nécessaire) </br>
 				Sarah, affiche ma playliste XXMaPlaylistVideoXX (importation XML nécessaire) </br>
+				Sarah, affiche les paroles de la chanson </br>
         </ul>
         <!--Test-->
         <ul class="unstyled" id="plugin-vox-test" style="display: none;">
@@ -236,11 +239,14 @@
 			Gauche, droite, monte, descend, ok, retour, info...</br></br>
 			2ème à Gauche, 5ème à droite, 2ème au dessus, 4ème en dessous, au début, à la fin,...</br></br>
 			Monte le son, baisse le son, coupe le son, remet le son, mets le son à 70%,...</br></br>
-			menu principale, affiche les séries, affiche les musiques par artiste, affiche la météo, ferme la fenêtre ...</br></br>
-			ajoute ça, enlève ça (à la playlist), affiche la playlist</br></br>
-			fait un scrolling avant, arrête le scrolling , affichage en liste, affichage en vignette,...</br></br>
+			Menu principale, affiche les séries, affiche les musiques par artiste, affiche la météo, ferme la fenêtre ...</br></br>
+			Ajoute ça, enlève ça (à la playlist), affiche la playlist</br></br>
+			Fait un scrolling avant, arrête le scrolling , affichage en liste, affichage en vignette,...</br></br>
 			Affiche les radios (si extension musique xbmc "radio" de Tristan Fisher)</br></br>
 			Affiche YouTube (si addon youtube)</br>
+			Affiche les paroles de la chanson </br>
+			Choisir les sous-titres</br>
+			Affiche/enlève les sous-titres</br>
 			</li></br>
 			<li><i class="icon-play-circle"></i><strong> Liste complète des commandes:</strong></br></br>
 				Merci ça sera tout, SARAH </br>
@@ -383,6 +389,10 @@
 				épisode suivant </br>
 				introspect </br>
 				écris dans la fenêtre XXtexteaecrireXX </br>
+				affiche les paroles de la chanson</br>
+				choisir les sous-titres </br>
+				affiche les sous-titres </br>
+				enlève les sous-titres </br>
         </ul>
      <!--XBMC Commander 3 -->
         <ul class="unstyled" id="plugin-xbmccommander3" style="display: none;">

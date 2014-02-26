@@ -542,6 +542,12 @@ function miseajour_context_et_xml() {
 			console.log('test:'+VideoLibraryScan);
             doAction(VideoLibraryScan, xbmc_api_url, callback);
 			break;
+		case 'setsubtitle':
+			if (data.value) {
+				setsubtitle.params.subtitle=data.value
+				doAction(setsubtitle, xbmc_api_url, callback);
+				}
+			break;
 		case 'audiolibraryscan':
             doAction(AudioLibraryScan, xbmc_api_url, callback);
 			break;
@@ -1071,7 +1077,7 @@ var SetChannel= {"jsonrpc":"2.0","method":"Player.Open","params":{"item":{"chann
 // film
 var readmovie={ "jsonrpc": "2.0", "method": "Player.Open", "params": { "item": { "movieid": '' }, "options":{ "resume": '' } }, "id": 1 }
 var unsetmovie={"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"filter": {"operator": "is", "field": "playcount", "value": "0"}}, "id": 1}					
-					
+var setsubtitle={"jsonrpc":"2.0","id":1,"method":"Player.SetSubtitle","params":{"playerid": 1 ,"subtitle": ""}};					
 // xbmc
 var quitxbmc = {"jsonrpc":"2.0","method":"Application.Quit","id":"1"};
 var shutdownxbmc={"jsonrpc":"2.0","method":"System.Shutdown","id":"1"};
