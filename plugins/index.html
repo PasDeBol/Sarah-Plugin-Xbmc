@@ -26,7 +26,7 @@
             <li><a href="#" data-toggle="plugin-vox-test">Test de la configuration</a></li>
             <li><a href="#" data-toggle="plugin-vox-errors">Erreurs</a></li>
             <li class="nav-header">Commandes vocales</li>
-            <li><a href="#" data-toggle="plugin-vox-examples">Exemples & Informations</a></li>
+            <li><a href="#" data-toggle="plugin-vox-examples">Exemples</a></li>
             <li class="nav-header">Mode XBMC (Voice commander)</li>
             <li><a href="#" data-toggle="plugin-xbmccommander1">Activation / Désactivation</a></li>
             <li><a href="#" data-toggle="plugin-xbmccommander2">Les commandes vocales</a></li>
@@ -46,6 +46,7 @@
 			<div class="alert alert-success">Versions</div>
 			<li><i class="icon-play-circle"></i> Version 1.7:</br>
 			[X] Lecture d'une playlist (.m3u) ou smartlist (.xsp) musicale .</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Il est conseillé de fixer une limite lors de la configuration d'une smartlist (playliste futée) pour gagner en rapidité.<br>
 			[X] Importation XML des playlists (.m3u) et smartlist (.xsp) musicale .</br>
 			[X] Affichage sur Xbmc d'une smartlist (.xsp) vidéo .</br>
 			[X] Importation XML des smartlist (.xsp) vidéo .</br>
@@ -86,7 +87,8 @@
 			<div class="alert alert-success">Configuration - XBMC</div>
 			
 			<li><i class="icon-play-circle"></i> Permettre le contrôle de XBMC en HTTP et vérifier le port.</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Système -> Paramètres -> services -> Serveur Web
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Système -> Paramètres -> services -> Serveur Web</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ne mettez surtout pas le port 8080 si XBMC est sur la même machine que Sarah) 
 			
 			</li></br>
 				
@@ -96,11 +98,22 @@
             </li></br>
             <li><i class="icon-play-circle"></i> Vérifier l'accès à XBMC depuis votre navigateur:
                 <em>http://ip:port</em></li></br>
+            <li><i class="icon-play-circle"></i> Mettez de la musique sur XBMC pour la suite des essais...</li></br>
+			<li><i class="icon-play-circle"></i><strong>(Facultatif)</strong> Pour pouvoir lire les playlist .M3U:</br>
+			Par défaut, Xbmc prends les fichiers .M3U pour des images!</br>
+			Il est nécessaire de supprimer cette affectation en rajoutant ces lignes</br>
+			<em>&lt;advancedsettings&gt;</br>
+			&nbsp;&nbsp;&lt;pictureextensions&gt;</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&lt;remove&gt;.m3u&lt;/remove&gt;</br>
+			&nbsp;&nbsp;&lt;/pictureextensions&gt;</br>
+			&lt;/advancedsettings&gt;</em></br>
+			dans le fichier de configuration <em>advancedsettings.xml </em> (Le fichier est a créer si besoin)</br>
+			plus d'info <a href='http://trac.xbmc.org/ticket/14124' target=_blank>ICI</a> et <a href='http://wiki.xbmc.org/?title=Advancedsettings.xml' target=_blank>LA</a>!</br>
+			</li></br>
 			<li><i class="icon-play-circle"></i> <strong>(Facultatif)</strong> Installer l'extension <em>Radio</em> dans Xbmc:<br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <em>Musiques -> Extensions -> plus -> Radio (auteur: Tristan Fisher) -> Installer </em></li></br>
 			<li><i class="icon-play-circle"></i> <strong>(Facultatif)</strong> Installer le plugin YouTube dans Xbmc:<br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <em>vidéo -> Extensions -> plus -> YouTube (auteur: TheCollective) -> Installer</em></li></br>
-            <li><i class="icon-play-circle"></i> Mettez de la musique sur XBMC pour la suite des essais...</li>
         </ul>
         <!--Config SARAH-->
         <ul class="unstyled" id="plugin-config-sarah" style="display: none;">
@@ -108,9 +121,9 @@
 
            <li><i class="icon-play-circle"></i> Paramétrer le plugin avec l'<strong>IP</strong> et
                 <strong>port</strong> de XBMC (musique et vidéo).</br>
-				exemple:</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;api_url_xbmc_music	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 127.0.0.1:8800</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;api_url_xbmc_video	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 192.168.0.1:8800</br></br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- exemple:</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;api_url_xbmc_music	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 127.0.0.1:8800</br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;api_url_xbmc_video	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 192.168.0.1:8800</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Si le xbmc gérant la musique et la vidéo est le même, remplissez les 2 champs avec les mêmes infos.</br>
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Si xbmc est installé sur la même machine que Sarah (Nodejs), préférez 127.0.0.1 à l'adresse local (le plugin sera plus réactif avec cette IP).<br>
  				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- La notion xbmc musique/vidéo est un exemple, vous pouvez organiser ça comme vous le souhaitez. (pensez à modifier le xml)</br>
@@ -124,18 +137,7 @@
         </ul>
         <!--Exemples-->
         <ul class="unstyled" id="plugin-vox-examples" style="display: none;">
- 			<div class="alert alert-success">Commandes Vocales - Exemples & informations</div>
-            <li><i class="icon-play-circle"></i><strong> Informations:</strong></br></br>
-			Pour les playlist .M3U: Par défaut, Xbmc prends les fichiers .M3U pour des images!</br>
-			Il est nécessaire de supprimer cette affectation en rajoutant ces lignes</br>
-			<em>&lt;advancedsettings&gt;</br>
-			&nbsp;&nbsp;&lt;pictureextensions&gt;</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&lt;remove&gt;.m3u&lt;/remove&gt;</br>
-			&nbsp;&nbsp;&lt;/pictureextensions&gt;</br>
-			&lt;/advancedsettings&gt;</em></br>
-			dans le fichier de configuration <em>advancedsettings.xml </em> (Le fichier est a créer si besoin)</br>
-			plus d'info <a href='http://trac.xbmc.org/ticket/14124' target=_blank>ICI</a> et <a href='http://wiki.xbmc.org/?title=Advancedsettings.xml' target=_blank>LA</a>!</br>
-			</li></br>
+ 			<div class="alert alert-success">Commandes Vocales - Exemples</div>
 			<li><i class="icon-play-circle"></i><strong> Quelques commandes:</strong></br></br>
 			Sarah, musique en pause.</br></br>
             Sarah, reprends la musique.</br></br>
