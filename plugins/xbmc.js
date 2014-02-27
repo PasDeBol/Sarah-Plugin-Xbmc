@@ -1,3 +1,11 @@
+exports.init = function (SARAH) {
+	// Init status XBMC
+	SARAH.context.xbmc={};
+	SARAH.context.xbmc.status={"statusvideo":{},"statusmusic":{},"statusmixed":""};
+	SARAH.context.xbmc.status.statusvideo={'xbmc':false,'player':"stop",'episode':-1,'file':"",'label':"",'season':-1,'showtitle':"",'title':"",'type':""};
+	SARAH.context.xbmc.status.statusmusic={'xbmc':false,'player':"stop",'artist':"",'album':"",'title':"",'label':"",'file':""};
+	SARAH.context.xbmc.status.statusmixed="stop";
+}
 exports.action = function (data, callback, config, SARAH) {
 	// Config
 var max_items=1000;
@@ -5,11 +13,103 @@ var delay_before_control_local=50;
 var delay_before_control_distant=500;
 var delay_before_control;
 var infodebug=true;
-	if (data.action=='testconfig') {
+	// Status from ADDON "Sarah and XBMC"
+if (data.action=='xbmcstatus') {
+		switch (data.status) {
+			case 'xbmc_started':
+				if ((data.xbmc=="music_and_video")|| (data.xbmc=="video"))
+					SARAH.context.xbmc.status.statusvideo={'xbmc':true,'player':"stop",'episode':-1,'file':"",'label':"",'season':-1,'showtitle':"",'title':""}
+				if ((data.xbmc=="music_and_video")|| (data.xbmc=="music")) 
+					SARAH.context.xbmc.status.statusmusic={'xbmc':true,'player':"stop",'artist':"",'album':"",'title':"",'label':"",'file':""};
+				if ((SARAH.context.xbmc.status.statusvideo.player=="stop") && (SARAH.context.xbmc.status.statusmusic.player=="stop"))
+					SARAH.context.xbmc.status.statusmixed="stop";
+				if (infodebug) {console.dir(SARAH.context.xbmc.status);}
+				break;
+			case 'xbmc_ended':
+				if ((data.xbmc=="music_and_video")|| (data.xbmc=="video")) 
+					SARAH.context.xbmc.status.statusvideo={'xbmc':false,'player':"stop",'episode':-1,'file':"",'label':"",'season':-1,'showtitle':"",'title':"",'type':""}
+				if ((data.xbmc=="music_and_video")|| (data.xbmc=="music"))
+					SARAH.context.xbmc.status.statusmusic={'xbmc':false,'player':"stop",'artist':"",'album':"",'title':"",'label':"",'file':""};
+				if ((SARAH.context.xbmc.status.statusvideo.player=="stop") && (SARAH.context.xbmc.status.statusmusic.player=="stop"))
+					SARAH.context.xbmc.status.statusmixed="stop";
+					if (infodebug) {console.dir(SARAH.context.xbmc.status);}
+				break;
+			case 'video_started':
+					xbmc_api_url='http://'+config.modules.xbmc.api_url_xbmc_video+'/jsonrpc';
+					doAction(videoPlayer, xbmc_api_url, callback, function(json){
+							SARAH.context.xbmc.status.statusvideo={'xbmc':true,'player':"play",'type':json.result.item.type,'title':json.result.item.title,'file':json.result.item.file,'label':json.result.item.label,'showtitle':json.result.item.showtitle,'season':json.result.item.season,'episode':json.result.item.episode};
+							SARAH.context.xbmc.status.statusmixed="play";
+							if (data.xbmc=="music_and_video") 
+								SARAH.context.xbmc.status.statusmusic={'xbmc':true,'player':"stop",'artist':"",'album':"",'title':"",'label':"",'file':""};
+							if (infodebug) {console.dir(SARAH.context.xbmc.status);}
+					});
+				break;
+			case 'video_paused':
+				SARAH.context.xbmc.status.statusvideo.player="pause";
+				if ((data.xbmc=="music_and_video")|| (SARAH.context.xbmc.status.statusmusic.player!="play"))
+					SARAH.context.xbmc.status.statusmixed="pause";
+				if (infodebug) {console.dir(SARAH.context.xbmc.status);}
+				break;
+			case 'video_resumed':
+				SARAH.context.xbmc.status.statusvideo.player="play";
+				SARAH.context.xbmc.status.statusmixed="play";
+				if (infodebug) {console.dir(SARAH.context.xbmc.status);}
+				break;
+			case 'video_ended':
+			case 'video_stopped':
+				SARAH.context.xbmc.status.statusvideo={'xbmc':true,'player':"stop",'episode':-1,'file':"",'label':"",'season':-1,'showtitle':"",'title':"",'type':""};
+				if ((data.xbmc=="music_and_video")|| (SARAH.context.xbmc.status.statusmusic.player=="stop"))
+					SARAH.context.xbmc.status.statusmixed="stop";
+				if (data.xbmc=="music_and_video") 
+					SARAH.context.xbmc.status.statusmusic={'xbmc':true,'player':"stop",'artist':"",'album':"",'title':"",'label':"",'file':""};
+				if (infodebug) {console.dir(SARAH.context.xbmc.status);}
+				break;
+			case 'audio_started':
+					xbmc_api_url='http://'+config.modules.xbmc.api_url_xbmc_music+'/jsonrpc';
+					doAction(audioPlayer, xbmc_api_url, callback, function(json){
+							SARAH.context.xbmc.status.statusmusic={'xbmc':true,'player':"play",'artist':json.result.item.artist,'album':json.result.item.album,'title':json.result.item.title,'label':json.result.item.label,'file':json.result.item.file};
+							SARAH.context.xbmc.status.statusmixed="play";
+							if (data.xbmc=="music_and_video") 
+								SARAH.context.xbmc.status.statusvideo={'xbmc':true,'player':"stop",'episode':-1,'file':"",'label':"",'season':-1,'showtitle':"",'title':"",'type':""};
+							if (infodebug) {console.dir(SARAH.context.xbmc.status);}
+					});
+				break;
+			case 'audio_paused':
+				SARAH.context.xbmc.status.statusmusic.player="pause";
+				if ((data.xbmc=="music_and_video")|| (SARAH.context.xbmc.status.statusvideo.player!="play"))
+					SARAH.context.xbmc.status.statusmixed="pause";
+				if (infodebug) {console.dir(SARAH.context.xbmc.status);}
+				break;
+			case 'audio_resumed':
+				SARAH.context.xbmc.status.statusmusic.player="play";
+				SARAH.context.xbmc.status.statusmixed="play";
+				if (infodebug) {console.dir(SARAH.context.xbmc.status);}
+				break;
+			case 'audio_ended':
+			case 'audio_stopped':
+				SARAH.context.xbmc.status.statusmusic={'xbmc':true,'player':"stop",'artist':"",'album':"",'title':"",'label':"",'file':""};
+				if ((data.xbmc=="music_and_video")|| (SARAH.context.xbmc.status.statusvideo.player=="stop"))
+					SARAH.context.xbmc.status.statusmixed="stop";
+				if (data.xbmc=="music_and_video") 
+					SARAH.context.xbmc.status.statusvideo={'xbmc':true,'player':"stop",'episode':-1,'file':"",'label':"",'season':-1,'showtitle':"",'title':"",'type':""};
+				if (infodebug) {console.dir(SARAH.context.xbmc.status);}
+				break;
+			case 'database_updated':
+			
+				break;
+			default: 
+				break;
+		}
+callback();
+return;		
+}
+	// TEST Config
+if (data.action=='testconfig') {
 		var tools = require('./xbmctools.js');
 		tools.testconfig(config.modules.xbmc,callback);
 		return;
 	}
+
 	// Retrieve config
     var  api_url;
     config = config.modules.xbmc;
@@ -146,7 +246,7 @@ function miseajour_context_et_xml() {
 			delete temp_data.last_col;
 			}
 			// nouvelles données
-			switch (temp_data.viewmode.toLowerCase()) {								// Définis les vériables propre à l'affichage
+			switch (temp_data.viewmode.toLowerCase()) {// Définis les vériables propre à l'affichage
 				case 'galerie d\'affiches':
 				case 'fanart':
 					temp_data.way_normal='right';					// Sens pour navigation en auto (liste horiz/vert)
@@ -211,7 +311,7 @@ function miseajour_context_et_xml() {
 		reponse={};
 
 		// charge les personnalisation la première fois
-		if (typeof(SARAH.context.xbmc)=="undefined") {		
+		if (typeof(SARAH.context.xbmc.personnalisation)=="undefined") {		
 			var file   = 'plugins/xbmc/personnalisation.json';
 			var fs = require('fs');		
 			if (fs.existsSync(file))
@@ -250,46 +350,46 @@ function miseajour_context_et_xml() {
 							temp_item=[];
 							temp_item_id=[];
 							for(var attributename in res.result){
-								//console.log('--'+res.result[attributename]);
-								temp_item.push(res.result[attributename]);
-								temp_item_id.push(parseInt(attributename.match(/\d+/g).toString()));
+//console.log('--'+res.result[attributename]);
+temp_item.push(res.result[attributename]);
+temp_item_id.push(parseInt(attributename.match(/\d+/g).toString()));
 							}
 							listitem=[];
 							for (var i=(Math.round(container.nb_items/2)+1);i<=container.nb_items;i++) {	
-								listitem.push("Container.ListItem("+i+").Label");
+listitem.push("Container.ListItem("+i+").Label");
 							}
 							par={"jsonrpc":"2.0","method":"XBMC.GetInfoLabels","params": {"labels": listitem}, "id":1}; //demande les labels (titre/nom/...) de chaque ligne 
 							doAction(par, xbmc_api_url, nocallback, function(res2){
-								//temp_item=[];
-								//temp_item_id=[];
-								for(var attributename in res2.result){
-									//console.log('--'+res2.result[attributename]);
-									temp_item.push(res2.result[attributename]);
-									temp_item_id.push(parseInt(attributename.match(/\d+/g).toString()));
-								}
-								// renumerote les items avec [..]=0 au lieu de CurrentControl=0 
-								var item=[];
-								var item_id=[];
-								var index=0;
-								var pos2point=0; 
-								if (temp_item.contains("..")>=0) {
-									pos2point=temp_item_id[temp_item.contains("..")]; //id actuel de [..] si liste de film,titre...
-									}
-								for (i=0; i<temp_item_id.length;i++) {
-									if ((pos2point+index)<temp_item_id.length) {
-										item.push(temp_item[temp_item_id.contains(pos2point+index)]);
-									}else{
-										item.push(temp_item[temp_item_id.contains(pos2point+index-temp_item_id.length)]);
-									}
-									item_id.push(index);
-									index++;
-								}
-								// push vers le context 
-								container.items=item;
-								container.items_id=item_id;
-								reponse.container=container;
-								SARAH.context.xbmc=reponse;
-								return container_info('OK');
+//temp_item=[];
+//temp_item_id=[];
+for(var attributename in res2.result){
+	//console.log('--'+res2.result[attributename]);
+	temp_item.push(res2.result[attributename]);
+	temp_item_id.push(parseInt(attributename.match(/\d+/g).toString()));
+}
+// renumerote les items avec [..]=0 au lieu de CurrentControl=0 
+var item=[];
+var item_id=[];
+var index=0;
+var pos2point=0; 
+if (temp_item.contains("..")>=0) {
+	pos2point=temp_item_id[temp_item.contains("..")]; //id actuel de [..] si liste de film,titre...
+	}
+for (i=0; i<temp_item_id.length;i++) {
+	if ((pos2point+index)<temp_item_id.length) {
+		item.push(temp_item[temp_item_id.contains(pos2point+index)]);
+	}else{
+		item.push(temp_item[temp_item_id.contains(pos2point+index-temp_item_id.length)]);
+	}
+	item_id.push(index);
+	index++;
+}
+// push vers le context 
+container.items=item;
+container.items_id=item_id;
+reponse.container=container;
+SARAH.context.xbmc=reponse;
+return container_info('OK');
 							});
 						});
 				}else {
@@ -318,28 +418,28 @@ function miseajour_context_et_xml() {
 						if (container.items[i]!='..') {
 							datas_xml+='<item>'+sanitizeNumber(container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "").replace(/:/gi, ""))+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
 							if (container.sortmethod=='Piste') {
-								datas_xml+='<item>Piste '+sanitizeNumber(container.items_id[i].toString())+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
-								test=container.items[i].toString().split('-');
-								if (typeof(test[1])!="undefined") {
-									datas_xml+='<item> '+sanitizeNumber(test[1].replace(/&/gi, " and "))+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
-								}
+datas_xml+='<item>Piste '+sanitizeNumber(container.items_id[i].toString())+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+test=container.items[i].toString().split('-');
+if (typeof(test[1])!="undefined") {
+	datas_xml+='<item> '+sanitizeNumber(test[1].replace(/&/gi, " and "))+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+}
 							}
 							if (container.sortmethod=='Épisode') {
-								if (container.items[i].replace(/&/gi, " and ").match(/\d{1,2}[xXEe]\d\d/gi)) {
-									saison_episode=container.items[i].replace(/&/gi, " and ").match(/\d{1,2}[xXEe]\d\d/gi).toString();
-									datas_xml+='<item>saison '+sanitizeNumber(saison_episode.replace(/&/gi, " and ").match(/^\d{1,2}/gi).toString())+' épisode '+sanitizeNumber(saison_episode.replace(/&/gi, " and ").match(/\d{1,2}$/gi).toString())+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
-									}
-									else {
-										if (container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi)) {
-											datas_xml+='<item>'+sanitizeNumber(container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "").replace(/^\d{1,2}[.]/gi, ""))+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
-											datas_xml+='<item>épisode '+sanitizeNumber(container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi).toString())+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
-										}
-									}
-								
+if (container.items[i].replace(/&/gi, " and ").match(/\d{1,2}[xXEe]\d\d/gi)) {
+	saison_episode=container.items[i].replace(/&/gi, " and ").match(/\d{1,2}[xXEe]\d\d/gi).toString();
+	datas_xml+='<item>saison '+sanitizeNumber(saison_episode.replace(/&/gi, " and ").match(/^\d{1,2}/gi).toString())+' épisode '+sanitizeNumber(saison_episode.replace(/&/gi, " and ").match(/\d{1,2}$/gi).toString())+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+	}
+	else {
+		if (container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi)) {
+			datas_xml+='<item>'+sanitizeNumber(container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "").replace(/^\d{1,2}[.]/gi, ""))+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+			datas_xml+='<item>épisode '+sanitizeNumber(container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi).toString())+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+		}
+	}
+
 							}
 							if (personnalisation[container.items[i].replace(/&/gi, "&amp;")]) {
-								if (infodebug==true) {console.log ('plugin xbmc - Personalisation: '+container.items[i].replace(/&/gi, "&amp;")+' -> '+personnalisation[container.items[i].replace(/&/gi, "&amp;")]);}
-								datas_xml+='<item>'+sanitizeNumber(personnalisation[container.items[i].replace(/&/gi, "&amp;")])+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+if (infodebug==true) {console.log ('plugin xbmc - Personalisation: '+container.items[i].replace(/&/gi, "&amp;")+' -> '+personnalisation[container.items[i].replace(/&/gi, "&amp;")]);}
+datas_xml+='<item>'+sanitizeNumber(personnalisation[container.items[i].replace(/&/gi, "&amp;")])+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
 							}
 						}
 					}
@@ -394,7 +494,7 @@ function miseajour_context_et_xml() {
 					params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": searchdirection}, "id": 1 };
 						if (repeter>0)  {
 							for (var i=0;i<repeter;i++) {
-								doAction(params, xbmc_api_url);
+doAction(params, xbmc_api_url);
 							}
 						}
 				}
@@ -511,7 +611,10 @@ function miseajour_context_et_xml() {
 			doAction(playlistvideo, xbmc_api_url, callback);
 			break;
 		case 'play':
-            doAction(play, xbmc_api_url, callback);
+//            if (((data.xbmc=='video') && (SARAH.context.xbmc.status.statusvideo.player=='stop'))||((data.xbmc=='music') && (SARAH.context.xbmc.status.statusmusic.player=='stop')))
+//			callback({'tts':'Il n\'y a rien à lire!'});
+//			else
+			doAction(play, xbmc_api_url, callback);
             break;
 		case 'playvideo':
             doAction(playvideo, xbmc_api_url, callback);
@@ -592,7 +695,7 @@ function miseajour_context_et_xml() {
 				{
 				if (i==0){doAction(params, xbmc_api_url,callback);}else{doAction(params, xbmc_api_url);}
 			}
-			switch (data.value) {								
+			switch (data.value) {
 				case 'back':
 				case 'contextmenu': 
 					miseajour_context_et_xml();
@@ -639,13 +742,13 @@ function miseajour_context_et_xml() {
 				else if ((viewmode_found==false)&&(index!=0)) {
 					doAction(Select, xbmc_api_url, callback, function(res){
 						setTimeout(function(){  // délai pour laisser le temps au current control de se mettre à jour
-								par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
-								doAction(par, xbmc_api_url, callback, function(res){
-									// mode affichage suivant => affecte le nouvel affichage à Search_viemode
-									if (search_viewmode.toLowerCase()=='next') {search_viewmode=res.result.currentcontrol.label.slice(6,res.result.currentcontrol.label.length);}
-									// controle le viewmode sélectionné
-									if ((res.result.currentcontrol.label.toLowerCase()==('vue : '+search_viewmode.toLowerCase()))||(index>=maxindex))  {return changeviewmode(search_viewmode,true,reponse);} else {return changeviewmode(search_viewmode,false,reponse);} 
-								});
+par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
+doAction(par, xbmc_api_url, callback, function(res){
+	// mode affichage suivant => affecte le nouvel affichage à Search_viemode
+	if (search_viewmode.toLowerCase()=='next') {search_viewmode=res.result.currentcontrol.label.slice(6,res.result.currentcontrol.label.length);}
+	// controle le viewmode sélectionné
+	if ((res.result.currentcontrol.label.toLowerCase()==('vue : '+search_viewmode.toLowerCase()))||(index>=maxindex))  {return changeviewmode(search_viewmode,true,reponse);} else {return changeviewmode(search_viewmode,false,reponse);} 
+});
 							}, delay_before_control); 			// le temps de "pause" est nécessaire sinon xbmc renvois parfois le label précédent, malgré un select effectué!
 						index++;
 					});
@@ -715,18 +818,18 @@ function miseajour_context_et_xml() {
 						doAction(par, xbmc_api_url, callback, function(res){
 							index++;
 							// controle le menu sélectionné
-								if ((search_menu.indexOf(":"))&&(res.result.currentcontrol.label.indexOf(":"))) {	//case menu with choice:   menu:Order
-									if ((res.result.currentcontrol.label.toLowerCase().slice(0,res.result.currentcontrol.label.indexOf(":")))==(search_menu.toLowerCase().slice(0,search_menu.indexOf(":"))))
-										{menu_found=true;}     
-									if ((res.result.currentcontrol.label.toLowerCase().slice(res.result.currentcontrol.label.indexOf(":")+1,res.result.currentcontrol.label.length))==(search_menu.toLowerCase().slice(search_menu.indexOf(":")+1,search_menu.length)))
-										{tri_found=true;}    
-									return goto_leftmenu(search_menu,menu_found,tri_found,reponse);	
-								}
-								else {																				//simple menu
-									if ((res.result.currentcontrol.label.toLowerCase().slice(0,search_menu.length)==(search_menu.toLowerCase()))) 
-										{ return goto_leftmenu(search_menu,true,true,reponse);}	
-									else {return goto_leftmenu(search_menu,false,false,reponse);}
-								}
+if ((search_menu.indexOf(":"))&&(res.result.currentcontrol.label.indexOf(":"))) {	//case menu with choice:   menu:Order
+	if ((res.result.currentcontrol.label.toLowerCase().slice(0,res.result.currentcontrol.label.indexOf(":")))==(search_menu.toLowerCase().slice(0,search_menu.indexOf(":"))))
+		{menu_found=true;}     
+	if ((res.result.currentcontrol.label.toLowerCase().slice(res.result.currentcontrol.label.indexOf(":")+1,res.result.currentcontrol.label.length))==(search_menu.toLowerCase().slice(search_menu.indexOf(":")+1,search_menu.length)))
+		{tri_found=true;}    
+	return goto_leftmenu(search_menu,menu_found,tri_found,reponse);	
+}
+else {				//simple menu
+	if ((res.result.currentcontrol.label.toLowerCase().slice(0,search_menu.length)==(search_menu.toLowerCase()))) 
+		{ return goto_leftmenu(search_menu,true,true,reponse);}	
+	else {return goto_leftmenu(search_menu,false,false,reponse);}
+}
 						});		
 					},delay_before_control*2);
 				}
@@ -736,25 +839,25 @@ function miseajour_context_et_xml() {
 						setTimeout(function(){  // délai pour laisser le temps au current control de se mettre à jour
 							par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
 							doAction(par, xbmc_api_url, callback, function(res){
-								index++;
-								// controle le menu sélectionné
-								console.log(res.result.currentcontrol.label);
-								console.log(search_menu);
-								console.log("--");
-								
-								if ((search_menu.indexOf(":"))&&(res.result.currentcontrol.label.indexOf(":"))) {  //case menu with choice:   menu:Order
-									if ((res.result.currentcontrol.label.toLowerCase().slice(0,res.result.currentcontrol.label.indexOf(":")))==(search_menu.toLowerCase().slice(0,search_menu.indexOf(":"))))
-										{menu_found=true;}     
-									if ((res.result.currentcontrol.label.toLowerCase().slice(res.result.currentcontrol.label.indexOf(":")+1,res.result.currentcontrol.label.length))==(search_menu.toLowerCase().slice(search_menu.indexOf(":")+1,search_menu.length)))
-										{tri_found=true;}
-									if (index>=maxindex) {menu_found=true; tri_found=true;}
-									return goto_leftmenu(search_menu,menu_found,tri_found,reponse);	
-								}
-								else {																				//simple menu
-									if (((res.result.currentcontrol.label.toLowerCase().slice(0,search_menu.length)==(search_menu.toLowerCase())))||(index>=maxindex)) 
-										{ return goto_leftmenu(search_menu,true,true,reponse);}	
-									else {return goto_leftmenu(search_menu,false,false,reponse);}
-								}
+index++;
+// controle le menu sélectionné
+console.log(res.result.currentcontrol.label);
+console.log(search_menu);
+console.log("--");
+
+if ((search_menu.indexOf(":"))&&(res.result.currentcontrol.label.indexOf(":"))) {  //case menu with choice:   menu:Order
+	if ((res.result.currentcontrol.label.toLowerCase().slice(0,res.result.currentcontrol.label.indexOf(":")))==(search_menu.toLowerCase().slice(0,search_menu.indexOf(":"))))
+		{menu_found=true;}     
+	if ((res.result.currentcontrol.label.toLowerCase().slice(res.result.currentcontrol.label.indexOf(":")+1,res.result.currentcontrol.label.length))==(search_menu.toLowerCase().slice(search_menu.indexOf(":")+1,search_menu.length)))
+		{tri_found=true;}
+	if (index>=maxindex) {menu_found=true; tri_found=true;}
+	return goto_leftmenu(search_menu,menu_found,tri_found,reponse);	
+}
+else {				//simple menu
+	if (((res.result.currentcontrol.label.toLowerCase().slice(0,search_menu.length)==(search_menu.toLowerCase())))||(index>=maxindex)) 
+		{ return goto_leftmenu(search_menu,true,true,reponse);}	
+	else {return goto_leftmenu(search_menu,false,false,reponse);}
+}
 							});
 						}, delay_before_control); 			// le temps de "pause" est nécessaire sinon xbmc renvois parfois le label précédent, malgré un select effectué!
 							
@@ -1008,8 +1111,10 @@ var xml_film={"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {}
 // Toggle play / pause in current player
 var play = {"jsonrpc": "2.0", "method": "Player.PlayPause", "params": { "playerid": 0 }, "id": 1};
 var player = {"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1}
-var audioPlayer = {"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["title", "album", "artist", "duration", "thumbnail", "file", "fanart", "streamdetails"], "playerid": 0 }, "id": "AudioGetItem"}
-var videoPlayer = {"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["title", "album", "artist", "season", "episode", "duration", "showtitle", "tvshowid", "thumbnail", "file", "fanart", "streamdetails"], "playerid": 1 }, "id": "VideoGetItem"}
+//var audioPlayer = {"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["title", "album", "artist", "duration", "thumbnail", "file", "fanart", "streamdetails"], "playerid": 0 }, "id": "AudioGetItem"}
+var audioPlayer = {"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["title", "album", "artist", "duration", "file"], "playerid": 0 }, "id": "AudioGetItem"}
+//var videoPlayer = {"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["title", "album", "artist", "season", "episode", "duration", "showtitle", "tvshowid", "thumbnail", "file", "fanart", "streamdetails"], "playerid": 1 }, "id": "VideoGetItem"}
+var videoPlayer = {"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["title", "album", "artist", "season", "episode", "duration", "showtitle", "tvshowid", "file"], "playerid": 1 }, "id": "VideoGetItem"}
 
 // Toggle play / pause in current player video
 var playvideo = {"jsonrpc": "2.0", "method": "Player.PlayPause", "params": { "playerid": 1 }, "id": 1};
@@ -1245,10 +1350,10 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 						lignetest = '<tag>out.action.artist = encodeURIComponent\\("' + value.label.replace(/&/gi, "&amp;") + '"\\)</tag>';
 						var regexp = new RegExp(lignetest, 'gm');
 						if (xml.match(regexp))
-								{
-								lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
-								present=present+1;
-								}
+{
+lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
+present=present+1;
+}
 						else {
 							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
 							ligneitem = '            <item>' + value.label.replace(/&/gi, "and") + '<tag>out.action.artist = encodeURIComponent("' + value.label.replace(/&/gi, "&amp;").replace(/"/gi, "\\\"") + '")</tag></item>\n';
@@ -1294,10 +1399,10 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 						lignetest = '<tag>out.action.genre = encodeURIComponent\\("' + value.label.replace(/&/gi, "&amp;") + '"\\)</tag>'
 						var regexp = new RegExp(lignetest, 'gm');
 						if (xml.match(regexp))
-								{
-								lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
-								present=present+1;
-								}
+{
+lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
+present=present+1;
+}
 						else {
 							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
 							ligneitem = '            <item>' + value.label.replace(/&/gi, " and ") + '<tag>out.action.genre = encodeURIComponent("' + value.label.replace(/&/gi, "&amp;").replace(/"/gi, "\\\"") + '")</tag></item>\n';
@@ -1343,10 +1448,10 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 						lignetest = '<tag>out.action.playlistfile = encodeURIComponent\\("' + value.file.replace(/&/gi, "&amp;") + '"\\)</tag>'
 						var regexp = new RegExp(lignetest, 'gm');
 						if (xml.match(regexp))
-								{
-								lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
-								present=present+1;
-								}
+{
+lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
+present=present+1;
+}
 						else {
 							lignehtml += value.label.replace(/&/gi, "&amp;").replace(/.m3u/gi, "") + '<br>'
 							ligneitem = '            <item>' + value.label.replace(/&/gi, " and ").replace(/.m3u/gi, "") + '<tag>out.action.playlistfile = encodeURIComponent("' + value.file.replace(/&/gi, "&amp;").replace(/"/gi, "\\\"") + '")</tag></item>\n';
@@ -1392,10 +1497,10 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 						lignetest = '<tag>out.action.playlistfile = encodeURIComponent\\("' + value.file.replace(/&/gi, "&amp;") + '"\\)</tag>'
 						var regexp = new RegExp(lignetest, 'gm');
 						if (xml.match(regexp))
-								{
-								lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
-								present=present+1;
-								}
+{
+lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
+present=present+1;
+}
 						else {
 							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
 							ligneitem = '            <item>' + value.label.replace(/&/gi, " and ") + '<tag>out.action.playlistfile = encodeURIComponent("' + value.file.replace(/&/gi, "&amp;").replace(/"/gi, "\\\"") + '")</tag></item>\n';
@@ -1441,10 +1546,10 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 						lignetest = '<tag>out.action.showid = "'+value.tvshowid+'"</tag>'
 						var regexp = new RegExp(lignetest, 'gm');
 						if (xml.match(regexp))
-								{
-								lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
-								present=present+1;
-								}
+{
+lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
+present=present+1;
+}
 						else {
 							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
 							ligneitem = '            <item>' + value.label.replace(/&/gi, " and ") + '<tag>out.action.showid = "' + value.tvshowid + '"</tag></item>\n';
@@ -1491,10 +1596,10 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 						lignetest = '<tag>out.action.action="tv";out.action.channelid = '+value.channelid+'</tag>';
 						var regexp = new RegExp(lignetest, 'gm');
 						if (xml.match(regexp))
-								{
-								lignehtmlpresent += value.channel.replace(/&/gi, "&amp;") + ' (id '+value.channelid+')<br>'
-								present=present+1;
-								}
+{
+lignehtmlpresent += value.channel.replace(/&/gi, "&amp;") + ' (id '+value.channelid+')<br>'
+present=present+1;
+}
 						else {
 							lignehtml += value.channel.replace(/&/gi, "&amp;") + ' (id '+value.channelid+')<br>'
 							ligneitem = '            <item>' + value.channel.replace(/&/gi, " and ") + '<tag>out.action.action="tv";out.action.channelid = '+value.channelid+'</tag></item>\n';
@@ -1540,10 +1645,10 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 						lignetest = '<tag>out.action.movieid = "'+value.movieid+'"</tag>'
 						var regexp = new RegExp(lignetest, 'gm');
 						if (xml.match(regexp))
-								{
-								lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
-								present=present+1;
-								}
+{
+lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
+present=present+1;
+}
 						else {
 							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
 							ligneitem = '            <item>' + value.label.replace(/&/gi, " and ") + '<tag>out.action.movieid = "' + value.movieid + '"</tag></item>\n';
