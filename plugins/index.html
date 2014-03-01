@@ -21,21 +21,23 @@
     <div class="stretch col-md-3 well plugin-nav">
         <ul class="nav nav-list">
             <li class="nav-header">Configuration</li>
-            <li class="#"><a href="" data-toggle="plugin-config-xbmc">XBMC</a></li>
-            <li><a href="#" data-toggle="plugin-config-sarah">SARAH</a></li>
-            <li><a href="#" data-toggle="plugin-vox-test">Test de la configuration</a></li>
-            <li><a href="#" data-toggle="plugin-vox-errors">Erreurs</a></li>
+				<li class="#"><a href="" data-toggle="plugin-config-xbmc">XBMC</a></li>
+				<li><a href="#" data-toggle="plugin-config-sarah">SARAH</a></li>
+				<li><a href="#" data-toggle="plugin-vox-test">Test de la configuration</a></li>
+				<li><a href="#" data-toggle="plugin-vox-errors">Erreurs</a></li>
+            <li class="nav-header">Addon pour Xbmc: Sarah and XBMC</li>
+				<li><a href="#" data-toggle="plugin-addon_Sarahandxbmc">Installation et utilisation</a></li>
             <li class="nav-header">Commandes vocales</li>
-            <li><a href="#" data-toggle="plugin-vox-examples">Exemples</a></li>
+				<li><a href="#" data-toggle="plugin-vox-examples">Exemples</a></li>
             <li class="nav-header">Mode XBMC (Voice commander)</li>
-            <li><a href="#" data-toggle="plugin-xbmccommander1">Activation / Désactivation</a></li>
-            <li><a href="#" data-toggle="plugin-xbmccommander2">Les commandes vocales</a></li>
-            <li><a href="#" data-toggle="plugin-xbmccommander3">Fonctions avancées</a></li>
-            <li><a href="#" data-toggle="plugin-xbmccommander4">Paramétrages avancés</a></li>
-            <li class="divider"></li>
+				<li><a href="#" data-toggle="plugin-xbmccommander1">Activation / Désactivation</a></li>
+				<li><a href="#" data-toggle="plugin-xbmccommander2">Les commandes vocales</a></li>
+				<li><a href="#" data-toggle="plugin-xbmccommander3">Fonctions avancées</a></li>
+				<li><a href="#" data-toggle="plugin-xbmccommander4">Paramétrages avancés</a></li>
+			<li class="divider"></li>
             <li class="nav-header">XML</li>
-            <li><a href="#" data-toggle="plugin-generator-info">Infos et Avertissements</a></li>
-            <li><a href="#" data-toggle="plugin-generator">Génération automatique du XML</a></li>
+				<li><a href="#" data-toggle="plugin-generator-info">Infos et Avertissements</a></li>
+				<li><a href="#" data-toggle="plugin-generator">Génération automatique du XML</a></li>
         </ul>
     </div>
 	<!--Content-->
@@ -45,6 +47,11 @@
 		<ul class="unstyled" id="plugin-version-xbmc">
 			<div class="alert alert-success">Versions</div>
 			<li><i class="icon-play-circle"></i> Version 1.7:</br>
+			[X] Addon XBMC: Sarah and XBMC. </br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fourni à tous les plugins de Sarah, l'état (status) de/des XBMC en temps réel</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (en lecture, en pause, lecture terminée, stop, titre, nom de la série, film ou série, album, fichier en cours....). </br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Possibilité d'utiliser la commande de ce status via les règles IFTTT pour agir sur une action XBMC</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (même si ce n'est pas Sarah à l'origine de cette action: Stop depuis un clic ou télécommande) </br>
 			[X] Lecture d'une playlist (.m3u) ou smartlist (.xsp) musicale .</br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Il est conseillé de fixer une limite lors de la configuration d'une smartlist (playliste futée) pour gagner en rapidité.<br>
 			[X] Importation XML des playlists (.m3u) et smartlist (.xsp) musicale .</br>
@@ -112,6 +119,7 @@
 			dans le fichier de configuration <em>advancedsettings.xml </em> (Le fichier est a créer si besoin)</br>
 			plus d'info <a href='http://trac.xbmc.org/ticket/14124' target=_blank>ICI</a> et <a href='http://wiki.xbmc.org/?title=Advancedsettings.xml' target=_blank>LA</a>!</br>
 			</li></br>
+
 			<li><i class="icon-play-circle"></i> <strong>(Facultatif)</strong> Installer l'extension <em>Radio</em> dans Xbmc:<br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <em>Musiques -> Extensions -> plus -> Radio (auteur: Tristan Fisher) -> Installer </em></li></br>
 			<li><i class="icon-play-circle"></i> <strong>(Facultatif)</strong> Installer le plugin YouTube dans Xbmc:<br>
@@ -137,6 +145,58 @@
 			<li><i class="icon-play-circle"></i> <strong>(Facultatif)</strong> Si vous souhaitez moins de log dans la console NodeJS:<br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- éditez le fichier <em>xbmc.js</em> et mettez la variable <em>infodebug</em> à <em>false</em>.</li></br>
         </ul>
+       <!--ADDON Sarah and Xbmc-->
+        <ul class="unstyled" id="plugin-addon_Sarahandxbmc" style="display: none;">
+ 			<div class="alert alert-success">Addon pour XBMC: Sarah and XBMC</div>
+			<strong> L'installation de cet Addon sur le/les XBMC n'est pas obligatoire mais peux offir des possiblités interessantes d'interactions avec d'autres plugins de Sarah.</strong></br></br></br>
+			<li><i class="icon-play-circle"></i><strong> Installation sur XBMC:</strong></br></br>
+            &nbsp;&nbsp;- <em>Système -> Extensions --(racine)--> <strong> Installer depuis un fichier zip</strong>  --(sélectionner le fichier joint au plugin) --> OK </em></br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L'extension s'installe</br>
+            &nbsp;&nbsp;- <em>Extensions activées ->  Services --> Sarah and XBMC --> <strong> Configurer</strong>  </em></br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Saisissez l'IP de Sarah</br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Saisissez le port de Sarah</br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Saisissez quel est cet XBMC pour Sarah (music ou video ou les 2 à la fois)</br>
+            &nbsp;&nbsp;- <em>Redémarrer XBMC </em></br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;La console Sarah server devrait indiquer: <em>plugin xbmc -  XBMC (########) a indiqué avoir démarré.</em></li></br>
+			</li>
+			<li><i class="icon-play-circle"></i><strong> Fonctionnement et utilisation:</strong></br></br>
+            Sarah est avertie dès que vous faites lecture, pause, re-lecture, stop d'un média (musique, film, série, streaming,..) ou que celui se termine sans en enchainer un autre.</br></br>
+			Un Status est ainsi créer dans le contexte de Sarah: <strong>SARAH.context.xbmc.status</strong></br></br>
+			<strong> Ce status peut être interrogé par un autre plugin de Sarah</strong>  (pour par exemple: ne lire un nouveau mail que si il n'y a pas de musique en cours)</br></br>
+			<strong> La commande du status venant de xbmc peut être 'intercepté' par un autre plugin via les règles IFTTT de Sarah</strong>  (pour par exemple: allumer/éteindre la lumière si Lecture/Pause d'un film ou d'une série)</br>
+			La commande se compose ainsi: </br>
+			data.action='xbmcstatus'</br>
+			data.xbmc='music' ou 'video' ou 'music_and_video' et indique quel est le XBMC à l'origine de la requète.</br>
+			data.status= 'xbmc_started' ou 'xbmc_ended' ou 'video_started' ou 'audio_started' ou 'video_ended' ou 'audio_ended' ou 'video_stopped' ou 'music_stopped' ou 'video_paused' ou 'music_paused' ou 'video_resumed' ou 'music_resumed' ou 'database_updated'.</br></br>
+			<li><i class="icon-play-circle"></i><strong> Structure et données du status (Json):</strong></br></br>
+			SARAH.context.xbmc.status:{</br>
+			<table class="table">
+			
+			<tr><td>statusvideo : </td><td>{</td><td> status du Xbmc identifié comme "video" dans la config du plugin</td></tr>
+			<tr><td> </td><td>xbmc: true/false, </td><td>true si cet XBMC a démarré, false si arrêté</td></tr>
+			<tr><td> </td><td>player: 'stop/play/pause',</td><td>Lecture arrêtée, en cours, en pause</td></tr>
+			<tr><td> </td><td>episode: -1/1/2/...,</td><td>-1 = ce n'est pas une série. Sinon, numéro de l'épisode</td></tr>
+			<tr><td> </td><td>file: 'X:\\fichier',</td><td>Emplacement et nom du fichier</td></tr>
+			<tr><td> </td><td>label: 'nomdufichier',</td><td>le nom du fichier</td></tr>
+			<tr><td> </td><td>season: -1/1/2/...,</td><td>-1 = ce n'est pas une série. Sinon, numéro de la saison</td></tr>
+			<tr><td> </td><td>showtitle: 'nomdelasérie',</td><td>vide si ce n'est pas une série ou Le nom de la série </td></tr>
+			<tr><td> </td><td>title: 'letitre',</td><td>Le titre du film, de l'épisode ou du média (streaming, TV, web..)</td></tr>
+			<tr><td> </td><td>type: 'movie/episode/unknow' </td><td>Film, série ou inconnu (streaming, TV, web..)</td></tr>
+			<tr><td> </td><td>},</td><td></td></tr>
+			<tr><td>statusmusic:</td><td>{</td><td> status du Xbmc identifié comme "music" dans la config du plugin</td></tr>
+			<tr><td> </td><td>xbmc: true/false, </td><td>true si cet XBMC a démarré, false si arrêté</td></tr>
+			<tr><td> </td><td>player: 'stop/play/pause',</td><td>Lecture arrêtée, en cours, en pause</td></tr>
+			<tr><td> </td><td>artist: ['nomdelartiste'],</td><td>Attention ARRAY du/des Nom d'artiste</td></tr>
+			<tr><td> </td><td>album: 'nomdelalbum',</td><td>Nom de l'album</td></tr>
+			<tr><td> </td><td>title: 'titredelachanson',</td><td>Titre</td></tr>
+			<tr><td> </td><td>label: 'nomdufichier',</td><td>le nom du fichier</td></tr>
+			<tr><td> </td><td>file: 'X:\\fichier',</td><td>Emplacement et nom du fichier</td></tr>
+			<tr><td> </td><td>},</td><td></td></tr>
+			<tr><td>statusmixed: </td><td>'stop/play/pause'</td><td>Status global: Stop si les 2 Xbmc sont en stop, Play si au moins l'un est en lecture, pause dans les autres cas</td></tr>
+			</table>
+			}
+			</li>
+			</ul>
         <!--Exemples-->
         <ul class="unstyled" id="plugin-vox-examples" style="display: none;">
  			<div class="alert alert-success">Commandes Vocales - Exemples</div>

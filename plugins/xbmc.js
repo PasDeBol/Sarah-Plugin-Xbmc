@@ -23,7 +23,7 @@ if (data.action=='xbmcstatus') {
 					SARAH.context.xbmc.status.statusmusic={'xbmc':true,'player':"stop",'artist':"",'album':"",'title':"",'label':"",'file':""};
 				if ((SARAH.context.xbmc.status.statusvideo.player=="stop") && (SARAH.context.xbmc.status.statusmusic.player=="stop"))
 					SARAH.context.xbmc.status.statusmixed="stop";
-				if (infodebug) {console.dir(SARAH.context.xbmc.status);}
+				console.log("plugin xbmc -  XBMC ("+data.xbmc+") a indiqué avoir démarré." );
 				break;
 			case 'xbmc_ended':
 				if ((data.xbmc=="music_and_video")|| (data.xbmc=="video")) 
@@ -388,6 +388,9 @@ for (i=0; i<temp_item_id.length;i++) {
 container.items=item;
 container.items_id=item_id;
 reponse.container=container;
+//
+reponse.status=SARAH.context.xbmc.status;
+//
 SARAH.context.xbmc=reponse;
 return container_info('OK');
 							});
@@ -397,6 +400,9 @@ return container_info('OK');
 					//(container.nb_items!=0)&&(container.nb_items<max_items)&&(reponse.currentwindow.name!='')
 					
 					reponse.container=container;
+					//
+					reponse.status=SARAH.context.xbmc.status;
+					//
 					SARAH.context.xbmc=reponse;
 					return container_info('OK');
 				}	
