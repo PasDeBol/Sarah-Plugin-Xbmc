@@ -72,10 +72,12 @@
 	<item>affiche la télé<tag>out.action.action="ActivateWindow";out.action.window="tv";</tag></item>
 	<item>affiche la météo<tag>out.action.action="ActivateWindow";out.action.window="weather";</tag></item>
 	<item>affiche les séries<tag>out.action.action="ActivateWindow";out.action.window="video";out.action.parameters="TvShowTitles";</tag></item>
-	<item>affiche  les films<tag>out.action.action="ActivateWindow";out.action.window="video";out.action.parameters="MovieTitles";</tag></item>
-	<item>affiche  les musiques<tag>out.action.action="ActivateWindow";out.action.window="musiclibrary"</tag></item>
-	<item>affiche  les musiques par albums<tag>out.action.action="ActivateWindow";out.action.window="musiclibrary";out.action.parameters="Albums";</tag></item>
-	<item>affiche  les musiques par artistes<tag>out.action.action="ActivateWindow";out.action.window="musiclibrary";out.action.parameters="Artists";</tag></item>
+	<item>affiche les films<tag>out.action.action="ActivateWindow";out.action.window="video";out.action.parameters="MovieTitles";</tag></item>
+	<item>affiche mes playlistes vidéo<tag>out.action.action="ActivateWindow";out.action.window="video";out.action.parameters="special://profile/playlists/video/";</tag></item>
+	<item>affiche les musiques<tag>out.action.action="ActivateWindow";out.action.window="musiclibrary"</tag></item>
+	<item>affiche les musiques par albums<tag>out.action.action="ActivateWindow";out.action.window="musiclibrary";out.action.parameters="Albums";</tag></item>
+	<item>affiche les musiques par artistes<tag>out.action.action="ActivateWindow";out.action.window="musiclibrary";out.action.parameters="Artists";</tag></item>
+	<item>affiche mes playlistes de musique<tag>out.action.action="ActivateWindow";out.action.window="music";out.action.parameters="special://profile/playlists/music/";</tag></item>
 	<item>Sous menu<tag>out.action.action="ExecuteAction";out.action.value="contextmenu";</tag></item>
 	<item>Retour<tag>out.action.action="ExecuteAction";out.action.value="back";</tag></item>
 	<item>Info<tag>out.action.action="ExecuteAction";out.action.value="info";</tag></item>
