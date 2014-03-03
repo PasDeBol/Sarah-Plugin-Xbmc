@@ -107,6 +107,7 @@ return;
 // return Status
 if (data.action=='getxbmcstatus') {
 callback({'tts':JSON.stringify(SARAH.context.xbmc.status)});
+return;
 }
 
 	// TEST Config
