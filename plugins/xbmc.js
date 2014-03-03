@@ -103,6 +103,12 @@ if (data.action=='xbmcstatus') {
 callback();
 return;		
 }
+
+// return Status
+if (data.action=='getxbmcstatus') {
+callback({'tts':JSON.stringify(SARAH.context.xbmc.status)});
+}
+
 	// TEST Config
 if (data.action=='testconfig') {
 		var tools = require('./xbmctools.js');
