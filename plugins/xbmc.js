@@ -5,6 +5,7 @@ exports.init = function (SARAH) {
 	SARAH.context.xbmc.status.statusvideo={'xbmc':false,'player':"stop",'episode':-1,'file':"",'label':"",'season':-1,'showtitle':"",'title':"",'type':""};
 	SARAH.context.xbmc.status.statusmusic={'xbmc':false,'player':"stop",'artist':"",'album':"",'title':"",'label':"",'file':""};
 	SARAH.context.xbmc.status.statusmixed="stop";
+
 }
 exports.action = function (data, callback, config, SARAH) {
 	// Config
@@ -755,13 +756,13 @@ doAction(params, xbmc_api_url);
 				else if ((viewmode_found==false)&&(index!=0)) {
 					doAction(Select, xbmc_api_url, callback, function(res){
 						setTimeout(function(){  // délai pour laisser le temps au current control de se mettre à jour
-par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
-doAction(par, xbmc_api_url, callback, function(res){
-	// mode affichage suivant => affecte le nouvel affichage à Search_viemode
-	if (search_viewmode.toLowerCase()=='next') {search_viewmode=res.result.currentcontrol.label.slice(6,res.result.currentcontrol.label.length);}
-	// controle le viewmode sélectionné
-	if ((res.result.currentcontrol.label.toLowerCase()==('vue : '+search_viewmode.toLowerCase()))||(index>=maxindex))  {return changeviewmode(search_viewmode,true,reponse);} else {return changeviewmode(search_viewmode,false,reponse);} 
-});
+						par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
+						doAction(par, xbmc_api_url, callback, function(res){
+							// mode affichage suivant => affecte le nouvel affichage à Search_viemode
+							if (search_viewmode.toLowerCase()=='next') {search_viewmode=res.result.currentcontrol.label.slice(6,res.result.currentcontrol.label.length);}
+							// controle le viewmode sélectionné
+							if ((res.result.currentcontrol.label.toLowerCase()==('vue : '+search_viewmode.toLowerCase()))||(index>=maxindex))  {return changeviewmode(search_viewmode,true,reponse);} else {return changeviewmode(search_viewmode,false,reponse);} 
+						});
 							}, delay_before_control); 			// le temps de "pause" est nécessaire sinon xbmc renvois parfois le label précédent, malgré un select effectué!
 						index++;
 					});
@@ -1353,7 +1354,7 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 				var regexp = new RegExp('¤IMPORTartiste¤[^*]+¤IMPORTartiste¤', 'gm');
                 var xml = xml.replace(regexp, replace);
                 fs.writeFileSync(fileXML, xml, 'utf8');
-				console.log('plugin xbmc - Zone génération automatique artiste effacée.')
+				console.log('plugin xbmc - Zone génération automatique artiste effacée.');
 			// Génère la zone génération automatique sauf si artiste déjà présent
 				replace = '¤IMPORTartiste¤ -->\n';
 				var present=0;
@@ -1362,11 +1363,10 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 						// test si ligne déjà présente  ATTENTION \\( et \\) pour regexp
 						lignetest = '<tag>out.action.artist = encodeURIComponent\\("' + value.label.replace(/&/gi, "&amp;") + '"\\)</tag>';
 						var regexp = new RegExp(lignetest, 'gm');
-						if (xml.match(regexp))
-{
-lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
-present=present+1;
-}
+						if (xml.match(regexp)){
+						lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
+						present=present+1;
+						}
 						else {
 							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
 							ligneitem = '            <item>' + value.label.replace(/&/gi, "and") + '<tag>out.action.artist = encodeURIComponent("' + value.label.replace(/&/gi, "&amp;").replace(/"/gi, "\\\"") + '")</tag></item>\n';
@@ -1402,7 +1402,7 @@ present=present+1;
 				var regexp = new RegExp('¤IMPORTgenre¤[^*]+¤IMPORTgenre¤', 'gm');
                 var xml = xml.replace(regexp, replace);
                 fs.writeFileSync(fileXML, xml, 'utf8');
-				console.log('plugin xbmc - Zone génération automatique genre effacée.')
+				console.log('plugin xbmc - Zone génération automatique genre effacée.');
 			// Génère la zone génération automatique sauf si artiste déjà présent
 				replace = '¤IMPORTgenre¤ -->\n';
 				var present=0;
@@ -1412,10 +1412,10 @@ present=present+1;
 						lignetest = '<tag>out.action.genre = encodeURIComponent\\("' + value.label.replace(/&/gi, "&amp;") + '"\\)</tag>'
 						var regexp = new RegExp(lignetest, 'gm');
 						if (xml.match(regexp))
-{
-lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
-present=present+1;
-}
+							{
+							lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
+							present=present+1;
+							}
 						else {
 							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
 							ligneitem = '            <item>' + value.label.replace(/&/gi, " and ") + '<tag>out.action.genre = encodeURIComponent("' + value.label.replace(/&/gi, "&amp;").replace(/"/gi, "\\\"") + '")</tag></item>\n';
@@ -1451,7 +1451,7 @@ present=present+1;
 				var regexp = new RegExp('¤IMPORTplaylistmusic¤[^*]+¤IMPORTplaylistmusic¤', 'gm');
                 var xml = xml.replace(regexp, replace);
                 fs.writeFileSync(fileXML, xml, 'utf8');
-				console.log('plugin xbmc - Zone génération automatique playlistmusic effacée.')
+				console.log('plugin xbmc - Zone génération automatique playlistmusic effacée.');
 			// Génère la zone génération automatique sauf si playlistmusic déjà présent
 				replace = '¤IMPORTplaylistmusic¤ -->\n';
 				var present=0;
@@ -1461,10 +1461,10 @@ present=present+1;
 						lignetest = '<tag>out.action.playlistfile = encodeURIComponent\\("' + value.file.replace(/&/gi, "&amp;") + '"\\)</tag>'
 						var regexp = new RegExp(lignetest, 'gm');
 						if (xml.match(regexp))
-{
-lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
-present=present+1;
-}
+							{
+							lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
+							present=present+1;
+							}
 						else {
 							lignehtml += value.label.replace(/&/gi, "&amp;").replace(/.m3u/gi, "") + '<br>'
 							ligneitem = '            <item>' + value.label.replace(/&/gi, " and ").replace(/.m3u/gi, "") + '<tag>out.action.playlistfile = encodeURIComponent("' + value.file.replace(/&/gi, "&amp;").replace(/"/gi, "\\\"") + '")</tag></item>\n';
@@ -1500,7 +1500,7 @@ present=present+1;
 				var regexp = new RegExp('¤IMPORTplaylistvideo¤[^*]+¤IMPORTplaylistvideo¤', 'gm');
                 var xml = xml.replace(regexp, replace);
                 fs.writeFileSync(fileXML, xml, 'utf8');
-				console.log('plugin xbmc - Zone génération automatique playlistvideo effacée.')
+				console.log('plugin xbmc - Zone génération automatique playlistvideo effacée.');
 			// Génère la zone génération automatique sauf si playlistvideo déjà présent
 				replace = '¤IMPORTplaylistvideo¤ -->\n';
 				var present=0;
@@ -1510,10 +1510,10 @@ present=present+1;
 						lignetest = '<tag>out.action.playlistfile = encodeURIComponent\\("' + value.file.replace(/&/gi, "&amp;") + '"\\)</tag>'
 						var regexp = new RegExp(lignetest, 'gm');
 						if (xml.match(regexp))
-{
-lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
-present=present+1;
-}
+							{
+							lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
+							present=present+1;
+							}
 						else {
 							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
 							ligneitem = '            <item>' + value.label.replace(/&/gi, " and ") + '<tag>out.action.playlistfile = encodeURIComponent("' + value.file.replace(/&/gi, "&amp;").replace(/"/gi, "\\\"") + '")</tag></item>\n';
@@ -1549,7 +1549,7 @@ present=present+1;
 				var regexp = new RegExp('¤IMPORTseries¤[^*]+¤IMPORTseries¤', 'gm');
                 var xml = xml.replace(regexp, replace);
                 fs.writeFileSync(fileXML, xml, 'utf8');
-				console.log('plugin xbmc - Zone génération automatique série effacée.')
+				console.log('plugin xbmc - Zone génération automatique série effacée.');
 			// Génère la zone génération automatique sauf si série déjà présente
 				var replace  = '¤IMPORTseries¤ -->\n'; 	// zone a remplacer
 				var present=0;
@@ -1559,10 +1559,10 @@ present=present+1;
 						lignetest = '<tag>out.action.showid = "'+value.tvshowid+'"</tag>'
 						var regexp = new RegExp(lignetest, 'gm');
 						if (xml.match(regexp))
-{
-lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
-present=present+1;
-}
+							{
+							lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
+							present=present+1;
+							}
 						else {
 							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
 							ligneitem = '            <item>' + value.label.replace(/&/gi, " and ") + '<tag>out.action.showid = "' + value.tvshowid + '"</tag></item>\n';
@@ -1599,7 +1599,7 @@ present=present+1;
 				var regexp = new RegExp('¤IMPORTchannel¤[^*]+¤IMPORTchannel¤', 'gm');
                 var xml = xml.replace(regexp, replace);
                 fs.writeFileSync(fileXML, xml, 'utf8');
-				console.log('plugin xbmc - Zone génération automatique channel effacée.')
+				console.log('plugin xbmc - Zone génération automatique channel effacée.');
 			// Génère la zone génération automatique sauf si artiste déjà présent
 				replace = '¤IMPORTchannel¤ -->\n';
 				var present=0;
@@ -1609,10 +1609,10 @@ present=present+1;
 						lignetest = '<tag>out.action.action="tv";out.action.channelid = '+value.channelid+'</tag>';
 						var regexp = new RegExp(lignetest, 'gm');
 						if (xml.match(regexp))
-{
-lignehtmlpresent += value.channel.replace(/&/gi, "&amp;") + ' (id '+value.channelid+')<br>'
-present=present+1;
-}
+							{
+							lignehtmlpresent += value.channel.replace(/&/gi, "&amp;") + ' (id '+value.channelid+')<br>'
+							present=present+1;
+							}
 						else {
 							lignehtml += value.channel.replace(/&/gi, "&amp;") + ' (id '+value.channelid+')<br>'
 							ligneitem = '            <item>' + value.channel.replace(/&/gi, " and ") + '<tag>out.action.action="tv";out.action.channelid = '+value.channelid+'</tag></item>\n';
@@ -1648,7 +1648,7 @@ present=present+1;
 				var regexp = new RegExp('¤IMPORTfilm¤[^*]+¤IMPORTfilm¤', 'gm');
                 var xml = xml.replace(regexp, replace);
                 fs.writeFileSync(fileXML, xml, 'utf8');
-				console.log('plugin xbmc - Zone génération automatique film effacée.')
+				console.log('plugin xbmc - Zone génération automatique film effacée.');
 			// Génère la zone génération automatique sauf si film déjà présente
 				var replace  = '¤IMPORTfilm¤ -->\n'; 	// zone a remplacer
 				var present=0;
@@ -1658,10 +1658,10 @@ present=present+1;
 						lignetest = '<tag>out.action.movieid = "'+value.movieid+'"</tag>'
 						var regexp = new RegExp(lignetest, 'gm');
 						if (xml.match(regexp))
-{
-lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
-present=present+1;
-}
+							{
+							lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
+							present=present+1;
+							}
 						else {
 							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
 							ligneitem = '            <item>' + value.label.replace(/&/gi, " and ") + '<tag>out.action.movieid = "' + value.movieid + '"</tag></item>\n';
