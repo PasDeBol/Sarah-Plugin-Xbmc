@@ -101,6 +101,8 @@ if (data.action=='xbmcstatus') {
 			default: 
 				break;
 		}
+// EVENT -> all plugins
+SARAH.trigger('xbmc', SARAH.context.xbmc.status );
 callback();
 return;		
 }

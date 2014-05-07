@@ -39,7 +39,9 @@
             <li class="nav-header">XML</li>
 				<li><a href="#" data-toggle="plugin-generator-info">Infos et Avertissements</a></li>
 				<li><a href="#" data-toggle="plugin-generator">Génération automatique du XML</a></li>
-        </ul>
+            <li class="nav-header">Autres fonctions</li>
+				<li><a href="#" data-toggle="plugin-autre-event">Event</a></li>
+       </ul>
     </div>
 	<!--Content-->
 	<div class="col-md-9 content">
@@ -47,6 +49,13 @@
 		<!--Version-->
 		<ul class="unstyled" id="plugin-version-xbmc">
 			<div class="alert alert-success">Versions</div>
+			<li><i class="icon-play-circle"></i> Version X.X:</br>
+			[X] Intègre la fonction Event de Sarah pour informer tous les plugins d'un changement du status des Xbmc</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='https://github.com/JpEncausse/SARAH-Documentation/wiki/JavaScript-API#event' target=_blank>Cf Doc .../wiki/JavaScript-API#event</a> </br>
+			[X] Correction du bug <em>arrête la musique</em> avec l'écran de veille actif</br>
+			[X] Amélioration de l'aide lors test de configuration</br>
+			</li></br>
+
 			<li><i class="icon-play-circle"></i> Version 1.7:</br>
 			[X] Addon XBMC: Sarah and XBMC. </br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fourni à tous les plugins de Sarah, l'état (status) de/des XBMC en temps réel</br>
@@ -92,7 +101,6 @@
 		</ul>
 
        <!--Tuto XBMC-->
-		
 		<ul class="unstyled" id="plugin-config-tuto" style="display: none;">
 			<div class="alert alert-success">Tutoriel: Utilisation de XBMC avec SARAH</div>
 			
@@ -541,6 +549,7 @@
            </li></br>
 			
         </ul>
+		
 		<ul class="unstyled" id="plugin-generator" style="display: none;">
 			<div class="alert alert-success">XML - Génération automatique du XML</div>
             <li><i class="icon-play-circle"></i> Mise à jour des artistes dans le XML:
@@ -566,5 +575,21 @@
             </li></br>
 			
         </ul>
+		
+       <!--Autre-->
+		<ul class="unstyled" id="plugin-autre-event" style="display: none;">
+			<div class="alert alert-success">fonction <em>Event</em> de Sarah</div>
+			
+			<li><i class="icon-play-circle"></i> Avertir un plugin dès un changement du status XBMC:</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Depuis la version 1.7 du plugin, Il est possible de connaitre le status des xbmc music et vidéo depuis un autre plugin.</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cette fonction permet d'avertir les autres plugins dès un changement de staus de xbmc.</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='https://github.com/JpEncausse/SARAH-Documentation/wiki/JavaScript-API#event' target=_blank>La doc de Sarah à ce sujet : .../wiki/JavaScript-API#event</a></br>
+			</li></br>
+			<li><i class="icon-play-circle"></i> Un exemple de possibilité:</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si votre plugin domotique surveille le plugin xbmc tel indiqué dans la doc:</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dès que vous faites "pause" pendant un film -> Eclaire la lampe près du canapé.</br>
+			</li></br>
+	       </ul>
+		
     </div>
 </div>
