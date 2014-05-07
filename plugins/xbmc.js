@@ -1705,6 +1705,7 @@ var sendJSONRequest = function (url, reqJSON, callback) {
     request({
             'uri': url,
             'method': 'POST',
+			'timeout': 5000,
             'json': reqJSON
         },
         function (err, response, json) {
