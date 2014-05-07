@@ -27,7 +27,7 @@
 			<item>musique précédente<tag>out.action.action="prev"</tag><tag>out.action.xbmc="music" </tag></item>
 			<item>met en pause la musique<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
 			<item>musique en pause<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
-			<item>arrête la musique <tag>out.action.action="ExecuteAction";out.action.value="stop";</tag><tag>out.action.xbmc="music" </tag></item>
+			<item>arrête la musique <tag>out.action.action="ExecuteAction";out.action.value="stop";out.action.xbmc="music";out.action.repeter=2; </tag></item> <!--repeter=2 pour pouvoir arrêter lorsque l'écran de veille est activé! -->
 			<item>arrête le film <tag>out.action.action="ExecuteAction";out.action.value="stop";</tag><tag>out.action.xbmc="video" </tag></item>
 			<item>met la musique sur pause<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
 			<item>reprends la musique<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
@@ -459,9 +459,23 @@
 		<item>met le prochain épisode de<tag>out.action.action="tvshowtitle";</tag></item>
 		<one-of>
 			<!-- Personalisation Série ¤PERSOseries¤ -->
+            <item>Hawaii Five 0<tag>out.action.showid = "18"</tag></item>
 			<!-- ¤PERSOseries¤ Fin de personalisation Série -->
  			<!-- Automatic Generation Serie ¤IMPORTseries¤ -->
-            <item>SERIE NON DEFINI<tag>out.action._attributes.tts ="Aucune importation XML effectuée"</tag></item>
+            <item>Better Off Ted<tag>out.action.showid = "1"</tag></item>
+            <item>Braquo<tag>out.action.showid = "2"</tag></item>
+            <item>Desperate Housewives<tag>out.action.showid = "3"</tag></item>
+            <item>Dexter<tag>out.action.showid = "4"</tag></item>
+            <item>FlashForward<tag>out.action.showid = "12"</tag></item>
+            <item>Hawaii Five-0<tag>out.action.showid = "18"</tag></item>
+            <item>Hero Corp<tag>out.action.showid = "11"</tag></item>
+            <item>House<tag>out.action.showid = "15"</tag></item>
+            <item>Kaamelott<tag>out.action.showid = "7"</tag></item>
+            <item>Lie to me<tag>out.action.showid = "8"</tag></item>
+            <item>NCIS<tag>out.action.showid = "9"</tag></item>
+            <item>Person of Interest<tag>out.action.showid = "17"</tag></item>
+            <item>Terra Nova<tag>out.action.showid = "10"</tag></item>
+            <item>Touch<tag>out.action.showid = "16"</tag></item>
             <!-- ¤IMPORTseries¤ Automatic Generation Serie -->
 		</one-of>
 	</rule>
