@@ -113,14 +113,14 @@ callback({'tts':JSON.stringify(SARAH.context.xbmc.status)});
 return;
 }
 
-	// TEST Config
+// TEST Config
 if (data.action=='testconfig') {
 		var tools = require('./xbmctools.js');
 		tools.testconfig(config.modules.xbmc,callback);
 		return;
 	}
 
-	// Retrieve config
+// Retrieve config
     var  api_url;
     config = config.modules.xbmc;
 	if ((!config.api_url_xbmc_music)||(!config.api_url_xbmc_video)) {
@@ -242,8 +242,8 @@ function miseajour_context_et_xml() {
 	}, delay_before_control); 
 }
 
-	// fonction pour mise à jour des données en fonction du viewmode
-	navigation_context_viewmode_info= function (temp_data) {
+// fonction pour mise à jour des données en fonction du viewmode
+navigation_context_viewmode_info= function (temp_data) {
 			//RAZ des données
 			if (temp_data.way_normal) {
 			delete temp_data.way_normal;
@@ -312,11 +312,11 @@ function miseajour_context_et_xml() {
 					break;
 				//console.log('fin navigation_context_viewmode_info ');
 				}
-	}
+}
 
-	// Fonction pour obtenir: mode d'affichage (viewmode), la fenetre en cours (CurrentWindow), le tri, ...
-	// la liste complètes des items (sauf: ..) , le nombre d'élément
-	navigation_context_info=function (container_info){
+// Fonction pour obtenir: mode d'affichage (viewmode), la fenetre en cours (CurrentWindow), le tri, ...
+// la liste complètes des items (sauf: ..) , le nombre d'élément
+navigation_context_info=function (container_info){
 		nocallback='';
 		reponse={};
 
@@ -360,121 +360,113 @@ function miseajour_context_et_xml() {
 							temp_item=[];
 							temp_item_id=[];
 							for(var attributename in res.result){
-//console.log('--'+res.result[attributename]);
-temp_item.push(res.result[attributename]);
-temp_item_id.push(parseInt(attributename.match(/\d+/g).toString()));
+								//console.log('--'+res.result[attributename]);
+								temp_item.push(res.result[attributename]);
+								temp_item_id.push(parseInt(attributename.match(/\d+/g).toString()));
 							}
 							listitem=[];
 							for (var i=(Math.round(container.nb_items/2)+1);i<=container.nb_items;i++) {	
-listitem.push("Container.ListItem("+i+").Label");
+								listitem.push("Container.ListItem("+i+").Label");
 							}
 							par={"jsonrpc":"2.0","method":"XBMC.GetInfoLabels","params": {"labels": listitem}, "id":1}; //demande les labels (titre/nom/...) de chaque ligne 
 							doAction(par, xbmc_api_url, nocallback, function(res2){
-//temp_item=[];
-//temp_item_id=[];
-for(var attributename in res2.result){
-	//console.log('--'+res2.result[attributename]);
-	temp_item.push(res2.result[attributename]);
-	temp_item_id.push(parseInt(attributename.match(/\d+/g).toString()));
-}
-// renumerote les items avec [..]=0 au lieu de CurrentControl=0 
-var item=[];
-var item_id=[];
-var index=0;
-var pos2point=0; 
-if (temp_item.contains("..")>=0) {
-	pos2point=temp_item_id[temp_item.contains("..")]; //id actuel de [..] si liste de film,titre...
-	}
-for (i=0; i<temp_item_id.length;i++) {
-	if ((pos2point+index)<temp_item_id.length) {
-		item.push(temp_item[temp_item_id.contains(pos2point+index)]);
-	}else{
-		item.push(temp_item[temp_item_id.contains(pos2point+index-temp_item_id.length)]);
-	}
-	item_id.push(index);
-	index++;
-}
-// push vers le context 
-container.items=item;
-container.items_id=item_id;
-reponse.container=container;
-//
-reponse.status=SARAH.context.xbmc.status;
-//
-SARAH.context.xbmc=reponse;
-return container_info('OK');
+								//temp_item=[];
+								//temp_item_id=[];
+								for(var attributename in res2.result){
+									//console.log('--'+res2.result[attributename]);
+									temp_item.push(res2.result[attributename]);
+									temp_item_id.push(parseInt(attributename.match(/\d+/g).toString()));
+								}
+								// renumerote les items avec [..]=0 au lieu de CurrentControl=0 
+								var item=[];
+								var item_id=[];
+								var index=0;
+								var pos2point=0; 
+								if (temp_item.contains("..")>=0) {
+									pos2point=temp_item_id[temp_item.contains("..")]; //id actuel de [..] si liste de film,titre...
+									}
+								for (i=0; i<temp_item_id.length;i++) {
+									if ((pos2point+index)<temp_item_id.length) {
+										item.push(temp_item[temp_item_id.contains(pos2point+index)]);
+									}else{
+										item.push(temp_item[temp_item_id.contains(pos2point+index-temp_item_id.length)]);
+									}
+									item_id.push(index);
+									index++;
+								}
+								// push vers le context 
+								container.items=item;
+								container.items_id=item_id;
+								reponse.container=container;
+								//
+								reponse.status=SARAH.context.xbmc.status;
+								//
+								SARAH.context.xbmc=reponse;
+								return container_info('OK');
 							});
 						});
-				}else {
+				}
+				else {
 					console.log('plugin xbmc - items ignoré/aucun! nb_item='+container.nb_items+' , currentwindow.name='+reponse.currentwindow);
-					//(container.nb_items!=0)&&(container.nb_items<max_items)&&(reponse.currentwindow.name!='')
-					
 					reponse.container=container;
-					//
 					reponse.status=SARAH.context.xbmc.status;
-					//
 					SARAH.context.xbmc=reponse;
 					return container_info('OK');
 				}	
 			});
 		});
-	}
-
-	
-	// génère le fichier XML temporaire à partir de la liste d'items en cours
-	navigation_generation_xml_items = function () {
-					var personnalisation=SARAH.context.xbmc.personnalisation;
-					var container=SARAH.context.xbmc.container;
-					datas_xml='<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="ruleLAZYXBMC_temp" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">\n';
-					datas_xml+='<rule id="ruleLAZYXBMC_temp" scope="public">\n';
-					datas_xml+='<tag>out.action=new Object(); </tag>\n';
-					datas_xml+='<tag>out.action.xbmc="video" </tag>\n';
-					datas_xml+='<one-of>\n';	
-					for (var i=0;i<container.items.length;i++) {
-						if (container.items[i]!='..') {
-							datas_xml+='<item>'+sanitizeNumber(container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "").replace(/:/gi, ""))+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
-							if (container.sortmethod=='Piste') {
-datas_xml+='<item>Piste '+sanitizeNumber(container.items_id[i].toString())+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
-test=container.items[i].toString().split('-');
-if (typeof(test[1])!="undefined") {
-	datas_xml+='<item> '+sanitizeNumber(test[1].replace(/&/gi, " and "))+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
 }
-							}
-							if (container.sortmethod=='Épisode') {
-if (container.items[i].replace(/&/gi, " and ").match(/\d{1,2}[xXEe]\d\d/gi)) {
-	saison_episode=container.items[i].replace(/&/gi, " and ").match(/\d{1,2}[xXEe]\d\d/gi).toString();
-	datas_xml+='<item>saison '+sanitizeNumber(saison_episode.replace(/&/gi, " and ").match(/^\d{1,2}/gi).toString())+' épisode '+sanitizeNumber(saison_episode.replace(/&/gi, " and ").match(/\d{1,2}$/gi).toString())+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
-	}
-	else {
-		if (container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi)) {
-			datas_xml+='<item>'+sanitizeNumber(container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "").replace(/^\d{1,2}[.]/gi, ""))+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
-			datas_xml+='<item>épisode '+sanitizeNumber(container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi).toString())+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
-		}
-	}
-
-							}
-							if (personnalisation[container.items[i].replace(/&/gi, "&amp;")]) {
-if (infodebug==true) {console.log ('plugin xbmc - Personalisation: '+container.items[i].replace(/&/gi, "&amp;")+' -> '+personnalisation[container.items[i].replace(/&/gi, "&amp;")]);}
-datas_xml+='<item>'+sanitizeNumber(personnalisation[container.items[i].replace(/&/gi, "&amp;")])+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
-							}
+	
+// génère le fichier XML temporaire à partir de la liste d'items en cours
+navigation_generation_xml_items = function () {
+		var personnalisation=SARAH.context.xbmc.personnalisation;
+		var container=SARAH.context.xbmc.container;
+		datas_xml='<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="ruleLAZYXBMC_temp" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">\n';
+		datas_xml+='<rule id="ruleLAZYXBMC_temp" scope="public">\n';
+		datas_xml+='<tag>out.action=new Object(); </tag>\n';
+		datas_xml+='<tag>out.action.xbmc="video" </tag>\n';
+		datas_xml+='<one-of>\n';	
+		for (var i=0;i<container.items.length;i++) {
+			if (container.items[i]!='..') {
+				datas_xml+='<item>'+sanitizeNumber(container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "").replace(/:/gi, ""))+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+				if (container.sortmethod=='Piste') {
+					datas_xml+='<item>Piste '+sanitizeNumber(container.items_id[i].toString())+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+					test=container.items[i].toString().split('-');
+					if (typeof(test[1])!="undefined") {
+						datas_xml+='<item> '+sanitizeNumber(test[1].replace(/&/gi, " and "))+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+					}
+				}
+				if (container.sortmethod=='Épisode') {
+					if (container.items[i].replace(/&/gi, " and ").match(/\d{1,2}[xXEe]\d\d/gi)) {
+						saison_episode=container.items[i].replace(/&/gi, " and ").match(/\d{1,2}[xXEe]\d\d/gi).toString();
+						datas_xml+='<item>saison '+sanitizeNumber(saison_episode.replace(/&/gi, " and ").match(/^\d{1,2}/gi).toString())+' épisode '+sanitizeNumber(saison_episode.replace(/&/gi, " and ").match(/\d{1,2}$/gi).toString())+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+						}
+					else {
+						if (container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi)) {
+							datas_xml+='<item>'+sanitizeNumber(container.items[i].replace(/&/gi, " and ").replace(/\* /gi, "").replace(/^\d{1,2}[.]/gi, ""))+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+							datas_xml+='<item>épisode '+sanitizeNumber(container.items[i].replace(/&/gi, " and ").match(/^\d\d/gi).toString())+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
 						}
 					}
-					datas_xml+='</one-of>\n';	
-					datas_xml+='<tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag>\n';
-					datas_xml+='</rule>\n';
-					datas_xml+='</grammar>\n';
-					var fs = require('fs');
-					fs.writeFile("plugins/xbmc/lazyxbmc_temp.xml", datas_xml, function(err) {
-						if(err) {console.log(err);}
-						else {console.log("plugin xbmc - lazyxbmc_temp.xml généré!");}
-						//callback();
-					}); 
-			//console.log('FIN de mise a jour context et xml!!!!');
+				}
+				if (personnalisation[container.items[i].replace(/&/gi, "&amp;")]) {
+					if (infodebug==true) {console.log ('plugin xbmc - Personalisation: '+container.items[i].replace(/&/gi, "&amp;")+' -> '+personnalisation[container.items[i].replace(/&/gi, "&amp;")]);}
+					datas_xml+='<item>'+sanitizeNumber(personnalisation[container.items[i].replace(/&/gi, "&amp;")])+'<tag>out.action.action="chercheitem";out.action.parameters=encodeURIComponent("'+container.items[i].replace(/&/gi, "&amp;")+'");</tag></item>\n';
+				}
+			}
+		}
+		datas_xml+='</one-of>\n';	
+		datas_xml+='<tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag>\n';
+		datas_xml+='</rule>\n';
+		datas_xml+='</grammar>\n';
+		var fs = require('fs');
+		fs.writeFile("plugins/xbmc/lazyxbmc_temp.xml", datas_xml, function(err) {
+			if(err) {console.log(err);}
+			else {console.log("plugin xbmc - lazyxbmc_temp.xml généré!");}
+		}); 
+		return;
+}
 	
-			return;
-	}
-	
-	navigation_cherche_item= function(searchcontrol,callback) {
+navigation_cherche_item= function(searchcontrol,callback) {
 		par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
 		doAction(par, xbmc_api_url, callback, function(res){
 			// détermination du currentcontrol
@@ -510,7 +502,7 @@ datas_xml+='<item>'+sanitizeNumber(personnalisation[container.items[i].replace(/
 					params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": searchdirection}, "id": 1 };
 						if (repeter>0)  {
 							for (var i=0;i<repeter;i++) {
-doAction(params, xbmc_api_url);
+								doAction(params, xbmc_api_url);
 							}
 						}
 				}
@@ -550,7 +542,7 @@ doAction(params, xbmc_api_url);
 		});	
 }	
  		
-	switch (data.action) {
+switch (data.action) {
         case 'introspect':
             doAction(introspect, xbmc_api_url, callback);
             break;
@@ -746,11 +738,8 @@ doAction(params, xbmc_api_url);
 					break;
 				
 			}
-
 			break;
-
 		case 'setvolume':
-			
 			if (data.value) {
 				
 				var params = {"jsonrpc": "2.0", "method": "Application.SetVolume", "params": { "volume": parseInt(data.value)}, "id": 1}
@@ -758,11 +747,7 @@ doAction(params, xbmc_api_url);
 				doAction(params, xbmc_api_url, callback);
 			}
 			break;
-
-
-			
 		case 'viewmode':
-			
 			// Changer de viewmode dans un librairie: changeviewmode(viewmode souhaité, false)
 			var index=0;
 			var maxindex=15;
@@ -833,17 +818,13 @@ doAction(params, xbmc_api_url);
 				});
 			}
 			else {console.log('plugin xbmc - viewmode : il manque data.parameters');}
-		
 			break;
-
-			
 		case 'goto_leftmenu':
 			// Sélectionne le menu et le bon tri/choix/valeur de ce menu (si xxxxxx : yyy) dans le menu lateral
 			var index=0;
 			var maxindex=15;
-
 			var goto_leftmenu=function (search_menu,menu_found,tri_found, reponse){
-				console.log("-------------------"+index);
+				//console.log("-------------------"+index);
 				if (index==0) {
 					// bouge à gauche ou haut pour faire apparaitre le menu laterale 
 					if ((SARAH.context.xbmc.container.way_options=='left')||(SARAH.context.xbmc.container.way_options=='up')) {
@@ -862,18 +843,18 @@ doAction(params, xbmc_api_url);
 						doAction(par, xbmc_api_url, callback, function(res){
 							index++;
 							// controle le menu sélectionné
-if ((search_menu.indexOf(":"))&&(res.result.currentcontrol.label.indexOf(":"))) {	//case menu with choice:   menu:Order
-	if ((res.result.currentcontrol.label.toLowerCase().slice(0,res.result.currentcontrol.label.indexOf(":")))==(search_menu.toLowerCase().slice(0,search_menu.indexOf(":"))))
-		{menu_found=true;}     
-	if ((res.result.currentcontrol.label.toLowerCase().slice(res.result.currentcontrol.label.indexOf(":")+1,res.result.currentcontrol.label.length))==(search_menu.toLowerCase().slice(search_menu.indexOf(":")+1,search_menu.length)))
-		{tri_found=true;}    
-	return goto_leftmenu(search_menu,menu_found,tri_found,reponse);	
-}
-else {				//simple menu
-	if ((res.result.currentcontrol.label.toLowerCase().slice(0,search_menu.length)==(search_menu.toLowerCase()))) 
-		{ return goto_leftmenu(search_menu,true,true,reponse);}	
-	else {return goto_leftmenu(search_menu,false,false,reponse);}
-}
+							if ((search_menu.indexOf(":"))&&(res.result.currentcontrol.label.indexOf(":"))) {	//case menu with choice:   menu:Order
+								if ((res.result.currentcontrol.label.toLowerCase().slice(0,res.result.currentcontrol.label.indexOf(":")))==(search_menu.toLowerCase().slice(0,search_menu.indexOf(":"))))
+									{menu_found=true;}     
+								if ((res.result.currentcontrol.label.toLowerCase().slice(res.result.currentcontrol.label.indexOf(":")+1,res.result.currentcontrol.label.length))==(search_menu.toLowerCase().slice(search_menu.indexOf(":")+1,search_menu.length)))
+									{tri_found=true;}    
+								return goto_leftmenu(search_menu,menu_found,tri_found,reponse);	
+							}
+							else {				//simple menu
+								if ((res.result.currentcontrol.label.toLowerCase().slice(0,search_menu.length)==(search_menu.toLowerCase()))) 
+									{ return goto_leftmenu(search_menu,true,true,reponse);}	
+								else {return goto_leftmenu(search_menu,false,false,reponse);}
+							}
 						});		
 					},delay_before_control*2);
 				}
@@ -883,25 +864,25 @@ else {				//simple menu
 						setTimeout(function(){  // délai pour laisser le temps au current control de se mettre à jour
 							par={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentcontrol"]}, "id": 1}
 							doAction(par, xbmc_api_url, callback, function(res){
-index++;
-// controle le menu sélectionné
-console.log(res.result.currentcontrol.label);
-console.log(search_menu);
-console.log("--");
+								index++;
+								// controle le menu sélectionné
+								console.log(res.result.currentcontrol.label);
+								console.log(search_menu);
+								console.log("--");
 
-if ((search_menu.indexOf(":"))&&(res.result.currentcontrol.label.indexOf(":"))) {  //case menu with choice:   menu:Order
-	if ((res.result.currentcontrol.label.toLowerCase().slice(0,res.result.currentcontrol.label.indexOf(":")))==(search_menu.toLowerCase().slice(0,search_menu.indexOf(":"))))
-		{menu_found=true;}     
-	if ((res.result.currentcontrol.label.toLowerCase().slice(res.result.currentcontrol.label.indexOf(":")+1,res.result.currentcontrol.label.length))==(search_menu.toLowerCase().slice(search_menu.indexOf(":")+1,search_menu.length)))
-		{tri_found=true;}
-	if (index>=maxindex) {menu_found=true; tri_found=true;}
-	return goto_leftmenu(search_menu,menu_found,tri_found,reponse);	
-}
-else {				//simple menu
-	if (((res.result.currentcontrol.label.toLowerCase().slice(0,search_menu.length)==(search_menu.toLowerCase())))||(index>=maxindex)) 
-		{ return goto_leftmenu(search_menu,true,true,reponse);}	
-	else {return goto_leftmenu(search_menu,false,false,reponse);}
-}
+								if ((search_menu.indexOf(":"))&&(res.result.currentcontrol.label.indexOf(":"))) {  //case menu with choice:   menu:Order
+									if ((res.result.currentcontrol.label.toLowerCase().slice(0,res.result.currentcontrol.label.indexOf(":")))==(search_menu.toLowerCase().slice(0,search_menu.indexOf(":"))))
+										{menu_found=true;}     
+									if ((res.result.currentcontrol.label.toLowerCase().slice(res.result.currentcontrol.label.indexOf(":")+1,res.result.currentcontrol.label.length))==(search_menu.toLowerCase().slice(search_menu.indexOf(":")+1,search_menu.length)))
+										{tri_found=true;}
+									if (index>=maxindex) {menu_found=true; tri_found=true;}
+									return goto_leftmenu(search_menu,menu_found,tri_found,reponse);	
+								}
+								else {				//simple menu
+									if (((res.result.currentcontrol.label.toLowerCase().slice(0,search_menu.length)==(search_menu.toLowerCase())))||(index>=maxindex)) 
+										{ return goto_leftmenu(search_menu,true,true,reponse);}	
+									else {return goto_leftmenu(search_menu,false,false,reponse);}
+								}
 							});
 						}, delay_before_control); 			// le temps de "pause" est nécessaire sinon xbmc renvois parfois le label précédent, malgré un select effectué!
 							
@@ -949,9 +930,7 @@ else {				//simple menu
 				});
 			}
 			else {console.log('plugin xbmc - goto_leftmenu : il manque data.parameters');}
-		
 			break;
-
 			case 'scrolling_on':
 			if (typeof(SARAH.context.xbmc.scrolling)!="undefined") {
 				console.log('plugin xbmc - fin de scrolling!');
@@ -993,9 +972,7 @@ else {				//simple menu
 				callback({'tts':'Je ne peux pas.'});
 				}
 			});
-			
 			break;
-		
 		case 'scrolling_off':
 			if (typeof(SARAH.context.xbmc.scrolling)!="undefined") {
 				console.log('plugin xbmc - fin de scrolling!');
@@ -1003,16 +980,12 @@ else {				//simple menu
 			}
 			callback();
 			break;
-
 		case 'chercheitem':
-			 
 			if (data.parameters) {
 				navigation_cherche_item(data.parameters,callback);
 			}
 			else {console.log('plugin xbmc - il manque data.parameters');callback();}
-			//callback({});
 			break;
-
 		case 'personnalisation_to_json':
 			personnalisation_to_json( function(reponse) {
 				var fs = require('fs');
@@ -1024,8 +997,6 @@ else {				//simple menu
 				callback({'tts':'personnalisation mise à jour'});
 			});
 			break;
-
-
 		case 'ActivateWindow':
 			if (data.parameters) {
 				params={ "jsonrpc": "2.0", "method": "GUI.ActivateWindow", "params": {"window": data.window , "parameters": [ data.parameters ]}, "id": 1 };
@@ -1037,7 +1008,6 @@ else {				//simple menu
 			doAction(params, xbmc_api_url, callback);
 			miseajour_context_et_xml();
             break;
-
 		case 'radio':
 			doRadio(data.radioid, xbmc_api_url, callback);
 			break;
@@ -1051,7 +1021,6 @@ else {				//simple menu
 				console.log('plugin xbmc - il manque data.channelid ou data.channelname');callback();
 			}
 			break;
-
 		case 'ExecuteAddon':
 			if ((data.parameters)&&(data.value)) {
 				params={ "jsonrpc": "2.0", "method": "Addons.ExecuteAddon", "params": { "wait": false, "addonid": data.parameters, "params": ["null"]}, "id":0};
@@ -1063,7 +1032,6 @@ else {				//simple menu
 				console.log('plugin xbmc - il manque data.parameters ou data.value');callback();
 				}
 			break;
-
 		case 'sendText':
 			if (data.dictation){
 				if (infodebug==true) {console.log('plugin xbmc - sendtext dictation: '+data.dictation);}
@@ -1096,13 +1064,11 @@ else {				//simple menu
 				callback({ 'tts' : "Je n'ai pas pu executer l'action" });
 			}
 			break;
-
 		case 'analyse_le_contenu':
 			miseajour_context_et_xml();
 			setTimeout(function(){callback({"tts":"c\'est fait!"});}, delay_before_control);
 			//callback();	
 			break;
-			
 		case 'whatIsPlaying':
 			doAction(player, xbmc_api_url, callback, function(json){
 				if (json.result){
@@ -1130,7 +1096,7 @@ else {				//simple menu
 			break;
 
 		default:
-            callback({});
+            callback();
             break;
     }
 }
@@ -1243,19 +1209,19 @@ var doRadio = function(radioid, xbmc_api_url, callback) {
 var dotv = function(channelname, xbmc_api_url, callback) {
 	var http = require('http');
 	doAction(GetListChannels, xbmc_api_url, callback, function(res){
-			for ( var i = 0; i < res.result.channels.length; i++ ) {
-				var channels = res.result.channels[i];
-				var tokens = channels.channel.split(' ');
-				var found = true;
-				for ( var j = 0; found && j < tokens.length; j++ ) {
-					found = new RegExp(tokens[j],'i').test(channelname);
-				}
-				if (found) {
-					dotvid (SetChannel, xbmc_api_url, callback);
-					break;
-				}
+		for ( var i = 0; i < res.result.channels.length; i++ ) {
+			var channels = res.result.channels[i];
+			var tokens = channels.channel.split(' ');
+			var found = true;
+			for ( var j = 0; found && j < tokens.length; j++ ) {
+				found = new RegExp(tokens[j],'i').test(channelname);
 			}
-			if (!found) {callback({"tts":"Je n'ai pas trouvé cette chaîne dans xbmc."});}
+			if (found) {
+				dotvid (SetChannel, xbmc_api_url, callback);
+				break;
+			}
+		}
+		if (!found) {callback({"tts":"Je n'ai pas trouvé cette chaîne dans xbmc."});}
 	});
 }
 
@@ -1268,7 +1234,6 @@ var dotvid = function(channelid, xbmc_api_url, callback) {
 }
 
 doPlaylistSerie = function (id, xbmc_api_url, callback){
-
 	var asyncEpisode=function(l_episode,reponse) {
 		if (l_episode) {
 			//console.log("saison = "+l_episode.season +" episode = "+l_episode.episode + " last view = "+l_episode.lastplayed + " Playcount = "+l_episode.playcount);
@@ -1277,7 +1242,6 @@ doPlaylistSerie = function (id, xbmc_api_url, callback){
 		}
 		else {return reponse(false);} // tous les épisodes de cette saison ont été vus
 	}	
-	
 	var asyncSaison=function(la_saison,reponse) {
 		if (la_saison) {
 			episode.params.season=parseInt(la_saison.season);
@@ -1292,7 +1256,6 @@ doPlaylistSerie = function (id, xbmc_api_url, callback){
 		}
 		else {return reponse(false);} // aucun épisode d'aucune série trouvée.
 	}
-	
 	saison.params.tvshowid =  parseInt(id);
 	episode.params.tvshowid =  parseInt(id);
 	// récupération des saisons
