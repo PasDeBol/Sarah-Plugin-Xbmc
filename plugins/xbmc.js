@@ -627,10 +627,38 @@ doAction(params, xbmc_api_url);
 			doAction(playlistvideo, xbmc_api_url, callback);
 			break;
 		case 'play':
-//            if (((data.xbmc=='video') && (SARAH.context.xbmc.status.statusvideo.player=='stop'))||((data.xbmc=='music') && (SARAH.context.xbmc.status.statusmusic.player=='stop')))
-//			callback({'tts':'Il n\'y a rien à lire!'});
-//			else
+			// Si status est utilisé alors on contrôle si pause avant 
+			if ((data.xbmc=='video') && (SARAH.context.xbmc.status.statusvideo.xbmc==true)) {
+				if (SARAH.context.xbmc.status.statusvideo.player=='pause')
+					doAction(play, xbmc_api_url, callback);
+				else
+					callback({'tts':'c\' est déjà en lecture'});
+			}
+			else if ((data.xbmc=='music') && (SARAH.context.xbmc.status.statusmusic.xbmc==true)) {
+				if (SARAH.context.xbmc.status.statusmusic.player=='pause')
+					doAction(play, xbmc_api_url, callback);
+				else
+					callback({'tts':'c\' est déjà en lecture'});
+			}
+			else
 			doAction(play, xbmc_api_url, callback);
+            break;
+		case 'pause':
+			// Si status est utilisé alors on contrôle si pause avant 
+			if ((data.xbmc=='video') && (SARAH.context.xbmc.status.statusvideo.xbmc==true)) {
+				if (SARAH.context.xbmc.status.statusvideo.player=='play')
+					doAction(play, xbmc_api_url, callback);
+				else
+					callback({'tts':'c\' est déjà en pause'});
+			}
+			else if ((data.xbmc=='music') && (SARAH.context.xbmc.status.statusmusic.xbmc==true)) {
+				if (SARAH.context.xbmc.status.statusmusic.player=='play')
+					doAction(play, xbmc_api_url, callback);
+				else
+					callback({'tts':'c\' est déjà en pause'});
+			}
+			else
+				doAction(play, xbmc_api_url, callback);
             break;
 		case 'playvideo':
             doAction(playvideo, xbmc_api_url, callback);
