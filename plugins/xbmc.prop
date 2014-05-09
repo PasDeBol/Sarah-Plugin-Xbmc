@@ -1,8 +1,8 @@
 {
   "modules" : { 
     "xbmc":     {
-      "description": "Commande Vocale pour XBMC (Frodo: 12.x)",
-      "version"    : "1.7",
+      "description": "Commande Vocale pour XBMC (Frodo ou Gotham)",
+      "version"    : "x.x",
       "api_url_xbmc_music"    : "[FIXME]:[FIXME]",
       "api_url_xbmc_video"    : "[FIXME]:[FIXME]"
     }

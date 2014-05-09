@@ -50,10 +50,13 @@
 		<ul class="unstyled" id="plugin-version-xbmc">
 			<div class="alert alert-success">Versions</div>
 			<li><i class="icon-play-circle"></i> Version X.X:</br>
+			[X] Ajout de l'Addon XBMC: Sarah and XBMC (pour XBMC 13 - Gotham)</br>
 			[X] Intègre la fonction Event de Sarah pour informer tous les plugins d'un changement du status des Xbmc</br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='https://github.com/JpEncausse/SARAH-Documentation/wiki/JavaScript-API#event' target=_blank>Cf Doc .../wiki/JavaScript-API#event</a> </br>
 			[X] Correction du bug <em>arrête la musique</em> avec l'écran de veille actif</br>
+			[X] Amélioration  <em>Lecture / Pause </em> (contrôle si lecture avant de faire pause et inversement)</br>
 			[X] Amélioration de l'aide lors test de configuration</br>
+			[X] Amélioration des importations XML (cas de destruction de la strucure du XML)</br>
 			</li></br>
 
 			<li><i class="icon-play-circle"></i> Version 1.7:</br>
@@ -171,6 +174,10 @@
         <ul class="unstyled" id="plugin-addon_Sarahandxbmc" style="display: none;">
  			<div class="alert alert-success">Addon pour XBMC: Sarah and XBMC</div>
 			<strong> L'installation de cet Addon sur le/les XBMC n'est pas obligatoire mais peux offir des possiblités interessantes d'interactions avec d'autres plugins de Sarah.</strong></br></br></br>
+			<li><i class="icon-play-circle"></i><strong> Attention 2 versions de l'addon:</strong></br></br>
+            &nbsp;&nbsp;- <em>addonSarahAndXbmc.V1.0.zip</em> pour XBMC 12 - Frodo</br>
+            &nbsp;&nbsp;- <em>addonSarahAndXbmc.V1.0-Gotham.zip</em> pour XBMC 13 - Gotham</br>
+  			</li></br>
 			<li><i class="icon-play-circle"></i><strong> Installation sur XBMC:</strong></br></br>
             &nbsp;&nbsp;- <em>Système -> Extensions --(racine)--> <strong> Installer depuis un fichier zip</strong>  --(sélectionner le fichier joint au plugin) --> OK </em></br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L'extension s'installe</br>
@@ -179,8 +186,8 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Saisissez le port de Sarah</br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Saisissez quel est cet XBMC pour Sarah (music ou video ou les 2 à la fois)</br>
             &nbsp;&nbsp;- <em>Redémarrer XBMC </em></br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;La console Sarah server devrait indiquer: <em>plugin xbmc -  XBMC (########) a indiqué avoir démarré.</em></li></br>
-			</li>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;La console Sarah server devrait indiquer: <em>plugin xbmc -  XBMC (########) a indiqué avoir démarré.</em>
+			</li></br>
 			<li><i class="icon-play-circle"></i><strong> Fonctionnement et utilisation:</strong></br></br>
             Sarah est avertie dès que vous faites lecture, pause, re-lecture, stop d'un média (musique, film, série, streaming,..) ou que celui se termine sans en enchainer un autre.</br></br>
 			Un Status est ainsi créer dans le contexte de Sarah: <strong>SARAH.context.xbmc.status</strong></br></br>
