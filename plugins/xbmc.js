@@ -1329,18 +1329,43 @@ var doAction = function (req, xbmc_api_url, callback, hook) {
 }
 
 var doXML = function (req, xbmc_api_url, callback, hook) {
-
     // Send a simple JSON request
     sendJSONRequest(xbmc_api_url, req, function (res) {
-        if (res) {
-            // Generation XML Artist
-            if ((typeof res.result.artists != 'undefined') && (typeof res.result.limits != 'undefined')) {
-                var ligneitem = '';
+		// fonction pour la création des lignes HTML, XML et comptage 
+		function CreateLine() {
+			var lignetest;
+			try {
+				lignetest = '<tag>out.action.'+varXML+' = encodeURIComponent\\(\\"' + workvalue.replace(/&/gi, "&amp;").replace(/"/gi, "\\\\\"").replace(/</gi, "&lt;").replace(/>/gi, "&gt;").replace(/[[]/gi, "\\\[").replace(/[]]/gi, "\\\]") + '\\"\\)</tag>';
+				var regexp = new RegExp(lignetest, 'gm');
+				if (xml.match(regexp)){
+				lignehtmlpresent += XMLworkvalue.replace(/&/gi, "&amp;").replace(/"/gi, "\\\"").replace(/</gi, "&lt;").replace(/>/gi, "&gt;") + '<br>'
+				present=present+1;
+				}
+				else {
+					lignehtml += XMLworkvalue.replace(/&/gi, "&amp;").replace(/"/gi, "'").replace(/</gi, "&lt;").replace(/>/gi, "&gt;") + '<br>'
+					ligneitem = '            <item>' + XMLworkvalue.replace(/&/gi, "and").replace(/"/gi, "'").replace(/</gi, "").replace(/>/gi, "") + '<tag>out.action.'+varXML+' = encodeURIComponent("' + workvalue.replace(/&/gi, "&amp;").replace(/"/gi, "\\\"").replace(/</gi, "&lt;").replace(/>/gi, "&gt;") + '")</tag></item>\n';
+					replace += (ligneitem);
+					}
+			}
+			catch(ex) {
+				console.dir(ex);
+				console.log("plugin xbmc - Erreur d\'importation xml avec ["+varXML+"] "+XMLworkvalue);
+				lignehtml += workvalue.replace(/&/gi, "&amp;") + ' <====== Erreur - importation impossible <br>';
+				nberreur++;
+			}		
+		}
+        
+		if (res) {
+				var ligneitem = '';
                 var lignehtml = '';
                 var nberreur = 0;
                 var lignehtmlpresent = '';
                 var fs = require('fs');
                 var fileXML = 'plugins/xbmc/xbmc.xml';
+				var xml = fs.readFileSync(fileXML, 'utf8');
+
+            // Generation XML Artist
+            if ((typeof res.result.artists != 'undefined') && (typeof res.result.limits != 'undefined')) {
             //efface la zone génération automatique
 				var xml = fs.readFileSync(fileXML, 'utf8');
 				var replace = '¤IMPORTartiste¤ -->\n            <item>ARTIST<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>\n<!-- ¤IMPORTartiste¤';
@@ -1352,25 +1377,11 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 				replace = '¤IMPORTartiste¤ -->\n';
 				var present=0;
                 res.result.artists.forEach(function (value) {
-					try {
-						// test si ligne déjà présente  ATTENTION \\( et \\) pour regexp
-						lignetest = '<tag>out.action.artist = encodeURIComponent\\("' + value.label.replace(/&/gi, "&amp;") + '"\\)</tag>';
-						var regexp = new RegExp(lignetest, 'gm');
-						if (xml.match(regexp)){
-						lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
-						present=present+1;
-						}
-						else {
-							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
-							ligneitem = '            <item>' + value.label.replace(/&/gi, "and") + '<tag>out.action.artist = encodeURIComponent("' + value.label.replace(/&/gi, "&amp;").replace(/"/gi, "\\\"") + '")</tag></item>\n';
-							replace += (ligneitem);
-							}
-					} catch(ex) {
-						console.log("plugin xbmc - Erreur d\'importation xml avec l\'artiste "+value.label);
-						lignehtml += value.label.replace(/&/gi, "&amp;") + ' <====== Erreur - importation impossible <br>';
-						nberreur++;
-					}	
-               });
+					varXML='artist'
+					workvalue=value.label;
+					XMLworkvalue=value.label;
+					CreateLine();
+		   });
                 var xml = fs.readFileSync(fileXML, 'utf8');
                 replace += '            <!-- ¤IMPORTartiste¤';
                 var regexp = new RegExp('¤IMPORTartiste¤[^*]+¤IMPORTartiste¤', 'gm');
@@ -1383,14 +1394,7 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 
             // Generation XML Genre
             else if ((typeof res.result.genres != 'undefined') && (typeof res.result.limits != 'undefined')) {
-				var ligneitem = '';
-                var lignehtml = '';
-                var nberreur = 0;
-                var lignehtmlpresent = '';
-                var fs = require('fs');
-                var fileXML = 'plugins/xbmc/xbmc.xml';
             //efface la zone génération automatique
-				var xml = fs.readFileSync(fileXML, 'utf8');
 				var replace = '¤IMPORTgenre¤ -->\n            <item>GENRE<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>\n<!-- ¤IMPORTgenre¤';
 				var regexp = new RegExp('¤IMPORTgenre¤[^*]+¤IMPORTgenre¤', 'gm');
                 var xml = xml.replace(regexp, replace);
@@ -1400,26 +1404,11 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 				replace = '¤IMPORTgenre¤ -->\n';
 				var present=0;
                 res.result.genres.forEach(function (value) {
-					try {
-					// test si ligne déjà présente
-						lignetest = '<tag>out.action.genre = encodeURIComponent\\("' + value.label.replace(/&/gi, "&amp;") + '"\\)</tag>'
-						var regexp = new RegExp(lignetest, 'gm');
-						if (xml.match(regexp))
-							{
-							lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
-							present=present+1;
-							}
-						else {
-							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
-							ligneitem = '            <item>' + value.label.replace(/&/gi, " and ") + '<tag>out.action.genre = encodeURIComponent("' + value.label.replace(/&/gi, "&amp;").replace(/"/gi, "\\\"") + '")</tag></item>\n';
-							replace += (ligneitem);
-							}
-					} catch(ex) {
-						console.log("plugin xbmc - Erreur d\'importation xml avec le genre "+value.label);
-						lignehtml += value.label.replace(/&/gi, "&amp;") + ' <====== Erreur - importation impossible <br>';
-						nberreur++;
-					}	
-                });
+					varXML='genre'
+					workvalue=value.label;
+					XMLworkvalue=value.label;
+					CreateLine();
+				});
                 var xml = fs.readFileSync(fileXML, 'utf8');
                 replace += '            <!-- ¤IMPORTgenre¤';
                 var regexp = new RegExp('¤IMPORTgenre¤[^*]+¤IMPORTgenre¤', 'gm');
@@ -1432,14 +1421,7 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 
 			// Generation XML playlistmusic
             else if ((typeof res.result.files != 'undefined') && (typeof res.result.limits != 'undefined') && (req==xml_playlistmusic)) {
-				var ligneitem = '';
-                var lignehtml = '';
-                var nberreur = 0;
-                var lignehtmlpresent = '';
-                var fs = require('fs');
-                var fileXML = 'plugins/xbmc/xbmc.xml';
             //efface la zone génération automatique
-				var xml = fs.readFileSync(fileXML, 'utf8');
 				var replace = '¤IMPORTplaylistmusic¤ -->\n            <item>PLAYLIST MUSIC NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>\n<!-- ¤IMPORTplaylistmusic¤';
 				var regexp = new RegExp('¤IMPORTplaylistmusic¤[^*]+¤IMPORTplaylistmusic¤', 'gm');
                 var xml = xml.replace(regexp, replace);
@@ -1449,26 +1431,11 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 				replace = '¤IMPORTplaylistmusic¤ -->\n';
 				var present=0;
                 res.result.files.forEach(function (value) {
-					try {
-					// test si ligne déjà présente
-						lignetest = '<tag>out.action.playlistfile = encodeURIComponent\\("' + value.file.replace(/&/gi, "&amp;") + '"\\)</tag>'
-						var regexp = new RegExp(lignetest, 'gm');
-						if (xml.match(regexp))
-							{
-							lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
-							present=present+1;
-							}
-						else {
-							lignehtml += value.label.replace(/&/gi, "&amp;").replace(/.m3u/gi, "") + '<br>'
-							ligneitem = '            <item>' + value.label.replace(/&/gi, " and ").replace(/.m3u/gi, "") + '<tag>out.action.playlistfile = encodeURIComponent("' + value.file.replace(/&/gi, "&amp;").replace(/"/gi, "\\\"") + '")</tag></item>\n';
-							replace += (ligneitem);
-							}
-					} catch(ex) {
-						console.log("plugin xbmc - Erreur d\'importation xml avec le playlistmusic "+value.label);
-						lignehtml += value.file.replace(/&/gi, "&amp;") + '(' + value.label.replace(/&/gi, "&amp;") + ') <====== Erreur - importation impossible <br>';
-						nberreur++;
-					}	
-                });
+					varXML='playlistfile'
+					workvalue=value.file;
+					XMLworkvalue=value.label;
+					CreateLine();
+				});
                 var xml = fs.readFileSync(fileXML, 'utf8');
                 replace += '            <!-- ¤IMPORTplaylistmusic¤';
                 var regexp = new RegExp('¤IMPORTplaylistmusic¤[^*]+¤IMPORTplaylistmusic¤', 'gm');
@@ -1481,14 +1448,7 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 
 		   	// Generation XML playlistvideo
             else if ((typeof res.result.files != 'undefined') && (typeof res.result.limits != 'undefined') && (req==xml_playlistvideo)) {
-				var ligneitem = '';
-                var lignehtml = '';
-                var nberreur = 0;
-                var lignehtmlpresent = '';
-                var fs = require('fs');
-                var fileXML = 'plugins/xbmc/xbmc.xml';
             //efface la zone génération automatique
-				var xml = fs.readFileSync(fileXML, 'utf8');
 				var replace = '¤IMPORTplaylistvideo¤ -->\n            <item>PLAYLIST VIDEO NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>\n<!-- ¤IMPORTplaylistvideo¤';
 				var regexp = new RegExp('¤IMPORTplaylistvideo¤[^*]+¤IMPORTplaylistvideo¤', 'gm');
                 var xml = xml.replace(regexp, replace);
@@ -1498,26 +1458,11 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 				replace = '¤IMPORTplaylistvideo¤ -->\n';
 				var present=0;
                 res.result.files.forEach(function (value) {
-					try {
-					// test si ligne déjà présente
-						lignetest = '<tag>out.action.playlistfile = encodeURIComponent\\("' + value.file.replace(/&/gi, "&amp;") + '"\\)</tag>'
-						var regexp = new RegExp(lignetest, 'gm');
-						if (xml.match(regexp))
-							{
-							lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
-							present=present+1;
-							}
-						else {
-							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
-							ligneitem = '            <item>' + value.label.replace(/&/gi, " and ") + '<tag>out.action.playlistfile = encodeURIComponent("' + value.file.replace(/&/gi, "&amp;").replace(/"/gi, "\\\"") + '")</tag></item>\n';
-							replace += (ligneitem);
-							}
-					} catch(ex) {
-						console.log("plugin xbmc - Erreur d\'importation xml avec le playlistvideo "+value.label);
-						lignehtml += value.file.replace(/&/gi, "&amp;") + '(' + value.label.replace(/&/gi, "&amp;") + ') <====== Erreur - importation impossible <br>';
-						nberreur++;
-					}	
-                });
+					varXML='playlistfile'
+					workvalue=value.file;
+					XMLworkvalue=value.label;
+					CreateLine();
+				});
                 var xml = fs.readFileSync(fileXML, 'utf8');
                 replace += '            <!-- ¤IMPORTplaylistvideo¤';
                 var regexp = new RegExp('¤IMPORTplaylistvideo¤[^*]+¤IMPORTplaylistvideo¤', 'gm');
@@ -1530,43 +1475,20 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 
 			// Generation XML Series
 			else if ((typeof res.result.tvshows != 'undefined') && (typeof res.result.limits != 'undefined')){
-                var ligneitem = '';
-                var lignehtml = '';
-                var nberreur = 0;
-               var lignehtmlpresent = '';
-                var fs = require('fs');
-                var fileXML = 'plugins/xbmc/xbmc.xml';
-            //efface la zone génération automatique
-				var xml = fs.readFileSync(fileXML, 'utf8');
+				//efface la zone génération automatique
 				var replace = '¤IMPORTseries¤ -->\n            <item>SERIE<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>\n<!-- ¤IMPORTseries¤';
 				var regexp = new RegExp('¤IMPORTseries¤[^*]+¤IMPORTseries¤', 'gm');
                 var xml = xml.replace(regexp, replace);
                 fs.writeFileSync(fileXML, xml, 'utf8');
 				console.log('plugin xbmc - Zone génération automatique série effacée.');
-			// Génère la zone génération automatique sauf si série déjà présente
+				// Génère la zone génération automatique sauf si série déjà présente
 				var replace  = '¤IMPORTseries¤ -->\n'; 	// zone a remplacer
 				var present=0;
                 res.result.tvshows.forEach(function(value) { //value contient label ou id
-					try {
-						// test si ligne déjà présente
-						lignetest = '<tag>out.action.showid = "'+value.tvshowid+'"</tag>'
-						var regexp = new RegExp(lignetest, 'gm');
-						if (xml.match(regexp))
-							{
-							lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
-							present=present+1;
-							}
-						else {
-							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
-							ligneitem = '            <item>' + value.label.replace(/&/gi, " and ") + '<tag>out.action.showid = "' + value.tvshowid + '"</tag></item>\n';
-							replace += (ligneitem);
-							}
-					} catch(ex) {
-						console.log("plugin xbmc - Erreur d\'importation xml avec la série "+value.label);
-						lignehtml += value.label.replace(/&/gi, "&amp;") + ' <====== Erreur - importation impossible <br>';
-						nberreur++;
-					}	
-
+					varXML='showid'
+					workvalue=value.tvshowid.toString();
+					XMLworkvalue=value.label;
+					CreateLine();
 					});
 				var xml = fs.readFileSync(fileXML,'utf8');
 				replace += '            <!-- ¤IMPORTseries¤';
@@ -1629,14 +1551,7 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 
 			// Generation XML Films 
 			else if ((typeof res.result.movies != 'undefined') && (typeof res.result.limits != 'undefined')){
-                var ligneitem = '';
-                var lignehtml = '';
-                var nberreur = 0;
-               var lignehtmlpresent = '';
-                var fs = require('fs');
-                var fileXML = 'plugins/xbmc/xbmc.xml';
-            //efface la zone génération automatique
-				var xml = fs.readFileSync(fileXML, 'utf8');
+             //efface la zone génération automatique
 				var replace = '¤IMPORTfilm¤ -->\n            <item>FILM NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>\n<!-- ¤IMPORTfilm¤';
 				var regexp = new RegExp('¤IMPORTfilm¤[^*]+¤IMPORTfilm¤', 'gm');
                 var xml = xml.replace(regexp, replace);
@@ -1646,26 +1561,10 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 				var replace  = '¤IMPORTfilm¤ -->\n'; 	// zone a remplacer
 				var present=0;
                 res.result.movies.forEach(function(value) { //value contient label ou id
-					try {
-						// test si ligne déjà présente
-						lignetest = '<tag>out.action.movieid = "'+value.movieid+'"</tag>'
-						var regexp = new RegExp(lignetest, 'gm');
-						if (xml.match(regexp))
-							{
-							lignehtmlpresent += value.label.replace(/&/gi, "&amp;") + '<br>'
-							present=present+1;
-							}
-						else {
-							lignehtml += value.label.replace(/&/gi, "&amp;") + '<br>'
-							ligneitem = '            <item>' + value.label.replace(/&/gi, " and ") + '<tag>out.action.movieid = "' + value.movieid + '"</tag></item>\n';
-							replace += (ligneitem);
-							}
-					} catch(ex) {
-						console.log("plugin xbmc - Erreur d\'importation xml avec le film "+value.label);
-						lignehtml += value.label.replace(/&/gi, "&amp;") + ' <====== Erreur - importation impossible <br>';
-						nberreur++;
-					}	
-
+					varXML='movieid'
+					workvalue=value.movieid.toString();
+					XMLworkvalue=value.label;
+					CreateLine();
 					});
 				var xml = fs.readFileSync(fileXML,'utf8');
 				replace += '            <!-- ¤IMPORTfilm¤';
