@@ -130,8 +130,8 @@ if (data.action=='testconfig') {
 	else if (data.xbmc=='video') 	{ xbmc_api_url='http://'+config.api_url_xbmc_video+'/jsonrpc';}
 	else  {return callback({ 'tts': 'Choix du XBMC inconnu!'});}
 
-  //console.log (xbmc_api_url.slice(7,18));
-	if (xbmc_api_url.slice(7,18)!='127.0.0.1') {delay_before_control=delay_before_control_distant;} else {delay_before_control=delay_before_control_local;}
+console.log (xbmc_api_url.slice(7,16));
+	if (xbmc_api_url.slice(7,16)!='127.0.0.1') {delay_before_control=delay_before_control_distant;} else {delay_before_control=delay_before_control_local;}
 	
 // arrete le scrolling automatique sur une action quelconque	
 	if (typeof(SARAH.context.xbmc)!="undefined"){
