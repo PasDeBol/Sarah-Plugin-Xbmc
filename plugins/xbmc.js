@@ -1028,6 +1028,19 @@ switch (data.action) {
 				console.log('plugin xbmc - il manque data.parameters ou data.value');callback();
 				}
 			break;
+			
+		case 'StreamCam':
+			if ((data.url)&&(data.window)) {
+				StreamCam.params.params=[data.url,data.window];
+				doAction(StreamCam, xbmc_api_url, callback);
+			}
+			else{
+				console.log('plugin xbmc - il manque data.url ou data.window');callback();
+			}
+			
+			
+		
+			break;
 		case 'sendText':
 			if (data.dictation){
 				if (infodebug==true) {console.log('plugin xbmc - sendtext dictation: '+data.dictation);}
@@ -1184,6 +1197,9 @@ var xml_radio = '{"jsonrpc":"2.0","method":"Player.Open","params":{"item":{"file
 // tv
 var GetListChannels={"id":1,"jsonrpc":"2.0","method":"PVR.GetChannels","params":{"channelgroupid":"alltv","properties":["channel","channeltype","hidden","lastplayed","locked"]}};
 var SetChannel= {"jsonrpc":"2.0","method":"Player.Open","params":{"item":{"channelid":''}}};
+
+// streamcam
+var StreamCam={ "jsonrpc": "2.0", "method": "Addons.ExecuteAddon", "params": { "wait": false, "addonid": "script.streamcam", "params": []}, "id":0};
 
 // film
 var readmovie={ "jsonrpc": "2.0", "method": "Player.Open", "params": { "item": { "movieid": '' }, "options":{ "resume": '' } }, "id": 1 }

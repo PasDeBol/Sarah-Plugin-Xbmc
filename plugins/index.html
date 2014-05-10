@@ -12,7 +12,7 @@
 <p class="page-header">
 	<span class="lead">Ce module permet de piloter XBMC avec SARAH</span></br></br>
 	Participation au plugin:</br>
-	 Jean-Philippe Encausse, Jérôme Veyret, Maxime Hermouet, Guillaume Brebion, Aymeric, Vincent Legavre, vincent fresnel, Gevrey Loic, David M. .
+	 Jean-Philippe Encausse, Jérôme Veyret, Maxime Hermouet, Guillaume Brebion, Aymeric, Vincent Legavre, vincent fresnel, Gevrey Loic, David M., Mad Ripper .
 			
 </p>
 
@@ -30,6 +30,9 @@
 				<li><a href="#" data-toggle="plugin-addon_Sarahandxbmc_Installation">Installation</a></li>
 				<li><a href="#" data-toggle="plugin-addon_Sarahandxbmc_Principe">Principe</a></li>
 				<li><a href="#" data-toggle="plugin-addon_Sarahandxbmc_Utilisation">utilisation ( consultation/ IFTTT /Event)</a></li>
+            <li class="nav-header">Addon pour Xbmc: StreamCam</li>
+				<li><a href="#" data-toggle="plugin-addon_StreamCam_Installation">Installation</a></li>
+				<li><a href="#" data-toggle="plugin-addon_StreamCam_Utilisation">Utilisation</a></li>
             <li class="nav-header">Commandes vocales</li>
 				<li><a href="#" data-toggle="plugin-vox-examples">Exemples</a></li>
             <li class="nav-header">Mode XBMC (Voice commander)</li>
@@ -50,9 +53,12 @@
 		<ul class="unstyled" id="plugin-version-xbmc">
 			<div class="alert alert-success">Versions</div>
 			<li><i class="icon-play-circle"></i> Version X.X:</br>
+			[X] Ajout de la fonction StreamCam </br>
+			[X] Ajout de l'Addon XBMC: StreamCam (pour XBMC 12 & 13 Frodo - Gotham) </br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Un grand merci à Mad Ripper.</br>
 			[X] Ajout de l'Addon XBMC: Sarah and XBMC (pour XBMC 13 - Gotham)</br>
 			[X] Intègre la fonction Event de Sarah pour informer tous les plugins d'un changement du status des Xbmc</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='https://github.com/JpEncausse/SARAH-Documentation/wiki/JavaScript-API#event' target=_blank>Cf Doc .../wiki/JavaScript-API#event</a> </br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href='https://github.com/JpEncausse/SARAH-Documentation/wiki/JavaScript-API#event' target=_blank>Cf Doc .../wiki/JavaScript-API#event</a> </br>
 			[X] Ajout de <em>lastaction</em> dans le xbmc.staus (pour exploitation par d'autres plugins)</br>
 			[X] Correction du bug <em>arrête la musique</em> avec l'écran de veille actif</br>
 			[X] Amélioration  <em>Lecture / Pause </em> (contrôle si lecture avant de faire pause et inversement)</br>
@@ -272,8 +278,61 @@
 		</ul>
 
 
+		<!--ADDON StreamCam installation -->
+        <ul class="unstyled" id="plugin-addon_StreamCam_Installation" style="display: none;">
+ 			<div class="alert alert-success">Addon StreamCam pour XBMC: Installation</div>
+			<li><strong> L'installation de cet Addon sur XBMC n'est pas obligatoire.</strong></li></br>
+			<li><strong> Il permet:</strong></br></br>
+			Il permet l'affichage du streaming d'une ou plusieurs caméras en simultanées sur xbmc</br>
+			Il est possible d'afficher ce streaming dans des fenetres sans arrêter la lecture du média en cours.
+			L'affichage ne dure que 15s</br>
+			La source doit être une image et non une vidéo.</br>
+			</li></br>
+			<li><i class="icon-play-circle"></i><strong> Installation sur XBMC:</strong></br></br>
+            &nbsp;&nbsp;- <em>Système -> Extensions --(racine)--> <strong> Installer depuis un fichier zip</strong> --(sélectionner <em>script.streamcam-1.1.zip</em> joint au plugin)--> OK </em></br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L'extension s'installe</br>
+            &nbsp;&nbsp;- <em>Extensions activées ->  Video --> StreamCam doit être maintenant présent.  </em></br>
+            &nbsp;&nbsp;- <em>Redémarrer XBMC </em></br>
+ 			</li>
+		</ul>
 
-
+		<!--ADDON StreamCam installation -->
+        <ul class="unstyled" id="plugin-addon_StreamCam_Utilisation" style="display: none;">
+ 			<div class="alert alert-success">Addon StreamCam pour XBMC: Utilisation</div>
+			<li><i class="icon-play-circle"></i><strong>3 Paramètres: </strong></br></br>
+			Le xbmc cible: music ou video</br>
+			l'url (de l'image) de la caméra</br>
+			le numéro de fenêtre souhaité pour l'affichage</br>
+			&nbsp;&nbsp;&nbsp;&nbsp; de 1 à 4 : 4 fenetres de 320x240 situées sur la partie basse l'écran.</br>
+			&nbsp;&nbsp;&nbsp;&nbsp; de 5 à 6 : 2 fenetres de 640x480 </br>
+			&nbsp;&nbsp;&nbsp;&nbsp; 7 : une fenetres de 1280x720</br>
+			</li></br>
+			<li><i class="icon-play-circle"></i><strong>Appel via url: </strong></br></br>
+			.../sarah/xbmc?xbmc=<strong><em>music_ou_video</em></strong>&amp;action=StreamCam&amp;url=<strong><em>url_image_cam</em></strong>&amp;window=<strong><em>num_fenetre</em></strong></br>
+			exemple:</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;.../sarah/xbmc?xbmc=video&amp;action=StreamCam&amp;url=http://192.168.xxx.xxx/axis-cgi/jpg/image.cgi&amp;window=7
+			</li></br>
+			<li><i class="icon-play-circle"></i><strong>Appel interne plugin : </strong></br></br>
+			SARAH.call('xbmc', {</br>
+			&nbsp;&nbsp;&nbsp;&nbsp; 'xbmc' : '<strong><em>music_ou_video</em></strong>' ,</br>
+			&nbsp;&nbsp;&nbsp;&nbsp; 'action' : 'StreamCam' ,</br>
+			&nbsp;&nbsp;&nbsp;&nbsp; 'url' : '<strong><em>url_image_cam</em></strong>' , </br>
+			&nbsp;&nbsp;&nbsp;&nbsp; 'window' :  <strong><em>num_fenetre</em></strong> </br>
+			}, function(options){   };</br>
+			Exemple:  </br>
+			SARAH.call('xbmc', {</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;'xbmc' : 'video' ,</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;'action' : 'StreamCam' ,</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;'url' : 'http://192.168.xxxx.xxx/axis-cgi/jpg/image.cgi' , </br>
+			&nbsp;&nbsp;&nbsp;&nbsp;'window' :  7 </br>
+			}, function(options){   };</br>
+			</li></br>
+<!--			<li><i class="icon-play-circle"></i><strong>Le json (pour info): </strong></br>
+			&nbsp;&nbsp;- { "jsonrpc": "2.0", "method": "Addons.ExecuteAddon", "params": { "wait": false, "addonid": "script.streamcam", "params": ["<strong><em>url_image_cam</em></strong>","<strong><em>num_fenetre</em></strong>"]}, "id":0}</br>
+			&nbsp;&nbsp;- exemple: { "jsonrpc": "2.0", "method": "Addons.ExecuteAddon", "params": { "wait": false, "addonid": "script.streamcam", "params": ["http://192.168.xxxx.xxx/axis-cgi/jpg/image.cgi","7"]}, "id":0} </br>
+			</li></br>
+-->			
+		</ul>
 		<!--Exemples-->
         <ul class="unstyled" id="plugin-vox-examples" style="display: none;">
  			<div class="alert alert-success">Commandes Vocales - Exemples</div>
