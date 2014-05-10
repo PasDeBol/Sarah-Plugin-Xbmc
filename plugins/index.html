@@ -27,7 +27,9 @@
 				<li><a href="#" data-toggle="plugin-vox-test">Test de la configuration</a></li>
 				<li><a href="#" data-toggle="plugin-vox-errors">Erreurs</a></li>
             <li class="nav-header">Addon pour Xbmc: Sarah and XBMC</li>
-				<li><a href="#" data-toggle="plugin-addon_Sarahandxbmc">Installation et utilisation</a></li>
+				<li><a href="#" data-toggle="plugin-addon_Sarahandxbmc_Installation">Installation</a></li>
+				<li><a href="#" data-toggle="plugin-addon_Sarahandxbmc_Principe">Principe</a></li>
+				<li><a href="#" data-toggle="plugin-addon_Sarahandxbmc_Utilisation">utilisation ( consultation/ IFTTT /Event)</a></li>
             <li class="nav-header">Commandes vocales</li>
 				<li><a href="#" data-toggle="plugin-vox-examples">Exemples</a></li>
             <li class="nav-header">Mode XBMC (Voice commander)</li>
@@ -39,8 +41,6 @@
             <li class="nav-header">XML</li>
 				<li><a href="#" data-toggle="plugin-generator-info">Infos et Avertissements</a></li>
 				<li><a href="#" data-toggle="plugin-generator">Génération automatique du XML</a></li>
-            <li class="nav-header">Autres fonctions</li>
-				<li><a href="#" data-toggle="plugin-autre-event">Event</a></li>
        </ul>
     </div>
 	<!--Content-->
@@ -53,6 +53,7 @@
 			[X] Ajout de l'Addon XBMC: Sarah and XBMC (pour XBMC 13 - Gotham)</br>
 			[X] Intègre la fonction Event de Sarah pour informer tous les plugins d'un changement du status des Xbmc</br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='https://github.com/JpEncausse/SARAH-Documentation/wiki/JavaScript-API#event' target=_blank>Cf Doc .../wiki/JavaScript-API#event</a> </br>
+			[X] Ajout de <em>lastaction</em> dans le xbmc.staus (pour exploitation par d'autres plugins)</br>
 			[X] Correction du bug <em>arrête la musique</em> avec l'écran de veille actif</br>
 			[X] Amélioration  <em>Lecture / Pause </em> (contrôle si lecture avant de faire pause et inversement)</br>
 			[X] Amélioration de l'aide lors test de configuration</br>
@@ -170,9 +171,10 @@
 			<li><i class="icon-play-circle"></i> <strong>(Facultatif)</strong> Si vous souhaitez moins de log dans la console NodeJS:<br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- éditez le fichier <em>xbmc.js</em> et mettez la variable <em>infodebug</em> à <em>false</em>.</li></br>
         </ul>
-       <!--ADDON Sarah and Xbmc-->
-        <ul class="unstyled" id="plugin-addon_Sarahandxbmc" style="display: none;">
- 			<div class="alert alert-success">Addon pour XBMC: Sarah and XBMC</div>
+ 
+		<!--ADDON Sarah and Xbmc installation -->
+        <ul class="unstyled" id="plugin-addon_Sarahandxbmc_Installation" style="display: none;">
+ 			<div class="alert alert-success">Addon pour XBMC: Installation</div>
 			<strong> L'installation de cet Addon sur le/les XBMC n'est pas obligatoire mais peux offir des possiblités interessantes d'interactions avec d'autres plugins de Sarah.</strong></br></br></br>
 			<li><i class="icon-play-circle"></i><strong> Attention 2 versions de l'addon:</strong></br></br>
             &nbsp;&nbsp;- <em>addonSarahAndXbmc.V1.0.zip</em> pour XBMC 12 - Frodo</br>
@@ -187,16 +189,16 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Saisissez quel est cet XBMC pour Sarah (music ou video ou les 2 à la fois)</br>
             &nbsp;&nbsp;- <em>Redémarrer XBMC </em></br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;La console Sarah server devrait indiquer: <em>plugin xbmc -  XBMC (########) a indiqué avoir démarré.</em>
-			</li></br>
-			<li><i class="icon-play-circle"></i><strong> Fonctionnement et utilisation:</strong></br></br>
+			</li>
+		</ul>
+
+		<!--ADDON Sarah and Xbmc Principe et Structure -->
+		<ul class="unstyled" id="plugin-addon_Sarahandxbmc_Principe" style="display: none;">
+ 			<div class="alert alert-success">Addon pour XBMC: Principe et Structure</div>
+			<li><i class="icon-play-circle"></i><strong> Principe :</strong></br></br>
             Sarah est avertie dès que vous faites lecture, pause, re-lecture, stop d'un média (musique, film, série, streaming,..) ou que celui se termine sans en enchainer un autre.</br></br>
 			Un Status est ainsi créer dans le contexte de Sarah: <strong>SARAH.context.xbmc.status</strong></br></br>
-			<strong> Ce status peut être interrogé par un autre plugin de Sarah</strong>  (pour par exemple: ne lire un nouveau mail que si il n'y a pas de musique en cours)</br></br>
-			<strong> La commande du status venant de xbmc peut être 'intercepté' par un autre plugin via les règles IFTTT de Sarah</strong>  (pour par exemple: allumer/éteindre la lumière si Lecture/Pause d'un film ou d'une série)</br>
-			La commande se compose ainsi: </br>
-			data.action='xbmcstatus'</br>
-			data.xbmc='music' ou 'video' ou 'music_and_video' et indique quel est le XBMC à l'origine de la requète.</br>
-			data.status= 'xbmc_started' ou 'xbmc_ended' ou 'video_started' ou 'audio_started' ou 'video_ended' ou 'audio_ended' ou 'video_stopped' ou 'music_stopped' ou 'video_paused' ou 'music_paused' ou 'video_resumed' ou 'music_resumed' ou 'database_updated'.</br></br>
+			
 			<li><i class="icon-play-circle"></i><strong> Structure et données du status (Json):</strong></br></br>
 			SARAH.context.xbmc.status:{</br>
 			<table class="table">
@@ -222,11 +224,57 @@
 			<tr><td> </td><td>file: 'X:\\fichier',</td><td>Emplacement et nom du fichier</td></tr>
 			<tr><td> </td><td>},</td><td></td></tr>
 			<tr><td>statusmixed: </td><td>'stop/play/pause'</td><td>Status global: Stop si les 2 Xbmc sont en stop, Play si au moins l'un est en lecture, pause dans les autres cas</td></tr>
+			<tr><td>lastaction: </td><td>'dernière action'</td><td>Dernière action reçue: </br>
+								&nbsp;&nbsp;'music_and_video_xbmc_started'/'music_xbmc_started'/'video_xbmc_started'</br>
+								&nbsp;&nbsp;'music_and_video_xbmc_ended' / 'music_xbmc_ended' / 'video_xbmc_ended'</br>
+								&nbsp;&nbsp;'music_and_video_database_updated'/music_database_updated'/'video_database_updated'</br>
+								&nbsp;&nbsp;'video_started'/'video_paused'/'video_resumed'/'video_ended'/'video_stopped'/</br>
+								&nbsp;&nbsp;'audio_started'/'audio_paused'/'audio_resumed'/'audio_ended'/'audio_stopped'/</br>
+			</td></tr>
 			</table>
 			}
 			</li>
 			</ul>
-        <!--Exemples-->
+
+ 		<!--ADDON Sarah and Xbmc Utilisation -->
+		<ul class="unstyled" id="plugin-addon_Sarahandxbmc_Utilisation" style="display: none;">
+			<div class="alert alert-success">Addon pour XBMC: Utilisation</div>
+			
+			<li><i class="icon-play-circle"></i><strong>  Variable Context de Sarah:</strong> </br></br>
+			Ce status peut être interrogé par un autre plugin de Sarah via le context:  SARAH.context.xbmc.status</br>
+			exemple: ne lire un nouveau mail que si il n'y a pas de musique en cours:</br>
+			if (SARAH.context.xbmc.status.statusmusic.player=='stop') { ... }</br>
+			</li></br>
+			
+			<li><i class="icon-play-circle"></i><strong>  Règle IFTTT de Sarah:</strong> </br></br>
+			La commande du status venant de xbmc peut être 'intercepté' par un autre plugin via les règles IFTTT de Sarah</br>
+			Cf doc de Sarah sur les règles IFTTT</br>
+			exemple: allumer/éteindre la lumière si Lecture/Pause d'un film ou d'une série</br>
+			La dernière action de xbmc est indiqué dans le status par <em>status.lastaction</em> (Cf Structure du json) ce qui permet d'agir directement sur valeur de cette variable.</br>
+			</li></br>
+			
+			<li><i class="icon-play-circle"></i><strong>  fonction Event de Sarah</strong> </br></br>
+			Cette fonction permet d'avertir les autres plugins dès un changement de status de xbmc.</br>
+			<a href='https://github.com/JpEncausse/SARAH-Documentation/wiki/JavaScript-API#event' target=_blank>La doc de Sarah à ce sujet : .../wiki/JavaScript-API#event</a></br>
+			Cela equivaut à l'utilisation des IFTTT mais ce programme directement dans le plugin dans lequel vous souhaiter interroger le status xbmc.
+			La dernière action de xbmc est indiqué dans le status par <em>status.lastaction</em> (Cf Structure du json) ce qui permet d'agir directement sur valeur de cette variable.</br>
+			exemple: éteindre la lumière si mise en <em>pause</em> d'un film </br>
+			dans votre plugin:</br>
+			&nbsp;&nbsp;exports.init = function(SARAH){</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SARAH.listen('xbmc', function(data){</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (data.lastaction=='video_paused') {  votre code ici pour allumer la lumière}</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (data.lastaction=='video_resumed') {  votre code ici pour éteindre la lumière}</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (data.lastaction=='video_ended') {  Sarah.speak('Le film était bien?');}</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (data.lastaction=='video_xbmc_ended') {  Sarah.speak('bonne nuit!');}</br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});</br>
+			&nbsp;&nbsp;}</br>
+			</li></br>
+		</ul>
+
+
+
+
+		<!--Exemples-->
         <ul class="unstyled" id="plugin-vox-examples" style="display: none;">
  			<div class="alert alert-success">Commandes Vocales - Exemples</div>
 			<li><i class="icon-play-circle"></i><strong> Quelques commandes:</strong></br></br>
@@ -583,20 +631,6 @@
 			
         </ul>
 		
-       <!--Autre-->
-		<ul class="unstyled" id="plugin-autre-event" style="display: none;">
-			<div class="alert alert-success">fonction <em>Event</em> de Sarah</div>
-			
-			<li><i class="icon-play-circle"></i> Avertir un plugin dès un changement du status XBMC:</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Depuis la version 1.7 du plugin, Il est possible de connaitre le status des xbmc music et vidéo depuis un autre plugin.</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cette fonction permet d'avertir les autres plugins dès un changement de staus de xbmc.</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='https://github.com/JpEncausse/SARAH-Documentation/wiki/JavaScript-API#event' target=_blank>La doc de Sarah à ce sujet : .../wiki/JavaScript-API#event</a></br>
-			</li></br>
-			<li><i class="icon-play-circle"></i> Un exemple de possibilité:</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si votre plugin domotique surveille le plugin xbmc tel indiqué dans la doc:</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dès que vous faites "pause" pendant un film -> Eclaire la lampe près du canapé.</br>
-			</li></br>
-	       </ul>
 		
     </div>
 </div>
