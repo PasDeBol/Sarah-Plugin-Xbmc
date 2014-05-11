@@ -5,18 +5,18 @@
 		<item >Sarah</item>
 		
 		<one-of>
-			<item><ruleref uri="#ruleXBMC_playlist"/><tag>out.action = rules.ruleXBMC_playlist;</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
-			<item><ruleref uri="#ruleXBMC_File_playlist_music"/><tag>out.action = rules.ruleXBMC_File_playlist_music;</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
-			<item><ruleref uri="#ruleXBMC_File_playlist_video"/><tag>out.action = rules.ruleXBMC_File_playlist_video;</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
-			<item><ruleref uri="#ruleXBMC_search"/><tag>out.action = rules.ruleXBMC_search;</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
-			<item><ruleref uri="#ruleXBMC_Artist"/><tag>out.action = rules.ruleXBMC_Artist;</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
-			<item><ruleref uri="#ruleXBMC_Telecommande"/><tag>out.action = rules.ruleXBMC_Telecommande</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
-			<item><ruleref uri="#ruleXBMC_Serie"/><tag>out.action = rules.ruleXBMC_Serie;</tag><tag>out.action._attributes.tts = "Je m'en occupe"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
-			<item><ruleref uri="#ruleXBMC_Radio"/><tag>out.action = rules.ruleXBMC_Radio;</tag><tag>out.action._attributes.tts = "Je mets la radio"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
-			<item><ruleref uri="#ruleXBMC_Tv"/><tag>out.action = rules.ruleXBMC_Tv;</tag><tag>out.action._attributes.tts = "Je mets la tele"</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
-			<item><ruleref uri="#ruleXBMC_Film"/><tag>out.action = rules.ruleXBMC_Film;</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
-			<item><ruleref uri="#ruleXBMC_StreamCam"/><tag>out.action = rules.ruleXBMC_StreamCam;</tag><tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc";</tag></item>
-			<item>active le mode xbmc<tag>out.action._attributes.context = "lazyxbmc.xml,lazyxbmc_temp.xml"</tag><tag>out.action._attributes.tts = "Mode XBMC activé, que veux tu?"</tag></item>
+			<item><ruleref uri="#ruleXBMC_playlist"/><tag>out.action = rules.ruleXBMC_playlist; out.action._attributes.tts = "Je m'en occupe"; out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc"; </tag></item>
+			<item><ruleref uri="#ruleXBMC_File_playlist_music"/><tag>out.action = rules.ruleXBMC_File_playlist_music; out.action._attributes.tts = "Je m'en occupe"; out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc"; </tag></item>
+			<item><ruleref uri="#ruleXBMC_File_playlist_video"/><tag>out.action = rules.ruleXBMC_File_playlist_video; out.action._attributes.tts = "Je m'en occupe"; out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc"; </tag></item>
+			<item><ruleref uri="#ruleXBMC_search"/><tag>out.action = rules.ruleXBMC_search; out.action._attributes.tts = "Je m'en occupe"; out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc"; </tag></item>
+			<item><ruleref uri="#ruleXBMC_Artist"/><tag>out.action = rules.ruleXBMC_Artist; out.action._attributes.tts = "Je m'en occupe"; out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc"; </tag></item>
+			<item><ruleref uri="#ruleXBMC_Telecommande"/><tag>out.action = rules.ruleXBMC_Telecommande; out.action._attributes.tts = "Je m'en occupe"; out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc"; </tag></item>
+			<item><ruleref uri="#ruleXBMC_Serie"/><tag>out.action = rules.ruleXBMC_Serie; out.action._attributes.tts = "Je m'en occupe"; out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc"; </tag></item>
+			<item><ruleref uri="#ruleXBMC_Radio"/><tag>out.action = rules.ruleXBMC_Radio; out.action._attributes.tts = "Je mets la radio"; out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc"; </tag></item>
+			<item><ruleref uri="#ruleXBMC_Tv"/><tag>out.action = rules.ruleXBMC_Tv; out.action._attributes.tts = "Je mets la tele"; out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc"; </tag></item>
+			<item><ruleref uri="#ruleXBMC_Film"/><tag>out.action = rules.ruleXBMC_Film; out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc"; </tag></item>
+			<item><ruleref uri="#ruleXBMC_StreamCam"/><tag>out.action = rules.ruleXBMC_StreamCam; out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc"; </tag></item>
+			<item>active le mode xbmc<tag>out.action._attributes.context = "lazyxbmc.xml,lazyxbmc_temp.xml"; out.action._attributes.tts = "Mode XBMC activé, que veux tu?"; </tag></item>
 		</one-of>
 	</rule>  
   
@@ -24,82 +24,82 @@
 		<example>SARAH musique suivante</example>
 		<tag>out.action=new Object(); </tag>
 		<one-of>
-			<item>musique suivante<tag>out.action.action="next"</tag><tag>out.action.xbmc="music" </tag></item>
-			<item>musique précédente<tag>out.action.action="prev"</tag><tag>out.action.xbmc="music" </tag></item>
-			<item>met en pause la musique<tag>out.action.action="pause"</tag><tag>out.action.xbmc="music" </tag></item>
-			<item>met la musique sur pause<tag>out.action.action="pause"</tag><tag>out.action.xbmc="music" </tag></item>
-			<item>musique en pause<tag>out.action.action="pause"</tag><tag>out.action.xbmc="music" </tag></item>
-			<item>arrête la musique <tag>out.action.action="ExecuteAction";out.action.value="stop";out.action.xbmc="music";out.action.repeter=2; </tag></item> <!--repeter=2 pour pouvoir arrêter lorsque l'écran de veille est activé! -->
-			<item>arrête le film <tag>out.action.action="ExecuteAction";out.action.value="stop";</tag><tag>out.action.xbmc="video" </tag></item>
-			<item>reprends la musique<tag>out.action.action="play"</tag><tag>out.action.xbmc="music" </tag></item>
-			<item>met en pause la série<tag>out.action.action="playvideo"</tag><tag>out.action.xbmc="video" </tag></item>
-			<item>remet la série<tag>out.action.action="playvideo"</tag><tag>out.action.xbmc="video" </tag></item>
-			<item>c'est quoi cette musique<tag>out.action.action="whatIsPlaying"</tag><tag>out.action.xbmc="music" </tag></item>
-			<item>c'est quoi cette vidéo<tag>out.action.action="whatIsPlaying"</tag><tag>out.action.xbmc="video" </tag></item>
-			<item>ferme l'application xbmc vidéo<tag>out.action.action="quitxbmc"</tag><tag>out.action.xbmc="video" </tag></item>
-			<item>ferme l'application xbmc musique<tag>out.action.action="quitxbmc"</tag><tag>out.action.xbmc="music" </tag></item>
-			<item>power off xbmc vidéo<tag>out.action.action="shutdownxbmc"</tag><tag>out.action.xbmc="video" </tag></item>
-			<item>power off xbmc musique<tag>out.action.action="shutdownxbmc"</tag><tag>out.action.xbmc="music" </tag></item>
-			<item>mise à jour de la librairie vidéo<tag>out.action.action="videolibraryscan"</tag><tag>out.action.xbmc="video" </tag></item>
-			<item>mise à jour de la librairie musicale<tag>out.action.action="audiolibraryscan"</tag><tag>out.action.xbmc="music" </tag></item>
-			<item>affiche les paroles de la chanson<tag>out.action.action="ExecuteAddon";out.action.parameters="script.cu.lrclyrics";out.action.value=1;</tag><tag>out.action.xbmc="music" </tag></item>
-			<item>affiche mes playlistes de musique<tag>out.action.xbmc="music";out.action.action="ActivateWindow";out.action.window="music";out.action.parameters="special://profile/playlists/music/";</tag></item>
+			<item>musique suivante<tag>out.action.action="next"; out.action.xbmc="music"; </tag></item>
+			<item>musique précédente<tag>out.action.action="prev"; out.action.xbmc="music"; </tag></item>
+			<item>met en pause la musique<tag>out.action.action="pause"; out.action.xbmc="music"; </tag></item>
+			<item>met la musique sur pause<tag>out.action.action="pause"; out.action.xbmc="music"; </tag></item>
+			<item>musique en pause<tag>out.action.action="pause"; out.action.xbmc="music"; </tag></item>
+			<item>arrête la musique <tag>out.action.action="ExecuteAction"; out.action.value="stop"; out.action.xbmc="music"; out.action.repeter=2; </tag></item> <!--repeter=2 pour pouvoir arrêter lorsque l'écran de veille est activé! -->
+			<item>arrête le film <tag>out.action.action="ExecuteAction"; out.action.value="stop"; out.action.xbmc="video"; </tag></item>
+			<item>reprends la musique<tag>out.action.action="play"; out.action.xbmc="music"; </tag></item>
+			<item>met en pause la série<tag>out.action.action="playvideo"; out.action.xbmc="video"; </tag></item>
+			<item>remet la série<tag>out.action.action="playvideo"; out.action.xbmc="video"; </tag></item>
+			<item>c'est quoi cette musique<tag>out.action.action="whatIsPlaying"; out.action.xbmc="music"; </tag></item>
+			<item>c'est quoi cette vidéo<tag>out.action.action="whatIsPlaying"; out.action.xbmc="video"; </tag></item>
+			<item>ferme l'application xbmc vidéo<tag>out.action.action="quitxbmc"; out.action.xbmc="video"; </tag></item>
+			<item>ferme l'application xbmc musique<tag>out.action.action="quitxbmc"; out.action.xbmc="music"; </tag></item>
+			<item>power off xbmc vidéo<tag>out.action.action="shutdownxbmc"; out.action.xbmc="video"; </tag></item>
+			<item>power off xbmc musique<tag>out.action.action="shutdownxbmc"; out.action.xbmc="music"; </tag></item>
+			<item>mise à jour de la librairie vidéo<tag>out.action.action="videolibraryscan"; out.action.xbmc="video"; </tag></item>
+			<item>mise à jour de la librairie musicale<tag>out.action.action="audiolibraryscan"; out.action.xbmc="music"; </tag></item>
+			<item>affiche les paroles de la chanson<tag>out.action.action="ExecuteAddon"; out.action.parameters="script.cu.lrclyrics"; out.action.value=1; out.action.xbmc="music"; </tag></item>
+			<item>affiche mes playlistes de musique<tag>out.action.xbmc="music"; out.action.action="ActivateWindow"; out.action.window="music"; out.action.parameters="special://profile/playlists/music/"; </tag></item>
 		</one-of>
 	</rule>  
   
 	<rule id="ruleXBMC_Radio" scope="public">
 		<example>SARAH je veux écouter la radio Fréquence 3</example>
 		<tag>out.action=new Object();</tag>
-		<tag>out.action.xbmc="music";</tag>
+		<tag>out.action.xbmc="music"; </tag>
 		<one-of>
-			<item>je veux écouter la radio <tag>out.action.action="radio";</tag></item>
+			<item>je veux écouter la radio <tag>out.action.action="radio"; </tag></item>
 		</one-of>
 		<one-of>
 		  <!-- l'ID de la radio peut être trouvé en tapant "http://radio.fr/info/index/searchembeddedbroadcast?start=0&rows=10&q=Nom Radio" dans un navigateur -->
-			<item>RTL2<tag>out.action.radioid="5170"</tag></item>
-			<item>Virgin Radio<tag>out.action.radioid="8275"</tag></item>
-			<item>Fun Radio<tag>out.action.radioid="4368"</tag></item>
-			<item>RFM<tag>out.action.radioid="2993"</tag></item>
-			<item>Europe 1<tag>out.action.radioid="2865"</tag></item>
-			<item>ère Thé eLle<tag>out.action.radioid="5168"</tag></item>
-			<item>éNeRgie<tag>out.action.radioid="8280"</tag></item>
-			<item>RMC Info<tag>out.action.radioid="1935"</tag></item>
-			<item>France Inter<tag>out.action.radioid="2843"</tag></item>
-			<item>France Info<tag>out.action.radioid="4232"</tag></item>
-			<item>FIP<tag>out.action.radioid="4234"</tag></item>
-			<item>Chérie FM<tag>out.action.radioid="8315"</tag></item>
-			<item>BFM<tag>out.action.radioid="1441"</tag></item>
-			<item>Skyrock<tag>out.action.radioid="8302"</tag></item>
-			<item>F G<tag>out.action.radioid="1577"</tag></item>
-			<item>Radio Classique<tag>out.action.radioid="1838"</tag></item>
-			<item>MFM<tag>out.action.radioid="1738"</tag></item>
-			<item>Beur FM<tag>out.action.radioid="4403"</tag></item>
-			<item>OUI FM<tag>out.action.radioid="4477"</tag></item>
-			<item>ADO FM<tag>out.action.radioid="4394"</tag></item>
-			<item>France Culture<tag>out.action.radioid="4233"</tag></item>
-			<item>Alouette<tag>out.action.radioid="1416"</tag></item>
-			<item>HOT MIX RADIO<tag>out.action.radioid="1632"</tag></item>
-			<item>Couleur 3<tag>out.action.radioid="1489"</tag></item>
-			<item>NRJ Hits<tag>out.action.radioid="12372"</tag></item>
-			<item>éRe Thé eSse<tag>out.action.radioid="3123"</tag></item>
-			<item>Fréquence 3<tag>out.action.radioid="1588"</tag></item>
-			<item>Pulsse Radio<tag>out.action.radioid="1813"</tag></item>
+			<item>RTL2<tag>out.action.radioid="5170"; </tag></item>
+			<item>Virgin Radio<tag>out.action.radioid="8275"; </tag></item>
+			<item>Fun Radio<tag>out.action.radioid="4368"; </tag></item>
+			<item>RFM<tag>out.action.radioid="2993"; </tag></item>
+			<item>Europe 1<tag>out.action.radioid="2865"; </tag></item>
+			<item>ère Thé eLle<tag>out.action.radioid="5168"; </tag></item>
+			<item>éNeRgie<tag>out.action.radioid="8280"; </tag></item>
+			<item>RMC Info<tag>out.action.radioid="1935"; </tag></item>
+			<item>France Inter<tag>out.action.radioid="2843"; </tag></item>
+			<item>France Info<tag>out.action.radioid="4232"; </tag></item>
+			<item>FIP<tag>out.action.radioid="4234"; </tag></item>
+			<item>Chérie FM<tag>out.action.radioid="8315"; </tag></item>
+			<item>BFM<tag>out.action.radioid="1441"; </tag></item>
+			<item>Skyrock<tag>out.action.radioid="8302"; </tag></item>
+			<item>F G<tag>out.action.radioid="1577"; </tag></item>
+			<item>Radio Classique<tag>out.action.radioid="1838"; </tag></item>
+			<item>MFM<tag>out.action.radioid="1738"; </tag></item>
+			<item>Beur FM<tag>out.action.radioid="4403"; </tag></item>
+			<item>OUI FM<tag>out.action.radioid="4477"; </tag></item>
+			<item>ADO FM<tag>out.action.radioid="4394"; </tag></item>
+			<item>France Culture<tag>out.action.radioid="4233"; </tag></item>
+			<item>Alouette<tag>out.action.radioid="1416"; </tag></item>
+			<item>HOT MIX RADIO<tag>out.action.radioid="1632"; </tag></item>
+			<item>Couleur 3<tag>out.action.radioid="1489"; </tag></item>
+			<item>NRJ Hits<tag>out.action.radioid="12372"; </tag></item>
+			<item>éRe Thé eSse<tag>out.action.radioid="3123"; </tag></item>
+			<item>Fréquence 3<tag>out.action.radioid="1588"; </tag></item>
+			<item>Pulsse Radio<tag>out.action.radioid="1813"; </tag></item>
 		</one-of>
 	</rule>  
   
   	<rule id="ruleXBMC_Tv" scope="public">
 		<example>SARAH je veux regarder la chaine M6</example>
 		<tag>out.action=new Object();</tag>
-		<tag>out.action.xbmc="video";</tag>
+		<tag>out.action.xbmc="video"; </tag>
 		<one-of>
-			<item>je veux regarder la chaine <tag>out.action.action="tv";</tag></item>
-			<item>affiche la chaine <tag>out.action.action="tv";</tag></item>
+			<item>je veux regarder la chaine <tag>out.action.action="tv"; </tag></item>
+			<item>affiche la chaine <tag>out.action.action="tv"; </tag></item>
 		</one-of>
 		<one-of>
 			<!-- Personalisation Channel ¤PERSOchannel¤ -->
 			<!-- ¤PERSOchannel¤ FIN Personalisation Channel -->
 			<!-- Automatic Generation Channel ¤IMPORTchannel¤ -->
-            <item>CHAINE NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n'a jamais été généré!"</tag></item>
+            <item>CHAINE NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n'a jamais été généré!"; </tag></item>
 			<!-- ¤IMPORTchannel¤ Automatic Generation Channel -->
 		</one-of>
 	</rule>  
@@ -107,19 +107,19 @@
   	<rule id="ruleXBMC_Film" scope="public">
 	<example>SARAH je veux regarder le film XXXX</example>
 	<tag>out.action=new Object();</tag>
-	<tag>out.action.xbmc="video";</tag>
+	<tag>out.action.xbmc="video"; </tag>
 	<one-of>
-	<item>Qu'est ce que j'ai comme film à voir?<tag>out.action.action="filmavoir";</tag></item>
+	<item>Qu'est ce que j'ai comme film à voir?<tag>out.action.action="filmavoir"; </tag></item>
 	<item>
 		<one-of>
-			<item>je veux regarder le film <tag>out.action.action="film";out.action.resume=0;out.action._attributes.tts = "Je mets le film";</tag></item>
-			<item>je veux regarder la suite du film <tag>out.action.action="film";out.action.resume=1;out.action._attributes.tts = "Je mets le film";</tag></item>
+			<item>je veux regarder le film <tag>out.action.action="film"; out.action.resume=0;out.action._attributes.tts = "Je mets le film"; </tag></item>
+			<item>je veux regarder la suite du film <tag>out.action.action="film"; out.action.resume=1;out.action._attributes.tts = "Je mets le film"; </tag></item>
 		</one-of>
 		<one-of>
 			<!-- Personalisation Film ¤PERSOfilm¤ -->
 			<!-- ¤PERSOfilm¤ FIN Personalisation Film -->
 			<!-- Automatic Generation Film ¤IMPORTfilm¤ -->
-            <item>FILM NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n'a jamais été généré!"</tag></item>
+            <item>FILM NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n'a jamais été généré!"; </tag></item>
 			<!-- ¤IMPORTfilm¤ Automatic Generation Channel -->
 		</one-of>
 	</item>
@@ -129,7 +129,7 @@
 	<rule id="ruleXBMC_playlist" scope="public">
 		<example>SARAH joue de la musique Rock</example>
 		<tag>out.action=new Object(); </tag>
-		<tag>out.action.xbmc="music" </tag>
+		<tag>out.action.xbmc="music"; </tag>
 		<one-of>
 			<item>met de la musique <tag>out.action.action="playlist"; </tag></item>
 			<item>joue de la musique <tag>out.action.action="playlist"; </tag></item>
@@ -138,7 +138,7 @@
 			<!-- Personalisation Genre ¤PERSOgenre¤ -->
 			<!-- ¤PERSOgenre¤ FIN Personalisation Genre -->
 			<!-- Automatic Generation Genre ¤IMPORTgenre¤ -->
-            <item>GENRE NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n'a jamais été généré!"</tag></item>
+            <item>GENRE NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n'a jamais été généré!"; </tag></item>
 			<!-- ¤IMPORTgenre¤ Automatic Generation Genre -->
 		</one-of>
 	</rule>
@@ -146,16 +146,16 @@
 		<rule id="ruleXBMC_File_playlist_music" scope="public">
 		<example>SARAH joue ma playliste _MaPlayList_</example>
 		<tag>out.action=new Object();</tag>
-		<tag>out.action.xbmc="music";</tag>
+		<tag>out.action.xbmc="music"; </tag>
 		<one-of>
-			<item>je veux écouter ma playliste <tag>out.action.action="playlistmusic";</tag></item>
-			<item>joue ma playliste <tag>out.action.action="playlistmusic";</tag></item>
+			<item>je veux écouter ma playliste <tag>out.action.action="playlistmusic"; </tag></item>
+			<item>joue ma playliste <tag>out.action.action="playlistmusic"; </tag></item>
 		</one-of>
 		<one-of>
 			<!-- Personalisation Channel ¤PERSOplaylistmusic¤ -->
 			<!-- ¤PERSOplaylistmusic¤ FIN Personalisation Channel -->
 			<!-- Automatic Generation Channel ¤IMPORTplaylistmusic¤ -->
-            <item>PLAYLIST MUSIC NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n'a jamais été généré!"</tag></item>
+            <item>PLAYLIST MUSIC NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n'a jamais été généré!"; </tag></item>
 			<!-- ¤IMPORTplaylistmusic¤ Automatic Generation Channel -->
 		</one-of>
 	</rule>  
@@ -163,15 +163,15 @@
 	<rule id="ruleXBMC_File_playlist_video" scope="public">
 		<example>SARAH affiche ma playliste _MaPlayList_</example>
 		<tag>out.action=new Object();</tag>
-		<tag>out.action.xbmc="video";</tag>
+		<tag>out.action.xbmc="video"; </tag>
 		<one-of>
-			<item>affiche ma playliste <tag>out.action.action="playlistvideo";</tag></item>
+			<item>affiche ma playliste <tag>out.action.action="playlistvideo"; </tag></item>
 		</one-of>
 		<one-of>
 			<!-- Personalisation Channel ¤PERSOplaylistvideo¤ -->
 			<!-- ¤PERSOplaylistvideo¤ FIN Personalisation Channel -->
 			<!-- Automatic Generation Channel ¤IMPORTplaylistvideo¤ -->
-            <item>PLAYLIST VIDEO NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n'a jamais été généré!"</tag></item>
+            <item>PLAYLIST VIDEO NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n'a jamais été généré!"; </tag></item>
 			<!-- ¤IMPORTplaylistvideo¤ Automatic Generation Channel -->
 		</one-of>
 	</rule>  
@@ -179,13 +179,13 @@
 	<rule id="ruleXBMC_Artist" scope="public">
 		<example>SARAH je veux écouter ACDC</example>
 		<tag>out.action=new Object();</tag>
-		<tag>out.action.xbmc="music" </tag>
-		<item>je veux écouter<tag>out.action.action="artist";</tag></item>
+		<tag>out.action.xbmc="music"; </tag>
+		<item>je veux écouter<tag>out.action.action="artist"; </tag></item>
 		<one-of>
 			<!-- Personalisation Artiste ¤PERSOartiste¤ -->
             <!-- ¤PERSOartiste¤ Fin de Personalisation Artiste -->
 			<!-- Automatic Generation Artist ¤IMPORTartiste¤ -->
-            <item>ARTIST NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n'a jamais été généré!"</tag></item>
+            <item>ARTIST NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n'a jamais été généré!"; </tag></item>
 			<!-- ¤IMPORTartiste¤ END Automatic Generation Artist -->
 		</one-of>
 	</rule>
@@ -193,22 +193,22 @@
 	<rule id="ruleXBMC_search" scope="public">
 		<example>SARAH recherche * dans les musiques</example>
 		<tag>out.action=new Object();</tag>
-		<tag>out.action.xbmc="music" </tag>
-		<tag>out.action.action="playlist";</tag>
+		<tag>out.action.xbmc="music"; </tag>
+		<tag>out.action.action="playlist"; </tag>
 		<item>recherche</item><ruleref special="GARBAGE" /><item>dans les  musiques</item>
-		<tag>out._attributes.dictation="true";</tag> 
+		<tag>out._attributes.dictation="true"; </tag> 
 	</rule>
 
 	<rule id="ruleXBMC_Serie" scope="public">
 		<example>SARAH met le prochain épisode des simpsons</example>
 		<tag>out.action=new Object();</tag>
-		<tag>out.action.xbmc="video" </tag>
-		<item>met le prochain épisode de<tag>out.action.action="tvshowtitle";</tag></item>
+		<tag>out.action.xbmc="video"; </tag>
+		<item>met le prochain épisode de<tag>out.action.action="tvshowtitle"; </tag></item>
 		<one-of>
 			<!-- Personalisation Série ¤PERSOseries¤ -->
 			<!-- ¤PERSOseries¤ Fin de personalisation Série -->
  			<!-- Automatic Generation Serie ¤IMPORTseries¤ -->
-            <item>SERIE NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n'a jamais été généré!"</tag></item>
+            <item>SERIE NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n'a jamais été généré!"; </tag></item>
 			<!-- ¤IMPORTseries¤ Automatic Generation Serie -->
 		</one-of>
 	</rule>
