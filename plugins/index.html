@@ -1,7 +1,7 @@
 <script type="text/javascript">
     jQuery(document).ready(function () {
         jQuery("#plugin-menu .plugin-nav a").click(function () {
-            jQuery("#plugin-menu .content > ul").hide();
+            jQuery("#plugin-menu .content > div").hide();
             jQuery("#plugin-menu .plugin-nav ul li").removeClass("active");
             jQuery(this).parent().addClass("active");
             jQuery("#" + jQuery(this).data("toggle")).show();
@@ -15,14 +15,14 @@
 	 Jean-Philippe Encausse, Jérôme Veyret, Maxime Hermouet, Guillaume Brebion, Aymeric, Vincent Legavre, vincent fresnel, Gevrey Loic, David M., Mad Ripper .
 			
 </p>
-
+<!-- JEROME -->
 <div id="plugin-menu" class="row">
     <!--Navigation-->
     <div class="stretch col-md-3 well plugin-nav">
         <ul class="nav nav-pills nav-stacked">
             <strong>Configuration</strong>
-				<li><a href="" data-toggle="plugin-config-tuto">Tutoriel <span class="badge pull-right">New</span></a></li>
-				<li><a href="" data-toggle="plugin-config-xbmc">XBMC</a></li>
+				<li><a href="#" data-toggle="plugin-config-tuto">Tutoriel <span class="badge pull-right">New</span></a></li>
+				<li><a href="#" data-toggle="plugin-config-xbmc">XBMC</a></li>
 				<li><a href="#" data-toggle="plugin-config-sarah">SARAH</a></li>
 				<li><a href="#" data-toggle="plugin-vox-test">Test de la configuration</a></li>
 				<li><a href="#" data-toggle="plugin-vox-errors">Erreurs</a></li>
@@ -34,7 +34,7 @@
 				<li><a href="#" data-toggle="plugin-addon_StreamCam_Installation">Installation <span class="badge pull-right">New</span></a></li>
 				<li><a href="#" data-toggle="plugin-addon_StreamCam_Utilisation">Utilisation <span class="badge pull-right">New</span></a></li>
             <strong>Commandes vocales</strong>
-				<li><a href="#" data-toggle="plugin-vox-examples">Exemples</a></li>
+				<li><a href="#" data-toggle="plugin-vox-examples">Exemples <span class="badge pull-right">New</span></a></li>
             <strong>Mode XBMC (Voice commander)</strong>
 				<li><a href="#" data-toggle="plugin-xbmccommander1">Activation / Désactivation</a></li>
 				<li><a href="#" data-toggle="plugin-xbmccommander2">Les commandes vocales</a></li>
@@ -46,668 +46,728 @@
        </ul>
     </div>
 	<!--Content-->
-	<div class="col-md-9 content">
+	<div class="col-md-9 well content">
+	<!--Version-->
+		<div class="panel panel-primary" id="plugin-version-xbmc" > 
+			<div class="panel-heading">Versions</div>
+			<div class="panel-body">
+				<ul class="unstyled" >
+					<li><strong> Version X.X:</strong></br>
+					[X] Les nouveautés dans la documentation sont indiquées <span class="badge">New</span></br>
+					[X] Ajout de la fonction StreamCam et règle XML StreamCam</br>
+					[X] Ajout de l'Addon XBMC: StreamCam (pour XBMC 12 & 13 Frodo - Gotham) </br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Un grand merci à Mad Ripper.</br>
+					[X] Ajout de l'Addon XBMC: Sarah and XBMC (pour XBMC 13 - Gotham)</br>
+					[X] Intègre la fonction Event de Sarah pour informer tous les plugins d'un changement du status des Xbmc</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href='https://github.com/JpEncausse/SARAH-Documentation/wiki/JavaScript-API#event' target=_blank>Cf Doc .../wiki/JavaScript-API#event</a> </br>
+					[X] Mise à jour du <em>xbmc.status</em> lors du démarrage du serveur Sarah.</br>
+					[X] Ajout de <em>lastaction</em> dans le xbmc.status (pour exploitation par d'autres plugins)</br>
+					[X] Correction du bug <em>arrête la musique</em> avec l'écran de veille actif</br>
+					[X] Amélioration  <em>Lecture / Pause </em> (contrôle si lecture avant de faire pause et inversement)</br>
+					[X] Amélioration de l'aide lors test de configuration</br>
+					[X] Amélioration des importations XML (cas de destruction de la strucure du XML)</br>
+					</li></br>
+
+					<li>Version 1.7:</br>
+					[X] Addon XBMC: Sarah and XBMC. </br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fourni à tous les plugins de Sarah, l'état (status) de/des XBMC en temps réel</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (en lecture, en pause, lecture terminée, stop, titre, nom de la série, film ou série, album, fichier en cours....). </br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Possibilité d'utiliser la commande de ce status via les règles IFTTT pour agir sur une action XBMC</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (même si ce n'est pas Sarah à l'origine de cette action: Stop depuis un clic ou télécommande) </br>
+					[X] Affichage sur xbmc de la liste des playlistes vidéo ou de musique .</br>
+					[X] Lecture d'une playlist (.m3u) ou smartlist (.xsp) musicale .</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Il est conseillé de fixer une limite lors de la configuration d'une smartlist (playliste futée) pour gagner en rapidité.<br>
+					[X] Importation XML des playlists (.m3u) et smartlist (.xsp) musicale .</br>
+					[X] Affichage sur Xbmc d'une smartlist (.xsp) vidéo .</br>
+					[X] Importation XML des smartlist (.xsp) vidéo .</br>
+					[X] Afficher les paroles la chanson</br>
+					[X] Choisir les sous-titres (en mode XBMC seulement).</br>
+					[X] Afficher/Enlever les sous-titres (en mode XBMC seulement).</br>
+					</li></br>
+
+					<li> Version 1.6:</br>
+					[X] Test de configuration et communication.</br>
+					[X] Simplification configuration: [IP]:[Port]</br>
+					[X] Correction Mode Xbmc: possiblité de prononcer juste le titre de la chanson (avant: 01.artiste machin - chanson truc)</br>
+					[X] Qu'est ce que j'ai comme film à voir?</br>
+					[X] importation XML des films (+personnalisation)</br>
+					[X] lecture (ou reprise) d'un film </br>
+					[X] importation XML des chaînes TV</br>
+					[X] PVR Affichage directe d'une chaine via XML</br>
+					[X] mise à jour de la Médiathèque (musicale ou vidéo)</br>
+					[X] Conversion des nombres (max 999) en lettre pour résoudre le problème de reconnaissance vocale des chiffres.</br>
+					[X] PVR Affichage directe d'une chaine depuis plugin Progtv (V1.3 ou +)</br>
+					[X] DIRECT-TV : Affichage des chaînes TV, Radios, Guide des programmes, Enregistrements.</br>
+					[X] Nouvelle gestion du menu lateral et options.</br>
+					[X] Fermer XBMC ou Eteindre la machine</br>
+					[X] Correction du bug du context lazzy de xbmc_temp.xml (-> lazzyxbmc_temp.xml + Rules)</br>
+					</li></br>
+						
+					<li> Version 1.5:</br>
+					[X] Mode Xbmc Voice commander.</br>
+					[X] Intégration des radios.</br>
+					[X] Intégration des addons (youtube...).</br>
+					[X] Saisie de texte vocalement.</br>
+					...
+					</li></br>
+				</ul>
+			</div>
+		</div>
+    <!--Tuto XBMC-->
+		<div class="panel panel-primary" id="plugin-config-tuto" style="display: none;"> 
+			<div class="panel-heading">Tutoriel: Utilisation de XBMC avec SARAH <span class="badge">New</span></div>
+			<div class="panel-body">
+				<ul class="unstyled" >
+					<li> Un très bon tutoriel de <em>Maison et Domotique</em>:</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://maison-et-domotique.com/books/utilisation-de-xbmc-avec-sarah/' target=_blank>http://maison-et-domotique.com/books/utilisation-de-xbmc-avec-sarah/</a></br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Un grand merci à <em>Sébastien Leborgne</em> pour ce tuto.</br>
+					</li></br>
+					<li>Prenez malgré tout le temps de lire cette documentation pour avoir des infos supplémentaires.
+					</li></br>
+				</ul>
+			</div>
+		</div>
+ 
+    <!--Config XBMC-->
+		<div class="panel panel-primary" id="plugin-config-xbmc" style="display: none;"> 
+			<div class="panel-heading">Configuration - XBMC</div>
+			<div class="panel-body">
+				<ul class="unstyled" >
+					<li> Permettre le contrôle de XBMC en HTTP et vérifier le port.</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Système -> Paramètres -> services -> Serveur Web</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ne mettez surtout pas le port 8080 si XBMC est sur la même machine que Sarah) 
+					
+					</li></br>
+						
+					<li> Ajouter de la musique dans la Médiathèque: <br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Ajouter une source<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Clique droit sur la source => 'Ajouter à la médiathèque'
+					</li></br>
+					<li> Vérifier l'accès à XBMC depuis votre navigateur:
+						<em>http://ip:port</em></li></br>
+					<li> Mettez de la musique sur XBMC pour la suite des essais...</li></br>
+					<li><strong>(Facultatif)</strong> Pour pouvoir lire les playlist .M3U:</br>
+					Par défaut, Xbmc prends les fichiers .M3U pour des images!</br>
+					Il est nécessaire de supprimer cette affectation en rajoutant ces lignes</br>
+					<em>&lt;advancedsettings&gt;</br>
+					&nbsp;&nbsp;&lt;pictureextensions&gt;</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&lt;remove&gt;.m3u&lt;/remove&gt;</br>
+					&nbsp;&nbsp;&lt;/pictureextensions&gt;</br>
+					&lt;/advancedsettings&gt;</em></br>
+					dans le fichier de configuration <em>advancedsettings.xml </em> (Le fichier est a créer si besoin)</br>
+					plus d'info <a href='http://trac.xbmc.org/ticket/14124' target=_blank>ICI</a> et <a href='http://wiki.xbmc.org/?title=Advancedsettings.xml' target=_blank>LA</a>!</br>
+					</li></br>
+
+					<li> <strong>(Facultatif)</strong> Installer l'extension <em>Radio</em> dans Xbmc:<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <em>Musiques -> Extensions -> plus -> Radio (auteur: Tristan Fisher) -> Installer </em></li></br>
+					<li> <strong>(Facultatif)</strong> Installer le plugin YouTube dans Xbmc:<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <em>vidéo -> Extensions -> plus -> YouTube (auteur: TheCollective) -> Installer</em></li></br>
+				</ul>
+			</div>
+		</div>
+	<!--Config SARAH-->
+		<div class="panel panel-primary" id="plugin-config-sarah" style="display: none;"> 
+			<div class="panel-heading">Configuration - S.A.R.A.H.</div>
+			<div class="panel-body">
+				<ul class="unstyled">
+					<li> Paramétrer le plugin avec l'<strong>IP</strong> et
+						<strong>port</strong> de XBMC (musique et vidéo).</br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- exemple:</br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;api_url_xbmc_music	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 127.0.0.1:8800</br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;api_url_xbmc_video	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 192.168.0.1:8800</br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Si le xbmc gérant la musique et la vidéo est le même, remplissez les 2 champs avec les mêmes infos.</br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Si xbmc est installé sur la même machine que Sarah (Nodejs), préférez 127.0.0.1 à l'adresse local (le plugin sera plus réactif avec cette IP).<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- La notion xbmc musique/vidéo est un exemple, vous pouvez organiser ça comme vous le souhaitez. (pensez à modifier le xml)</br>
+				   </li></br>
+					<li> <strong>Si la musique est toujours en cours sur XBMC,</strong> Faites un essai pause/lecture en cliquant ici: <a
+							href='../sarah/xbmc?action=play&xbmc=music' target=_blank>
+						../sarah/xbmc?action=play</a>. Si ce simple essai fonctionne, tout va bien! (sinon aller directement à 'Test de la configuration')
+					</li><br>
+					<li> <strong>(Facultatif)</strong> Si vous souhaitez moins de log dans la console NodeJS:<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- éditez le fichier <em>xbmc.js</em> et mettez la variable <em>infodebug</em> à <em>false</em>.</li></br>
+				</ul>
+			</div>
+		</div>
+	<!--ADDON Sarah and Xbmc installation -->
+		<div class="panel panel-primary" id="plugin-addon_Sarahandxbmc_Installation" style="display: none;"> 
+			<div class="panel-heading">Addon Sarah and XBMC: Installation</div>
+			<div class="panel-body">
+				<ul class="unstyled" >
+					<strong> L'installation de cet Addon sur le/les XBMC n'est pas obligatoire mais peux offir des possiblités interessantes d'interactions avec d'autres plugins de Sarah.</strong></br></br></br>
+					<li><strong> Attention 2 versions de l'addon:</strong> <span class="badge">New</span></br></br>
+					&nbsp;&nbsp;- <em>addonSarahAndXbmc.Frodo-1.0.zip</em> pour XBMC 12 - Frodo</br>
+					&nbsp;&nbsp;- <em>addonSarahAndXbmc.Gotham-1.0.zip</em> pour XBMC 13 - Gotham</br>
+					</li></br>
+					<li><strong> Installation sur XBMC:</strong></br></br>
+					&nbsp;&nbsp;- <em>Système -> Extensions --(racine)--> <strong> Installer depuis un fichier zip</strong>  --(sélectionner le fichier joint au plugin) --> OK </em></br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L'extension s'installe</br>
+					&nbsp;&nbsp;- <em>Extensions activées ->  Services --> Sarah and XBMC --> <strong> Configurer</strong>  </em></br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Saisissez l'IP de Sarah</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Saisissez le port de Sarah</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Saisissez quel est cet XBMC pour Sarah (music ou video ou les 2 à la fois)</br>
+					&nbsp;&nbsp;- <em>Redémarrer XBMC </em></br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;La console Sarah server devrait indiquer: <em>plugin xbmc -  XBMC (########) a indiqué avoir démarré.</em>
+					</li>
+				</ul>
+			</div>
+		</div>
+	<!--ADDON Sarah and Xbmc Principe et Structure -->
+		<div class="panel panel-primary" id="plugin-addon_Sarahandxbmc_Principe" style="display: none;"> 
+			<div class="panel-heading">Addon Sarah and XBMC: Principe et Structure</div>
+			<div class="panel-body">
+				<ul class="unstyled" >
+					<li><strong> Principe :</strong></br></br>
+					Sarah est avertie dès que vous faites lecture, pause, re-lecture, stop d'un média (musique, film, série, streaming,..) ou que celui se termine sans en enchainer un autre.</br></br>
+					
+					La dernière action de xbmc est indiqué dans le status par <em>status.lastaction</em>. <span class="badge">New</span></br></br>
+					
+					Le status est maintenant mis à jour lors du démarrage du serveur. <span class="badge">New</span></br></br>
+
+					Un Status est ainsi créer dans le contexte de Sarah: <strong>SARAH.context.xbmc.status</strong>.</br></br>
+					
+					<li><strong> Structure et données du status (Json):</strong></br></br>
+					SARAH.context.xbmc.status:{</br>
+					<table class="table">
+					
+					<tr><td>statusvideo : </td><td>{</td><td> status du Xbmc identifié comme "video" dans la config du plugin</td></tr>
+					<tr><td> </td><td>xbmc: true/false, </td><td>true si cet XBMC a démarré, false si arrêté</td></tr>
+					<tr><td> </td><td>player: 'stop/play/pause',</td><td>Lecture arrêtée, en cours, en pause</td></tr>
+					<tr><td> </td><td>episode: -1/1/2/...,</td><td>-1 = ce n'est pas une série. Sinon, numéro de l'épisode</td></tr>
+					<tr><td> </td><td>file: 'X:\\fichier',</td><td>Emplacement et nom du fichier</td></tr>
+					<tr><td> </td><td>label: 'nomdufichier',</td><td>le nom du fichier</td></tr>
+					<tr><td> </td><td>season: -1/1/2/...,</td><td>-1 = ce n'est pas une série. Sinon, numéro de la saison</td></tr>
+					<tr><td> </td><td>showtitle: 'nomdelasérie',</td><td>vide si ce n'est pas une série ou Le nom de la série </td></tr>
+					<tr><td> </td><td>title: 'letitre',</td><td>Le titre du film, de l'épisode ou du média (streaming, TV, web..)</td></tr>
+					<tr><td> </td><td>type: 'movie/episode/unknow' </td><td>Film, série ou inconnu (streaming, TV, web..)</td></tr>
+					<tr><td> </td><td>},</td><td></td></tr>
+					<tr><td>statusmusic:</td><td>{</td><td> status du Xbmc identifié comme "music" dans la config du plugin</td></tr>
+					<tr><td> </td><td>xbmc: true/false, </td><td>true si cet XBMC a démarré, false si arrêté</td></tr>
+					<tr><td> </td><td>player: 'stop/play/pause',</td><td>Lecture arrêtée, en cours, en pause</td></tr>
+					<tr><td> </td><td>artist: ['nomdelartiste'],</td><td>Attention ARRAY du/des Nom d'artiste</td></tr>
+					<tr><td> </td><td>album: 'nomdelalbum',</td><td>Nom de l'album</td></tr>
+					<tr><td> </td><td>title: 'titredelachanson',</td><td>Titre</td></tr>
+					<tr><td> </td><td>label: 'nomdufichier',</td><td>le nom du fichier</td></tr>
+					<tr><td> </td><td>file: 'X:\\fichier',</td><td>Emplacement et nom du fichier</td></tr>
+					<tr><td> </td><td>},</td><td></td></tr>
+					<tr><td>statusmixed: </td><td>'stop/play/pause'</td><td>Status global: Stop si les 2 Xbmc sont en stop, Play si au moins l'un est en lecture, pause dans les autres cas</td></tr>
+					<tr><td>lastaction: </br> <span class="badge">New</span> </td><td>'dernière action'</td><td>Dernière action reçue: </br>
+										&nbsp;&nbsp;'music_and_video_xbmc_started'/'music_xbmc_started'/'video_xbmc_started'</br>
+										&nbsp;&nbsp;'music_and_video_xbmc_ended' / 'music_xbmc_ended' / 'video_xbmc_ended'</br>
+										&nbsp;&nbsp;'music_and_video_database_updated'/music_database_updated'/'video_database_updated'</br>
+										&nbsp;&nbsp;'video_started'/'video_paused'/'video_resumed'/'video_ended'/'video_stopped'/</br>
+										&nbsp;&nbsp;'audio_started'/'audio_paused'/'audio_resumed'/'audio_ended'/'audio_stopped'/</br>
+					</td></tr>
+					</table>
+					}
+					</li>
+				</ul>
+			</div>
+		</div>
+ 	<!--ADDON Sarah and Xbmc Utilisation -->
+		<div class="panel panel-primary" id="plugin-addon_Sarahandxbmc_Utilisation" style="display: none;"> 
+			<div class="panel-heading">Addon Sarah and XBMC: Utilisation</div>
+			<div class="panel-body">
+				<ul class="unstyled" >
+					<li><strong>  Variable Context de Sarah:</strong> </br></br>
+					Ce status peut être interrogé par un autre plugin de Sarah via le context:  SARAH.context.xbmc.status</br>
+					exemple: ne lire un nouveau mail que si il n'y a pas de musique en cours:</br>
+					if (SARAH.context.xbmc.status.statusmusic.player=='stop') { ... }</br>
+					</li></br>
+					
+					<li><strong>  Règle IFTTT de Sarah:</strong> </br></br>
+					La commande du status venant de xbmc peut être 'intercepté' par un autre plugin via les règles IFTTT de Sarah</br>
+					Cf doc de Sarah sur les règles IFTTT</br>
+					exemple: allumer/éteindre la lumière si Lecture/Pause d'un film ou d'une série</br>
+					La dernière action de xbmc est indiqué dans le status par <em>status.lastaction</em> (Cf Structure du json) ce qui permet d'agir directement sur valeur de cette variable.</br>
+					</li></br>
+					
+					<li><strong>  fonction Event de Sarah</strong> <span class="badge">New</span></br></br>
+					Cette fonction permet d'avertir les autres plugins dès un changement de status de xbmc.</br>
+					<a href='https://github.com/JpEncausse/SARAH-Documentation/wiki/JavaScript-API#event' target=_blank>La doc de Sarah à ce sujet : .../wiki/JavaScript-API#event</a></br>
+					Cela equivaut à l'utilisation des IFTTT mais ce programme directement dans le plugin dans lequel vous souhaiter interroger le status xbmc.
+					La dernière action de xbmc est indiqué dans le status par <em>status.lastaction</em> (Cf Structure du json) ce qui permet d'agir directement sur valeur de cette variable.</br>
+					exemple: éteindre la lumière si mise en <em>pause</em> d'un film </br>
+					dans votre plugin:</br>
+					&nbsp;&nbsp;exports.init = function(SARAH){</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SARAH.listen('xbmc', function(data){</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (data.lastaction=='video_paused') {  votre code ici pour allumer la lumière}</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (data.lastaction=='video_resumed') {  votre code ici pour éteindre la lumière}</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (data.lastaction=='video_ended') {  Sarah.speak('Le film était bien?');}</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (data.lastaction=='video_xbmc_ended') {  Sarah.speak('bonne nuit!');}</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});</br>
+					&nbsp;&nbsp;}</br>
+					</li></br>
+				</ul>
+			</div>
+		</div>
+
+
+	<!--ADDON StreamCam installation -->
+		<div class="panel panel-primary" id="plugin-addon_StreamCam_Installation" style="display: none;"> 
+			<div class="panel-heading">Addon StreamCam pour XBMC: Installation <span class="badge">New</span></div>
+			<div class="panel-body">
+				<ul class="unstyled" >
+					<li><strong> L'installation de cet Addon sur XBMC n'est pas obligatoire.</strong></li></br>
+					<li><strong> Il permet:</strong></br></br>
+					Il permet l'affichage du streaming d'une ou plusieurs caméras en simultanées sur xbmc</br>
+					Il est possible d'afficher ce streaming dans des fenetres sans arrêter la lecture du média en cours.
+					L'affichage ne dure que 15s</br>
+					La source doit être une image et non une vidéo.</br>
+					</li></br>
+					<li><strong> Installation sur XBMC:</strong></br></br>
+					&nbsp;&nbsp;- <em>Système -> Extensions --(racine)--> <strong> Installer depuis un fichier zip</strong> --(sélectionner <em>script.streamcam-1.1.zip</em> joint au plugin)--> OK </em></br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L'extension s'installe</br>
+					&nbsp;&nbsp;- <em>Extensions activées ->  Video --> StreamCam doit être maintenant présent.  </em></br>
+					&nbsp;&nbsp;- <em>Redémarrer XBMC </em></br>
+					</li>
+				</ul>
+			</div>
+		</div>
 		
-		<!--Version-->
-		<ul class="unstyled" id="plugin-version-xbmc">
-			<div class="alert alert-success">Versions</div>
-			<li><i class="icon-play-circle"></i><strong> Version X.X:</strong></br>
-			[X] Les nouveautés dans la documentation sont indiquées <span class="badge">New</span></br>
-			[X] Ajout de la fonction StreamCam et règle XML StreamCam</br>
-			[X] Ajout de l'Addon XBMC: StreamCam (pour XBMC 12 & 13 Frodo - Gotham) </br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Un grand merci à Mad Ripper.</br>
-			[X] Ajout de l'Addon XBMC: Sarah and XBMC (pour XBMC 13 - Gotham)</br>
-			[X] Intègre la fonction Event de Sarah pour informer tous les plugins d'un changement du status des Xbmc</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href='https://github.com/JpEncausse/SARAH-Documentation/wiki/JavaScript-API#event' target=_blank>Cf Doc .../wiki/JavaScript-API#event</a> </br>
-			[X] Mise à jour du <em>xbmc.status</em> lors du démarrage du serveur Sarah.</br>
-			[X] Ajout de <em>lastaction</em> dans le xbmc.status (pour exploitation par d'autres plugins)</br>
-			[X] Correction du bug <em>arrête la musique</em> avec l'écran de veille actif</br>
-			[X] Amélioration  <em>Lecture / Pause </em> (contrôle si lecture avant de faire pause et inversement)</br>
-			[X] Amélioration de l'aide lors test de configuration</br>
-			[X] Amélioration des importations XML (cas de destruction de la strucure du XML)</br>
-			</li></br>
 
-			<li><i class="icon-play-circle"></i> Version 1.7:</br>
-			[X] Addon XBMC: Sarah and XBMC. </br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fourni à tous les plugins de Sarah, l'état (status) de/des XBMC en temps réel</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (en lecture, en pause, lecture terminée, stop, titre, nom de la série, film ou série, album, fichier en cours....). </br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Possibilité d'utiliser la commande de ce status via les règles IFTTT pour agir sur une action XBMC</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (même si ce n'est pas Sarah à l'origine de cette action: Stop depuis un clic ou télécommande) </br>
-			[X] Affichage sur xbmc de la liste des playlistes vidéo ou de musique .</br>
-			[X] Lecture d'une playlist (.m3u) ou smartlist (.xsp) musicale .</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Il est conseillé de fixer une limite lors de la configuration d'une smartlist (playliste futée) pour gagner en rapidité.<br>
-			[X] Importation XML des playlists (.m3u) et smartlist (.xsp) musicale .</br>
-			[X] Affichage sur Xbmc d'une smartlist (.xsp) vidéo .</br>
-			[X] Importation XML des smartlist (.xsp) vidéo .</br>
-			[X] Afficher les paroles la chanson</br>
-			[X] Choisir les sous-titres (en mode XBMC seulement).</br>
-			[X] Afficher/Enlever les sous-titres (en mode XBMC seulement).</br>
-			</li></br>
-
-			<li><i class="icon-play-circle"></i> Version 1.6:</br>
-			[X] Test de configuration et communication.</br>
-			[X] Simplification configuration: [IP]:[Port]</br>
-			[X] Correction Mode Xbmc: possiblité de prononcer juste le titre de la chanson (avant: 01.artiste machin - chanson truc)</br>
-			[X] Qu'est ce que j'ai comme film à voir?</br>
-			[X] importation XML des films (+personnalisation)</br>
-			[X] lecture (ou reprise) d'un film </br>
-			[X] importation XML des chaînes TV</br>
-			[X] PVR Affichage directe d'une chaine via XML</br>
-			[X] mise à jour de la Médiathèque (musicale ou vidéo)</br>
-			[X] Conversion des nombres (max 999) en lettre pour résoudre le problème de reconnaissance vocale des chiffres.</br>
-			[X] PVR Affichage directe d'une chaine depuis plugin Progtv (V1.3 ou +)</br>
-			[X] DIRECT-TV : Affichage des chaînes TV, Radios, Guide des programmes, Enregistrements.</br>
-			[X] Nouvelle gestion du menu lateral et options.</br>
-			[X] Fermer XBMC ou Eteindre la machine</br>
-			[X] Correction du bug du context lazzy de xbmc_temp.xml (-> lazzyxbmc_temp.xml + Rules)</br>
-			</li></br>
-				
-            <li><i class="icon-play-circle"></i> Version 1.5:</br>
-			[X] Mode Xbmc Voice commander.</br>
-			[X] Intégration des radios.</br>
-			[X] Intégration des addons (youtube...).</br>
-			[X] Saisie de texte vocalement.</br>
-			...
-			</li></br>
-		</ul>
-
-       <!--Tuto XBMC-->
-		<ul class="unstyled" id="plugin-config-tuto" style="display: none;">
-			<div class="alert alert-success">Tutoriel: Utilisation de XBMC avec SARAH <span class="badge">New</span></div>
-			
-			<li><i class="icon-play-circle"></i> Un très bon tutoriel de <em>Maison et Domotique</em>:</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://maison-et-domotique.com/books/utilisation-de-xbmc-avec-sarah/' target=_blank>http://maison-et-domotique.com/books/utilisation-de-xbmc-avec-sarah/</a></br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Un grand merci à <em>Sébastien Leborgne</em> pour ce tuto.</br>
-			</li></br>
-			<li>Prenez malgré tout le temps de lire cette documentation pour avoir des infos supplémentaires.
-			</li></br>
-	       </ul>
- 
- 
-        <!--Config XBMC-->
-		<ul class="unstyled" id="plugin-config-xbmc" style="display: none;">
-			<div class="alert alert-success">Configuration - XBMC</div>
-			
-			<li><i class="icon-play-circle"></i> Permettre le contrôle de XBMC en HTTP et vérifier le port.</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Système -> Paramètres -> services -> Serveur Web</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ne mettez surtout pas le port 8080 si XBMC est sur la même machine que Sarah) 
-			
-			</li></br>
-				
-            <li><i class="icon-play-circle"></i> Ajouter de la musique dans la Médiathèque: <br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Ajouter une source<br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Clique droit sur la source => 'Ajouter à la médiathèque'
-            </li></br>
-            <li><i class="icon-play-circle"></i> Vérifier l'accès à XBMC depuis votre navigateur:
-                <em>http://ip:port</em></li></br>
-            <li><i class="icon-play-circle"></i> Mettez de la musique sur XBMC pour la suite des essais...</li></br>
-			<li><i class="icon-play-circle"></i><strong>(Facultatif)</strong> Pour pouvoir lire les playlist .M3U:</br>
-			Par défaut, Xbmc prends les fichiers .M3U pour des images!</br>
-			Il est nécessaire de supprimer cette affectation en rajoutant ces lignes</br>
-			<em>&lt;advancedsettings&gt;</br>
-			&nbsp;&nbsp;&lt;pictureextensions&gt;</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&lt;remove&gt;.m3u&lt;/remove&gt;</br>
-			&nbsp;&nbsp;&lt;/pictureextensions&gt;</br>
-			&lt;/advancedsettings&gt;</em></br>
-			dans le fichier de configuration <em>advancedsettings.xml </em> (Le fichier est a créer si besoin)</br>
-			plus d'info <a href='http://trac.xbmc.org/ticket/14124' target=_blank>ICI</a> et <a href='http://wiki.xbmc.org/?title=Advancedsettings.xml' target=_blank>LA</a>!</br>
-			</li></br>
-
-			<li><i class="icon-play-circle"></i> <strong>(Facultatif)</strong> Installer l'extension <em>Radio</em> dans Xbmc:<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <em>Musiques -> Extensions -> plus -> Radio (auteur: Tristan Fisher) -> Installer </em></li></br>
-			<li><i class="icon-play-circle"></i> <strong>(Facultatif)</strong> Installer le plugin YouTube dans Xbmc:<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <em>vidéo -> Extensions -> plus -> YouTube (auteur: TheCollective) -> Installer</em></li></br>
-        </ul>
-        <!--Config SARAH-->
-        <ul class="unstyled" id="plugin-config-sarah" style="display: none;">
- 			<div class="alert alert-success">Configuration - S.A.R.A.H.</div>
-
-           <li><i class="icon-play-circle"></i> Paramétrer le plugin avec l'<strong>IP</strong> et
-                <strong>port</strong> de XBMC (musique et vidéo).</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- exemple:</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;api_url_xbmc_music	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 127.0.0.1:8800</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;api_url_xbmc_video	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 192.168.0.1:8800</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Si le xbmc gérant la musique et la vidéo est le même, remplissez les 2 champs avec les mêmes infos.</br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Si xbmc est installé sur la même machine que Sarah (Nodejs), préférez 127.0.0.1 à l'adresse local (le plugin sera plus réactif avec cette IP).<br>
- 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- La notion xbmc musique/vidéo est un exemple, vous pouvez organiser ça comme vous le souhaitez. (pensez à modifier le xml)</br>
-           </li></br>
-            <li><i class="icon-play-circle"></i> <strong>Si la musique est toujours en cours sur XBMC,</strong> Faites un essai pause/lecture en cliquant ici: <a
-                    href='../sarah/xbmc?action=play&xbmc=music' target=_blank>
-                ../sarah/xbmc?action=play</a>. Si ce simple essai fonctionne, tout va bien! (sinon aller directement à 'Test de la configuration')
-            </li><br>
-			<li><i class="icon-play-circle"></i> <strong>(Facultatif)</strong> Si vous souhaitez moins de log dans la console NodeJS:<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- éditez le fichier <em>xbmc.js</em> et mettez la variable <em>infodebug</em> à <em>false</em>.</li></br>
-        </ul>
- 
-		<!--ADDON Sarah and Xbmc installation -->
-        <ul class="unstyled" id="plugin-addon_Sarahandxbmc_Installation" style="display: none;">
- 			<div class="alert alert-success">Addon Sarah and XBMC: Installation</div>
-			<strong> L'installation de cet Addon sur le/les XBMC n'est pas obligatoire mais peux offir des possiblités interessantes d'interactions avec d'autres plugins de Sarah.</strong></br></br></br>
-			<li><i class="icon-play-circle"></i><strong> Attention 2 versions de l'addon:</strong> <span class="badge">New</span></br></br>
-            &nbsp;&nbsp;- <em>addonSarahAndXbmc.Frodo-1.0.zip</em> pour XBMC 12 - Frodo</br>
-            &nbsp;&nbsp;- <em>addonSarahAndXbmc.Gotham-1.0.zip</em> pour XBMC 13 - Gotham</br>
-  			</li></br>
-			<li><i class="icon-play-circle"></i><strong> Installation sur XBMC:</strong></br></br>
-            &nbsp;&nbsp;- <em>Système -> Extensions --(racine)--> <strong> Installer depuis un fichier zip</strong>  --(sélectionner le fichier joint au plugin) --> OK </em></br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L'extension s'installe</br>
-            &nbsp;&nbsp;- <em>Extensions activées ->  Services --> Sarah and XBMC --> <strong> Configurer</strong>  </em></br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Saisissez l'IP de Sarah</br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Saisissez le port de Sarah</br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Saisissez quel est cet XBMC pour Sarah (music ou video ou les 2 à la fois)</br>
-            &nbsp;&nbsp;- <em>Redémarrer XBMC </em></br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;La console Sarah server devrait indiquer: <em>plugin xbmc -  XBMC (########) a indiqué avoir démarré.</em>
-			</li>
-		</ul>
-
-		<!--ADDON Sarah and Xbmc Principe et Structure -->
-		<ul class="unstyled" id="plugin-addon_Sarahandxbmc_Principe" style="display: none;">
- 			<div class="alert alert-success">Addon Sarah and XBMC: Principe et Structure </div>
-			<li><i class="icon-play-circle"></i><strong> Principe :</strong></br></br>
-            Sarah est avertie dès que vous faites lecture, pause, re-lecture, stop d'un média (musique, film, série, streaming,..) ou que celui se termine sans en enchainer un autre.</br></br>
-			
-			La dernière action de xbmc est indiqué dans le status par <em>status.lastaction</em>. <span class="badge">New</span></br></br>
-			
-			Le status est maintenant mis à jour lors du démarrage du serveur. <span class="badge">New</span></br></br>
-
-			Un Status est ainsi créer dans le contexte de Sarah: <strong>SARAH.context.xbmc.status</strong>.</br></br>
-			
-			<li><i class="icon-play-circle"></i><strong> Structure et données du status (Json):</strong></br></br>
-			SARAH.context.xbmc.status:{</br>
-			<table class="table">
-			
-			<tr><td>statusvideo : </td><td>{</td><td> status du Xbmc identifié comme "video" dans la config du plugin</td></tr>
-			<tr><td> </td><td>xbmc: true/false, </td><td>true si cet XBMC a démarré, false si arrêté</td></tr>
-			<tr><td> </td><td>player: 'stop/play/pause',</td><td>Lecture arrêtée, en cours, en pause</td></tr>
-			<tr><td> </td><td>episode: -1/1/2/...,</td><td>-1 = ce n'est pas une série. Sinon, numéro de l'épisode</td></tr>
-			<tr><td> </td><td>file: 'X:\\fichier',</td><td>Emplacement et nom du fichier</td></tr>
-			<tr><td> </td><td>label: 'nomdufichier',</td><td>le nom du fichier</td></tr>
-			<tr><td> </td><td>season: -1/1/2/...,</td><td>-1 = ce n'est pas une série. Sinon, numéro de la saison</td></tr>
-			<tr><td> </td><td>showtitle: 'nomdelasérie',</td><td>vide si ce n'est pas une série ou Le nom de la série </td></tr>
-			<tr><td> </td><td>title: 'letitre',</td><td>Le titre du film, de l'épisode ou du média (streaming, TV, web..)</td></tr>
-			<tr><td> </td><td>type: 'movie/episode/unknow' </td><td>Film, série ou inconnu (streaming, TV, web..)</td></tr>
-			<tr><td> </td><td>},</td><td></td></tr>
-			<tr><td>statusmusic:</td><td>{</td><td> status du Xbmc identifié comme "music" dans la config du plugin</td></tr>
-			<tr><td> </td><td>xbmc: true/false, </td><td>true si cet XBMC a démarré, false si arrêté</td></tr>
-			<tr><td> </td><td>player: 'stop/play/pause',</td><td>Lecture arrêtée, en cours, en pause</td></tr>
-			<tr><td> </td><td>artist: ['nomdelartiste'],</td><td>Attention ARRAY du/des Nom d'artiste</td></tr>
-			<tr><td> </td><td>album: 'nomdelalbum',</td><td>Nom de l'album</td></tr>
-			<tr><td> </td><td>title: 'titredelachanson',</td><td>Titre</td></tr>
-			<tr><td> </td><td>label: 'nomdufichier',</td><td>le nom du fichier</td></tr>
-			<tr><td> </td><td>file: 'X:\\fichier',</td><td>Emplacement et nom du fichier</td></tr>
-			<tr><td> </td><td>},</td><td></td></tr>
-			<tr><td>statusmixed: </td><td>'stop/play/pause'</td><td>Status global: Stop si les 2 Xbmc sont en stop, Play si au moins l'un est en lecture, pause dans les autres cas</td></tr>
-			<tr><td>lastaction: </br> <span class="badge">New</span> </td><td>'dernière action'</td><td>Dernière action reçue: </br>
-								&nbsp;&nbsp;'music_and_video_xbmc_started'/'music_xbmc_started'/'video_xbmc_started'</br>
-								&nbsp;&nbsp;'music_and_video_xbmc_ended' / 'music_xbmc_ended' / 'video_xbmc_ended'</br>
-								&nbsp;&nbsp;'music_and_video_database_updated'/music_database_updated'/'video_database_updated'</br>
-								&nbsp;&nbsp;'video_started'/'video_paused'/'video_resumed'/'video_ended'/'video_stopped'/</br>
-								&nbsp;&nbsp;'audio_started'/'audio_paused'/'audio_resumed'/'audio_ended'/'audio_stopped'/</br>
-			</td></tr>
-			</table>
-			}
-			</li>
-			</ul>
-
- 		<!--ADDON Sarah and Xbmc Utilisation -->
-		<ul class="unstyled" id="plugin-addon_Sarahandxbmc_Utilisation" style="display: none;">
-			<div class="alert alert-success">Addon Sarah and XBMC: Utilisation</div>
-			
-			<li><i class="icon-play-circle"></i><strong>  Variable Context de Sarah:</strong> </br></br>
-			Ce status peut être interrogé par un autre plugin de Sarah via le context:  SARAH.context.xbmc.status</br>
-			exemple: ne lire un nouveau mail que si il n'y a pas de musique en cours:</br>
-			if (SARAH.context.xbmc.status.statusmusic.player=='stop') { ... }</br>
-			</li></br>
-			
-			<li><i class="icon-play-circle"></i><strong>  Règle IFTTT de Sarah:</strong> </br></br>
-			La commande du status venant de xbmc peut être 'intercepté' par un autre plugin via les règles IFTTT de Sarah</br>
-			Cf doc de Sarah sur les règles IFTTT</br>
-			exemple: allumer/éteindre la lumière si Lecture/Pause d'un film ou d'une série</br>
-			La dernière action de xbmc est indiqué dans le status par <em>status.lastaction</em> (Cf Structure du json) ce qui permet d'agir directement sur valeur de cette variable.</br>
-			</li></br>
-			
-			<li><i class="icon-play-circle"></i><strong>  fonction Event de Sarah</strong> <span class="badge">New</span></br></br>
-			Cette fonction permet d'avertir les autres plugins dès un changement de status de xbmc.</br>
-			<a href='https://github.com/JpEncausse/SARAH-Documentation/wiki/JavaScript-API#event' target=_blank>La doc de Sarah à ce sujet : .../wiki/JavaScript-API#event</a></br>
-			Cela equivaut à l'utilisation des IFTTT mais ce programme directement dans le plugin dans lequel vous souhaiter interroger le status xbmc.
-			La dernière action de xbmc est indiqué dans le status par <em>status.lastaction</em> (Cf Structure du json) ce qui permet d'agir directement sur valeur de cette variable.</br>
-			exemple: éteindre la lumière si mise en <em>pause</em> d'un film </br>
-			dans votre plugin:</br>
-			&nbsp;&nbsp;exports.init = function(SARAH){</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SARAH.listen('xbmc', function(data){</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (data.lastaction=='video_paused') {  votre code ici pour allumer la lumière}</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (data.lastaction=='video_resumed') {  votre code ici pour éteindre la lumière}</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (data.lastaction=='video_ended') {  Sarah.speak('Le film était bien?');}</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (data.lastaction=='video_xbmc_ended') {  Sarah.speak('bonne nuit!');}</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});</br>
-			&nbsp;&nbsp;}</br>
-			</li></br>
-		</ul>
-
-
-		<!--ADDON StreamCam installation -->
-        <ul class="unstyled" id="plugin-addon_StreamCam_Installation" style="display: none;">
- 			<div class="alert alert-success">Addon StreamCam pour XBMC: Installation <span class="badge">New</span></div>
-			<li><strong> L'installation de cet Addon sur XBMC n'est pas obligatoire.</strong></li></br>
-			<li><strong> Il permet:</strong></br></br>
-			Il permet l'affichage du streaming d'une ou plusieurs caméras en simultanées sur xbmc</br>
-			Il est possible d'afficher ce streaming dans des fenetres sans arrêter la lecture du média en cours.
-			L'affichage ne dure que 15s</br>
-			La source doit être une image et non une vidéo.</br>
-			</li></br>
-			<li><i class="icon-play-circle"></i><strong> Installation sur XBMC:</strong></br></br>
-            &nbsp;&nbsp;- <em>Système -> Extensions --(racine)--> <strong> Installer depuis un fichier zip</strong> --(sélectionner <em>script.streamcam-1.1.zip</em> joint au plugin)--> OK </em></br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L'extension s'installe</br>
-            &nbsp;&nbsp;- <em>Extensions activées ->  Video --> StreamCam doit être maintenant présent.  </em></br>
-            &nbsp;&nbsp;- <em>Redémarrer XBMC </em></br>
- 			</li>
-		</ul>
-
-		<!--ADDON StreamCam installation -->
-        <ul class="unstyled" id="plugin-addon_StreamCam_Utilisation" style="display: none;">
- 			<div class="alert alert-success">Addon StreamCam pour XBMC: Utilisation <span class="badge">New</span></div>
-			<li><i class="icon-play-circle"></i><strong>3 Paramètres: </strong></br></br>
-			<strong><em>xbmc</em></strong> - Le xbmc cible: music ou video</br>
-			<strong><em>url</em></strong> - l'url de l'image de la caméra</br>
-			<strong><em>window</em></strong> - le numéro de fenêtre souhaité pour l'affichage</br>
-			&nbsp;&nbsp;&nbsp;&nbsp; de 1 à 4 : 4 fenetres de 320x240 situées sur la partie basse l'écran.</br>
-			&nbsp;&nbsp;&nbsp;&nbsp; de 5 à 6 : 2 fenetres de 640x480 </br>
-			&nbsp;&nbsp;&nbsp;&nbsp; 7 : une fenetres de 1280x720</br>
-			</li></br>
-			<li><i class="icon-play-circle"></i><strong>Commande Vocale: </strong></br></br>
-			2 exemples sont présents dans xbmc.XML, à vous d'adapter pour votre configuration (xbmc ? , url ? , window?)</br>
-			<strong> Attention de ne pas mettre le symbol <em>&amp;</em> dans l'url: le remplacer par <em>&amp;amp;</em></strong></br>
-			
-			</li></br>
-			
-			<li><i class="icon-play-circle"></i><strong>Appel via url: </strong></br></br>
-			.../sarah/xbmc?xbmc=<strong><em>music_ou_video</em></strong>&amp;action=StreamCam&amp;url=<strong><em>url_image_cam</em></strong>&amp;window=<strong><em>num_fenetre</em></strong></br>
-			exemple:</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;.../sarah/xbmc?xbmc=video&amp;action=StreamCam&amp;url=http://192.168.xxx.xxx/axis-cgi/jpg/image.cgi&amp;window=7
-			</li></br>
-			<li><i class="icon-play-circle"></i><strong>Appel interne plugin : </strong></br></br>
-			SARAH.call('xbmc', {</br>
-			&nbsp;&nbsp;&nbsp;&nbsp; 'xbmc' : '<strong><em>music_ou_video</em></strong>' ,</br>
-			&nbsp;&nbsp;&nbsp;&nbsp; 'action' : 'StreamCam' ,</br>
-			&nbsp;&nbsp;&nbsp;&nbsp; 'url' : '<strong><em>url_image_cam</em></strong>' , </br>
-			&nbsp;&nbsp;&nbsp;&nbsp; 'window' :  <strong><em>num_fenetre</em></strong> </br>
-			}, function(options){   };</br></br>
-			Exemple:  </br>
-			SARAH.call('xbmc', {</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;'xbmc' : 'video' ,</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;'action' : 'StreamCam' ,</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;'url' : 'http://192.168.xxxx.xxx/axis-cgi/jpg/image.cgi' , </br>
-			&nbsp;&nbsp;&nbsp;&nbsp;'window' :  7 </br>
-			}, function(options){   };</br>
-			</li></br>
-<!--			<li><i class="icon-play-circle"></i><strong>Le json (pour info): </strong></br>
-			&nbsp;&nbsp;- { "jsonrpc": "2.0", "method": "Addons.ExecuteAddon", "params": { "wait": false, "addonid": "script.streamcam", "params": ["<strong><em>url_image_cam</em></strong>","<strong><em>num_fenetre</em></strong>"]}, "id":0}</br>
-			&nbsp;&nbsp;- exemple: { "jsonrpc": "2.0", "method": "Addons.ExecuteAddon", "params": { "wait": false, "addonid": "script.streamcam", "params": ["http://192.168.xxxx.xxx/axis-cgi/jpg/image.cgi","7"]}, "id":0} </br>
-			</li></br>
--->			
-		</ul>
-		<!--Exemples-->
-        <ul class="unstyled" id="plugin-vox-examples" style="display: none;">
- 			<div class="alert alert-success">Commandes Vocales - Exemples</div>
-			<li><i class="icon-play-circle"></i><strong> Quelques commandes:</strong></br></br>
-			Sarah, musique en pause.</br></br>
-            Sarah, reprends la musique.</br></br>
-            Sarah, joue de la musique Rock/pop/... (si importation des genres).</br></br>
-            Sarah, je veux écouter ACDC/Coeur de pirate/... (si importation des artistes).</br></br>
-            Sarah, je veux regarder (le)/(la suite du) film trucbidule (si importation des films).</br></br>
-            Sarah, recherche ****** dans les musiques (tentera de trouver **** dans les titres, artistes ou genres).</br></br>
-            Sarah, je veux écouter la radio NRJ/Fréquence 3/... (si plugin "Radio" installé dans xbmc).<br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Quelques radios ont déjà été ajouté dans xbmc.xml, vous pouvez en rajouter.</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- L'ID de la radio peut être trouvé en tapant <em>http://radio.fr/info/index/searchembeddedbroadcast?start=0&rows=10&q=Nom Radio</em> dans un navigateur</br></br>
-			Sarah, c'est quoi cette musique/vidéo ?</br></br>
-             Sarah, met le prochain épisode de House/Braquo/...(si importation des séries).</br></br>
-            Sarah, je veux regarder la chaine TF1.</br></br>
-            Sarah, met à jour la librairie musisale (ou vidéo).</br></br>
-            Sarah, power off xbmc vidéo (ou musique).</br></br>
-            Sarah, ferme l'application xbmc musique (ou vidéo).</br></br>
-            Qu'est ce que j'ai comme film à voir? (Sarah indique le nombre de films non vu et en cite 3 au hasard).</br></br>
-            Sarah, affiche la caméra XXXXXXXXX sur xbmc.</br></br>
-			</li>
-			<li><i class="icon-play-circle"></i><strong>Liste complète des commandes (hors mode xbmc):</strong></br></br>
-				Sarah, active le mode xbmc </br>
-				Sarah, musique suivante </br>
-				Sarah, musique précédente </br>
-				Sarah, met en pause la musique </br>
-				Sarah, musique en pause </br>
-				Sarah, arrête la musique </br>
-				Sarah, arrête le film</br>
-				Sarah, met la musique sur pause </br>
-				Sarah, reprends la musique </br>
-				Sarah, met en pause la série </br>
-				Sarah, remet la série </br>
-				Sarah, c'est quoi cette musique </br>
-				Sarah, c'est quoi cette vidéo </br>
-				Sarah, ferme l'application xbmc vidéo </br>
-				Sarah, ferme l'application xbmc musique </br>
-				Sarah, power off xbmc vidéo </br>
-				Sarah, power off xbmc musique </br>
-				Sarah, mise à jour de la librairie vidéo </br>
-				Sarah, mise à jour de la librairie musicale </br>
-				Sarah, je veux écouter la radio RTL2/Virgin Radio/Fun Radio/... </br>
-				Sarah, je veux regarder la chaine TF1/France 2/... (importation XML nécessaire) </br>
-				Sarah, affiche la chaine TF1/France 2/... (importation XML nécessaire) </br>
-				Sarah, Qu'est ce que j'ai comme film à voir? </br>
-				Sarah, je veux regarder le film XXnomdufilmXX (importation XML nécessaire) </br>
-				Sarah, je veux regarder la suite du film XXnomdufilmXX (importation XML nécessaire) </br>
-				Sarah, met de la musique XXXGenreXXX... (importation XML nécessaire) </br>
-				Sarah, joue de la musique XXXGenreXXX (importation XML nécessaire) </br>
-				Sarah, je veux écouter XXArtistXX (importation XML nécessaire)</br>
-				Sarah, met le prochain épisode de XXSérieXX (importation XML nécessaire) </br>
-				Sarah, je veux écouter ma playliste XXMaPlaylistXX (importation XML nécessaire) </br>
-				Sarah, joue ma playliste XXMaPlaylistMusicXX (importation XML nécessaire) </br>
-				Sarah, affiche ma playliste XXMaPlaylistVideoXX (importation XML nécessaire) </br>
-				Sarah, affiche les playlistes de musique </br>
-				Sarah, affiche les paroles de la chanson </br>
-				Sarah, affiche la caméra XXXXXXXXX sur xbmc.</br></br>
-        </ul>
-        <!--Test-->
-        <ul class="unstyled" id="plugin-vox-test" style="display: none;">
-        	<div class="alert alert-success">Configuration - Test</div>
-			<li><i class="icon-play-circle"></i>Si vous n'arrivez pas à faire communiquer Sarah et vos (/votre) XBMC, vous pouvez effectuer ce test. Celui ci devrait pouvoir vous guider sur la cause du problème. 
-			</br>Il est nécessaire de démarrer les XBMC 'music' et 'video' (ou un seul XBMC si 'music' et 'video' sont un seul XBMC).
-			</br>Le teste ne fonctionne pas si vous avez installer le NodeJS sur Linux.
-			</br><a href='../sarah/xbmc?action=testconfig' target=_blank> Cliquez sur ce lien pour lancer le test.</a>
-	        </li>
-        </ul>
-       <!--Erreurs-->
-        <ul class="unstyled" id="plugin-vox-errors" style="display: none;">
-        	<div class="alert alert-success">Configuration - Erreurs</div>
-			<li><i class="icon-play-circle"></i> <em>"Je n'ai pas pu contacter le serveur"</em> : Aucune réponse de XBMC
-                (ip, port, autorisation http...?)
-            </li>
-            <li><i class="icon-play-circle"></i> <em>"Je n'ai pas pu executer l'action"</em> : Réponse de XBMC mais
-                incorrecte. (XML...?)
-            </li>
-        </ul>
-       <!--XBMC Commander 1 -->
-        <ul class="unstyled" id="plugin-xbmccommander1" style="display: none;">
-			<div class="alert alert-success">Mode XBMC - Activation/Désactivation</div>
-			<li><i class="icon-play-circle"></i> <strong>Le mode XBMC </strong>permet de controler/télécommander XBMC sans devoir répéter "Sarah".</br></br>
-			</li>
-			<li><i class="icon-play-circle"></i><strong> Activation:</strong></br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <em>Sarah, active le mode xbmc</em> (Sarah répond)</br></br>
-			</li>
-			<li><i class="icon-play-circle"></i><strong> Désactivation:</strong></br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <em>Merci, ça sera tout Sarah</em> (Sarah répond) </br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ou<br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <em>Automatiquement</em> après un temps sans nouvelle commande</br></br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Durant le 'mode XBMC', seuls les fichiers lazyxbmc.xml et xbmc_temp.xml sont traité par Sarah.<br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vos autres plugins ne sont plus opérationnels.</br></br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Sarah contrôle toujours de manière plus précise le 1er mot (qui n'est plus <em>Sarah</em>) </br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Il faut donc bien prononcer le 1er mot (ou adapter le xml en fonction de vos préférences).</br></br>
-			</li>
-			<li><i class="icon-play-circle"></i><strong> Le mode a été testé et développé avec le thème par défaut de XBMC: <em>Confluence</em>.</strong> </br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Il fonctionne aussi avec Aeon Nox.</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Aucune garantie de fonctionnement avec les autres thèmes.</br>
- 			</li>
-        </ul>
-       <!--XBMC Commander 2 -->
-        <ul class="unstyled" id="plugin-xbmccommander2" style="display: none;">
- 			<div class="alert alert-success">Mode XBMC - Les commandes vocales</div>
-            <li><i class="icon-play-circle"></i><strong> Quelques commandes:</strong></br></br>
-			Gauche, droite, monte, descend, ok, retour, info...</br></br>
-			2ème à Gauche, 5ème à droite, 2ème au dessus, 4ème en dessous, au début, à la fin,...</br></br>
-			Monte le son, baisse le son, coupe le son, remet le son, mets le son à 70%,...</br></br>
-			Menu principale, affiche les séries, affiche les musiques par artiste, affiche la météo, ferme la fenêtre ...</br></br>
-			Ajoute ça, enlève ça (à la playlist), affiche la playlist</br></br>
-			Fait un scrolling avant, arrête le scrolling , affichage en liste, affichage en vignette,...</br></br>
-			Affiche les radios (si extension musique xbmc "radio" de Tristan Fisher)</br></br>
-			Affiche YouTube (si addon youtube)</br>
-			Affiche les paroles de la chanson </br>
-			Choisir les sous-titres</br>
-			Affiche/enlève les sous-titres</br>
-			</li></br>
-			<li><i class="icon-play-circle"></i><strong> Liste complète des commandes:</strong></br></br>
-				Merci ça sera tout, SARAH </br>
-				droite </br>
-				à droite </br>
-				deuxième à droite </br>
-				troisième à droite </br>
-				quatrième à droite </br>
-				cinquième à droite </br>
-				gauche </br>
-				à gauche </br>
-				deuxième à gauche </br>
-				troisième à gauche </br>
-				quatrième à gauche </br>
-				cinquième à gauche </br>
-				remonte </br>
-				monte </br>
-				page suivante </br>
-				va plus haut </br>
-				plus haut </br>
-				au dessus </br>
-				deuxième au dessus </br>
-				troisième au dessus </br>
-				quatrième au dessus </br>
-				cinquième au dessus </br>
-				descend </br>
-				redescend </br>
-				page précédente </br>
-				plus bas </br>
-				va plus bas </br>
-				au dessous </br>
-				deuxième au dessous </br>
-				troisième au dessous </br>
-				quatrième au dessous </br>
-				cinquième au dessous </br>
-				deuxième en dessous </br>
-				troisième en dessous </br>
-				quatrième en dessous </br>
-				cinquième en dessous </br>
-				à la fin  </br>
-				au début </br>
-				Lettre suivante </br>
-				Lettre précdente </br>
-				fait un scrolling </br>
-				fait un scrolling avant </br>
-				fait un scrolling avant rapide </br>
-				fait un scrolling inverse </br>
-				fait un scrolling arrière </br>
-				arrête le scrolling </br>
-				Importation des personnalisations </br>
-				menu principal </br>
-				affiche la télé </br>
-				affiche la météo </br>
-				affiche les séries </br>
-				affiche  les films </br>
-				affiche  les musiques </br>
-				affiche  les musiques par albums </br>
-				affiche  les musiques par artistes </br>
-				Sous menu </br>
-				Retour </br>
-				Info </br>
-				ferme la fenetre </br>
-				analyse le contenu </br>
-				Marquer comme vu </br>
-				Affiche les radios (nécessite l'extension) </br>
-				Affiche YouTube (nécessite l'extension) </br>
-				choisi </br>
-				valider </br>
-				valide </br>
-				ok </br>
-				select </br>
-				sélectionner </br>
-				affichage en liste </br>
-				affichage en vignette </br>
-				affichage en affiches </br>
-				affichage large </br>
-				affichage Fanart </br>
-				affichage suivant </br>
-				Trier par année </br>
-				Trier par titre </br>
-				Trier par épisode </br>
-				Trier par durée </br>
-				Trier par intérêt </br>
-				affiche les chaine TV </br>
-				affiche les chaine Radio </br>
-				affiche les programmes </br>
-				affiche les programmes suivant </br>
-				affiche les programmes chronologie </br>
-				affiche les enregistrements </br>
-				Trie ascendant </br>
-				Trie descendant </br>
-				play liste </br>
-				ajoute ça </br>
-				enlève ça </br>
-				enlève ça et les deux suivantes </br>
-				enlève ça et les trois suivantes </br>
-				enlève ça et les quattre suivantes </br>
-				suivante </br>
-				précédent </br>
-				lecture </br>
-				pause </br>
-				met en pause </br>
-				met en pause la musique </br>
-				met en pause la lecture </br>
-				stop </br>
-				arrête la lecture </br>
-				en arrière </br>
-				en arrière rapidement </br>
-				en arrière très rapidement </br>
-				en avant rapidement  </br>
-				en avant très rapidement  </br>
-				avance un peu </br>
-				recule un peu </br>
-				saut en avant 10m </br>
-				saut en arrière 10m </br>
-				zoume avant </br>
-				gros zoume avant </br>
-				zoom arrière </br>
-				gros zoom arrière </br>
-				aucun zoom </br>
-				zoom normal </br>
-				active le mode aléatoire </br>
-				enlève le mode aléatoire </br>
-				monte franchement le son </br>
-				monte un peu le son </br>
-				baisse franchement le son </br>
-				baisse un peu le son </br>
-				coupe le son </br>
-				remet le son </br>
-				mets le son à 10%/20%/...90%/100% </br>
-				c'est quoi cette musique </br>
-				qu'est ce que j'écoute </br>
-				qu'est ce que je regarde </br>
-				autre vue </br>
-				dossier précédent </br>
-				affiche le lecteur  </br>
-				OSD </br>
-				cache le lecteur  </br>
-				fermer </br>
-				épisode suivant </br>
-				introspect </br>
-				écris dans la fenêtre XXtexteaecrireXX </br>
-				affiche les paroles de la chanson</br>
-				choisir les sous-titres </br>
-				affiche les sous-titres </br>
-				enlève les sous-titres </br>
-				Sarah, affiche les playlistes vidéo </br>
-				Sarah, affiche les playlistes de musique </br>
-
-        </ul>
+	<!--ADDON StreamCam installation -->
+ 		<div class="panel panel-primary" id="plugin-addon_StreamCam_Utilisation" style="display: none;"> 
+			<div class="panel-heading">Addon StreamCam pour XBMC: Utilisation <span class="badge">New</span></div>
+			<div class="panel-body">
+				<ul class="unstyled" >
+					<li><strong>3 Paramètres: </strong></br></br>
+					<strong><em>xbmc</em></strong> - Le xbmc cible: music ou video</br>
+					<strong><em>url</em></strong> - l'url de l'image de la caméra</br>
+					<strong><em>window</em></strong> - le numéro de fenêtre souhaité pour l'affichage</br>
+					&nbsp;&nbsp;&nbsp;&nbsp; de 1 à 4 : 4 fenetres de 320x240 situées sur la partie basse l'écran.</br>
+					&nbsp;&nbsp;&nbsp;&nbsp; de 5 à 6 : 2 fenetres de 640x480 </br>
+					&nbsp;&nbsp;&nbsp;&nbsp; 7 : une fenetres de 1280x720</br>
+					</li></br>
+					<li><strong>Commande Vocale: </strong></br></br>
+					2 exemples sont présents dans xbmc.XML, à vous d'adapter pour votre configuration (xbmc ? , url ? , window?)</br>
+					<strong> Attention de ne pas mettre le symbol <em>&amp;</em> dans l'url: le remplacer par <em>&amp;amp;</em></strong></br>
+					
+					</li></br>
+					
+					<li><strong>Appel via url: </strong></br></br>
+					.../sarah/xbmc?xbmc=<strong><em>music_ou_video</em></strong>&amp;action=StreamCam&amp;url=<strong><em>url_image_cam</em></strong>&amp;window=<strong><em>num_fenetre</em></strong></br>
+					exemple:</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;.../sarah/xbmc?xbmc=video&amp;action=StreamCam&amp;url=http://192.168.xxx.xxx/axis-cgi/jpg/image.cgi&amp;window=7
+					</li></br>
+					<li><strong>Appel interne plugin : </strong></br></br>
+					SARAH.call('xbmc', {</br>
+					&nbsp;&nbsp;&nbsp;&nbsp; 'xbmc' : '<strong><em>music_ou_video</em></strong>' ,</br>
+					&nbsp;&nbsp;&nbsp;&nbsp; 'action' : 'StreamCam' ,</br>
+					&nbsp;&nbsp;&nbsp;&nbsp; 'url' : '<strong><em>url_image_cam</em></strong>' , </br>
+					&nbsp;&nbsp;&nbsp;&nbsp; 'window' :  <strong><em>num_fenetre</em></strong> </br>
+					}, function(options){   };</br></br>
+					Exemple:  </br>
+					SARAH.call('xbmc', {</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;'xbmc' : 'video' ,</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;'action' : 'StreamCam' ,</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;'url' : 'http://192.168.xxxx.xxx/axis-cgi/jpg/image.cgi' , </br>
+					&nbsp;&nbsp;&nbsp;&nbsp;'window' :  7 </br>
+					}, function(options){   };</br>
+					</li></br>
+					<!--	<li><strong>Le json (pour info): </strong></br>
+							&nbsp;&nbsp;- { "jsonrpc": "2.0", "method": "Addons.ExecuteAddon", "params": { "wait": false, "addonid": "script.streamcam", "params": ["<strong><em>url_image_cam</em></strong>","<strong><em>num_fenetre</em></strong>"]}, "id":0}</br>
+							&nbsp;&nbsp;- exemple: { "jsonrpc": "2.0", "method": "Addons.ExecuteAddon", "params": { "wait": false, "addonid": "script.streamcam", "params": ["http://192.168.xxxx.xxx/axis-cgi/jpg/image.cgi","7"]}, "id":0} </br>
+							</li></br>
+					-->			
+				</ul>
+			</div>
+		</div>
+	<!--Exemples-->
+ 		<div class="panel panel-primary" id="plugin-vox-examples" style="display: none;"> 
+			<div class="panel-heading">Commandes Vocales - Exemples</div>
+			<div class="panel-body">
+				<ul class="unstyled" >
+					<li><strong> Quelques commandes:</strong></br></br>
+						Sarah, musique en pause.</br></br>
+						Sarah, reprends la musique.</br></br>
+						Sarah, joue de la musique Rock/pop/... (si importation des genres).</br></br>
+						Sarah, je veux écouter ACDC/Coeur de pirate/... (si importation des artistes).</br></br>
+						Sarah, je veux regarder (le)/(la suite du) film trucbidule (si importation des films).</br></br>
+						Sarah, recherche ****** dans les musiques (tentera de trouver **** dans les titres, artistes ou genres).</br></br>
+						Sarah, je veux écouter la radio NRJ/Fréquence 3/... (si plugin "Radio" installé dans xbmc).<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Quelques radios ont déjà été ajouté dans xbmc.xml, vous pouvez en rajouter.</br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- L'ID de la radio peut être trouvé en tapant <em>http://radio.fr/info/index/searchembeddedbroadcast?start=0&rows=10&q=Nom Radio</em> dans un navigateur</br></br>
+						Sarah, c'est quoi cette musique/vidéo ?</br></br>
+						 Sarah, met le prochain épisode de House/Braquo/...(si importation des séries).</br></br>
+						Sarah, je veux regarder la chaine TF1.</br></br>
+						Sarah, met à jour la librairie musisale (ou vidéo).</br></br>
+						Sarah, power off xbmc vidéo (ou musique).</br></br>
+						Sarah, ferme l'application xbmc musique (ou vidéo).</br></br>
+						Qu'est ce que j'ai comme film à voir? (Sarah indique le nombre de films non vu et en cite 3 au hasard).</br></br>
+						Sarah, affiche la caméra XXXXXXXXX sur xbmc.<span class="badge">New</span></br></br>
+					</li>
+					<li><strong>Liste complète des commandes (hors mode xbmc):</strong></br></br>
+						Sarah, active le mode xbmc </br>
+						Sarah, musique suivante </br>
+						Sarah, musique précédente </br>
+						Sarah, met en pause la musique </br>
+						Sarah, musique en pause </br>
+						Sarah, arrête la musique </br>
+						Sarah, arrête le film</br>
+						Sarah, met la musique sur pause </br>
+						Sarah, reprends la musique </br>
+						Sarah, met en pause la série </br>
+						Sarah, remet la série </br>
+						Sarah, c'est quoi cette musique </br>
+						Sarah, c'est quoi cette vidéo </br>
+						Sarah, ferme l'application xbmc vidéo </br>
+						Sarah, ferme l'application xbmc musique </br>
+						Sarah, power off xbmc vidéo </br>
+						Sarah, power off xbmc musique </br>
+						Sarah, mise à jour de la librairie vidéo </br>
+						Sarah, mise à jour de la librairie musicale </br>
+						Sarah, je veux écouter la radio RTL2/Virgin Radio/Fun Radio/... </br>
+						Sarah, je veux regarder la chaine TF1/France 2/... (importation XML nécessaire) </br>
+						Sarah, affiche la chaine TF1/France 2/... (importation XML nécessaire) </br>
+						Sarah, Qu'est ce que j'ai comme film à voir? </br>
+						Sarah, je veux regarder le film XXnomdufilmXX (importation XML nécessaire) </br>
+						Sarah, je veux regarder la suite du film XXnomdufilmXX (importation XML nécessaire) </br>
+						Sarah, met de la musique XXXGenreXXX... (importation XML nécessaire) </br>
+						Sarah, joue de la musique XXXGenreXXX (importation XML nécessaire) </br>
+						Sarah, je veux écouter XXArtistXX (importation XML nécessaire)</br>
+						Sarah, met le prochain épisode de XXSérieXX (importation XML nécessaire) </br>
+						Sarah, je veux écouter ma playliste XXMaPlaylistXX (importation XML nécessaire) </br>
+						Sarah, joue ma playliste XXMaPlaylistMusicXX (importation XML nécessaire) </br>
+						Sarah, affiche ma playliste XXMaPlaylistVideoXX (importation XML nécessaire) </br>
+						Sarah, affiche les playlistes de musique </br>
+						Sarah, affiche les paroles de la chanson </br>
+						Sarah, affiche la caméra XXXXXXXXX sur xbmc.<span class="badge">New</span></br></br>
+					</li>
+				</ul>
+			</div>
+		</div>
+	<!--Test-->
+		<div class="panel panel-primary" id="plugin-vox-test" style="display: none;"> 
+			<div class="panel-heading">Configuration - Test</div>
+			<div class="panel-body">
+				<ul class="unstyled" >
+					<li>Si vous n'arrivez pas à faire communiquer Sarah et vos (/votre) XBMC, vous pouvez effectuer ce test. Celui ci devrait pouvoir vous guider sur la cause du problème. 
+						</br>Il est nécessaire de démarrer les XBMC 'music' et 'video' (ou un seul XBMC si 'music' et 'video' sont un seul XBMC).
+						</br>Le teste ne fonctionne pas si vous avez installer le NodeJS sur Linux.
+						</br><a href='../sarah/xbmc?action=testconfig' target=_blank> Cliquez sur ce lien pour lancer le test.</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+    <!--Erreurs-->
+		<div class="panel panel-primary" id="plugin-vox-errors" style="display: none;"> 
+			<div class="panel-heading">Configuration - Erreurs</div>
+			<div class="panel-body">
+				<ul class="unstyled" >
+					<li> <em>"Je n'ai pas pu contacter le serveur"</em> : Aucune réponse de XBMC
+						(ip, port, autorisation http...?)
+					</li>
+					<li> <em>"Je n'ai pas pu executer l'action"</em> : Réponse de XBMC mais
+						incorrecte. (XML...?)
+					</li>
+				</ul>
+			</div>
+		</div>
+	<!--XBMC Commander 1 -->
+		<div class="panel panel-primary" id="plugin-xbmccommander1" style="display: none;"> 
+			<div class="panel-heading">Mode XBMC - Activation/Désactivation</div>
+			<div class="panel-body">
+				<ul class="unstyled" >
+					<li> <strong>Le mode XBMC </strong>permet de controler/télécommander XBMC sans devoir répéter "Sarah".</br></br>
+					</li>
+					<li><strong> Activation:</strong></br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <em>Sarah, active le mode xbmc</em> (Sarah répond)</br></br>
+					</li>
+					<li><strong> Désactivation:</strong></br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <em>Merci, ça sera tout Sarah</em> (Sarah répond) </br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ou<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <em>Automatiquement</em> après un temps sans nouvelle commande</br></br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Durant le 'mode XBMC', seuls les fichiers lazyxbmc.xml et xbmc_temp.xml sont traité par Sarah.<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vos autres plugins ne sont plus opérationnels.</br></br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Sarah contrôle toujours de manière plus précise le 1er mot (qui n'est plus <em>Sarah</em>) </br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Il faut donc bien prononcer le 1er mot (ou adapter le xml en fonction de vos préférences).</br></br>
+					</li>
+					<li><strong> Le mode a été testé et développé avec le thème par défaut de XBMC: <em>Confluence</em>.</strong> </br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Il fonctionne aussi avec Aeon Nox.</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Aucune garantie de fonctionnement avec les autres thèmes.</br>
+					</li>
+				</ul>
+			</div>
+		</div>
+	<!--XBMC Commander 2 -->
+		<div class="panel panel-primary" id="plugin-xbmccommander2" style="display: none;"> 
+			<div class="panel-heading">Mode XBMC - Les commandes vocales</div>
+			<div class="panel-body">
+				<ul class="unstyled" >
+					   <li><strong> Quelques commandes:</strong></br></br>
+							Gauche, droite, monte, descend, ok, retour, info...</br></br>
+							2ème à Gauche, 5ème à droite, 2ème au dessus, 4ème en dessous, au début, à la fin,...</br></br>
+							Monte le son, baisse le son, coupe le son, remet le son, mets le son à 70%,...</br></br>
+							Menu principale, affiche les séries, affiche les musiques par artiste, affiche la météo, ferme la fenêtre ...</br></br>
+							Ajoute ça, enlève ça (à la playlist), affiche la playlist</br></br>
+							Fait un scrolling avant, arrête le scrolling , affichage en liste, affichage en vignette,...</br></br>
+							Affiche les radios (si extension musique xbmc "radio" de Tristan Fisher)</br></br>
+							Affiche YouTube (si addon youtube)</br>
+							Affiche les paroles de la chanson </br>
+							Choisir les sous-titres</br>
+							Affiche/enlève les sous-titres</br>
+						</li></br>
+						<li><strong> Liste complète des commandes:</strong></br></br>
+							Merci ça sera tout, SARAH </br>
+							droite </br>
+							à droite </br>
+							deuxième à droite </br>
+							troisième à droite </br>
+							quatrième à droite </br>
+							cinquième à droite </br>
+							gauche </br>
+							à gauche </br>
+							deuxième à gauche </br>
+							troisième à gauche </br>
+							quatrième à gauche </br>
+							cinquième à gauche </br>
+							remonte </br>
+							monte </br>
+							page suivante </br>
+							va plus haut </br>
+							plus haut </br>
+							au dessus </br>
+							deuxième au dessus </br>
+							troisième au dessus </br>
+							quatrième au dessus </br>
+							cinquième au dessus </br>
+							descend </br>
+							redescend </br>
+							page précédente </br>
+							plus bas </br>
+							va plus bas </br>
+							au dessous </br>
+							deuxième au dessous </br>
+							troisième au dessous </br>
+							quatrième au dessous </br>
+							cinquième au dessous </br>
+							deuxième en dessous </br>
+							troisième en dessous </br>
+							quatrième en dessous </br>
+							cinquième en dessous </br>
+							à la fin  </br>
+							au début </br>
+							Lettre suivante </br>
+							Lettre précdente </br>
+							fait un scrolling </br>
+							fait un scrolling avant </br>
+							fait un scrolling avant rapide </br>
+							fait un scrolling inverse </br>
+							fait un scrolling arrière </br>
+							arrête le scrolling </br>
+							Importation des personnalisations </br>
+							menu principal </br>
+							affiche la télé </br>
+							affiche la météo </br>
+							affiche les séries </br>
+							affiche  les films </br>
+							affiche  les musiques </br>
+							affiche  les musiques par albums </br>
+							affiche  les musiques par artistes </br>
+							Sous menu </br>
+							Retour </br>
+							Info </br>
+							ferme la fenetre </br>
+							analyse le contenu </br>
+							Marquer comme vu </br>
+							Affiche les radios (nécessite l'extension) </br>
+							Affiche YouTube (nécessite l'extension) </br>
+							choisi </br>
+							valider </br>
+							valide </br>
+							ok </br>
+							select </br>
+							sélectionner </br>
+							affichage en liste </br>
+							affichage en vignette </br>
+							affichage en affiches </br>
+							affichage large </br>
+							affichage Fanart </br>
+							affichage suivant </br>
+							Trier par année </br>
+							Trier par titre </br>
+							Trier par épisode </br>
+							Trier par durée </br>
+							Trier par intérêt </br>
+							affiche les chaine TV </br>
+							affiche les chaine Radio </br>
+							affiche les programmes </br>
+							affiche les programmes suivant </br>
+							affiche les programmes chronologie </br>
+							affiche les enregistrements </br>
+							Trie ascendant </br>
+							Trie descendant </br>
+							play liste </br>
+							ajoute ça </br>
+							enlève ça </br>
+							enlève ça et les deux suivantes </br>
+							enlève ça et les trois suivantes </br>
+							enlève ça et les quattre suivantes </br>
+							suivante </br>
+							précédent </br>
+							lecture </br>
+							pause </br>
+							met en pause </br>
+							met en pause la musique </br>
+							met en pause la lecture </br>
+							stop </br>
+							arrête la lecture </br>
+							en arrière </br>
+							en arrière rapidement </br>
+							en arrière très rapidement </br>
+							en avant rapidement  </br>
+							en avant très rapidement  </br>
+							avance un peu </br>
+							recule un peu </br>
+							saut en avant 10m </br>
+							saut en arrière 10m </br>
+							zoume avant </br>
+							gros zoume avant </br>
+							zoom arrière </br>
+							gros zoom arrière </br>
+							aucun zoom </br>
+							zoom normal </br>
+							active le mode aléatoire </br>
+							enlève le mode aléatoire </br>
+							monte franchement le son </br>
+							monte un peu le son </br>
+							baisse franchement le son </br>
+							baisse un peu le son </br>
+							coupe le son </br>
+							remet le son </br>
+							mets le son à 10%/20%/...90%/100% </br>
+							c'est quoi cette musique </br>
+							qu'est ce que j'écoute </br>
+							qu'est ce que je regarde </br>
+							autre vue </br>
+							dossier précédent </br>
+							affiche le lecteur  </br>
+							OSD </br>
+							cache le lecteur  </br>
+							fermer </br>
+							épisode suivant </br>
+							introspect </br>
+							écris dans la fenêtre XXtexteaecrireXX </br>
+							affiche les paroles de la chanson</br>
+							choisir les sous-titres </br>
+							affiche les sous-titres </br>
+							enlève les sous-titres </br>
+							Sarah, affiche les playlistes vidéo </br>
+							Sarah, affiche les playlistes de musique </br>
+						</li>
+					</ul>
+				</div>
+			</div>
      <!--XBMC Commander 3 -->
-        <ul class="unstyled" id="plugin-xbmccommander3" style="display: none;">
-			<div class="alert alert-success">Mode XBMC - Fonctions avancées</div>
-            <li><i class="icon-play-circle"></i><strong>Le scrolling</strong> </br>
-			Le scolling s'arrête automatiquement après avoir bouclé complètement ou après avoir recu une demande quelconque.</br>
-			Vous pouvez régler la vitesse en modifiant dans le XML: <em>out.action.value</em> (millisecondes)</br></br>
-			</li>
-			<li><i class="icon-play-circle"></i><strong>Analyse automatique du contenu</strong> </br>
-			Chaque fois que vous naviguez dans un menu , le plugin créer le fichier xbmc_temp.xml qui contient les choix possibles (dans une limite de 1000 items). <br>
-			Il suffit alors de prononcer le titre/série/film/... de son choix et xbmc ce positionnera dessus:</br>
-			exemple: Affiche les séries ...OK...NCIS ...OK... Saison 8 ...OK... Ships in the night...OK</br>
-			Au lieu de dire le titre, vous pouvez aussi dire "épisode XX" pour une série ou "Piste XX" pour un album.</br>
-			Si un épisode est nommé S01E02 trucmuche ou 01x02 trucmuche, il faut alors dire: Saison 1, épisode 2 ou trucmuche.</br></br>
-			</li>
-			<li><i class="icon-play-circle"></i><strong>Analyse du contenu manuelle:</strong> </br>
-			Vous pouver demander à Sarah : "Analyse le contenu" afin d'anlyser à nouveau le contenu de la navigation en cours<br>
-			Cela est utile dans 2 cas:</br>
-			- Si vous lancer un addon qui fait une recherche sur internet (radio/ youtube,...),xbmc tarde a afficher le contenu qui a été traité trop tôt par le plugin</br>
-			- Si vous avez navigué dans xbmc sans passer par les commandes vocales.</br></br>
-			</li>
- 			<li><i class="icon-play-circle"></i><strong>Importation des personalisations: </strong></br>
-			Si vous utilisez la fonction d'importation automatique des genres/artistes/séries et que vous les avez personalisé, cette fonction est pour vous!<br>
-			En demandant "Importation des personnalisations" à Sarah, Le plugin analysera vos personnalisations dans xbmc.xml et tiendra compte de celles-ci pour l'analyse du contenu.<br>
-			Il est nécessaire d'effectuer cette opération que si vous avez modifié les personnalisations.</br>
-			(Cette personnalisation est sauvegardée dans le fichier <em>personnalisation.json</em>)
-			</li>
-        </ul>		
+ 		<div class="panel panel-primary" id="plugin-xbmccommander3" style="display: none;"> 
+			<div class="panel-heading">Mode XBMC - Fonctions avancées</div>
+			<div class="panel-body">
+				<ul class="unstyled" >
+					<li><strong>Le scrolling</strong> </br>
+					Le scolling s'arrête automatiquement après avoir bouclé complètement ou après avoir recu une demande quelconque.</br>
+					Vous pouvez régler la vitesse en modifiant dans le XML: <em>out.action.value</em> (millisecondes)</br></br>
+					</li>
+					<li><strong>Analyse automatique du contenu</strong> </br>
+					Chaque fois que vous naviguez dans un menu , le plugin créer le fichier xbmc_temp.xml qui contient les choix possibles (dans une limite de 1000 items). <br>
+					Il suffit alors de prononcer le titre/série/film/... de son choix et xbmc ce positionnera dessus:</br>
+					exemple: Affiche les séries ...OK...NCIS ...OK... Saison 8 ...OK... Ships in the night...OK</br>
+					Au lieu de dire le titre, vous pouvez aussi dire "épisode XX" pour une série ou "Piste XX" pour un album.</br>
+					Si un épisode est nommé S01E02 trucmuche ou 01x02 trucmuche, il faut alors dire: Saison 1, épisode 2 ou trucmuche.</br></br>
+					</li>
+					<li><strong>Analyse du contenu manuelle:</strong> </br>
+					Vous pouver demander à Sarah : "Analyse le contenu" afin d'anlyser à nouveau le contenu de la navigation en cours<br>
+					Cela est utile dans 2 cas:</br>
+					- Si vous lancer un addon qui fait une recherche sur internet (radio/ youtube,...),xbmc tarde a afficher le contenu qui a été traité trop tôt par le plugin</br>
+					- Si vous avez navigué dans xbmc sans passer par les commandes vocales.</br></br>
+					</li>
+					<li><strong>Importation des personalisations: </strong></br>
+					Si vous utilisez la fonction d'importation automatique des genres/artistes/séries et que vous les avez personalisé, cette fonction est pour vous!<br>
+					En demandant "Importation des personnalisations" à Sarah, Le plugin analysera vos personnalisations dans xbmc.xml et tiendra compte de celles-ci pour l'analyse du contenu.<br>
+					Il est nécessaire d'effectuer cette opération que si vous avez modifié les personnalisations.</br>
+					(Cette personnalisation est sauvegardée dans le fichier <em>personnalisation.json</em>)
+					</li>
+				</ul>
+			</div>
+		</div>
 			
-     <!--XBMC Commander 4 -->
-        <ul class="unstyled" id="plugin-xbmccommander4" style="display: none;">
-			<div class="alert alert-success">Mode XBMC - Paramétrages avancés</div>
-            <li><i class="icon-play-circle"></i><strong>Avec un xbmc installé sur une machine distante:</strong> </br>
-			Il se peut que la mise à jour du contenu se fasse trop tôt si le temps de latence (ping) entre la machine nodejs et celle xbmc est trop important.</br>
-			Dans ce cas, vous pouvez augmenter dans le fichier  <em>xbmc.js</em> la variable </em>delay_before_control_distant</em>(500 millisecondes par défaut)</br></br>
-			</li>
-			<li><i class="icon-play-circle"></i><strong>Modification du timeout de désactivation automatique:</strong></br>
-			Le timeout est défini dans le fichier Custom.ini à la racine de Sarah et concerne le mode Lazzy de tous les plugins.<br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctxTimeout=60000 (60s par défaut)</br></br>
-			</li>
-			<li><i class="icon-play-circle"></i><strong>Si votre thème XBMC est different de <em>Confluence</em> (ou autre compatible):</strong> </br>
-			Il doit être possible d'adapté le thème en modifiant le code de xbmc.js</br>
-			Dans la fonction navigation_context_viewmode_info, il faut paramétrer les <em>temp_data</em> pour chaque format d'affichage (viewmode)</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.way_normal est le sens normal de défilement (celui du scrolling et de la recherche)	</br>	
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.way_reverse est le sens inverse de défilement		</br>				
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.way2_normal est le sens normal de défilement pour le second axe d'un tableau</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.way2_reverse est le sens inverse de défilement pour le second axe d'un tableau</br>					
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.way_options est le sens pour atteindre le menu d'affichage</br>				
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.way_optionsback est le sens pour quitter le menu d'affichage</br>	
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.first_col=1 laisser à 1</br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.last_col= le nombre de colonne du mode d'affichage</br></br>
-			Si vous créer une configuration pour un thème... partagez la! ;-)</br></br>
-			</li>
-		</ul>		
+	<!--XBMC Commander 4 -->
+		<div class="panel panel-primary" id="plugin-xbmccommander4" style="display: none;"> 
+			<div class="panel-heading">Mode XBMC - Paramétrages avancés</div>
+			<div class="panel-body">
+				<ul class="unstyled" >
+					<li><strong>Avec un xbmc installé sur une machine distante:</strong> </br>
+					Il se peut que la mise à jour du contenu se fasse trop tôt si le temps de latence (ping) entre la machine nodejs et celle xbmc est trop important.</br>
+					Dans ce cas, vous pouvez augmenter dans le fichier  <em>xbmc.js</em> la variable </em>delay_before_control_distant</em>(500 millisecondes par défaut)</br></br>
+					</li>
+					<li><strong>Modification du timeout de désactivation automatique:</strong></br>
+					Le timeout est défini dans le fichier Custom.ini à la racine de Sarah et concerne le mode Lazzy de tous les plugins.<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctxTimeout=60000 (60s par défaut)</br></br>
+					</li>
+					<li><strong>Si votre thème XBMC est different de <em>Confluence</em> (ou autre compatible):</strong> </br>
+					Il doit être possible d'adapté le thème en modifiant le code de xbmc.js</br>
+					Dans la fonction navigation_context_viewmode_info, il faut paramétrer les <em>temp_data</em> pour chaque format d'affichage (viewmode)</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.way_normal est le sens normal de défilement (celui du scrolling et de la recherche)	</br>	
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.way_reverse est le sens inverse de défilement		</br>				
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.way2_normal est le sens normal de défilement pour le second axe d'un tableau</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.way2_reverse est le sens inverse de défilement pour le second axe d'un tableau</br>					
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.way_options est le sens pour atteindre le menu d'affichage</br>				
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.way_optionsback est le sens pour quitter le menu d'affichage</br>	
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.first_col=1 laisser à 1</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- temp_data.last_col= le nombre de colonne du mode d'affichage</br></br>
+					Si vous créer une configuration pour un thème... partagez la! ;-)</br></br>
+					</li>
+				</ul>
+			</div>
+		</div>
 			
 
-        <!--Génération XML-->
-         <ul class="unstyled" id="plugin-generator-info" style="display: none;">
-			<div class="alert alert-success">XML - Infos et Avertissements</div>
-            <li><i class="icon-play-circle"></i> Info sur la génération automatique et la personalisation:</br></br>
- 				En cas de problème de reconnaisance d'artistes, de genre ou de série par Sarah, vous pouvez personnaliser le xml en coupant/collant les lignes générées souhaitées
-				entre: </br><em>&#60!-- Personalisation XXXXX --></em></br>et</br><em>&#60!-- XXXXX FIN Personalisation--></em></br> puis en les modifiant à votre convenance! (par exemple: U2: You toux)</br>
-				A la prochaine génération automatique, votre personalisation des artistes, genres ou série sera conservée!
-           </li></br>
-            <li><i class="icon-play-circle"></i> Les caractères spéciaux: <span class="badge">New</span></br></br>
- 				Les caractères spéciaux <strong>&amp; &lt; &gt; " [ ] </strong> sont maintenant correctement gérés. <br>
-				Si des artistes, film, genres, (...) comportent ces caractères, ces derniers seront supprimés ( &lt;INCONNU&gt; deviendra INCONNU , U2[Live] deviendra U2LIVE, ...) </BR>
-				Des erreurs restantes peuvent être signalées dans la page html qui résume les importations effectuées.</br>
-				<Strong>Toutefois, il est conseillé de vérifier dans <em>Log2console</em> si xbmc.XML est correctement chargé par la grammaire Sarah après des importations.</Strong></br>
-           </li></br>
-			
-        </ul>
-		
-		<ul class="unstyled" id="plugin-generator" style="display: none;">
-			<div class="alert alert-success">XML - Génération automatique du XML</div>
-            <li><i class="icon-play-circle"></i> Mise à jour des artistes dans le XML:
-                <a href='../sarah/xbmc?action=xml_artist&xbmc=music' target=_blank>../sarah/xbmc?action=xml_artist&xbmc=music</a></br>
-			</li></br>
-            <li><i class="icon-play-circle"></i> Mise à jour des genres dans le XML:
-                <a href='../sarah/xbmc?action=xml_genre&xbmc=music' target=_blank>../sarah/xbmc?action=xml_genre&xbmc=music</a>
-            </li></br>
-            <li><i class="icon-play-circle"></i> Mise à jour des playlists musicale dans le XML:
-                <a href='../sarah/xbmc?action=xml_playlistmusic&xbmc=music' target=_blank>../sarah/xbmc?action=xml_playlistmusic&xbmc=music</a>
-            </li></br>
-            <li><i class="icon-play-circle"></i> Mise à jour des playlists vidéo dans le XML:
-                <a href='../sarah/xbmc?action=xml_playlistvideo&xbmc=video' target=_blank>../sarah/xbmc?action=xml_playlistvideo&xbmc=video</a>
-            </li></br>
-            <li><i class="icon-play-circle"></i> Mise à jour des séries dans le XML:
-                <a href='../sarah/xbmc?action=xml_serie&xbmc=video' target=_blank>../sarah/xbmc?action=xml_serie&xbmc=video</a>
-            </li></br>
-           <li><i class="icon-play-circle"></i> Mise à jour des chaînes dans le XML:
-                <a href='../sarah/xbmc?action=xml_channel&xbmc=video' target=_blank>../sarah/xbmc?action=xml_channel&xbmc=video</a>
-            </li></br>
-           <li><i class="icon-play-circle"></i> Mise à jour des fims dans le XML:
-                <a href='../sarah/xbmc?action=xml_film&xbmc=video' target=_blank>../sarah/xbmc?action=xml_film&xbmc=video</a>
-            </li></br>
-			
-        </ul>
-		
-		
+	<!--Génération XML Info-->
+		<div class="panel panel-primary" id="plugin-generator-info" style="display: none;"> 
+			<div class="panel-heading">XML - Infos et Avertissements</div>
+			<div class="panel-body">
+				<ul class="unstyled" >
+					<li> Info sur la génération automatique et la personalisation:</br></br>
+						En cas de problème de reconnaisance d'artistes, de genre ou de série par Sarah, vous pouvez personnaliser le xml en coupant/collant les lignes générées souhaitées
+						entre: </br><em>&#60!-- Personalisation XXXXX --></em></br>et</br><em>&#60!-- XXXXX FIN Personalisation--></em></br> puis en les modifiant à votre convenance! (par exemple: U2: You toux)</br>
+						A la prochaine génération automatique, votre personalisation des artistes, genres ou série sera conservée!
+				   </li></br>
+					<li> Les caractères spéciaux: <span class="badge">New</span></br></br>
+						Les caractères spéciaux <strong>&amp; &lt; &gt; " [ ] </strong> sont maintenant correctement gérés. <br>
+						Si des artistes, film, genres, (...) comportent ces caractères, ces derniers seront supprimés ( &lt;INCONNU&gt; deviendra INCONNU , U2[Live] deviendra U2LIVE, ...) </BR>
+						Des erreurs restantes peuvent être signalées dans la page html qui résume les importations effectuées.</br>
+						<Strong>Toutefois, il est conseillé de vérifier dans <em>Log2console</em> si xbmc.XML est correctement chargé par la grammaire Sarah après des importations.</Strong></br>
+				   </li></br>
+				</ul>
+			</div>
+		</div>
+	<!--Génération XML Liens -->	
+		<div class="panel panel-primary" id="plugin-generator" style="display: none;"> 
+			<div class="panel-heading">XML - Génération automatique du XML</div>
+			<div class="panel-body">
+				<ul class="unstyled" >
+					<li> Mise à jour des artistes dans le XML:
+						<a href='../sarah/xbmc?action=xml_artist&xbmc=music' target=_blank>../sarah/xbmc?action=xml_artist&xbmc=music</a></br>
+					</li></br>
+					<li> Mise à jour des genres dans le XML:
+						<a href='../sarah/xbmc?action=xml_genre&xbmc=music' target=_blank>../sarah/xbmc?action=xml_genre&xbmc=music</a>
+					</li></br>
+					<li> Mise à jour des playlists musicale dans le XML:
+						<a href='../sarah/xbmc?action=xml_playlistmusic&xbmc=music' target=_blank>../sarah/xbmc?action=xml_playlistmusic&xbmc=music</a>
+					</li></br>
+					<li> Mise à jour des playlists vidéo dans le XML:
+						<a href='../sarah/xbmc?action=xml_playlistvideo&xbmc=video' target=_blank>../sarah/xbmc?action=xml_playlistvideo&xbmc=video</a>
+					</li></br>
+					<li> Mise à jour des séries dans le XML:
+						<a href='../sarah/xbmc?action=xml_serie&xbmc=video' target=_blank>../sarah/xbmc?action=xml_serie&xbmc=video</a>
+					</li></br>
+				   <li> Mise à jour des chaînes dans le XML:
+						<a href='../sarah/xbmc?action=xml_channel&xbmc=video' target=_blank>../sarah/xbmc?action=xml_channel&xbmc=video</a>
+					</li></br>
+				   <li> Mise à jour des fims dans le XML:
+						<a href='../sarah/xbmc?action=xml_film&xbmc=video' target=_blank>../sarah/xbmc?action=xml_film&xbmc=video</a>
+					</li></br>
+				</ul>
+			</div>
+		</div>
     </div>
 </div>
