@@ -53,7 +53,7 @@
 			<div class="alert alert-success">Versions</div>
 			<li><i class="icon-play-circle"></i><strong> Version X.X:</strong></br>
 			[X] Les nouveautés dans la documentation sont indiquées <span class="badge">New</span></br>
-			[X] Ajout de la fonction StreamCam </br>
+			[X] Ajout de la fonction StreamCam et règle XML StreamCam</br>
 			[X] Ajout de l'Addon XBMC: StreamCam (pour XBMC 12 & 13 Frodo - Gotham) </br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Un grand merci à Mad Ripper.</br>
 			[X] Ajout de l'Addon XBMC: Sarah and XBMC (pour XBMC 13 - Gotham)</br>
@@ -306,13 +306,19 @@
         <ul class="unstyled" id="plugin-addon_StreamCam_Utilisation" style="display: none;">
  			<div class="alert alert-success">Addon StreamCam pour XBMC: Utilisation <span class="badge">New</span></div>
 			<li><i class="icon-play-circle"></i><strong>3 Paramètres: </strong></br></br>
-			Le xbmc cible: music ou video</br>
-			l'url (de l'image) de la caméra</br>
-			le numéro de fenêtre souhaité pour l'affichage</br>
+			<strong><em>xbmc</em></strong> - Le xbmc cible: music ou video</br>
+			<strong><em>url</em></strong> - l'url de l'image de la caméra</br>
+			<strong><em>window</em></strong> - le numéro de fenêtre souhaité pour l'affichage</br>
 			&nbsp;&nbsp;&nbsp;&nbsp; de 1 à 4 : 4 fenetres de 320x240 situées sur la partie basse l'écran.</br>
 			&nbsp;&nbsp;&nbsp;&nbsp; de 5 à 6 : 2 fenetres de 640x480 </br>
 			&nbsp;&nbsp;&nbsp;&nbsp; 7 : une fenetres de 1280x720</br>
 			</li></br>
+			<li><i class="icon-play-circle"></i><strong>Commande Vocale: </strong></br></br>
+			2 exemples sont présents dans xbmc.XML, à vous d'adapter pour votre configuration (xbmc ? , url ? , window?)</br>
+			<strong> Attention de ne pas mettre le symbol <em>&amp;</em> dans l'url: le remplacer par <em>&amp;amp;</em></strong></br>
+			
+			</li></br>
+			
 			<li><i class="icon-play-circle"></i><strong>Appel via url: </strong></br></br>
 			.../sarah/xbmc?xbmc=<strong><em>music_ou_video</em></strong>&amp;action=StreamCam&amp;url=<strong><em>url_image_cam</em></strong>&amp;window=<strong><em>num_fenetre</em></strong></br>
 			exemple:</br>
@@ -324,7 +330,7 @@
 			&nbsp;&nbsp;&nbsp;&nbsp; 'action' : 'StreamCam' ,</br>
 			&nbsp;&nbsp;&nbsp;&nbsp; 'url' : '<strong><em>url_image_cam</em></strong>' , </br>
 			&nbsp;&nbsp;&nbsp;&nbsp; 'window' :  <strong><em>num_fenetre</em></strong> </br>
-			}, function(options){   };</br>
+			}, function(options){   };</br></br>
 			Exemple:  </br>
 			SARAH.call('xbmc', {</br>
 			&nbsp;&nbsp;&nbsp;&nbsp;'xbmc' : 'video' ,</br>
@@ -359,6 +365,7 @@
             Sarah, power off xbmc vidéo (ou musique).</br></br>
             Sarah, ferme l'application xbmc musique (ou vidéo).</br></br>
             Qu'est ce que j'ai comme film à voir? (Sarah indique le nombre de films non vu et en cite 3 au hasard).</br></br>
+            Sarah, affiche la caméra XXXXXXXXX sur xbmc.</br></br>
 			</li>
 			<li><i class="icon-play-circle"></i><strong>Liste complète des commandes (hors mode xbmc):</strong></br></br>
 				Sarah, active le mode xbmc </br>
@@ -395,6 +402,7 @@
 				Sarah, affiche ma playliste XXMaPlaylistVideoXX (importation XML nécessaire) </br>
 				Sarah, affiche les playlistes de musique </br>
 				Sarah, affiche les paroles de la chanson </br>
+				Sarah, affiche la caméra XXXXXXXXX sur xbmc.</br></br>
         </ul>
         <!--Test-->
         <ul class="unstyled" id="plugin-vox-test" style="display: none;">

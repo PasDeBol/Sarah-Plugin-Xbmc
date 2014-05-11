@@ -1443,7 +1443,7 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
             if ((typeof res.result.artists != 'undefined') && (typeof res.result.limits != 'undefined')) {
             //efface la zone génération automatique
 				var xml = fs.readFileSync(fileXML, 'utf8');
-				var replace = '¤IMPORTartiste¤ -->\n            <item>ARTIST<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>\n<!-- ¤IMPORTartiste¤';
+				var replace = '¤IMPORTartiste¤ -->\n            <item>ARTIST NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>\n<!-- ¤IMPORTartiste¤';
 				var regexp = new RegExp('¤IMPORTartiste¤[^*]+¤IMPORTartiste¤', 'gm');
                 var xml = xml.replace(regexp, replace);
                 fs.writeFileSync(fileXML, xml, 'utf8');
@@ -1470,7 +1470,7 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
             // Generation XML Genre
             else if ((typeof res.result.genres != 'undefined') && (typeof res.result.limits != 'undefined')) {
             //efface la zone génération automatique
-				var replace = '¤IMPORTgenre¤ -->\n            <item>GENRE<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>\n<!-- ¤IMPORTgenre¤';
+				var replace = '¤IMPORTgenre¤ -->\n            <item>GENRE NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>\n<!-- ¤IMPORTgenre¤';
 				var regexp = new RegExp('¤IMPORTgenre¤[^*]+¤IMPORTgenre¤', 'gm');
                 var xml = xml.replace(regexp, replace);
                 fs.writeFileSync(fileXML, xml, 'utf8');
@@ -1551,7 +1551,7 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 			// Generation XML Series
 			else if ((typeof res.result.tvshows != 'undefined') && (typeof res.result.limits != 'undefined')){
 				//efface la zone génération automatique
-				var replace = '¤IMPORTseries¤ -->\n            <item>SERIE<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>\n<!-- ¤IMPORTseries¤';
+				var replace = '¤IMPORTseries¤ -->\n            <item>SERIE NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n\'a jamais été généré!"</tag></item>\n<!-- ¤IMPORTseries¤';
 				var regexp = new RegExp('¤IMPORTseries¤[^*]+¤IMPORTseries¤', 'gm');
                 var xml = xml.replace(regexp, replace);
                 fs.writeFileSync(fileXML, xml, 'utf8');
