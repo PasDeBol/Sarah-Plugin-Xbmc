@@ -59,7 +59,8 @@
 			[X] Ajout de l'Addon XBMC: Sarah and XBMC (pour XBMC 13 - Gotham)</br>
 			[X] Intègre la fonction Event de Sarah pour informer tous les plugins d'un changement du status des Xbmc</br>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href='https://github.com/JpEncausse/SARAH-Documentation/wiki/JavaScript-API#event' target=_blank>Cf Doc .../wiki/JavaScript-API#event</a> </br>
-			[X] Ajout de <em>lastaction</em> dans le xbmc.staus (pour exploitation par d'autres plugins)</br>
+			[X] Mise à jour du <em>xbmc.status</em> lors du démarrage du serveur Sarah.</br>
+			[X] Ajout de <em>lastaction</em> dans le xbmc.status (pour exploitation par d'autres plugins)</br>
 			[X] Correction du bug <em>arrête la musique</em> avec l'écran de veille actif</br>
 			[X] Amélioration  <em>Lecture / Pause </em> (contrôle si lecture avant de faire pause et inversement)</br>
 			[X] Amélioration de l'aide lors test de configuration</br>
@@ -204,9 +205,11 @@
 			<li><i class="icon-play-circle"></i><strong> Principe :</strong></br></br>
             Sarah est avertie dès que vous faites lecture, pause, re-lecture, stop d'un média (musique, film, série, streaming,..) ou que celui se termine sans en enchainer un autre.</br></br>
 			
-			La dernière action de xbmc est indiqué dans le status par <em>status.lastaction</em> <span class="badge">New</span></br></br>
+			La dernière action de xbmc est indiqué dans le status par <em>status.lastaction</em>. <span class="badge">New</span></br></br>
 			
-			Un Status est ainsi créer dans le contexte de Sarah: <strong>SARAH.context.xbmc.status</strong></br></br>
+			Le status est maintenant mis à jour lors du démarrage du serveur. <span class="badge">New</span></br></br>
+
+			Un Status est ainsi créer dans le contexte de Sarah: <strong>SARAH.context.xbmc.status</strong>.</br></br>
 			
 			<li><i class="icon-play-circle"></i><strong> Structure et données du status (Json):</strong></br></br>
 			SARAH.context.xbmc.status:{</br>

@@ -5,7 +5,70 @@ exports.init = function (SARAH) {
 	SARAH.context.xbmc.status.statusvideo={'xbmc':false,'player':"stop",'episode':-1,'file':"",'label':"",'season':-1,'showtitle':"",'title':"",'type':""};
 	SARAH.context.xbmc.status.statusmusic={'xbmc':false,'player':"stop",'artist':"",'album':"",'title':"",'label':"",'file':""};
 	SARAH.context.xbmc.status.statusmixed="stop";
+	SARAH.context.xbmc.status.lastaction="";
+	
+	// Mise à jour du status au lancement du serveur.
+	var config = SARAH.ConfigManager.getConfig();
+	config = config.modules.xbmc;  
+	var xbmc_api_url='http://'+config.api_url_xbmc_video+'/jsonrpc';
+	var rqjson={"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1};
+	sendJSONRequest(xbmc_api_url, rqjson, function (result) {
+		if (result.result){
+			SARAH.context.xbmc.status.statusvideo.xbmc=true;
+			if (result.result.length>0) 
+				if (result.result[0].playerid==1) {
+					// Récupère l'état lecture/pause
+					rqjson={"jsonrpc":"2.0","id":1,"method":"Player.GetProperties","params":{"playerid":1,"properties":["speed"]}};	
+					sendJSONRequest(xbmc_api_url, rqjson, function (result) {
+						if (result.result.speed!=0) {
+							SARAH.context.xbmc.status.statusvideo.player='play';
+							SARAH.context.xbmc.status.statusmixed='play';
+						}
+						else {
+							SARAH.context.xbmc.status.statusvideo.player='pause';
+							if (SARAH.context.xbmc.status.statusmixed=='stop')
+								SARAH.context.xbmc.status.statusmixed='pause';
+							}
+					});
+					// Recupere les info du media
+					var rqjson = {"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["title", "album", "artist", "season", "episode", "duration", "showtitle", "tvshowid", "file"], "playerid": 1 }, "id": "VideoGetItem"}
+					sendJSONRequest(xbmc_api_url, rqjson,  function(json){
+							SARAH.context.xbmc.status.statusvideo={'xbmc':true,'player':"play",'type':json.result.item.type,'title':json.result.item.title,'file':json.result.item.file,'label':json.result.item.label,'showtitle':json.result.item.showtitle,'season':json.result.item.season,'episode':json.result.item.episode};
+					});
+				}
+		}		
+	});
 
+	var xbmc_api_url='http://'+config.api_url_xbmc_music+'/jsonrpc';
+	var rqjson={"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1};
+	sendJSONRequest(xbmc_api_url, rqjson, function (result) {
+		if (result.result){
+			SARAH.context.xbmc.status.statusmusic.xbmc=true;
+			if (result.result.length>0) 
+				if (result.result[0].playerid==0) {
+					rqjson={"jsonrpc":"2.0","id":1,"method":"Player.GetProperties","params":{"playerid":0,"properties":["speed"]}};	
+					// Récupère l'état lecture/pause
+					sendJSONRequest(xbmc_api_url, rqjson, function (result) {
+						if (result.result.speed!=0) {
+							SARAH.context.xbmc.status.statusmusic.player='play';
+							SARAH.context.xbmc.status.statusmixed='play';
+						}
+						else {
+							SARAH.context.xbmc.status.statusmusic.player='pause';
+							if (SARAH.context.xbmc.status.statusmixed=='stop')
+								SARAH.context.xbmc.status.statusmixed='pause';
+						}
+					});
+					// Recupere les info du media
+					var rqjson = {"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["title", "album", "artist", "duration", "file"], "playerid": 0 }, "id": "AudioGetItem"}
+					sendJSONRequest(xbmc_api_url, rqjson,  function(json){
+							SARAH.context.xbmc.status.statusmusic={'xbmc':true,'player':"play",'artist':json.result.item.artist,'album':json.result.item.album,'title':json.result.item.title,'label':json.result.item.label,'file':json.result.item.file};
+					});
+
+				}
+		}		
+	});
+	//setTimeout(function(){console.dir(SARAH.context.xbmc.status);},6000); 				
 }
 exports.action = function (data, callback, config, SARAH) {
 	// Config
