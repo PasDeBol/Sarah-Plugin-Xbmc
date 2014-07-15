@@ -68,7 +68,6 @@ exports.init = function (SARAH) {
 				}
 		}		
 	});
-	//setTimeout(function(){console.dir(SARAH.context.xbmc.status);},6000); 				
 }
 exports.action = function (data, callback, config, SARAH) {
 	// Config
@@ -159,7 +158,7 @@ if (data.action=='xbmcstatus') {
 		SARAH.context.xbmc.status.lastaction=data.xbmc+'_'+data.status;
 	else
 		SARAH.context.xbmc.status.lastaction=data.status;
-	if (infodebug) {console.dir(SARAH.context.xbmc.status);}
+	if (infodebug) {setTimeout(function(){console.dir(SARAH.context.xbmc.status);},2000);} 
 	// EVENT -> all plugins
 	SARAH.trigger('xbmc', SARAH.context.xbmc.status );
 	callback();
@@ -1095,6 +1094,18 @@ switch (data.action) {
 		case 'StreamCam':
 			if ((data.url)&&(data.window)) {
 				StreamCam.params.params=[data.url,data.window];
+				if (data.interval) 
+					StreamCam.params.params.push(data.interval);
+				else
+					StreamCam.params.params.push("");
+				if (data.autoClose) 
+					StreamCam.params.params.push(data.autoClose);
+				else
+					StreamCam.params.params.push("");
+				if (data.duration) 
+					StreamCam.params.params.push(data.duration);
+				else
+					StreamCam.params.params.push("");	
 				doAction(StreamCam, xbmc_api_url, callback);
 			}
 			else{

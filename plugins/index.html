@@ -180,7 +180,7 @@
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Si xbmc est installé sur la même machine que Sarah (Nodejs), préférez 127.0.0.1 à l'adresse local (le plugin sera plus réactif avec cette IP).<br>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- La notion xbmc musique/vidéo est un exemple, vous pouvez organiser ça comme vous le souhaitez. (pensez à modifier le xml)</br>
 				   </li></br>
-					<li> <strong>Si la musique est toujours en cours sur XBMC,</strong> Faites un essai pause/lecture en cliquant ici: <a
+					<li> <strong>Si la musique est toujours en cours sur XBMC,</strong> Faites un essai de mise en pause en cliquant ici: <a
 							href='../sarah/xbmc?action=pause&xbmc=music' target=_blank>[Pause]</a>. Si ce simple essai fonctionne, tout va bien! (sinon aller directement à 'Test de la configuration')
 					</li><br>
 					<li> <strong>(Facultatif)</strong> Si vous souhaitez moins de log dans la console NodeJS:<br>
@@ -311,14 +311,19 @@
 					<li><strong> Il permet:</strong></br></br>
 					Il permet l'affichage du streaming d'une ou plusieurs caméras en simultanées sur xbmc</br>
 					Il est possible d'afficher ce streaming dans des fenetres sans arrêter la lecture du média en cours.
-					L'affichage ne dure que 15s</br>
 					La source doit être une image et non une vidéo.</br>
 					</li></br>
 					<li><strong> Installation sur XBMC:</strong></br></br>
-					&nbsp;&nbsp;- <em>Système -> Extensions --(racine)--> <strong> Installer depuis un fichier zip</strong> --(sélectionner <em>script.streamcam-1.1.zip</em> joint au plugin)--> OK </em></br>
+					&nbsp;&nbsp;- Système -> Extensions --(racine)--> <strong> Installer depuis un fichier zip</strong></br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sélectionnez le fichier script.streamcam.(Frodo ou Gotham).ZIP joint au plugin --> OK </br>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L'extension s'installe</br>
-					&nbsp;&nbsp;- <em>Extensions activées ->  Video --> StreamCam doit être maintenant présent.  </em></br>
-					&nbsp;&nbsp;- <em>Redémarrer XBMC </em></br>
+					&nbsp;&nbsp;- Système -> Extensions -> Extensions activées ->  Images --> StreamCam doit être maintenant présent.  </br>
+					&nbsp;&nbsp;- Redémarrer XBMC </br>
+					</li></br>
+					<li><strong> Pour XBMC GOTHAM:</strong></br></br>
+					&nbsp;&nbsp;- Système -> Extensions -> Extensions activées ->  Images --> StreamCam -> Configurer.  </br>
+					&nbsp;&nbsp;&nbsp;&nbsp;Vous pouvez personnaliser les tailles et positions des fenetres,  </br>
+					&nbsp;&nbsp;&nbsp;&nbsp;les durée d'affichage, le temps de rafraichissement et la fermetre automatique. </br>
 					</li>
 				</ul>
 			</div>
@@ -330,13 +335,18 @@
 			<div class="panel-heading">Addon StreamCam pour XBMC: Utilisation <span class="badge">New</span></div>
 			<div class="panel-body">
 				<ul class="unstyled" >
-					<li><strong>3 Paramètres: </strong></br></br>
+					<li><strong>3 Paramètres indispensable: </strong></br></br>
 					<strong><em>xbmc</em></strong> - Le xbmc cible: music ou video</br>
 					<strong><em>url</em></strong> - l'url de l'image de la caméra</br>
 					<strong><em>window</em></strong> - le numéro de fenêtre souhaité pour l'affichage</br>
 					&nbsp;&nbsp;&nbsp;&nbsp; de 1 à 4 : 4 fenetres de 320x240 situées sur la partie basse l'écran.</br>
 					&nbsp;&nbsp;&nbsp;&nbsp; de 5 à 6 : 2 fenetres de 640x480 </br>
 					&nbsp;&nbsp;&nbsp;&nbsp; 7 : une fenetres de 1280x720</br>
+					</li></br>
+					<li><strong>3 Paramètres optionnels: UNIQUEMENT POUR XBMC GOTHAM!</strong></br></br>
+					<strong><em>interval</em></strong> - pour forcer un temps de rafraichissant different. en millisecondes.</br>
+					<strong><em>autoClose</em></strong> - pour forcer la fermeture automatique ou pas. 'true' ou 'false' .</br>
+					<strong><em>duration</em></strong> - pour forcer un temps d'affichage different. en millisecondes.</br>
 					</li></br>
 					<li><strong>Commande Vocale: </strong></br></br>
 					2 exemples sont présents dans xbmc.XML, à vous d'adapter pour votre configuration (xbmc ? , url ? , window?)</br>
@@ -355,6 +365,9 @@
 					&nbsp;&nbsp;&nbsp;&nbsp; 'action' : 'StreamCam' ,</br>
 					&nbsp;&nbsp;&nbsp;&nbsp; 'url' : '<strong><em>url_image_cam</em></strong>' , </br>
 					&nbsp;&nbsp;&nbsp;&nbsp; 'window' :  <strong><em>num_fenetre</em></strong> </br>
+					&nbsp;&nbsp;&nbsp;&nbsp; 'interval' :  <strong><em>temps_en_millisecondes</em></strong> </br>
+					&nbsp;&nbsp;&nbsp;&nbsp; 'autoClose' :  <strong><em>'true'</em></strong> ou <strong><em>'false'</em></strong> </br>
+					&nbsp;&nbsp;&nbsp;&nbsp; 'duration' :  <strong><em>temps_en_millisecondes</em></strong> </br>
 					}, function(options){   };</br></br>
 					Exemple:  </br>
 					SARAH.call('xbmc', {</br>
@@ -362,6 +375,7 @@
 					&nbsp;&nbsp;&nbsp;&nbsp;'action' : 'StreamCam' ,</br>
 					&nbsp;&nbsp;&nbsp;&nbsp;'url' : 'http://192.168.xxxx.xxx/axis-cgi/jpg/image.cgi' , </br>
 					&nbsp;&nbsp;&nbsp;&nbsp;'window' :  7 </br>
+					&nbsp;&nbsp;&nbsp;&nbsp;'duration' :  30000 </br>
 					}, function(options){   };</br>
 					</li></br>
 					<!--	<li><strong>Le json (pour info): </strong></br>
