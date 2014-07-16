@@ -19,7 +19,23 @@
 			<item>active le mode xbmc<tag>out.action._attributes.context = "lazyxbmc.xml,lazyxbmc_temp.xml"; out.action._attributes.tts = "Mode XBMC activé, que veux tu?"; </tag></item>
 		</one-of>
 	</rule>  
-  
+ 
+ 
+ 
+	<rule id="ruleXBMC_MesXbmc" scope="public">
+			<one-of>
+			<!-- ############################################################################# -->
+			<!-- # Modifier le texte ici pour chaque emplacement (music,autre1,....) de Xbmc # -->
+			<!-- ############################################################################# -->
+			<item>à l'endroit normal pour la musique<tag>out="music"; </tag></item>
+			<item>à l'endroit normal pour la video<tag>out="video"; </tag></item>
+			<item>à l'endroit supplémentaire 1 <tag>out="autre1"; </tag></item>
+			<item>à l'endroit supplémentaire 2 <tag>out="autre2"; </tag></item>
+			<!-- ############################################################################# -->
+			</one-of>
+	</rule>
+
+	
 	<rule id="ruleXBMC_Telecommande" scope="public">
 		<example>SARAH musique suivante</example>
 		<tag>out.action=new Object(); </tag>
@@ -84,6 +100,8 @@
 			<item>éRe Thé eSse<tag>out.action.radioid="3123"; </tag></item>
 			<item>Fréquence 3<tag>out.action.radioid="1588"; </tag></item>
 			<item>Pulsse Radio<tag>out.action.radioid="1813"; </tag></item>
+			<item repeat="0-1"><ruleref uri="#ruleXBMC_MesXbmc"/><tag>out.action.xbmc=rules.ruleXBMC_MesXbmc;</tag></item><!-- Gestion de plusieurs XBMC -->
+			
 		</one-of>
 	</rule>  
   
@@ -102,6 +120,7 @@
             <item>CHAINE NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n'a jamais été généré!"; </tag></item>
 			<!-- ¤IMPORTchannel¤ Automatic Generation Channel -->
 		</one-of>
+		<item repeat="0-1"><ruleref uri="#ruleXBMC_MesXbmc"/><tag>out.action.xbmc=rules.ruleXBMC_MesXbmc;</tag></item><!-- Gestion de plusieurs XBMC -->
 	</rule>  
   
   	<rule id="ruleXBMC_Film" scope="public">
@@ -124,6 +143,7 @@
 		</one-of>
 	</item>
 	</one-of>
+	<item repeat="0-1"><ruleref uri="#ruleXBMC_MesXbmc"/><tag>out.action.xbmc=rules.ruleXBMC_MesXbmc;</tag></item><!-- Gestion de plusieurs XBMC -->
 	</rule>  
 
 	<rule id="ruleXBMC_playlist" scope="public">
@@ -141,6 +161,7 @@
             <item>GENRE NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n'a jamais été généré!"; </tag></item>
 			<!-- ¤IMPORTgenre¤ Automatic Generation Genre -->
 		</one-of>
+	<item repeat="0-1"><ruleref uri="#ruleXBMC_MesXbmc"/><tag>out.action.xbmc=rules.ruleXBMC_MesXbmc;</tag></item><!-- Gestion de plusieurs XBMC -->
 	</rule>
 
 		<rule id="ruleXBMC_File_playlist_music" scope="public">
@@ -158,6 +179,7 @@
             <item>PLAYLIST MUSIC NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n'a jamais été généré!"; </tag></item>
 			<!-- ¤IMPORTplaylistmusic¤ Automatic Generation Channel -->
 		</one-of>
+		<item repeat="0-1"><ruleref uri="#ruleXBMC_MesXbmc"/><tag>out.action.xbmc=rules.ruleXBMC_MesXbmc;</tag></item><!-- Gestion de plusieurs XBMC -->
 	</rule>  
 
 	<rule id="ruleXBMC_File_playlist_video" scope="public">
@@ -174,6 +196,7 @@
             <item>PLAYLIST VIDEO NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n'a jamais été généré!"; </tag></item>
 			<!-- ¤IMPORTplaylistvideo¤ Automatic Generation Channel -->
 		</one-of>
+		<item repeat="0-1"><ruleref uri="#ruleXBMC_MesXbmc"/><tag>out.action.xbmc=rules.ruleXBMC_MesXbmc;</tag></item><!-- Gestion de plusieurs XBMC -->
 	</rule>  
 	
 	<rule id="ruleXBMC_Artist" scope="public">
@@ -188,6 +211,7 @@
             <item>ARTIST NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n'a jamais été généré!"; </tag></item>
 			<!-- ¤IMPORTartiste¤ END Automatic Generation Artist -->
 		</one-of>
+		<item repeat="0-1"><ruleref uri="#ruleXBMC_MesXbmc"/><tag>out.action.xbmc=rules.ruleXBMC_MesXbmc;</tag></item><!-- Gestion de plusieurs XBMC -->
 	</rule>
   
 	<rule id="ruleXBMC_search" scope="public">
@@ -197,8 +221,11 @@
 		<tag>out.action.action="playlist"; </tag>
 		<item>recherche</item><ruleref special="GARBAGE" /><item>dans les  musiques</item>
 		<tag>out._attributes.dictation="true"; </tag> 
+		<item repeat="0-1"><ruleref uri="#ruleXBMC_MesXbmc"/><tag>out.action.xbmc=rules.ruleXBMC_MesXbmc;</tag></item><!-- Gestion de plusieurs XBMC -->
 	</rule>
 
+	
+	
 	<rule id="ruleXBMC_Serie" scope="public">
 		<example>SARAH met le prochain épisode des simpsons</example>
 		<tag>out.action=new Object();</tag>
@@ -211,6 +238,7 @@
             <item>SERIE NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n'a jamais été généré!"; </tag></item>
 			<!-- ¤IMPORTseries¤ Automatic Generation Serie -->
 		</one-of>
+		<item repeat="0-1"><ruleref uri="#ruleXBMC_MesXbmc"/><tag>out.action.xbmc=rules.ruleXBMC_MesXbmc;</tag></item><!-- Gestion de plusieurs XBMC -->
 	</rule>
 	
 	<rule id="ruleXBMC_StreamCam" scope="public">
@@ -219,9 +247,11 @@
 		<one-of>
 			<!-- Exemples - attention ne pas mettre de symbol '&' dans l'url, remplacer le & par '&amp;' -->
 			<item>Affiche la caméra du salon sur xbmc<tag>out.action.action="StreamCam"; out.action.xbmc="video"; out.action.window=1; out.action.url=encodeURIComponent("http://192.168.2.203/axis-cgi/jpg/image.cgi"); </tag></item>
+			<item>Affiche la caméra de la pièce télé sur xbmc<tag>out.action.action="StreamCam"; out.action.xbmc="video"; out.action.window=2; out.action.url=encodeURIComponent("http://192.168.2.201/axis-cgi/jpg/image.cgi"); </tag></item>
 			<!-- Exemples - attention ne pas mettre de symbol '&' dans l'url, remplacer le & par '&amp;' -->
 			<item>Affiche la caméra du salon en grand sur xbmc<tag>out.action.action="StreamCam"; out.action.xbmc="video"; out.action.window=7; out.action.url=encodeURIComponent("http://192.168.2.203/axis-cgi/jpg/image.cgi"); </tag></item>
 		</one-of>
+		<item repeat="0-1"><ruleref uri="#ruleXBMC_MesXbmc"/><tag>out.action.xbmc=rules.ruleXBMC_MesXbmc;</tag></item><!-- Gestion de plusieurs XBMC -->
 	</rule>  
 
 </grammar>

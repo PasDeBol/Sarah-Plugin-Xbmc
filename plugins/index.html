@@ -23,7 +23,7 @@
             <strong>Configuration</strong>
 				<li><a href="#" data-toggle="plugin-config-tuto">Tutoriel <span class="badge pull-right">New</span></a></li>
 				<li><a href="#" data-toggle="plugin-config-xbmc">XBMC</a></li>
-				<li><a href="#" data-toggle="plugin-config-sarah">SARAH</a></li>
+				<li><a href="#" data-toggle="plugin-config-sarah">SARAH <span class="badge pull-right">New</span></a></li>
 				<li><a href="#" data-toggle="plugin-vox-test">Test de la configuration</a></li>
 				<li><a href="#" data-toggle="plugin-vox-errors">Erreurs</a></li>
             <strong>Addon pour Xbmc: Sarah and XBMC</strong>
@@ -53,6 +53,7 @@
 			<div class="panel-body">
 				<ul class="unstyled" >
 					<li><strong> Version X.X:</strong></br>
+					[X] Gestion de 2 xbmc supplémentaires  </br>
 					[X] Les nouveautés dans la documentation sont indiquées <span class="badge">New</span></br>
 					[X] Ajout de la fonction StreamCam et règle XML StreamCam</br>
 					[X] Ajout de l'Addon XBMC: StreamCam (pour XBMC 12 & 13 Frodo - Gotham) </br>
@@ -171,20 +172,36 @@
 			<div class="panel-heading">Configuration - S.A.R.A.H.</div>
 			<div class="panel-body">
 				<ul class="unstyled">
-					<li> Paramétrer le plugin avec l'<strong>IP</strong> et
-						<strong>port</strong> de XBMC (musique et vidéo).</br>
+					<li> Paramétrer le plugin avec l'<strong>IP</strong> et	<strong>port</strong> de XBMC (musique et vidéo).</br>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- exemple:</br>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;api_url_xbmc_music	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 127.0.0.1:8800</br>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;api_url_xbmc_video	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 192.168.0.1:8800</br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>api_url_xbmc_music</strong>	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>127.0.0.1:8800</strong></br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>api_url_xbmc_video</strong>	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>192.168.0.1:8800</strong></br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(il n'est pas obligatoire de configurer api_url_xbmc_autre1 et api_url_xbmc_autre2)</br>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Si le xbmc gérant la musique et la vidéo est le même, remplissez les 2 champs avec les mêmes infos.</br>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Si xbmc est installé sur la même machine que Sarah (Nodejs), préférez 127.0.0.1 à l'adresse local (le plugin sera plus réactif avec cette IP).<br>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- La notion xbmc musique/vidéo est un exemple, vous pouvez organiser ça comme vous le souhaitez. (pensez à modifier le xml)</br>
-				   </li></br>
+					</li></br>
 					<li> <strong>Si la musique est toujours en cours sur XBMC,</strong> Faites un essai de mise en pause en cliquant ici: <a
 							href='../sarah/xbmc?action=pause&xbmc=music' target=_blank>[Pause]</a>. Si ce simple essai fonctionne, tout va bien! (sinon aller directement à 'Test de la configuration')
 					</li><br>
 					<li> <strong>(Facultatif)</strong> Si vous souhaitez moins de log dans la console NodeJS:<br>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- éditez le fichier <em>xbmc.js</em> et mettez la variable <em>infodebug</em> à <em>false</em>.</li></br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- éditez le fichier <em>xbmc.js</em> et mettez la variable <em>infodebug</em> à <em>false</em>.
+					</li></br>
+					<li> <strong>(Facultatif) 2 xbmc supplémentaires ou Basculement entre xbmc:</strong><span class="badge">New</span><br>
+					Il est nécessaire que les xbmc aient le même contenu (médiathèque), ou encore mieux, synchroniser! (Cf Google)</br>
+					Cela permet de lire un film, une musique, une radio (...) sur un ou deux xbmc supplémentaires.</br>
+					Cela permet également de pouvoir, par exemple, jouer une musique sur le xbmc vidéo en ajoutant une phrase aux commandes classiques:</br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Sarah, Je veux écouter AC/DC (Joue la musique sur le xbmc musique)</br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Sarah, Je veux écouter AC/DC au salon (Joue la musique sur le xbmc video)</br>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Sarah, Je veux écouter AC/DC dans la chambre (Joue la musique sur le xbmc autre1)</br>
+					Pour cela:</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Paramétrer le plugin avec l'IP et	port XBMC (autre1 et/ou autre2).</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Modifier le fichier xbmc.XML (ligne 30/35 environs) pour renseigner la phrase à ajouter</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; au commandes classique pour utiliser cet xbmc.</br>
+					</li></br>
+					
+					
+					
 				</ul>
 			</div>
 		</div>

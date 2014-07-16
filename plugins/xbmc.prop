@@ -4,7 +4,9 @@
       "description": "Commande Vocale pour XBMC (Frodo ou Gotham)",
       "version"    : "x.x",
       "api_url_xbmc_music"    : "[FIXME]:[FIXME]",
-      "api_url_xbmc_video"    : "[FIXME]:[FIXME]"
+      "api_url_xbmc_video"    : "[FIXME]:[FIXME]",
+	  "api_url_xbmc_autre1"   : "[FIXME]:[FIXME]",
+	  "api_url_xbmc_autre2"   : "[FIXME]:[FIXME]"
     }
   }
 }

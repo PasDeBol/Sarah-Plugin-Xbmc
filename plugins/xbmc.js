@@ -186,9 +186,20 @@ if (data.action=='testconfig') {
     }
 	if (data.xbmc=='music') 		{ xbmc_api_url='http://'+config.api_url_xbmc_music+'/jsonrpc';}
 	else if (data.xbmc=='video') 	{ xbmc_api_url='http://'+config.api_url_xbmc_video+'/jsonrpc';}
+	else if (data.xbmc=='autre1') 	{ 
+		if (config.api_url_xbmc_autre1)
+			xbmc_api_url='http://'+config.api_url_xbmc_autre1+'/jsonrpc';
+		else
+			return callback({ 'tts': 'Configuration Nécessaire pour cet XBMC!'});
+		}
+	else if (data.xbmc=='autre2') { 
+		if (config.api_url_xbmc_autre1)
+			xbmc_api_url='http://'+config.api_url_xbmc_autre2+'/jsonrpc';
+		else
+			return callback({ 'tts': 'Configuration Nécessaire pour cet XBMC!'});
+		}
 	else  {return callback({ 'tts': 'Choix du XBMC inconnu!'});}
 
-console.log (xbmc_api_url.slice(7,16));
 	if (xbmc_api_url.slice(7,16)!='127.0.0.1') {delay_before_control=delay_before_control_distant;} else {delay_before_control=delay_before_control_local;}
 	
 // arrete le scrolling automatique sur une action quelconque	
