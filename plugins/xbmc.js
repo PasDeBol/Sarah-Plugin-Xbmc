@@ -62,7 +62,7 @@ exports.init = function (SARAH) {
 					// Recupere les info du media
 					var rqjson = {"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["title", "album", "artist", "duration", "file"], "playerid": 0 }, "id": "AudioGetItem"}
 					sendJSONRequest(xbmc_api_url, rqjson,  function(json){
-							SARAH.context.xbmc.status.statusmusic={'xbmc':true,'player':"play",'artist':json.result.item.artist,'album':json.result.item.album,'title':json.result.item.title,'label':json.result.item.label,'file':json.result.item.file};
+							SARAH.context.xbmc.status.statusmusic={'xbmc':true,'player':"play",'artist':json.result.item.artist[0],'album':json.result.item.album,'title':json.result.item.title,'label':json.result.item.label,'file':json.result.item.file};
 					});
 
 				}
@@ -125,7 +125,7 @@ if (data.action=='xbmcstatus') {
 			case 'audio_started':
 					xbmc_api_url='http://'+config.modules.xbmc.api_url_xbmc_music+'/jsonrpc';
 					doAction(audioPlayer, xbmc_api_url, callback, function(json){
-							SARAH.context.xbmc.status.statusmusic={'xbmc':true,'player':"play",'artist':json.result.item.artist,'album':json.result.item.album,'title':json.result.item.title,'label':json.result.item.label,'file':json.result.item.file};
+							SARAH.context.xbmc.status.statusmusic={'xbmc':true,'player':"play",'artist':json.result.item.artist[0],'album':json.result.item.album,'title':json.result.item.title,'label':json.result.item.label,'file':json.result.item.file};
 							SARAH.context.xbmc.status.statusmixed="play";
 							if (data.xbmc=="music_and_video") 
 								SARAH.context.xbmc.status.statusvideo={'xbmc':true,'player':"stop",'episode':-1,'file':"",'label':"",'season':-1,'showtitle':"",'title':"",'type':""};
