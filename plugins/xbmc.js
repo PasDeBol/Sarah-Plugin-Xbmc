@@ -665,6 +665,17 @@ switch (data.action) {
             }
             doPlaylist(filter, xbmc_api_url, callback);
             break;
+        case 'cetartist':
+			var artist=SARAH.context.xbmc.status.statusmusic.artist;
+			console.log(artist);
+			if (artist){
+				SARAH.speak('Je te mets les albums de '+artist);
+				var filter = {"and": []};
+				filter.and.push({"field": "artist", "operator": "contains", "value": artist});
+				doPlaylist(filter, xbmc_api_url, callback);
+				}
+			else {callback({'tts':'je ne peux pas!'});}
+            break;
 		case 'tvshowtitle': 
 			doPlaylistSerie(data.showid ,xbmc_api_url , callback);
 			break;

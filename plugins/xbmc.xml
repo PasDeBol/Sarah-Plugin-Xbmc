@@ -60,6 +60,7 @@
 			<item>mise à jour de la librairie musicale<tag>out.action.action="audiolibraryscan"; out.action.xbmc="music"; </tag></item>
 			<item>affiche les paroles de la chanson<tag>out.action.action="ExecuteAddon"; out.action.parameters="script.cu.lrclyrics"; out.action.value=1; out.action.xbmc="music"; </tag></item>
 			<item>affiche mes playlistes de musique<tag>out.action.xbmc="music"; out.action.action="ActivateWindow"; out.action.window="music"; out.action.parameters="special://profile/playlists/music/"; </tag></item>
+			<item>Je veux écouter tous les albums de cet artiste<tag>out.action.action="cetartist"; out.action.xbmc="music"; </tag></item>
 		</one-of>
 	</rule>  
   
