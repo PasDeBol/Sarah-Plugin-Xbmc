@@ -34,6 +34,7 @@
 				<li><a href="#" data-toggle="plugin-addon_StreamCam_Installation">Installation <span class="badge pull-right">New</span></a></li>
 				<li><a href="#" data-toggle="plugin-addon_StreamCam_Utilisation">Utilisation <span class="badge pull-right">New</span></a></li>
             <strong>Commandes vocales</strong>
+				<li><a href="#" data-toggle="plugin-vox-infofonctions">Infos nouvelles fonctions <span class="badge pull-right">New</span></a></li>
 				<li><a href="#" data-toggle="plugin-vox-examples">Exemples <span class="badge pull-right">New</span></a></li>
             <strong>Mode XBMC (Voice commander)</strong>
 				<li><a href="#" data-toggle="plugin-xbmccommander1">Activation / Désactivation</a></li>
@@ -53,10 +54,7 @@
 			<div class="panel-body">
 				<ul class="unstyled" >
 					<li><strong> Version X.X:</strong></br>
-					[X] Gestion des albums (enfin! n'est ce pas Franck Wehrlé!)</br>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Utilise l'importation XML des artistes: Sarah je veux écouter un album de AC/DC</br>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sarah proposera ensuite les albums disponibles via askme.</br>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Mets en pause la musique pour une meilleur compréhension de la réponse</br>
+					[X] Gestion des albums (enfin! n'est ce pas Franck Wehrlé!?!)</br>
 					[X] Ajout de la fonction "je veux écouter cet artiste" (pendant une lecture)</br>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Change la playlist pour jouer cet artiste uniquement.</br>
 					[X] Ajout de la fonction "je veux écouter un album de cet artiste" (pendant une lecture)</br>
@@ -412,7 +410,60 @@
 				</ul>
 			</div>
 		</div>
+
+
+
 	<!--Exemples-->
+ 		<div class="panel panel-primary" id="plugin-vox-infofonctions" style="display: none;"> 
+			<div class="panel-heading">Commandes Vocales - Infos sur les nouvelles fonctions <span class="badge">New</span></div>
+			<div class="panel-body">
+				<ul class="unstyled" >
+					<li><strong> Gestion des albums</strong></br></br>
+					Il est difficilement possible ou conviviale de demander directement un album de la même manière qu'un artiste. J'ai donc opté pour la méthode suivante. 
+					On peut demander à Sarah un album de tel ou tel artiste. Sarah interroge xbmc puis, via sa fonction askme, va annoncer le nombre d'album pour l'artiste en question et énuméré les titres d'albums. 
+					Vous pourrez alors demander l'album de votre choix en répondant le numéro de l'album ( Le 1, Le 2,...) ou sa position (le 1er, le 2ème, le 3ème,...) ou en répondant <em>aucun</em> pour teminer là.</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- SARAH : </br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; il y a 3 albums de AC/DC  </br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1. Back in black  </br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2. Highway to hell  </br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3. Ballbreaker  </br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Lequel souhaites tu écouter?  </br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Vous : </br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Le premier  </br>
+					&nbsp;&nbsp;&nbsp;(ou) Le un  </br>
+					&nbsp;&nbsp;&nbsp;(ou) Le deuxième  </br>
+					&nbsp;&nbsp;&nbsp;(ou) Le 2  </br>
+					&nbsp;&nbsp;&nbsp;(ou) Le troizième </br>
+					&nbsp;&nbsp;&nbsp;(ou) Le 3 </br>
+					&nbsp;&nbsp;&nbsp;(ou) aucun </br></br>
+					
+					Sarah gère un maximum de 15 position (de 'Le premier' à 'Le quinzième', pour plus il faut obligatoirement dire 'Le 16', 'Le 17',... </br></br>
+					Sarah mets automatiquement en pause la musique pour une meilleur compréhension de la réponse</br> </br>
+					Les commandes concernées par la gestion des albums sont :</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Sarah, je veux écouter un album de ##ARTISTE## </br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Sarah, je veux écouter un album de cet artiste </br>
+					</li></br>
+					
+					<li><strong> Sarah, je veux écouter un album de ##ARTISTE## </strong></br></br>
+					Cf Gestion des albums	 </br>
+					Cette commande utilise les même données d'importation XML des artistes: </br>
+					</li></br>
+
+					<li><strong> Sarah, je veux écouter un album cet artiste </strong></br></br>
+					Cf Gestion des albums	 </br>
+					Sarah va utiliser l'artiste en cours de lecture pour vous proposer ses albums. </br>
+					</li></br>
+					
+					<li><strong> Sarah, Je veux écouter tous les albums de cet artiste </strong></br></br>
+					Sarah va jouer toutes les chansons de l'artiste en cours de lecture. </br>
+					</li></br>
+				</ul>
+			</div>
+		</div>
+
+
+
+		<!--Exemples-->
  		<div class="panel panel-primary" id="plugin-vox-examples" style="display: none;"> 
 			<div class="panel-heading">Commandes Vocales - Exemples</div>
 			<div class="panel-body">
@@ -469,6 +520,7 @@
 						Sarah, met de la musique XXXGenreXXX... (importation XML nécessaire) </br>
 						Sarah, joue de la musique XXXGenreXXX (importation XML nécessaire) </br>
 						Sarah, je veux écouter XXArtistXX (importation XML nécessaire)</br>
+						Sarah, je veux écouter un album de XXArtistXX (si importation des artistes).<span class="badge">New</span></br></br>
 						Sarah, met le prochain épisode de XXSérieXX (importation XML nécessaire) </br>
 						Sarah, je veux écouter ma playliste XXMaPlaylistXX (importation XML nécessaire) </br>
 						Sarah, joue ma playliste XXMaPlaylistMusicXX (importation XML nécessaire) </br>

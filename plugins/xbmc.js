@@ -687,7 +687,7 @@ switch (data.action) {
 				doAction(getalbumsof, xbmc_api_url, callback, function(res){
 					nbalbums=res.result.limits.total;
 					if (infodebug) console.log('plugin xbmc - '+ nbalbums+ ' albums trouvé');
-					askmequestion= 'Il y a '+nbalbums+ 'albums de '+artist+'...';
+					askmequestion= 'Il y a '+nbalbums+ ' albums de '+artist+'...';
 					askme={}
 					askmeresponse={};
 					var albumlabel={};
@@ -702,6 +702,14 @@ switch (data.action) {
 						if (i==5) askmeresponse['le sixième']= res.result.albums[i].albumid;
 						if (i==6) askmeresponse['le septième']= res.result.albums[i].albumid;
 						if (i==7) askmeresponse['le huitième']= res.result.albums[i].albumid;
+						if (i==8) askmeresponse['le neuvième']= res.result.albums[i].albumid;
+						if (i==9) askmeresponse['le dixième']= res.result.albums[i].albumid;
+						if (i==10) askmeresponse['le onzième']= res.result.albums[i].albumid;
+						if (i==11) askmeresponse['le douzième']= res.result.albums[i].albumid;
+						if (i==12) askmeresponse['le treizième']= res.result.albums[i].albumid;
+						if (i==13) askmeresponse['le quatorzième']= res.result.albums[i].albumid;
+						if (i==14) askmeresponse['le quinzième']= res.result.albums[i].albumid;
+						askmeresponse[sanitizeNumber('Le ' + (i+1))]= res.result.albums[i].albumid;
 					}
 					askmeresponse['aucun']= 0; // pour réponse 'aucun'
 					askmequestion+=' Lequel souhaites tu écouter';
