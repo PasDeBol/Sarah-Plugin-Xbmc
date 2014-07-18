@@ -849,7 +849,7 @@ switch (data.action) {
 				else if (res.result.limits.total<=5) {
 					for (var i=0;i<(res.result.limits.total-1);i++) {
 						if (moviestosee!="") {moviestosee+=', ... ';}
-						moviestosee+=res.result.movies[i].label
+						moviestosee+=res.result.movies[i].label;
 					}
 					callback({'tts':'Il te reste '+res.result.limits.total+' films que tu n\'as pas encore regardé:... '+moviestosee});
 				}
