@@ -667,15 +667,67 @@ switch (data.action) {
             break;
         case 'cetartist':
 			var artist=SARAH.context.xbmc.status.statusmusic.artist;
-			console.log(artist);
+			if (infodebug) console.log('plugin xbmc - albums de '+artist);
 			if (artist){
 				SARAH.speak('Je te mets les albums de '+artist);
 				var filter = {"and": []};
 				filter.and.push({"field": "artist", "operator": "contains", "value": artist});
 				doPlaylist(filter, xbmc_api_url, callback);
 				}
+			else {callback({'tts':'je ne reconnais pas cet artiste'});}
+            break;
+        case 'getalbumsof':
+			if (data.artist)
+				var artist=data.artist;
+			else 
+				var artist=SARAH.context.xbmc.status.statusmusic.artist;
+			if (artist){
+				if (infodebug) console.log('plugin xbmc - albums de '+artist);
+				getalbumsof.params.filter.value=artist;
+				doAction(getalbumsof, xbmc_api_url, callback, function(res){
+					nbalbums=res.result.limits.total;
+					if (infodebug) console.log('plugin xbmc - '+ nbalbums+ ' albums trouvé');
+					askmequestion= 'Il y a '+nbalbums+ 'albums de '+artist+'...';
+					askme={}
+					askmeresponse={};
+					var albumlabel={};
+					for (var i=0;i<nbalbums;i++) {
+						albumlabel['id'+res.result.albums[i].albumid]=res.result.albums[i].label;
+						askmequestion+= (i+1) + ', ' + res.result.albums[i].label + ' ... ';
+						if (i==0) askmeresponse['le premier']= res.result.albums[i].albumid;
+						if (i==1) askmeresponse['le deuxième']= res.result.albums[i].albumid;
+						if (i==2) askmeresponse['le troisième']= res.result.albums[i].albumid;
+						if (i==3) askmeresponse['le quatrième']= res.result.albums[i].albumid;
+						if (i==4) askmeresponse['le cinquième']= res.result.albums[i].albumid;
+						if (i==5) askmeresponse['le sixième']= res.result.albums[i].albumid;
+						if (i==6) askmeresponse['le septième']= res.result.albums[i].albumid;
+						if (i==7) askmeresponse['le huitième']= res.result.albums[i].albumid;
+					}
+					askmeresponse['aucun']= 0; // pour réponse 'aucun'
+					askmequestion+=' Lequel souhaites tu écouter';
+					//doAction(play, xbmc_api_url, callback);
+					SARAH.call('xbmc', { 'xbmc' : data.xbmc, 'action':'pause'});
+					var timetimeout=5000+(2500*nbalbums);
+					console.log(timetimeout);
+					SARAH.askme(askmequestion, askmeresponse ,timetimeout , function(answer, end){ // the selected answer or false
+							if 	((answer)&&(answer!=0))
+								{ 
+								if (infodebug) console.log('plugin xbmc - '+ albumlabel['id'+answer]+ ' demandé');
+								SARAH.speak("Je mets l'album. " + albumlabel['id'+answer]+", de "+artist, function(){
+									delete songs.params.sort;	
+									delete songs.params.limits;
+									var filter={"albumid" : parseInt(answer) };
+									doPlaylist(filter, xbmc_api_url, callback);
+									});
+								}
+							end(); // MUST be called when job done
+					});
+				});
+				callback();
+				}
 			else {callback({'tts':'je ne peux pas!'});}
             break;
+	
 		case 'tvshowtitle': 
 			doPlaylistSerie(data.showid ,xbmc_api_url , callback);
 			break;
@@ -1279,6 +1331,9 @@ var runlist = {"jsonrpc": "2.0", "id": 2, "method": "Player.Open", "params": {"i
 var shuffle_on = {"jsonrpc": "2.0", "method": "Player.SetShuffle",  "params": { "playerid": 0 ,"shuffle":true}, "id": 1}
 var shuffle_off = {"jsonrpc": "2.0", "method": "Player.SetShuffle",  "params": { "playerid": 0 ,"shuffle":false}, "id": 1}
 
+// Albums
+var getalbumsof={"jsonrpc": "2.0", "method": "AudioLibrary.GetAlbums", "params": {"filter": {"operator": "is", "field": "artist", "value": ""}}, "id": 1}
+ //               { "jsonrpc": "2.0","method": "AudioLibrary.GetAlbums","params": {"filter": { "operator": "is", "field": "artist", "value": "Calvin Russell" }},"id": 1 }
 // Playlistfile (Play)
 var playlistmusic ={ "jsonrpc": "2.0", "method": "Player.Open", "params": { "item": { "file": "" }, "options" : {"shuffled":true}}, "id": 1 }
 // Playlistfile (Show)
@@ -1388,7 +1443,7 @@ var doPlaylist = function (filter, xbmc_api_url, callback) {
     // Search songs
     doAction(songs, xbmc_api_url, callback, function (json) {
 
-        // No results
+		// No results
         if (!json.result.songs) {
             callback({ 'tts': "Je n'ai pas trouvé de résultats" })
             return false;

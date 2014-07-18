@@ -61,6 +61,7 @@
 			<item>affiche les paroles de la chanson<tag>out.action.action="ExecuteAddon"; out.action.parameters="script.cu.lrclyrics"; out.action.value=1; out.action.xbmc="music"; </tag></item>
 			<item>affiche mes playlistes de musique<tag>out.action.xbmc="music"; out.action.action="ActivateWindow"; out.action.window="music"; out.action.parameters="special://profile/playlists/music/"; </tag></item>
 			<item>Je veux écouter tous les albums de cet artiste<tag>out.action.action="cetartist"; out.action.xbmc="music"; </tag></item>
+			<item>Je veux écouter un album de cet artiste<tag>out.action.action="getalbumsof"; out.action.xbmc="music"; </tag></item>
 		</one-of>
 	</rule>  
   
@@ -204,13 +205,16 @@
 		<example>SARAH je veux écouter ACDC</example>
 		<tag>out.action=new Object();</tag>
 		<tag>out.action.xbmc="music"; </tag>
-		<item>je veux écouter<tag>out.action.action="artist"; </tag></item>
+		<one-of>
+			<item>je veux écouter<tag>out.action.action="artist"; </tag></item>
+			<item>je veux écouter un album de <tag>out.action.action="getalbumsof"; </tag></item>
+		</one-of>
 		<one-of>
 			<!-- Personalisation Artiste ¤PERSOartiste¤ -->
             <!-- ¤PERSOartiste¤ Fin de Personalisation Artiste -->
 			<!-- Automatic Generation Artist ¤IMPORTartiste¤ -->
-            <item>ARTIST NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n'a jamais été généré!"; </tag></item>
-			<!-- ¤IMPORTartiste¤ END Automatic Generation Artist -->
+           <item>ARTIST NON DEFINI<tag>out.action._attributes.tts = "Le fichier XML n'a jamais été généré!"; </tag></item>
+            <!-- ¤IMPORTartiste¤ END Automatic Generation Artist -->
 		</one-of>
 		<item repeat="0-1"><ruleref uri="#ruleXBMC_MesXbmc"/><tag>out.action.xbmc=rules.ruleXBMC_MesXbmc;</tag></item><!-- Gestion de plusieurs XBMC -->
 	</rule>
