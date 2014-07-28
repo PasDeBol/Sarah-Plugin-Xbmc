@@ -62,6 +62,7 @@
 			<item>affiche mes playlistes de musique<tag>out.action.xbmc="music"; out.action.action="ActivateWindow"; out.action.window="music"; out.action.parameters="special://profile/playlists/music/"; </tag></item>
 			<item>Je veux écouter tous les albums de cet artiste<tag>out.action.action="cetartist"; out.action.xbmc="music"; </tag></item>
 			<item>Je veux écouter un album de cet artiste<tag>out.action.action="getalbumsof"; out.action.xbmc="music"; </tag></item>
+			<item>Je veux écouter un mix de soirée <tag>out.action.action="partymode"; out.action.xbmc="music"; </tag></item>
 		</one-of>
 	</rule>  
   

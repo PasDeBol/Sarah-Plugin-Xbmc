@@ -902,9 +902,12 @@ switch (data.action) {
 			if (data.value) {
 				
 				var params = {"jsonrpc": "2.0", "method": "Application.SetVolume", "params": { "volume": parseInt(data.value)}, "id": 1}
-				console.log (params);
+				//console.log (params);
 				doAction(params, xbmc_api_url, callback);
 			}
+			break;
+		case 'partymode':
+			doAction(PartyMode, xbmc_api_url, callback);
 			break;
 		case 'viewmode':
 			// Changer de viewmode dans un librairie: changeviewmode(viewmode souhaité, false)
@@ -1325,7 +1328,7 @@ var Back={"jsonrpc": "2.0", "method": "Input.Back", "params": {}, "id": 1}
 var Info={"jsonrpc": "2.0", "method": "Input.Info", "params": {}, "id": 1}
 var ContextMenu={"jsonrpc": "2.0", "method": "Input.ContextMenu", "params": {}, "id": 1}
 var ShowOSD={"jsonrpc": "2.0", "method": "Input.ShowOSD", "params": {}, "id": 1}
-
+var PartyMode={ "jsonrpc": "2.0", "method": "Player.Open", "params": { "item": { "partymode": "music" } }, "id": 1 };
 // Library
 var VideoLibraryScan={"jsonrpc":"2.0","method":"VideoLibrary.Scan","id":1}
 var AudioLibraryScan={"jsonrpc":"2.0","method":"AudioLibrary.Scan","id":1}
