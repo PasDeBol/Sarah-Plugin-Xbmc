@@ -96,7 +96,7 @@ module.exports = {
 		function go_port_music() {
 			htmlreponse+='</br>Test le port de destination xbmc "music":';
 			var request = require('request');
-			request({'uri': 'http://'+configurlmusic,'method': 'GET', 'timeout': 2000}, function (err, response) {
+			request({'uri': 'http://'+configurlmusic,'method': 'GET', 'timeout': 5000}, function (err, response) {
 				if (err || response.statusCode != 200) {
 					htmlreponse+='</br>&nbsp;&nbsp;&nbsp;XX Erreur: Aucune réponse sur le port '+configurlmusic+' <--- Port Correct?';
 					htmlreponse+='</br>&nbsp;&nbsp;&nbsp;XX Le port doit être celui que vous avez renseigné dans XBMC (serveur WEB)';
@@ -127,7 +127,7 @@ module.exports = {
 		function go_port_video() {
 			htmlreponse+='</br>Test le port de destination xbmc "video":';
 			var request = require('request');
-			request({'uri': 'http://'+configurlvideo,'method': 'GET', 'timeout': 2000}, function (err, response) {
+			request({'uri': 'http://'+configurlvideo,'method': 'GET', 'timeout': 5000}, function (err, response) {
 				if (err || response.statusCode != 200) {
 					htmlreponse+='</br>&nbsp;&nbsp;&nbsp;XX Erreur: Aucune réponse sur le port '+configurlvideo+' <--- Port Correct?';
 					htmlreponse+='</br>&nbsp;&nbsp;&nbsp;XX Le port doit être celui que vous avez renseigné dans XBMC (serveur WEB)';
@@ -153,7 +153,7 @@ module.exports = {
 			htmlreponse+='</br>Test la réponse de xbmc "music":';
 			var request = require('request');
 			var rqjson={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentwindow"]}, "id": 1};
-			request({'uri': 'http://'+configurlmusic+'/jsonrpc','method': 'POST', 'json' : rqjson , 'timeout': 2000}, function (err, response, json) {
+			request({'uri': 'http://'+configurlmusic+'/jsonrpc','method': 'POST', 'json' : rqjson , 'timeout': 5000}, function (err, response, json) {
 				if (err || response.statusCode != 200) {
 					htmlreponse+='<br>&nbsp;&nbsp;&nbsp;XX Erreur: réponse incorrecte de XBMC <--- Etrange! Version de xbmc?';
 					callback({'tts': htmlreponse});
@@ -168,7 +168,7 @@ module.exports = {
 			htmlreponse+='</br>Test la réponse de xbmc "video":';
 			var request = require('request');
 			var rqjson={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["currentwindow"]}, "id": 1};
-			request({'uri': 'http://'+configurlvideo+'/jsonrpc','method': 'POST', 'json' : rqjson , 'timeout': 2000}, function (err, response, json) {
+			request({'uri': 'http://'+configurlvideo+'/jsonrpc','method': 'POST', 'json' : rqjson , 'timeout': 5000}, function (err, response, json) {
 				if (err || response.statusCode != 200) {
 					htmlreponse+='<br>&nbsp;&nbsp;&nbsp;XX Erreur: réponse incorrecte de XBMC <--- Etrange! Version de xbmc?';
 					callback({'tts': htmlreponse});
@@ -184,7 +184,7 @@ module.exports = {
 			htmlreponse+='</br>Test de la médiathèque de xbmc "music":';
 			var request = require('request');
 			var rqjson={"jsonrpc": "2.0", "method": "AudioLibrary.GetArtists", "params": {}, "id": 1};
-			request({'uri': 'http://'+configurlmusic+'/jsonrpc','method': 'POST', 'json' : rqjson , 'timeout': 2000}, function (err, response, json) {
+			request({'uri': 'http://'+configurlmusic+'/jsonrpc','method': 'POST', 'json' : rqjson , 'timeout': 5000}, function (err, response, json) {
 				if (err || response.statusCode != 200) {
 					htmlreponse+="<br>&nbsp;&nbsp;&nbsp;XX Erreur: réponse incorrecte de XBMC <--- Etrange! pas de médiathèque musicale dans XBMC?";
 					callback({'tts': htmlreponse});
@@ -200,7 +200,7 @@ module.exports = {
 					htmlreponse+='<br>&nbsp;&nbsp;&nbsp;|| Info:  Nombre d\'artistes :'+json.result.limits.total;
 				}
 				rqjson={"id":1,"jsonrpc":"2.0","method":"GUI.ShowNotification","params":{"title":"Félicitation!","message":"Sarah communique moi!"}};
-				if (configurlvideo!=configurlmusic) request({'uri': 'http://'+configurlmusic+'/jsonrpc','method': 'POST', 'json' : rqjson , 'timeout': 2000});
+				if (configurlvideo!=configurlmusic) request({'uri': 'http://'+configurlmusic+'/jsonrpc','method': 'POST', 'json' : rqjson , 'timeout': 5000});
 				goto_mediathequevideo(); 
 			});
 		}
@@ -209,7 +209,7 @@ module.exports = {
 			htmlreponse+='</br>Test de la médiathèque de xbmc "video":';
 			var request = require('request');
 			var rqjson={"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {}, "id": 1};
-			request({'uri': 'http://'+configurlvideo+'/jsonrpc','method': 'POST', 'json' : rqjson , 'timeout': 2000}, function (err, response, json) {
+			request({'uri': 'http://'+configurlvideo+'/jsonrpc','method': 'POST', 'json' : rqjson , 'timeout': 5000}, function (err, response, json) {
 				if (err || response.statusCode != 200) {
 					htmlreponse+="<br>&nbsp;&nbsp;&nbsp;XX Erreur: réponse incorrecte de XBMC <--- Etrange! pas de film mis en médiathèque?";
 					callback({'tts': htmlreponse});
@@ -231,7 +231,7 @@ module.exports = {
 			htmlreponse+='</br>Controle du theme/skin xbmc "video":';
 			var request = require('request');
 			var rqjson={"jsonrpc": "2.0", "method": "GUI.GetProperties", "params": { "properties": ["skin"]}, "id": 1};
-			request({'uri': 'http://'+configurlvideo+'/jsonrpc','method': 'POST', 'json' : rqjson , 'timeout': 2000}, function (err, response, json) {
+			request({'uri': 'http://'+configurlvideo+'/jsonrpc','method': 'POST', 'json' : rqjson , 'timeout': 5000}, function (err, response, json) {
 				if ((json.result.skin.name!='Confluence')&&(json.result.skin.name!='Aeon Nox')) {
 					warning=true;
 					htmlreponse+="<br>|| WARNING votre thème est "+json.result.skin.name+", ce n'est pas le thème par défaut. Cela peut éventuellement poser problème en 'mode xbmc'";
@@ -249,7 +249,7 @@ module.exports = {
 				if (warning) htmlreponse+='# Mais Warning! #<br>';
 				htmlreponse+='################<br>';
 				rqjson={"id":1,"jsonrpc":"2.0","method":"GUI.ShowNotification","params":{"title":"Félicitation!","message":"Sarah communique moi!"}};
-				request({'uri': 'http://'+configurlvideo+'/jsonrpc','method': 'POST', 'json' : rqjson , 'timeout': 2000});
+				request({'uri': 'http://'+configurlvideo+'/jsonrpc','method': 'POST', 'json' : rqjson , 'timeout': 5000});
 				callback({'tts': htmlreponse});
 		
 			});

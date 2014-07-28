@@ -25,7 +25,7 @@
 				<li><a href="#" data-toggle="plugin-config-xbmc">XBMC</a></li>
 				<li><a href="#" data-toggle="plugin-config-sarah">SARAH <span class="badge pull-right">New</span></a></li>
 				<li><a href="#" data-toggle="plugin-vox-test">Test de la configuration</a></li>
-				<li><a href="#" data-toggle="plugin-vox-errors">Erreurs</a></li>
+				<li><a href="#" data-toggle="plugin-vox-errors">Erreurs ou Problèmes<span class="badge pull-right">New</span></a></li>
             <strong>Addon pour Xbmc: Sarah and XBMC</strong>
 				<li><a href="#" data-toggle="plugin-addon_Sarahandxbmc_Installation">Installation <span class="badge pull-right">New</span></a></li>
 				<li><a href="#" data-toggle="plugin-addon_Sarahandxbmc_Principe">Principe <span class="badge pull-right">New</span></a></li>
@@ -53,6 +53,13 @@
 			<div class="panel-heading">Versions</div>
 			<div class="panel-body">
 				<ul class="unstyled" >
+					<li><strong> Version 2.0.1:</strong></br>
+					[X] Regroupement et mise en place de paramétrage dans xbmc.js (timeout, temps askme, grosse librairie...) </br>
+					[X] Sarah prononce la chaine demandée </br>
+					[X] Correction de bugs pour XbmcStatus et Event Sarah</br>
+					
+					</li></br>
+
 					<li><strong> Version 2.0: Goth'cam</strong></br>
 					[X] Gestion des albums (enfin! n'est ce pas Franck Wehrlé!?!)</br>
 					[X] Ajout de la fonction "je veux écouter cet artiste" (pendant une lecture)</br>
@@ -550,15 +557,26 @@
 		</div>
     <!--Erreurs-->
 		<div class="panel panel-primary" id="plugin-vox-errors" style="display: none;"> 
-			<div class="panel-heading">Configuration - Erreurs</div>
+			<div class="panel-heading">Configuration - Erreurs ou Problèmes</div>
 			<div class="panel-body">
 				<ul class="unstyled" >
-					<li> <em>"Je n'ai pas pu contacter le serveur"</em> : Aucune réponse de XBMC
-						(ip, port, autorisation http...?)
-					</li>
-					<li> <em>"Je n'ai pas pu executer l'action"</em> : Réponse de XBMC mais
-						incorrecte. (XML...?)
-					</li>
+					<li><strong><em>"Je n'ai pas pu contacter le serveur"</em></strong> : Aucune réponse de XBMC (ip, port, autorisation http...?)
+					</li></br>
+					<li><strong><em>"Je n'ai pas pu executer l'action"</em></strong> : Réponse de XBMC mais	incorrecte. (XML...?)
+					</li></br>
+					<li><strong>Pour un XBMC réagissant lentement (connexion wifi ou pc lent): </strong><span class="badge">New</span></br>
+						Il peut être utile d'augmenter le timeout des requètes vers xbmc.</br>
+						Dans xbmc.js augmenter la variable <em>requesttimeout</em> (3000 millisecondes par défaut).</br>
+						et mettre la variable <em>bigdatabasetimetoadd</em> à 70 environs( 0 millisecondes par défaut).</br>
+						Cette dernière risque d'augmenter le temps de défilement lors de la recherche d'un titre/artiste/film en <em>mode xbmc</em>
+					</li></br>
+					<li><strong>Si, lors de la demande d'album, Sarah ne vous laisse pas le temps de répondre: </strong><span class="badge">New</span></br>
+						Il peut être utile d'augmenter les temps liés à Askme: </br>
+						Le temps donné à Askme dépends du nombre d'albums (= Temps Base + Temps Album x Nombre d'albums). </br>
+						Dans xbmc.js modifier les variables:</br>
+						- Temps Base : <em>timeaskmealbum</em> (7000 millisecondes par défaut) </br>        				
+						- Temps Album: <em>timeaskmeaddedperalbum</em> (3000 millisecondes par défaut) 					    
+					</li></br>
 				</ul>
 			</div>
 		</div>
