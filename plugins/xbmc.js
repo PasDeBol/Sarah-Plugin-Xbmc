@@ -1701,7 +1701,7 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
                 res.result.channels.forEach(function (value) {
 					try {
 					// test si ligne déjà présente
-						lignetest = '<tag>out.action.action="tv";out.action.channelid = '+value.channelid+'</tag>';
+						lignetest = '<tag>out.action.action="tv";out.action.channelid = '+value.channelid+';out.tts = "Je mets '+ value.channel.replace(/&/gi, " and ") + '";</tag>';
 						var regexp = new RegExp(lignetest, 'gm');
 						if (xml.match(regexp))
 							{
@@ -1710,7 +1710,7 @@ var doXML = function (req, xbmc_api_url, callback, hook) {
 							}
 						else {
 							lignehtml += value.channel.replace(/&/gi, "&amp;") + ' (id '+value.channelid+')<br>'
-							ligneitem = '            <item>' + value.channel.replace(/&/gi, " and ") + '<tag>out.action.action="tv";out.action.channelid = '+value.channelid+'</tag></item>\n';
+							ligneitem = '            <item>' + value.channel.replace(/&/gi, " and ") + '<tag>out.action.action="tv";out.action.channelid = '+value.channelid+';out.tts = "Je mets '+ value.channel.replace(/&/gi, " and ") + '";</tag></item>\n';
 							replace += (ligneitem);
 							}
 					} catch(ex) {
