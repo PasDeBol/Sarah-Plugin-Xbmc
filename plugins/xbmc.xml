@@ -13,7 +13,7 @@
 			<item><ruleref uri="#ruleXBMC_Telecommande"/><tag>out.action = rules.ruleXBMC_Telecommande; out.action._attributes.tts = "Je m'en occupe"; out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc"; </tag></item>
 			<item><ruleref uri="#ruleXBMC_Serie"/><tag>out.action = rules.ruleXBMC_Serie; out.action._attributes.tts = "Je m'en occupe"; out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc"; </tag></item>
 			<item><ruleref uri="#ruleXBMC_Radio"/><tag>out.action = rules.ruleXBMC_Radio; out.action._attributes.tts = "Je mets la radio"; out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc"; </tag></item>
-			<item><ruleref uri="#ruleXBMC_Tv"/><tag>out.action = rules.ruleXBMC_Tv; out.action._attributes.tts = "Je mets la télé"; out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc"; </tag></item>
+			<item><ruleref uri="#ruleXBMC_Tv"/><tag>out.action = rules.ruleXBMC_Tv ;out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc"; </tag></item>
 			<item><ruleref uri="#ruleXBMC_Film"/><tag>out.action = rules.ruleXBMC_Film; out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc"; </tag></item>
 			<item><ruleref uri="#ruleXBMC_StreamCam"/><tag>out.action = rules.ruleXBMC_StreamCam; out.action._attributes.uri="http://127.0.0.1:8080/sarah/xbmc"; </tag></item>
 			<item>active le mode xbmc<tag>out.action._attributes.context = "lazyxbmc.xml,lazyxbmc_temp.xml"; out.action._attributes.tts = "Mode XBMC activé, que veux tu?"; </tag></item>
