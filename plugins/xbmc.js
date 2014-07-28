@@ -78,6 +78,10 @@ var delay_before_control;
 var infodebug=true;
 	// Status from ADDON "Sarah and XBMC"
 if (data.action=='xbmcstatus') {
+		if ((data.status=='xbmc_started')||(data.status=='xbmc_ended')||(data.status=='database_updated'))
+			SARAH.context.xbmc.status.lastaction=data.xbmc+'_'+data.status;
+		else
+			SARAH.context.xbmc.status.lastaction=data.status;
 		switch (data.status) {
 			case 'xbmc_started':
 				if ((data.xbmc=="music_and_video")|| (data.xbmc=="video"))
@@ -87,6 +91,7 @@ if (data.action=='xbmcstatus') {
 				if ((SARAH.context.xbmc.status.statusvideo.player=="stop") && (SARAH.context.xbmc.status.statusmusic.player=="stop"))
 					SARAH.context.xbmc.status.statusmixed="stop";
 				console.log("plugin xbmc -  XBMC ("+data.xbmc+") a indiqué avoir démarré." );
+				SARAH.trigger('xbmc', SARAH.context.xbmc.status ); // Fonction Event Sarah
 				break;
 			case 'xbmc_ended':
 				if ((data.xbmc=="music_and_video")|| (data.xbmc=="video")) 
@@ -95,6 +100,7 @@ if (data.action=='xbmcstatus') {
 					SARAH.context.xbmc.status.statusmusic={'xbmc':false,'player':"stop",'artist':"",'album':"",'title':"",'label':"",'file':""};
 				if ((SARAH.context.xbmc.status.statusvideo.player=="stop") && (SARAH.context.xbmc.status.statusmusic.player=="stop"))
 					SARAH.context.xbmc.status.statusmixed="stop";
+				SARAH.trigger('xbmc', SARAH.context.xbmc.status ); // Fonction Event Sarah
 				break;
 			case 'video_started':
 					xbmc_api_url='http://'+config.modules.xbmc.api_url_xbmc_video+'/jsonrpc';
@@ -103,16 +109,19 @@ if (data.action=='xbmcstatus') {
 							SARAH.context.xbmc.status.statusmixed="play";
 							if (data.xbmc=="music_and_video") 
 								SARAH.context.xbmc.status.statusmusic={'xbmc':true,'player':"stop",'artist':"",'album':"",'title':"",'label':"",'file':""};
+								SARAH.trigger('xbmc', SARAH.context.xbmc.status ); // Fonction Event Sarah
 					});
 				break;
 			case 'video_paused':
 				SARAH.context.xbmc.status.statusvideo.player="pause";
 				if ((data.xbmc=="music_and_video")|| (SARAH.context.xbmc.status.statusmusic.player!="play"))
 					SARAH.context.xbmc.status.statusmixed="pause";
+				SARAH.trigger('xbmc', SARAH.context.xbmc.status ); // Fonction Event Sarah
 				break;
 			case 'video_resumed':
 				SARAH.context.xbmc.status.statusvideo.player="play";
 				SARAH.context.xbmc.status.statusmixed="play";
+				SARAH.trigger('xbmc', SARAH.context.xbmc.status ); // Fonction Event Sarah
 				break;
 			case 'video_ended':
 			case 'video_stopped':
@@ -121,6 +130,7 @@ if (data.action=='xbmcstatus') {
 					SARAH.context.xbmc.status.statusmixed="stop";
 				if (data.xbmc=="music_and_video") 
 					SARAH.context.xbmc.status.statusmusic={'xbmc':true,'player':"stop",'artist':"",'album':"",'title':"",'label':"",'file':""};
+				SARAH.trigger('xbmc', SARAH.context.xbmc.status ); // Fonction Event Sarah
 				break;
 			case 'audio_started':
 					xbmc_api_url='http://'+config.modules.xbmc.api_url_xbmc_music+'/jsonrpc';
@@ -129,16 +139,19 @@ if (data.action=='xbmcstatus') {
 							SARAH.context.xbmc.status.statusmixed="play";
 							if (data.xbmc=="music_and_video") 
 								SARAH.context.xbmc.status.statusvideo={'xbmc':true,'player':"stop",'episode':-1,'file':"",'label':"",'season':-1,'showtitle':"",'title':"",'type':""};
+							SARAH.trigger('xbmc', SARAH.context.xbmc.status ); // Fonction Event Sarah
 					});
 				break;
 			case 'audio_paused':
 				SARAH.context.xbmc.status.statusmusic.player="pause";
 				if ((data.xbmc=="music_and_video")|| (SARAH.context.xbmc.status.statusvideo.player!="play"))
 					SARAH.context.xbmc.status.statusmixed="pause";
+				SARAH.trigger('xbmc', SARAH.context.xbmc.status ); // Fonction Event Sarah
 				break;
 			case 'audio_resumed':
 				SARAH.context.xbmc.status.statusmusic.player="play";
 				SARAH.context.xbmc.status.statusmixed="play";
+				SARAH.trigger('xbmc', SARAH.context.xbmc.status ); // Fonction Event Sarah
 				break;
 			case 'audio_ended':
 			case 'audio_stopped':
@@ -147,20 +160,16 @@ if (data.action=='xbmcstatus') {
 					SARAH.context.xbmc.status.statusmixed="stop";
 				if (data.xbmc=="music_and_video") 
 					SARAH.context.xbmc.status.statusvideo={'xbmc':true,'player':"stop",'episode':-1,'file':"",'label':"",'season':-1,'showtitle':"",'title':"",'type':""};
+				SARAH.trigger('xbmc', SARAH.context.xbmc.status ); // Fonction Event Sarah
 				break;
 			case 'database_updated':
-			
+				SARAH.trigger('xbmc', SARAH.context.xbmc.status ); // Fonction Event Sarah
 				break;
 			default: 
 				break;
 		}
-	if ((data.status=='xbmc_started')||(data.status=='xbmc_ended')||(data.status=='database_updated'))
-		SARAH.context.xbmc.status.lastaction=data.xbmc+'_'+data.status;
-	else
-		SARAH.context.xbmc.status.lastaction=data.status;
 	if (infodebug) {setTimeout(function(){console.dir(SARAH.context.xbmc.status);},2000);} 
 	// EVENT -> all plugins
-	SARAH.trigger('xbmc', SARAH.context.xbmc.status );
 	callback();
 return;		
 }
