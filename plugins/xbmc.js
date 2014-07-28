@@ -1,3 +1,15 @@
+//////////////////////////////////////////////////////
+//     CONFIG (à toucher avec prudence)             //
+var infodebug=true;									//
+var delay_before_control_local=50;					//
+var delay_before_control_distant=500;				//
+var requesttimeout = 3000;            				// 
+var bigdatabasetimetoadd = 0;      					// 
+var timeaskmealbum = 7000;            				// 
+var timeaskmeaddedperalbum = 3000;   				// 
+//													//
+//////////////////////////////////////////////////////
+
 exports.init = function (SARAH) {
 	// Init status XBMC
 	SARAH.context.xbmc={};
@@ -69,13 +81,10 @@ exports.init = function (SARAH) {
 		}		
 	});
 }
+
 exports.action = function (data, callback, config, SARAH) {
-	// Config
-var max_items=1000;
-var delay_before_control_local=50;
-var delay_before_control_distant=500;
+var max_items=1000; 					// Ne pas modifier!
 var delay_before_control;
-var infodebug=true;
 	// Status from ADDON "Sarah and XBMC"
 if (data.action=='xbmcstatus') {
 		if ((data.status=='xbmc_started')||(data.status=='xbmc_ended')||(data.status=='database_updated'))
@@ -580,7 +589,8 @@ navigation_cherche_item= function(searchcontrol,callback) {
 					params={ "jsonrpc": "2.0", "method": "Input.ExecuteAction", "params": {"action": searchdirection}, "id": 1 };
 						if (repeter>0)  {
 							for (var i=0;i<repeter;i++) {
-								doAction(params, xbmc_api_url);
+								//doAction(params, xbmc_api_url);
+								setTimeout(function(){doAction(params, xbmc_api_url);}, i*bigdatabasetimetoadd);
 							}
 						}
 				}
@@ -724,7 +734,7 @@ switch (data.action) {
 					askmequestion+=' Lequel souhaites tu écouter';
 					//doAction(play, xbmc_api_url, callback);
 					SARAH.call('xbmc', { 'xbmc' : data.xbmc, 'action':'pause'});
-					var timetimeout=5000+(2500*nbalbums);
+					var timetimeout=timeaskmealbum+(timeaskmeaddedperalbum*nbalbums);
 					console.log(timetimeout);
 					SARAH.askme(askmequestion, askmeresponse ,timetimeout , function(answer, end){ // the selected answer or false
 							if 	((answer)&&(answer!=0))
@@ -1777,7 +1787,7 @@ var sendJSONRequest = function (url, reqJSON, callback) {
     request({
             'uri': url,
             'method': 'POST',
-			'timeout': 3000,
+			'timeout': requesttimeout,
             'json': reqJSON
         },
         function (err, response, json) {
