@@ -7,6 +7,7 @@ var requesttimeout = 3000;            				//
 var bigdatabasetimetoadd = 0;      					// 
 var timeaskmealbum = 7000;            				// 
 var timeaskmeaddedperalbum = 3000;   				// 
+var chromeless = true;   							// 
 //													//
 //////////////////////////////////////////////////////
 
@@ -655,6 +656,41 @@ switch (data.action) {
 		case 'xml_film':
 			doXML(xml_film, xbmc_api_url, callback);
 			break;
+		case 'chromeless':
+			idalbum=data.idalbum.split(",")	;
+			idalbum.pop(); // supprime la dernière virgule
+			chromelesstimeoutperalbum=parseInt(7+(2*idalbum.length));
+			console.dir('chromelesstimeoutperalbum: '+chromelesstimeoutperalbum);
+			//chromelesstimeoutperalbum=10;
+			// A MODIFIER
+				var config = SARAH.ConfigManager.getConfig();
+				config = config.modules.xbmc;
+			// *********
+			// création de la page
+			pageacreer='<html><head><meta http-equiv="refresh" content="'+chromelesstimeoutperalbum+';127.0.0.1:8080/sarah" /></head>';
+			pageacreer+='<style type="text/css">body {color: purple;background-color: #d6da3d; vertical-align=middle } img {vertical-align:middle;}</style>';
+			pageacreer+='<body>';
+			var creationidalbum=function (i){
+				var urlthumbnail;	
+				var thumbnail = {"jsonrpc": "2.0", "method": "AudioLibrary.GetAlbumDetails", "params" : { "albumid" : parseInt(idalbum[i]), "properties" : ["thumbnail"]}, "id" : 1}
+				doAction(thumbnail, xbmc_api_url, callback, function(res){
+					urlthumbnail="http://"+config.api_url_xbmc_music+"/image/"+res.result.albumdetails.thumbnail;
+					urlthumbnail=urlthumbnail.replace(/%/gi, "%25");
+					pageacreer+='<p><font size="5"> '+(i+1)+' <IMG HEIGHT=50 WIDTH=50 SRC="' + urlthumbnail+ '" ALT="Aucune image"> ' + res.result.albumdetails.label + "</font></p>";
+					i=i+1;
+					if (i<idalbum.length)
+						creationidalbum(i);
+					else
+						fincreationpage();
+				});
+			};
+			
+			var fincreationpage=function (){
+				pageacreer+='</body></html>';
+				callback({'tts': pageacreer});
+			}
+			creationidalbum(0);
+			break;
 		case 'playlist':
             var filter = {"and": []};
             if (data.genre) {
@@ -710,8 +746,10 @@ switch (data.action) {
 					askme={}
 					askmeresponse={};
 					var albumlabel={};
+					var chromelessidalbum="";
 					for (var i=0;i<nbalbums;i++) {
 						albumlabel['id'+res.result.albums[i].albumid]=res.result.albums[i].label;
+						chromelessidalbum+=res.result.albums[i].albumid+","; // -> Id des albums pour fonction chromless
 						askmequestion+= (i+1) + ', ' + res.result.albums[i].label + ' ... ';
 						if (i==0) askmeresponse['le premier']= res.result.albums[i].albumid;
 						if (i==1) askmeresponse['le deuxième']= res.result.albums[i].albumid;
@@ -730,9 +768,18 @@ switch (data.action) {
 						if (i==14) askmeresponse['le quinzième']= res.result.albums[i].albumid;
 						askmeresponse[sanitizeNumber('Le ' + (i+1))]= res.result.albums[i].albumid;
 					}
+					
+					// chromeless
+					if (chromeless) {
+						var opacity=30;
+						var width=500;
+						var height=70*nbalbums;
+						var x=0;
+						var y=0;
+						SARAH.chromeless('http://127.0.0.1:8080/sarah/xbmc?action=chromeless&xbmc=music&idalbum='+chromelessidalbum, opacity, width, height, x, y);
+					}	
 					askmeresponse['aucun']= 0; // pour réponse 'aucun'
 					askmequestion+=' Lequel souhaites tu écouter';
-					//doAction(play, xbmc_api_url, callback);
 					SARAH.call('xbmc', { 'xbmc' : data.xbmc, 'action':'pause'});
 					var timetimeout=timeaskmealbum+(timeaskmeaddedperalbum*nbalbums);
 					console.log(timetimeout);

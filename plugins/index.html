@@ -54,11 +54,11 @@
 			<div class="panel-body">
 				<ul class="unstyled" >
 					<li><strong> Version 2.0.1:</strong></br>
+					[X] Chromeless affiche les albums lors d'une demande</br>
 					[X] Fonction Mix de soirée</br>
 					[X] Regroupement et mise en place de paramétrage dans xbmc.js (timeout, temps askme, grosse librairie...) </br>
 					[X] Sarah prononce la chaine demandée </br>
 					[X] Correction de bugs pour XbmcStatus et Event Sarah</br>
-					
 					</li></br>
 
 					<li><strong> Version 2.0: Goth'cam</strong></br>
@@ -446,7 +446,7 @@
 					&nbsp;&nbsp;&nbsp;(ou) Le 3 </br>
 					&nbsp;&nbsp;&nbsp;(ou) aucun </br></br>
 					
-					Sarah gère un maximum de 15 position (de 'Le premier' à 'Le quinzième', pour plus il faut obligatoirement dire 'Le 16', 'Le 17',... </br></br>
+					Sarah gère un maximum de 15 positions (de 'Le premier' à 'Le quinzième', pour plus il faut obligatoirement dire 'Le 16', 'Le 17',... </br></br>
 					Sarah mets automatiquement en pause la musique pour une meilleur compréhension de la réponse</br> </br>
 					Les commandes concernées par la gestion des albums sont :</br>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Sarah, je veux écouter un album de ##ARTISTE## </br>
@@ -579,6 +579,10 @@
 						Dans xbmc.js modifier les variables:</br>
 						- Temps Base : <em>timeaskmealbum</em> (7000 millisecondes par défaut) </br>        				
 						- Temps Album: <em>timeaskmeaddedperalbum</em> (3000 millisecondes par défaut) 					    
+					</li></br>
+					<li><strong>Désactiver Chromeless (affichage des albums): </strong><span class="badge">New</span></br>
+						Dans xbmc.js modifier la variable:</br>
+						- <em>chromeless</em> à false (true par défaut) </br>        				
 					</li></br>
 				</ul>
 			</div>
