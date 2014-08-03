@@ -660,12 +660,6 @@ switch (data.action) {
 			idalbum=data.idalbum.split(",")	;
 			idalbum.pop(); // supprime la dernière virgule
 			chromelesstimeoutperalbum=parseInt(7+(2*idalbum.length));
-			console.dir('chromelesstimeoutperalbum: '+chromelesstimeoutperalbum);
-			//chromelesstimeoutperalbum=10;
-			// A MODIFIER
-				var config = SARAH.ConfigManager.getConfig();
-				config = config.modules.xbmc;
-			// *********
 			// création de la page
 			pageacreer='<html><head><meta http-equiv="refresh" content="'+chromelesstimeoutperalbum+';127.0.0.1:8080/sarah" /></head>';
 			pageacreer+='<style type="text/css">body {color: purple;background-color: #d6da3d; vertical-align=middle } img {vertical-align:middle;}</style>';
@@ -674,7 +668,7 @@ switch (data.action) {
 				var urlthumbnail;	
 				var thumbnail = {"jsonrpc": "2.0", "method": "AudioLibrary.GetAlbumDetails", "params" : { "albumid" : parseInt(idalbum[i]), "properties" : ["thumbnail"]}, "id" : 1}
 				doAction(thumbnail, xbmc_api_url, callback, function(res){
-					urlthumbnail="http://"+config.api_url_xbmc_music+"/image/"+res.result.albumdetails.thumbnail;
+					urlthumbnail=xbmc_api_url.slice(0,xbmc_api_url.length-8)+"/image/"+res.result.albumdetails.thumbnail;
 					urlthumbnail=urlthumbnail.replace(/%/gi, "%25");
 					pageacreer+='<p><font size="5"> '+(i+1)+' <IMG HEIGHT=50 WIDTH=50 SRC="' + urlthumbnail+ '" ALT="Aucune image"> ' + res.result.albumdetails.label + "</font></p>";
 					i=i+1;
@@ -771,9 +765,9 @@ switch (data.action) {
 					
 					// chromeless
 					if (chromeless) {
-						var opacity=30;
+						var opacity=100;
 						var width=500;
-						var height=70*nbalbums;
+						var height=10+67*nbalbums;
 						var x=0;
 						var y=0;
 						SARAH.chromeless('http://127.0.0.1:8080/sarah/xbmc?action=chromeless&xbmc=music&idalbum='+chromelessidalbum, opacity, width, height, x, y);
