@@ -1508,31 +1508,37 @@ doPlaylistSerie = function (id, xbmc_api_url, callback){
 }
 
 var doPlaylist = function (filter, xbmc_api_url, callback) {
-    // Apply filter
+     // Apply filter
     songs.params['filter'] = filter;
-
+	if (infodebug) console.log('début playlist');
     // Search songs
     doAction(songs, xbmc_api_url, callback, function (json) {
-
 		// No results
         if (!json.result.songs) {
             callback({ 'tts': "Je n'ai pas trouvé de résultats" })
             return false;
         }
-
+		nbsong=json.result.songs.length;
+		if (infodebug) console.log(nbsong+' chansons obtenues');
+		
         // Clear playlist
-        doAction(clearlist, xbmc_api_url);
+        doAction(clearlist, xbmc_api_url, function (resss) {
+			if (infodebug) console.log('raz playlist');
+			// Iterate
+			json.result.songs.forEach(function (song) {
+				addtolist.params.item.songid = song.songid;
+				doAction(addtolist, xbmc_api_url, function (resss) {
+					if ((infodebug) && (nbsong==json.result.songs.length) )
+						console.log('ajout des chansons en cours... veuillez patienter...');
+					nbsong=nbsong-1;
+					if (nbsong==0) 
+						doAction(runlist, xbmc_api_url, function (resss) {console.log('Run de la playlist');});
+				});
+			});
 
-        // Iterate
-        json.result.songs.forEach(function (song) {
-            // console.log(song.title);
-            addtolist.params.item.songid = song.songid;
-            doAction(addtolist, xbmc_api_url);
-        });
-
-        doAction(runlist, xbmc_api_url);
-        return true; // call callback
-    })
+		});
+		return true; // call callback
+    });
 }
 
 var doAction = function (req, xbmc_api_url, callback, hook) {
