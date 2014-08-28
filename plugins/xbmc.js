@@ -290,8 +290,6 @@ personnalisation_to_json = function (reponse) {
 						return reponse(dataperso);
 					});
 				}
-				else 
-					{return reponse(dataperso);}
 
 			//recherche la personalisation
 			// série
